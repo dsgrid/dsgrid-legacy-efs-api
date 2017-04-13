@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import h5py
 from collections import namedtuple
+from warnings import warn
 
 from timeformats import *
 
@@ -63,7 +64,26 @@ def lookup_counties(county_list):
 # Data standardization
 
 def to_standard_array(dataframe, timeformat, enduses):
-    pass # TODO
+
+    if not (dataframe.index == timeformat.timeindex()).all():
+        ValueError(
+            "Input row indices must match the subsector time format")
+
+    set_enduses = set(enduses)
+    set_cols = set(dataframe.columns)
+    if not set_enduses.issubset(set_cols):
+        ValueError(
+            "Input columns must represent all subsector enduses.",
+            "\nInputs were", dataframe.columns,
+            "\nSubsector end-uses are", enduses)
+
+    extracols = list(set_cols.difference(set_enduses))
+    if extracols:
+        warn(
+            "\nExtra end-use columns discarded: " + str(extracols) +
+            "\nSubsector end-uses are: " + str(enduses))
+
+    return np.array(dataframe.loc[:, enduses])
 
 # HDF5 File Manipulation
 
@@ -101,18 +121,21 @@ def write_enduses(h5file, enduses):
 # Sectors / subsectors
 
 def read_sectors(h5file):
+    # scan groups to generate sectors
     # read_subsectors(h5file, sector)
+    sectors = {}
     return sectors
 
 def write_sectors(h5file, sectors):
+    # create group for sector
     # write_subsectors(h5file, sector)
-    return sectors
+    return None
 
 def read_subsectors(h5file, sector):
-    return subsectors
+    return {}
 
 def write_subsectors(h5file, sector, subsectors):
-    return subsectors
+    return None
 
 # Classes
 
@@ -153,24 +176,28 @@ class DSGridFile:
 
 class Sector:
 
-    def __init__(self, name):
+    def __init__(self, slug, name):
+        self.slug = slug
         self.name = name
-        self.subsectors = []
+        self.subsectors = dict()
 
-    def add_subsector(self, name, timeformat, enduses):
-        self.subsectors.append(
-            Subsector(name, timeformat, enduses, self))
+    def __getattr__(self, slug):
+        return self.subsectors[slug]
+
+    def add_subsector(self, slug, name, timeformat, enduses):
+        self.subsectors[slug] = Subsector(slug, name, timeformat, enduses)
 
 
 class Subsector:
 
-    def __init__(self, name, timeformat, enduses, sector):
+    def __init__(self, slug, name, timeformat, enduses):
+        self.slug = slug
         self.name = name
         self.timeformat = timeformat
         self.enduses = enduses
         self.counties_data = []
 
-    def add_data(self, data, county_assignments=[]):
+    def add_data(self, dataframe, county_assignments=[]):
 
         if type(county_assignments) is not list:
             county_assignments = [county_assignments]
