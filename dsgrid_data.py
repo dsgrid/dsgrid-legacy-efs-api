@@ -4,12 +4,24 @@ import pandas as pd
 import h5py
 from collections import namedtuple
 
+from timeformats import *
+
+# NumPy <--> HDF5 bit types
+
 county_dtype = np.dtype([
     ('state_fips', 'u1'),
     ('county_fips', 'u2'),
     ('state', 'S2'),
     ('county', 'S30')
     ])
+
+enduse_dtype = np.dtype([
+    ('name', 'S30')
+])
+
+# Named Tuples
+
+EndUse = namedtuple("EndUse", "name")
 
 def load_counties():
 
@@ -55,11 +67,12 @@ def to_standard_array(dataframe, timeformat, enduses):
 
 # HDF5 File Manipulation
 
+## Counties
+
 def read_counties(h5file):
     counties = h5file['counties']
     county_ids = list(zip(counties['state_fips'],
                           counties['county_fips']))
-    # indexmap = dict(enumerate(county_ids))
     return county_ids, counties
 
 def write_counties(h5file, counties):
@@ -68,11 +81,24 @@ def write_counties(h5file, counties):
     h5file['counties'] = counties
     return None
 
+## End-Uses
+
 def read_enduses(h5file):
+    enduses = [EndUse(enduse['name']) for enduse in h5file['enduses'][:]]
     return enduses
 
 def write_enduses(h5file, enduses):
+
+    h5enduses = np.empty(len(enduses), dtype=enduse_dtype)
+    h5enduses['name'] = map(lambda x: x.name, enduses)
+
+    if 'enduses' in h5file:
+        del h5file['enduses']
+    h5file['enduses'] = h5enduses
+
     return None
+
+# Sectors / subsectors
 
 def read_sectors(h5file):
     # read_subsectors(h5file, sector)
@@ -88,56 +114,7 @@ def read_subsectors(h5file, sector):
 def write_subsectors(h5file, sector, subsectors):
     return subsectors
 
-
-# Named Tuples
-
-EndUse = namedtuple("EndUse", "name")
-
 # Classes
-
-class TimeFormat:
-
-    def __init__(self, periods):
-        self.periods = periods
-
-    def timeindex(self):
-        raise NotImplementedError("Abstract Method")
-
-    def timeseries(self):
-        raise NotImplementedError("Abstract Method")
-
-class HourOfYear(TimeFormat):
-
-    def __init__(self):
-        super().__init__(8760)
-
-    def timeindex(self):
-        return range(8760)
-
-    def timeseries(self, data):
-        return data
-
-
-class HourOfDayBy(TimeFormat):
-
-    def __init__(self, daymapping):
-        assert(set(xrange(max(daymapping))) == set(daymapping))
-        self.daymapping = daymapping
-        super().__init__(len(daymapping) * 24)
-
-
-class HourOfDayByDayOfWeek(HourOfDayBy):
-
-    def __init__(self, daymapping):
-        assert(len(daymapping) == 7)
-        super().__init__(daymapping)
-
-    def timeindex(self):
-        pass # TODO
-
-    def timeseries(self, data):
-        pass # TODO
-
 
 class DSGridFile:
 
@@ -161,20 +138,16 @@ class DSGridFile:
         self.sectors.append(sector)
         return sector
 
-    def add_enduse(self, name):
-        enduse = EndUse(name)
-        self.enduses.append(enduse)
-        return enduse
-
     def write(self, filepath=None):
 
         if not filepath:
             filepath = self.filepath
 
-        hdf5file = h5py.File(filepath, 'a')
-        write_counties(hdf5file, self.counties)
-        write_enduses(hdf5file, self.enduses)
-        write_sectors(hdf5file, self.sectors)
+        with h5py.File(filepath, 'a') as hdf5file:
+            write_counties(hdf5file, self.counties)
+            write_enduses(hdf5file, self.enduses)
+            write_sectors(hdf5file, self.sectors)
+
         return None
 
 
@@ -198,7 +171,13 @@ class Subsector:
         self.counties_data = []
 
     def add_data(self, data, county_assignments=[]):
+
+        if type(county_assignments) is not list:
+            county_assignments = [county_assignments]
+
         self.counties_data.append((
-            lookup_counties(data_counties),
+            lookup_counties(county_assignments),
             to_standard_array(dataframe, self.timeformat, self.enduses)
             ))
+
+        return None
