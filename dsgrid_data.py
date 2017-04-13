@@ -4,10 +4,9 @@ import pandas as pd
 import h5py
 from collections import namedtuple
 
-# Generate FIPS -> index county mapping
 county_dtype = np.dtype([
     ('state_fips', 'u1'),
-    ('county_fips', 'u1'),
+    ('county_fips', 'u2'),
     ('state', 'S2'),
     ('county', 'S30')
     ])
@@ -58,11 +57,14 @@ def to_standard_array(dataframe, timeformat, enduses):
 
 def read_counties(h5file):
     counties = h5file['counties']
-    county_ids = zip(counties['state_fips'], counties['county_fips'])
-    indexmap = dict(enumerate(county_ids))
-    return indexmap, counties
+    county_ids = list(zip(counties['state_fips'],
+                          counties['county_fips']))
+    # indexmap = dict(enumerate(county_ids))
+    return county_ids, counties
 
 def write_counties(h5file, counties):
+    if 'counties' in h5file:
+        del h5file['counties']
     h5file['counties'] = counties
     return None
 
