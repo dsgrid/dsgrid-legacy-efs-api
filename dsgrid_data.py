@@ -69,6 +69,7 @@ def to_standard_array(dataframe, timeformat, enduses):
         ValueError(
             "Input row indices must match the subsector time format")
 
+    enduses = map(lambda enduse: enduse.name, enduses)
     set_enduses = set(enduses)
     set_cols = set(dataframe.columns)
     if not set_enduses.issubset(set_cols):
@@ -118,24 +119,98 @@ def write_enduses(h5file, enduses):
 
     return None
 
+
 # Sectors / subsectors
 
-def read_sectors(h5file):
-    # scan groups to generate sectors
-    # read_subsectors(h5file, sector)
-    sectors = {}
-    return sectors
+def read_sectors(h5file, counties=None, enduses=None):
 
-def write_sectors(h5file, sectors):
-    # create group for sector
-    # write_subsectors(h5file, sector)
+    if not counties:
+        counties = read_counties(h5file)
+
+    if not enduses:
+        enduses = read_enduses(h5file)
+
+    return {slug: load_sector(sector_group, counties, enduses)
+                         for slug, sector_group in h5file.iteritems()
+                         if isinstance(sector_group, h5py.Group)}
+
+def load_sector(sector_group, counties, enduses):
+
+    sector = Sector(sector_group.attrs["slug"], sector_group.attrs["name"])
+    sector.subsectors = {slug: load_subsector(subsector_dataset, counties, enduses)
+                             for slug, subsector_dataset in sector_group.iteritems()}
+    return sector
+
+def load_subsector(subsector_dataset, counties, enduses):
+
+    subsector_enduses = [enduse[0] for enduse
+                             in np.array(enduses)[subsector_dataset.attrs["enduses"]]]
+    subsector = Subsector(subsector_dataset.attrs["slug"],
+                              subsector_dataset.attrs["name"],
+                              parse_timeformat(subsector_dataset.attrs),
+                              subsector_enduses)
+
+    n_subdatasets = subsector_dataset.shape[2]
+    countymap = subsector_dataset.attrs["countymap"]
+    subsector.counties_data = [(np.where(countymap == i), subsector_dataset[:, :, i])
+        for i in range(n_subdatasets)]
+
+    return subsector
+
+
+def write_sectors(h5file, sectors, enduses=None, county_check=True):
+
+    if not enduses:
+        enduses = read_enduses(h5file)
+
+    for sector in sectors.values():
+
+        if sector.slug not in h5file:
+            h5file.create_group(sector.slug)
+
+        sector_group = h5file[sector.slug]
+        sector_group.attrs["slug"] = sector.slug
+        sector_group.attrs["name"] = sector.name
+
+        for subsector in sector.subsectors.values():
+
+            county_missing = np.ones(len(counties), dtype=bool)
+            county_mapping = np.zeros(len(counties), dtype='u2')
+            allcounties_data = np.empty((
+                subsector.timeformat.periods,
+                len(subsector.enduses),
+                len(subsector.counties_data)))
+            enduse_mapping = np.array(
+                map(lambda enduse: enduses.index(enduse),
+                        subsector.enduses), dtype='u1')
+
+            for i, county_data in enumerate(subsector.counties_data):
+                county_mapping[county_data[0]] = i
+                county_missing[county_data[0]] = False
+                allcounties_data[:, :, i] = county_data[1]
+
+            sector_group[subsector.slug] = allcounties_data
+            sector_group[subsector.slug].attrs["slug"] = subsector.slug
+            sector_group[subsector.slug].attrs["name"] = subsector.name
+            sector_group[subsector.slug].attrs["countymap"] = county_mapping
+            sector_group[subsector.slug].attrs["enduses"] = enduse_mapping
+
+            for attr, val in subsector.timeformat.to_hdf5_attributes().iteritems():
+                sector_group[subsector.slug].attrs[attr] = val
+
+            if county_check and county_missing.any():
+                missing_county_info = [county[3] + " " + county[2]
+                                           for county
+                                           in counties[county_missing]]
+                warn(sector.name + " " + subsector.name +
+                         " data is missing for some counties.\n" +
+                         "Counties assignments will default to the" +
+                         "first dataset supplied.\n" +
+                         "Missing counties: " + str(missing_county_info))
+
+
     return None
 
-def read_subsectors(h5file, sector):
-    return {}
-
-def write_subsectors(h5file, sector, subsectors):
-    return None
 
 # Classes
 
@@ -155,6 +230,14 @@ class DSGridFile:
             self.counties = load_counties()
             self.enduses = []
             self.sectors = []
+
+    def __eq__(self, other):
+        return (
+            isinstance(other, self.__class__) and
+            self.counties == other.counties and
+            self.enduses == other.enduses and
+            self.sectors == other.sectors
+            )
 
     def add_sector(self, name):
         sector = Sector(name)
@@ -184,6 +267,16 @@ class Sector:
     def __getattr__(self, slug):
         return self.subsectors[slug]
 
+    def __eq__(self, other):
+        return (
+            isinstance(other, self.__class__) and
+            self.slug == other.slug and
+            self.name == other.name and
+            self.subsectors == other.subsectors)
+
+    def __repr__(self):
+        return "%s(%r)" % (self.__class__, self.__dict__)
+
     def add_subsector(self, slug, name, timeformat, enduses):
         self.subsectors[slug] = Subsector(slug, name, timeformat, enduses)
 
@@ -191,11 +284,29 @@ class Sector:
 class Subsector:
 
     def __init__(self, slug, name, timeformat, enduses):
+
+        if type(enduses[0]) is not EndUse:
+            enduses = map(EndUse, enduses)
+
         self.slug = slug
         self.name = name
         self.timeformat = timeformat
         self.enduses = enduses
         self.counties_data = []
+
+    def __eq__(self, other):
+        return (
+            isinstance(other, self.__class__) and
+            self.slug == other.slug and
+            self.name == other.name and
+            self.timeformat == other.timeformat and
+            self.enduses == other.enduses and
+            all(map(lambda cd1, cd2:
+                    (cd1[0] == cd2[0]).all() and (cd1[1] == cd2[1]).all(),
+                    self.counties_data, other.counties_data)))
+
+    def __repr__(self):
+        return "%s(%r)" % (self.__class__, self.__dict__)
 
     def add_data(self, dataframe, county_assignments=[]):
 
@@ -203,7 +314,7 @@ class Subsector:
             county_assignments = [county_assignments]
 
         self.counties_data.append((
-            lookup_counties(county_assignments),
+            np.array(lookup_counties(county_assignments), dtype='u2'),
             to_standard_array(dataframe, self.timeformat, self.enduses)
             ))
 
