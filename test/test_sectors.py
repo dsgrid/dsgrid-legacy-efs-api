@@ -43,10 +43,10 @@ commercial.retail.add_data(df4, (1,3))
 
 tfmt = timeformats.hourofyear
 timestamps = tfmt.timeindex()
-df5 = pd.DataFrame(10 + np.random.randn(8760, 5),
+df5 = pd.DataFrame(10 + np.random.randn(8784, 5),
                        columns=enduses,
                        index=timestamps)
-df6 = pd.DataFrame(10 + np.random.randn(8760, 5),
+df6 = pd.DataFrame(10 + np.random.randn(8784, 5),
                        columns=enduses,
                        index=timestamps)
 
@@ -62,8 +62,8 @@ for sector in [residential, commercial]:
     sectors[sector.slug] = sector
 
 
-with h5py.File(testfilepath, 'w') as testfile:
+# with h5py.File(testfilepath, 'w') as testfile:
 
-    # TODO
-    # write_sectors(testfile, sectors)
-    # h5sectors = read_sectors(testfile)
+#     TODO
+#     write_sectors(testfile, sectors)
+#     h5sectors = read_sectors(testfile)

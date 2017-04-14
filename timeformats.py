@@ -1,8 +1,8 @@
+import numpy as np
 import pandas as pd
 from itertools import product
 
-# TODO: Determine whether 8784s are needed since weather
-# year is 2012, and set timeseries() / constructors accordingly.
+weatheryear = pd.DatetimeIndex(start='1/1/2012', freq='H', periods=8784)
 
 class TimeFormat:
 
@@ -19,13 +19,15 @@ class TimeFormat:
 class HourOfYear(TimeFormat):
 
     def __init__(self):
-        TimeFormat.__init__(self, 8760)
+        TimeFormat.__init__(self, 8784)
 
     def timeindex(self):
-        return pd.Index(range(8760))
+        return pd.Index(range(self.periods))
 
     def timeseries(self, data):
-        return data
+        result = data.copy()
+        result.index = weatheryear
+        return result
 
 
 class HourOfDayBy(TimeFormat):
@@ -45,11 +47,13 @@ class HourOfDayByDayOfWeek(HourOfDayBy):
     def __init__(self, daymapping):
         assert(len(daymapping) == 7)
         HourOfDayBy.__init__(self, daymapping)
+        self.hourmapping = (24 * np.array(self.daymapping)[weatheryear.dayofweek]
+                                + weatheryear.hour)
 
     def timeseries(self, data):
-        pass # TODO
-        # mapping = ...
-        # return data[mapping]
+        result = data.loc[self.hourmapping, :]
+        result.index = weatheryear
+        return result
 
 
 hourofyear = HourOfYear()
