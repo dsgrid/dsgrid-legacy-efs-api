@@ -1,44 +1,78 @@
-import dsgrid_data
+import pandas as pd
+import numpy as np
+import os
+
+from dsgrid_data import DSGridFile, standard_counties
+from timeformats import hourofyear, hourofweekdayweekend
 
 testfilepath = "integration_test.h5"
+
+othercounties = zip(
+    standard_counties[3:]["state_fips"],
+    standard_counties[3:]["county_fips"])
+
+enduses = ["Space Heating", "Space Cooling",
+               "Water Heating", "Other"]
 
 # Create data and write to file
 
 f = DSGridFile()
 
-enduses = map(EndUse, ["Space Heating", "Space Cooling",
-               "Water Heating", "Other"])
+# Add and populate a sector
 
-residential = f.add_sector("Residential")
+residential = f.add_sector("residential", "Residential")
 
-residential.add_subsector("sfd", "Single Family Detached",
-                                    tfmt, enduses)
-residential.sfd.add_data(df1, County(1,1))
-residential.sfd.add_data(df2, [County(1,2), County(1,3)])
+tfmt = hourofweekdayweekend
+timestamps = tfmt.timeindex()
 
-residential.add_subsector("sfa", "Single Family Attached",
-                                    tfmt, enduses)
-residential.sfa.add_data()
-residential.sfa.add_data()
+df1 = pd.DataFrame(10 + np.random.randn(48, 4),
+                       columns=enduses,
+                       index=timestamps)
+df2 = pd.DataFrame(10 + np.random.randn(48, 4),
+                       columns=enduses,
+                       index=timestamps)
+
+residential.add_subsector("sfd", "Single Family Detached", tfmt, enduses)
+residential.sfd.add_data(df1, (1,1))
+residential.sfd.add_data(df2, [(1,3), (1,5)] + othercounties)
 
 
-enduses.append("Refrigeration")
-commercial = f.add_sector("Commercial")
+# Add another sector
+
+commercial = f.add_sector("commercial", "Commercial")
+
+enduses = ["Space Heating", "Space Cooling",
+               "Water Heating", "Refrigeration", "Other"]
+df3 = df1 + 10
+df3["Refrigeration"] = 20 + np.random.randn(48)
+df4 = df2 + 10
+df4["Refrigeration"] = 20 + np.random.randn(48)
 
 commercial.add_subsector("retail", "Retail", tfmt, enduses)
-commercial.retail.add_data()
-commercial.retail.add_data()
+commercial.retail.add_data(df3, [(1,1), (1,5)])
+commercial.retail.add_data(df4, [(1,3)] + othercounties)
+
+tfmt = hourofyear
+timestamps = tfmt.timeindex()
+df5 = pd.DataFrame(10 + np.random.randn(8784, 5),
+                       columns=enduses,
+                       index=timestamps)
+df6 = pd.DataFrame(10 + np.random.randn(8784, 5),
+                       columns=enduses,
+                       index=timestamps)
 
 commercial.add_subsector("office", "Office", tfmt, enduses)
-commerical.office.add_data()
-commerical.office.add_data()
+commercial.office.add_data(df5, (1,5))
+commercial.office.add_data(df6, [(1,1), (1,3)] + othercounties)
+
+assert(set(f.sectors.keys()) == set(["residential", "commercial"]))
 
 f.write(testfilepath)
 
 # Read data back in and check consistency
 
-f2 = DSGridFile(testfilepath)
+f_h5 = DSGridFile(testfilepath)
 
-assert(f.counties == f2.counties)
-assert(f.enduses == f2.enduses)
-assert(f.sectors == f2.sectors)
+assert(f == f_h5)
+
+os.remove(testfilepath)

@@ -1,7 +1,9 @@
-from timeformats import hourofyear, hourofweekdayweekend, weatheryear, parse_timeformat
 import numpy as np
 import pandas as pd
 import h5py
+import os
+
+from timeformats import hourofyear, hourofweekdayweekend, weatheryear, parse_timeformat
 
 testfilepath = "test_timeformats.h5"
 enduses = ["End-Use A", "End-Use B", "End-Use C"]
@@ -62,4 +64,6 @@ with h5py.File(testfilepath) as testfile:
 
     h5timeformat = parse_timeformat(testfile.attrs)
 
-assert(h5timeformat == hourofweekdayweekend)
+    assert(h5timeformat == hourofweekdayweekend)
+
+os.remove(testfilepath)

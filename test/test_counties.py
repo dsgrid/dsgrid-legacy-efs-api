@@ -42,8 +42,8 @@ with h5py.File(testfilename, 'w') as testfile:
     random_county_subset = counties[sample(range(len(counties)), 1500)]
     dsgrid_data.write_counties(testfile, random_county_subset)
 
-    indices, h5counties = dsgrid_data.read_counties(testfile)
-    countymapping = dsgrid_data.lookup_counties(indices)
+    h5fips, h5counties = dsgrid_data.read_counties(testfile)
+    countymapping = dsgrid_data.fips_to_countyindex(h5fips, countymap)
     assert((counties[countymapping] == h5counties).all())
     assert((random_county_subset == h5counties).all())
 

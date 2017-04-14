@@ -20,8 +20,6 @@ enduse_dtype = np.dtype([
     ('name', 'S30')
 ])
 
-# Named Tuples
-
 EndUse = namedtuple("EndUse", "name")
 
 def load_counties():
@@ -56,9 +54,10 @@ def load_counties():
 
     return countymap, counties
 
-countymap, counties = load_counties()
-def lookup_counties(county_list):
-    return map(lambda x: countymap[x], county_list)
+standard_fipstoindex, standard_counties = load_counties()
+
+def fips_to_countyindex(fips_list, fips_to_index):
+    return map(lambda x: fips_to_index[x], fips_list)
 
 
 # Data standardization
@@ -91,10 +90,10 @@ def to_standard_array(dataframe, timeformat, enduses):
 ## Counties
 
 def read_counties(h5file):
-    counties = h5file['counties']
-    county_ids = list(zip(counties['state_fips'],
-                          counties['county_fips']))
-    return county_ids, counties
+    h5_counties = h5file['counties']
+    h5_fips_list = list(zip(h5_counties['state_fips'],
+                          h5_counties['county_fips']))
+    return h5_fips_list, h5_counties
 
 def write_counties(h5file, counties):
     if 'counties' in h5file:
@@ -122,26 +121,26 @@ def write_enduses(h5file, enduses):
 
 # Sectors / subsectors
 
-def read_sectors(h5file, counties=None, enduses=None):
+def read_sectors(h5file):
 
-    if not counties:
-        counties = read_counties(h5file)
+    h5_county_fips, h5_counties = read_counties(h5file)
+    h5_to_standard_mapping = np.array(
+        fips_to_countyindex(h5_county_fips, standard_fipstoindex))
+    enduses = read_enduses(h5file)
 
-    if not enduses:
-        enduses = read_enduses(h5file)
-
-    return {slug: load_sector(sector_group, counties, enduses)
+    return {slug: load_sector(sector_group, h5_to_standard_mapping, enduses)
                          for slug, sector_group in h5file.iteritems()
                          if isinstance(sector_group, h5py.Group)}
 
-def load_sector(sector_group, counties, enduses):
+def load_sector(sector_group, h5_to_standard_mapping, enduses):
 
     sector = Sector(sector_group.attrs["slug"], sector_group.attrs["name"])
-    sector.subsectors = {slug: load_subsector(subsector_dataset, counties, enduses)
-                             for slug, subsector_dataset in sector_group.iteritems()}
+    sector.subsectors = {slug: load_subsector(
+        subsector_dataset, h5_to_standard_mapping, enduses)
+        for slug, subsector_dataset in sector_group.iteritems()}
     return sector
 
-def load_subsector(subsector_dataset, counties, enduses):
+def load_subsector(subsector_dataset, h5_to_standard_mapping, enduses):
 
     subsector_enduses = [enduse[0] for enduse
                              in np.array(enduses)[subsector_dataset.attrs["enduses"]]]
@@ -150,10 +149,12 @@ def load_subsector(subsector_dataset, counties, enduses):
                               parse_timeformat(subsector_dataset.attrs),
                               subsector_enduses)
 
-    n_subdatasets = subsector_dataset.shape[2]
+    n_regiondatasets = subsector_dataset.shape[2]
     countymap = subsector_dataset.attrs["countymap"]
-    subsector.counties_data = [(np.where(countymap == i), subsector_dataset[:, :, i])
-        for i in range(n_subdatasets)]
+    subsector.counties_data = [
+        (h5_to_standard_mapping[np.where(countymap == i)],
+             subsector_dataset[:, :, i])
+        for i in range(n_regiondatasets)]
 
     return subsector
 
@@ -174,8 +175,8 @@ def write_sectors(h5file, sectors, enduses=None, county_check=True):
 
         for subsector in sector.subsectors.values():
 
-            county_missing = np.ones(len(counties), dtype=bool)
-            county_mapping = np.zeros(len(counties), dtype='u2')
+            county_missing = np.ones(len(standard_counties), dtype=bool)
+            county_mapping = np.zeros(len(standard_counties), dtype='u2')
             allcounties_data = np.empty((
                 subsector.timeformat.periods,
                 len(subsector.enduses),
@@ -189,6 +190,9 @@ def write_sectors(h5file, sectors, enduses=None, county_check=True):
                 county_missing[county_data[0]] = False
                 allcounties_data[:, :, i] = county_data[1]
 
+            if subsector.slug in sector_group:
+                del sector_group[subsector.slug]
+ 
             sector_group[subsector.slug] = allcounties_data
             sector_group[subsector.slug].attrs["slug"] = subsector.slug
             sector_group[subsector.slug].attrs["name"] = subsector.name
@@ -201,7 +205,7 @@ def write_sectors(h5file, sectors, enduses=None, county_check=True):
             if county_check and county_missing.any():
                 missing_county_info = [county[3] + " " + county[2]
                                            for county
-                                           in counties[county_missing]]
+                                           in standard_counties[county_missing]]
                 warn(sector.name + " " + subsector.name +
                          " data is missing for some counties.\n" +
                          "Counties assignments will default to the" +
@@ -211,6 +215,12 @@ def write_sectors(h5file, sectors, enduses=None, county_check=True):
 
     return None
 
+def collect_enduses(sectors):
+    enduses = set()
+    for sector in sectors.values():
+        for subsector in sector.subsectors.values():
+            enduses.update(subsector.enduses)
+    return list(enduses)
 
 # Classes
 
@@ -221,27 +231,21 @@ class DSGridFile:
         self.filepath = filepath
 
         if filepath:
-            hdf5file = h5py.File(filepath, 'r')
-            self.counties = read_counties(hdf5file)
-            self.enduses = read_enduses(hdf5file)
-            self.sectors = read_sectors(hdf5file)
+            with h5py.File(filepath, 'r') as hdf5file:
+                self.sectors = read_sectors(hdf5file)
 
         else:
-            self.counties = load_counties()
-            self.enduses = []
-            self.sectors = []
+            self.sectors = {}
 
     def __eq__(self, other):
         return (
             isinstance(other, self.__class__) and
-            self.counties == other.counties and
-            self.enduses == other.enduses and
             self.sectors == other.sectors
             )
 
-    def add_sector(self, name):
-        sector = Sector(name)
-        self.sectors.append(sector)
+    def add_sector(self, slug, name):
+        sector = Sector(slug, name)
+        self.sectors[slug] = sector
         return sector
 
     def write(self, filepath=None):
@@ -250,8 +254,8 @@ class DSGridFile:
             filepath = self.filepath
 
         with h5py.File(filepath, 'a') as hdf5file:
-            write_counties(hdf5file, self.counties)
-            write_enduses(hdf5file, self.enduses)
+            write_counties(hdf5file, standard_counties)
+            write_enduses(hdf5file, collect_enduses(self.sectors))
             write_sectors(hdf5file, self.sectors)
 
         return None
@@ -314,7 +318,8 @@ class Subsector:
             county_assignments = [county_assignments]
 
         self.counties_data.append((
-            np.array(lookup_counties(county_assignments), dtype='u2'),
+            np.array(fips_to_countyindex(
+                county_assignments, standard_fipstoindex), dtype='u2'),
             to_standard_array(dataframe, self.timeformat, self.enduses)
             ))
 

@@ -4,14 +4,14 @@ import h5py
 import os
 
 import dsgrid_data
-from dsgrid_data import Sector, write_sectors, read_sectors, counties
+from dsgrid_data import Sector, read_sectors, write_sectors, standard_counties
 import timeformats
 
 testfilepath = "sector_test.h5"
 
 othercounties = zip(
-    counties[3:]["state_fips"],
-    counties[3:]["county_fips"])
+    standard_counties[3:]["state_fips"],
+    standard_counties[3:]["county_fips"])
 
 # Add and populate a sector
 
@@ -70,7 +70,7 @@ for sector in [residential, commercial]:
 
 with h5py.File(testfilepath, 'w') as testfile:
 
-    dsgrid_data.write_counties(testfile, dsgrid_data.counties)
+    dsgrid_data.write_counties(testfile, standard_counties)
     dsgrid_data.write_enduses(testfile, map(dsgrid_data.EndUse, enduses))
     write_sectors(testfile, sectors, county_check=False)
 
