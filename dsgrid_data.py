@@ -237,18 +237,24 @@ class DSGridFile:
         else:
             self.sectors = {}
 
+    def __getattr__(self, slug):
+        return self.sectors[slug]
+
     def __eq__(self, other):
         return (
             isinstance(other, self.__class__) and
             self.sectors == other.sectors
             )
 
+    def __repr__(self):
+        return "%s(%r)" % (self.__class__, self.__dict__)
+
     def add_sector(self, slug, name):
         sector = Sector(slug, name)
         self.sectors[slug] = sector
         return sector
 
-    def write(self, filepath=None):
+    def write(self, filepath=None, county_check=True):
 
         if not filepath:
             filepath = self.filepath
@@ -256,7 +262,8 @@ class DSGridFile:
         with h5py.File(filepath, 'a') as hdf5file:
             write_counties(hdf5file, standard_counties)
             write_enduses(hdf5file, collect_enduses(self.sectors))
-            write_sectors(hdf5file, self.sectors)
+            write_sectors(hdf5file, self.sectors,
+                              county_check=county_check)
 
         return None
 
@@ -282,7 +289,9 @@ class Sector:
         return "%s(%r)" % (self.__class__, self.__dict__)
 
     def add_subsector(self, slug, name, timeformat, enduses):
-        self.subsectors[slug] = Subsector(slug, name, timeformat, enduses)
+        subsector = Subsector(slug, name, timeformat, enduses)
+        self.subsectors[slug] = subsector
+        return subsector
 
 
 class Subsector:
