@@ -48,7 +48,7 @@ class HourOfDayBy(TimeFormat):
     def __init__(self, name, daymapping):
         assert(set(xrange(max(daymapping)+1)) == set(daymapping))
         TimeFormat.__init__(self, name, (max(daymapping) + 1) * 24)
-        self.daymapping = daymapping
+        self.daymapping = np.array(daymapping)
 
     def __eq__(self, other):
         return (TimeFormat.__eq__(self, other) and
