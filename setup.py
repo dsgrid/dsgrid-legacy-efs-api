@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name = 'dsgrid',
-    version = '0.0.1',
+    version = '0.0.2',
     author = 'Gord Stephen',
     author_email = 'gord.stephen@nrel.gov',
     packages = ['dsgrid'],
