@@ -9,7 +9,6 @@ setup(
     package_data = {'dsgrid': ['counties.csv']},
     url = 'https://github.nrel.gov/dsgrid/dataformat',
     description = 'Tool for marshalling data to dsgrid-specific HDF5 format',
-    long_description = open('README').read(),
+    long_description = open('README.md').read(),
     install_requires = ['numpy', 'pandas', 'h5py']
-    # install_requires=open('requirements.txt').read()
 )
