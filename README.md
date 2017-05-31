@@ -4,7 +4,7 @@ This package provides functionality for marshaling sector-based electricity dema
 
 ## Installation
 
-Download the latest source distribution tarball from the repo [releases page](/dsgrid/dataformat/releases) (e.g. `dsgrid-x.y.z.tar.gz`), and run:
+Download the latest source distribution tarball from the repo [releases page](https://github.nrel.gov/dsgrid/dataformat/releases) (e.g. `dsgrid-x.y.z.tar.gz`), and run:
 
 ```
 pip install /filepath/to/dsgrid.x.y.z.tar.gz
@@ -14,7 +14,7 @@ The `pandas`, `numpy`, and `h5py` packages should be added automatically during 
 
 ## Getting Started
 
-This is an overview of the basics of using the package. If desired, more extensive examples can be found throughout the [`tests` folder](/dsgrid/dataformat/tree/master/tests).
+This is an overview of the basics of using the package. If desired, more extensive examples can be found throughout the [`tests` folder](tests).
 
 To begin, create an empty `DSGridFile` object and add a sector to it. Adding the sector returns the newly created `Sector` object, which can be assigned to a variable if desired:
 
