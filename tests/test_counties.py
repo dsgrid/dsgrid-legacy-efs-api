@@ -1,7 +1,7 @@
 from random import sample
 from temphdf5 import TempHDF5
 
-from dsgrid.core import load_counties, write_counties, read_counties, fips_to_countyindex
+from dsgrid.dataformat import load_counties, write_counties, read_counties, fips_to_countyindex
 
 # Test reading in counties from CSV, confirm matching data
 

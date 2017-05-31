@@ -1,6 +1,6 @@
 from temphdf5 import TempHDF5
 
-from dsgrid.core import EndUse, read_enduses, write_enduses
+from dsgrid.dataformat import EndUse, read_enduses, write_enduses
 
 # Write end-uses to file and read back
 

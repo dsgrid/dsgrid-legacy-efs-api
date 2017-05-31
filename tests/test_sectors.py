@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
-from temp_hdf5 import TempHDF5
+from temphdf5 import TempHDF5
 
-from dsgrid.core import Sector, Subsector, read_sectors, write_sectors, standard_counties, write_counties, EndUse, write_enduses
+from dsgrid.dataformat import Sector, Subsector, read_sectors, write_sectors, standard_counties, write_counties, EndUse, write_enduses
 import dsgrid.timeformats as timeformats
 
 # TODO: Probably potential for more tests here

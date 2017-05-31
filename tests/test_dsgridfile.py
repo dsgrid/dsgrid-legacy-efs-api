@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 
-from dsgrid.core import DSGridFile, Sector, standard_counties
+from dsgrid.dataformat import DSGridFile, Sector, standard_counties
 from dsgrid.timeformats import hourofyear, hourofweekdayweekend
 
 testfilepath = "integration_test.h5"

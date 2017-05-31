@@ -1,3 +1,4 @@
+import os
 import csv
 import numpy as np
 import pandas as pd
@@ -22,6 +23,8 @@ enduse_dtype = np.dtype([
 
 EndUse = namedtuple("EndUse", "name")
 
+counties_filepath = os.path.join(os.path.dirname(__file__), 'counties.csv')
+
 def load_counties():
 
     countymap = dict()
@@ -31,7 +34,7 @@ def load_counties():
     countynames = []
     i = 0
 
-    with open("data/counties.csv") as counties_file:
+    with open(counties_filepath) as counties_file:
 
         for county in csv.DictReader(counties_file):
 
