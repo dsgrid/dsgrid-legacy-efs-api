@@ -252,6 +252,9 @@ class DSGridFile:
     def __repr__(self):
         return "%s(%r)" % (self.__class__, self.__dict__)
 
+    def __str__(self):
+        return self.__repr__()
+
     def add_sector(self, slug, name):
         sector = Sector(slug, name)
         self.sectors[slug] = sector
@@ -291,6 +294,9 @@ class Sector:
     def __repr__(self):
         return "%s(%r)" % (self.__class__, self.__dict__)
 
+    def __str__(self):
+        return self.__repr__()
+
     def add_subsector(self, slug, name, timeformat, enduses):
         subsector = Subsector(slug, name, timeformat, enduses)
         self.subsectors[slug] = subsector
@@ -323,6 +329,9 @@ class Subsector:
 
     def __repr__(self):
         return "%s(%r)" % (self.__class__, self.__dict__)
+
+    def __str__(self):
+        return self.__repr__()
 
     def add_data(self, dataframe, county_assignments=[]):
 
