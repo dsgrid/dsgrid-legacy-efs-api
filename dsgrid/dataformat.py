@@ -18,7 +18,7 @@ county_dtype = np.dtype([
     ])
 
 enduse_dtype = np.dtype([
-    ('name', 'S30')
+    ('name', 'S64')
 ])
 
 EndUse = namedtuple("EndUse", "name")
@@ -309,6 +309,10 @@ class Subsector:
 
         if type(enduses[0]) is not EndUse:
             enduses = map(EndUse, enduses)
+
+        enduse_name_lengths = map(lambda enduse: len(enduse.name), enduses)
+        if max(enduse_name_lengths) > 64:
+            raise ValueError("End-use names cannot be longer than 64 characters")
 
         self.slug = slug
         self.name = name

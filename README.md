@@ -34,7 +34,7 @@ The `Sector` object can also be referenced via its short name as an attribute on
 assert(f.mysectorshortname is mysector)
 ```
 
-`Subsector` objects can be accessed analogously via attributes on a `Sector` object. Creating a new subsector requires providing a short name, long name, time format, and a list of end-uses associated with the data to be provided. The `hourofyear` (8784 sequential hourly values) and `hourofweekdayweekend` (24 typical weekday + 24 typical weekend values) time formats are provided out of the box, although others can be defined as necessary by subclassing `TimeFormat` and implementing the required abstract methods.
+`Subsector` objects can be accessed analogously via attributes on a `Sector` object. Creating a new subsector requires providing a short name, long name, time format, and a list of end-uses associated with the data to be provided. End-use names cannot exceed 64 characters. The `hourofyear` (8784 sequential hourly values) and `hourofweekdayweekend` (24 typical weekday + 24 typical weekend values) time formats are provided out of the box, although others can be defined as necessary by subclassing `TimeFormat` and implementing the required abstract methods.
 
 ```python
 subsector = mysector.add_subsector("mysubsec", "My Subsector Long Name",

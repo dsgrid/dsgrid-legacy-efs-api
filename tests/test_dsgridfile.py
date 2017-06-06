@@ -13,6 +13,8 @@ othercounties = zip(
 
 def test_dsgridfile():
 
+    from py.test import raises
+
     enduses = ["Space Heating", "Space Cooling",
                 "Water Heating", "Other"]
 
@@ -70,6 +72,9 @@ def test_dsgridfile():
     commercial.add_subsector("office", "Office", tfmt, enduses)
     commercial.office.add_data(df5, (1,5))
     commercial.office.add_data(df6, [(1,1), (1,3)] + othercounties)
+
+    raises(ValueError, commercial.add_subsector, "test", "Test", tfmt,
+    ["__________________________Too long enduse name____________________"])
 
     assert(set(f.sectors.keys()) == set(["residential", "commercial"]))
 
