@@ -16,6 +16,8 @@ The `pandas`, `numpy`, and `h5py` packages should be added automatically during 
 
 This is an overview of the basics of using the package. If desired, more extensive examples can be found throughout the [`tests` folder](tests).
 
+### Creating a new data file
+
 To begin, create an empty `DSGridFile` object and add a sector to it. Adding the sector returns the newly created `Sector` object, which can be assigned to a variable if desired:
 
 ```python
@@ -51,4 +53,26 @@ Finally, the stored data can be written out to an HDF5 file:
 
 ```python
 f.write("file.h5")
+```
+
+### Reading / editing an existing data file
+
+If a dsgrid-formatted HDF5 file already exists, it can be read in to a Python object by passing the file name as a constructor argument:
+
+```python
+f2 = DSGridFile("file.h5")
+```
+
+All of the data will then be accessible to Python just as it was when the file was first created, for example:
+
+```python
+f2.mysectorshortname
+f2.mysectorshortname.mysubsec
+```
+
+Data can be edited / added and then saved back out to the file:
+
+```python
+f2.mysectorshortname.mysubsec.add_data(myotherdata, (20, 173))
+f2.write("file.h5")
 ```
