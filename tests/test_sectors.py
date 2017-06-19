@@ -31,8 +31,11 @@ def test_sectors():
     residential.add_subsector("sfd", "Single Family Detached", tfmt, enduses)
     assert residential.sfd == Subsector("sfd", "Single Family Detached", tfmt, enduses)
 
-    residential.sfd.add_data(df1, (1,1))
-    residential.sfd.add_data(df2, [(1,3), (1,5)] + othercounties)
+    residential.sfd[(1,1)] = df1
+    residential.sfd[[(1,3), (1,5)] + othercounties] = df2
+
+    assert residential.sfd[(1,1)] is not residential.sfd[(1,5)]
+    assert residential.sfd[(1,3)] is residential.sfd[(1,5)]
 
 
     # Add another sector
@@ -49,8 +52,11 @@ def test_sectors():
     commercial.add_subsector("retail", "Retail", tfmt, enduses)
     assert commercial.retail == Subsector("retail", "Retail", tfmt, enduses)
 
-    commercial.retail.add_data(df3, [(1,1), (1,5)])
-    commercial.retail.add_data(df4, [(1,3)] + othercounties)
+    commercial.retail[[(1,1), (1,5)]] = df3
+    commercial.retail[[(1,3)] + othercounties] = df4
+
+    assert commercial.retail[(1,1)] is not commercial.retail[(1,3)]
+    assert commercial.retail[(1,3)] is commercial.retail[(8,59)]
 
 
     tfmt = timeformats.hourofyear
@@ -65,8 +71,11 @@ def test_sectors():
     commercial.add_subsector("office", "Office", tfmt, enduses)
     assert commercial.office == Subsector("office", "Office", tfmt, enduses)
 
-    commercial.office.add_data(df5, (1,5))
-    commercial.office.add_data(df6, [(1,1), (1,3)] + othercounties)
+    commercial.office[(1,5)] = df5
+    commercial.office[[(1,1), (1,3)] + othercounties] = df6
+
+    assert commercial.office[(1,1)] is commercial.office[(1,3)]
+    assert commercial.office[(1,1)] is not commercial.office[(1,5)]
 
     # Write sectors out and read back in
 

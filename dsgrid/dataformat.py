@@ -337,6 +337,16 @@ class Subsector:
     def __str__(self):
         return self.__repr__()
 
+    def __setitem__(self, county_assignment, dataframe):
+        self.add_data(dataframe, county_assignment)
+
+    def __getitem__(self, fips_county):
+        county = standard_fipstoindex[fips_county]
+        for (counties, dataarray) in self.counties_data:
+            if county in counties:
+                return dataarray
+        raise KeyError("Unknown county: " + fips_county)
+
     def add_data(self, dataframe, county_assignments=[]):
 
         if type(county_assignments) is not list:

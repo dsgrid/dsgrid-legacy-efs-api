@@ -43,10 +43,10 @@ subsector = mysector.add_subsector("mysubsec", "My Subsector Long Name",
                                    hourofyear, ["End-Use 1", "End-Use 2"])
 ```
 
-Simulation data can now be assigned to the subsector. The data should be in the form of a Pandas DataFrame with rows representing the timestamps of the supplied time format and columns representing the supplied subsector enduses. A list (or single) tuple provding a (State FIPS code, county FIPS code) pair is required to define the geographic extent of the dataset.
+Simulation data can now be assigned to the subsector. The data should be in the form of a Pandas DataFrame with rows representing the timestamps of the supplied time format and columns representing the supplied subsector enduses. A list (or single) tuple providing a (State FIPS code, county FIPS code) pair is required to define the geographic extent of the dataset.
 
 ```python
-subsector.add_data(mydata, (8, 59))
+subsector[(8, 59)] = mydata
 ```
 
 Finally, the stored data can be written out to an HDF5 file:
@@ -68,11 +68,12 @@ All of the data will then be accessible to Python just as it was when the file w
 ```python
 f2.mysectorshortname
 f2.mysectorshortname.mysubsec
+f2.mysectorshortname.mysubsec[(8,59)]
 ```
 
 Data can be edited / added and then saved back out to the file:
 
 ```python
-f2.mysectorshortname.mysubsec.add_data(myotherdata, (20, 173))
+f2.mysectorshortname.mysubsec[(20, 173)] = myotherdata
 f2.write("file.h5")
 ```
