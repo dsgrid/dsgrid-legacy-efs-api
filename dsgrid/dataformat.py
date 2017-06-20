@@ -88,6 +88,11 @@ def to_standard_array(dataframe, timeformat, enduses):
 
     return np.array(dataframe.loc[:, enduses])
 
+def from_standard_array(dataarray, timeformat, enduses):
+    return pd.DataFrame(dataarray,
+                         index = timeformat.timeindex(),
+                         columns=map(lambda eu: eu.name, enduses))
+
 # HDF5 File Manipulation
 
 ## Counties
@@ -344,7 +349,7 @@ class Subsector:
         county = standard_fipstoindex[fips_county]
         for (counties, dataarray) in self.counties_data:
             if county in counties:
-                return dataarray
+                return from_standard_array(dataarray, self.timeformat, self.enduses)
         raise KeyError("Unknown county: " + fips_county)
 
     def add_data(self, dataframe, county_assignments=[]):

@@ -34,9 +34,10 @@ def test_sectors():
     residential.sfd[(1,1)] = df1
     residential.sfd[[(1,3), (1,5)] + othercounties] = df2
 
-    assert residential.sfd[(1,1)] is not residential.sfd[(1,5)]
-    assert residential.sfd[(1,3)] is residential.sfd[(1,5)]
-
+    assert (residential.sfd[(1,1)].columns == enduses).all()
+    assert (residential.sfd[(1,1)].index == tfmt.timeindex()).all()
+    assert not residential.sfd[(1,1)].equals(residential.sfd[(1,5)])
+    assert residential.sfd[(1,3)].equals(residential.sfd[(1,5)])
 
     # Add another sector
 
@@ -55,8 +56,8 @@ def test_sectors():
     commercial.retail[[(1,1), (1,5)]] = df3
     commercial.retail[[(1,3)] + othercounties] = df4
 
-    assert commercial.retail[(1,1)] is not commercial.retail[(1,3)]
-    assert commercial.retail[(1,3)] is commercial.retail[(8,59)]
+    assert not commercial.retail[(1,1)].equals(commercial.retail[(1,3)])
+    assert commercial.retail[(1,3)].equals(commercial.retail[(8,59)])
 
 
     tfmt = timeformats.hourofyear
@@ -74,8 +75,8 @@ def test_sectors():
     commercial.office[(1,5)] = df5
     commercial.office[[(1,1), (1,3)] + othercounties] = df6
 
-    assert commercial.office[(1,1)] is commercial.office[(1,3)]
-    assert commercial.office[(1,1)] is not commercial.office[(1,5)]
+    assert commercial.office[(1,1)].equals(commercial.office[(1,3)])
+    assert not commercial.office[(1,1)].equals(commercial.office[(1,5)])
 
     # Write sectors out and read back in
 
