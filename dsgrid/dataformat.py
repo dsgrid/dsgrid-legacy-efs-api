@@ -6,7 +6,7 @@ import h5py
 from collections import namedtuple
 from warnings import warn
 
-from timeformats import *
+from .timeformats import *
 
 # NumPy <--> HDF5 bit types
 
@@ -137,7 +137,7 @@ def read_sectors(h5file):
     enduses = read_enduses(h5file)
 
     return {slug: load_sector(sector_group, h5_to_standard_mapping, enduses)
-                         for slug, sector_group in h5file.iteritems()
+                         for slug, sector_group in h5file.items()
                          if isinstance(sector_group, h5py.Group)}
 
 def load_sector(sector_group, h5_to_standard_mapping, enduses):
@@ -145,7 +145,7 @@ def load_sector(sector_group, h5_to_standard_mapping, enduses):
     sector = Sector(sector_group.attrs["slug"], sector_group.attrs["name"])
     sector.subsectors = {slug: load_subsector(
         subsector_dataset, h5_to_standard_mapping, enduses)
-        for slug, subsector_dataset in sector_group.iteritems()}
+        for slug, subsector_dataset in sector_group.items()}
     return sector
 
 def load_subsector(subsector_dataset, h5_to_standard_mapping, enduses):
@@ -207,7 +207,7 @@ def write_sectors(h5file, sectors, enduses=None, county_check=True):
             sector_group[subsector.slug].attrs["countymap"] = county_mapping
             sector_group[subsector.slug].attrs["enduses"] = enduse_mapping
 
-            for attr, val in subsector.timeformat.to_hdf5_attributes().iteritems():
+            for attr, val in subsector.timeformat.to_hdf5_attributes().items():
                 sector_group[subsector.slug].attrs[attr] = val
 
             if county_check and county_missing.any():

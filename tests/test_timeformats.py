@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from temphdf5 import TempHDF5
+from .temphdf5 import TempHDF5
 
 from dsgrid.timeformats import hourofyear, hourofweekdayweekend, weatheryear, parse_timeformat
 
@@ -27,7 +27,7 @@ def test_hourofyear():
 
     with TempHDF5() as testfile:
 
-        for attr, val in hourofyear.to_hdf5_attributes().iteritems():
+        for attr, val in hourofyear.to_hdf5_attributes().items():
             testfile.attrs[attr] = val
 
         h5timeformat = parse_timeformat(testfile.attrs)
@@ -60,7 +60,7 @@ def test_hourofweekdayweekend():
 
     with TempHDF5() as testfile:
 
-        for attr, val in hourofweekdayweekend.to_hdf5_attributes().iteritems():
+        for attr, val in hourofweekdayweekend.to_hdf5_attributes().items():
             testfile.attrs[attr] = val
 
         h5timeformat = parse_timeformat(testfile.attrs)

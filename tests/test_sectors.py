@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from temphdf5 import TempHDF5
+from .temphdf5 import TempHDF5
 
 from dsgrid.dataformat import Sector, Subsector, read_sectors, write_sectors, standard_counties, write_counties, EndUse, write_enduses
 import dsgrid.timeformats as timeformats
@@ -17,8 +17,10 @@ def test_sectors():
 
     tfmt = timeformats.hourofweekdayweekend
     timestamps = tfmt.timeindex()
-    enduses = ["Space Heating", "Space Cooling",
-                "Water Heating", "Other"]
+    enduses = [b'Space Heating', 
+               b'Space Cooling',
+               b'Water Heating', 
+               b'Other']
 
     df1 = pd.DataFrame(10 + np.random.randn(48, 4),
                         columns=enduses,

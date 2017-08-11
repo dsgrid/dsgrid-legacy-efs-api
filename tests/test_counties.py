@@ -1,5 +1,5 @@
 from random import sample
-from temphdf5 import TempHDF5
+from .temphdf5 import TempHDF5
 
 from dsgrid.dataformat import load_counties, write_counties, read_counties, fips_to_countyindex
 
@@ -20,11 +20,11 @@ def test_countymapintegrity():
 def test_countyintegrity():
 
     assert len(counties) == 3109
-    assert list(counties[0]) == [1, 1, 'AL', 'Autauga County']
-    assert list(counties[245]) == [8, 59, 'CO', 'Jefferson County']
-    assert list(counties[940]) == [20, 173, 'KS', 'Sedgwick County']
-    assert list(counties[2919]) == [51, 840, 'VA', 'Winchester city']
-    assert list(counties[-1]) == [56, 45, 'WY', 'Weston County']
+    assert list(counties[0]) == [1, 1, b'AL', b'Autauga County']
+    assert list(counties[245]) == [8, 59, b'CO', b'Jefferson County']
+    assert list(counties[940]) == [20, 173, b'KS', b'Sedgwick County']
+    assert list(counties[2919]) == [51, 840, b'VA', b'Winchester city']
+    assert list(counties[-1]) == [56, 45, b'WY', b'Weston County']
 
 
 # Test writing out counties to HDF5 and reading back in
