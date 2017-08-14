@@ -7,10 +7,10 @@ from dsgrid.dataformat import EndUse, read_enduses, write_enduses
 def test_endusereadwrite():
 
     enduses = [
-        EndUse(b'Space Heating'),
-        EndUse(b'Space Cooling'),
-        EndUse(b'Water Heating'),
-        EndUse(b'Other')
+        EndUse('Space Heating'),
+        EndUse('Space Cooling'),
+        EndUse('Water Heating'),
+        EndUse('Other')
     ]
 
     with TempHDF5() as testfile:

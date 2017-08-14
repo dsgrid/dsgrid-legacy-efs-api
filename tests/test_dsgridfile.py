@@ -7,16 +7,17 @@ from dsgrid.timeformats import hourofyear, hourofweekdayweekend
 
 testfilepath = "integration_test.h5"
 
-othercounties = zip(
-    standard_counties[3:]["state_fips"],
-    standard_counties[3:]["county_fips"])
+othercounties = [(county.state_fips,county.county_fips) for county in standard_counties[3:]]
+
 
 def test_dsgridfile():
 
     from py.test import raises
 
-    enduses = ["Space Heating", "Space Cooling",
-                "Water Heating", "Other"]
+    enduses = ['Space Heating',
+               'Space Cooling',
+               'Water Heating',
+               'Other']
 
     # Create data and write to file
 
@@ -24,9 +25,9 @@ def test_dsgridfile():
 
     # Add and populate a sector
 
-    residential = f.add_sector("residential", "Residential")
+    residential = f.add_sector("residential","Residential")
     assert residential is f.residential
-    assert residential == Sector("residential", "Residential")
+    assert residential == Sector("residential","Residential")
 
     tfmt = hourofweekdayweekend
     timestamps = tfmt.timeindex()
@@ -38,19 +39,22 @@ def test_dsgridfile():
                         columns=enduses,
                         index=timestamps)
 
-    residential.add_subsector("sfd", "Single Family Detached", tfmt, enduses)
+    residential.add_subsector("sfd","Single Family Detached", tfmt, enduses)
     residential.sfd.add_data(df1, (1,1))
     residential.sfd.add_data(df2, [(1,3), (1,5)] + othercounties)
 
 
     # Add another sector
 
-    commercial = f.add_sector("commercial", "Commercial")
+    commercial = f.add_sector("commercial","Commercial")
     assert commercial is f.commercial
-    assert commercial == Sector("commercial", "Commercial")
+    assert commercial == Sector("commercial","Commercial")
 
-    enduses = ["Space Heating", "Space Cooling",
-                "Water Heating", "Refrigeration", "Other"]
+    enduses = ['Space Heating',
+               'Space Cooling',
+               'Water Heating',
+               'Refrigeration',
+               'Other']
     df3 = df1 + 10
     df3["Refrigeration"] = 20 + np.random.randn(48)
     df4 = df2 + 10
