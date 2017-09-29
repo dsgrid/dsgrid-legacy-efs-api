@@ -66,16 +66,16 @@ standard_fipstoindex, standard_counties = load_counties(counties_filepath)
 
 def fips_to_countyindex(fips_list, fips_to_index):
     """
-    Helper function for using data returned from load_counties.
+    Helper function for using data returned from read_counties.
 
     Arguments:
         - fips_list (list) - list of (state_fips, county_fips) tuples
-        - fips_to_index (dict) - map from (state_fips, county_fips) to index 
+        - fips_to_index (dict) - map from (state_fips, county_fips) to index
               in list of County objects
 
     Returns list of indicies corresponding to fips_list
     """
-    return list(map(lambda x: fips_to_index[x], fips_list))
+    return [fips_to_index[x] for x in fips_list]
 
 
 # ------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ def to_standard_array(dataframe, timeformat, enduses):
         ValueError(
             "Input row indices must match the subsector time format")
 
-    enduses = list(map(lambda enduse: enduse.name, enduses))
+    enduses = [enduse.name for enduse in enduses]
     set_enduses = set(enduses)
     set_cols = set(dataframe.columns)
     if not set_enduses.issubset(set_cols):
@@ -108,7 +108,7 @@ def to_standard_array(dataframe, timeformat, enduses):
 def from_standard_array(dataarray, timeformat, enduses):
     return pd.DataFrame(dataarray,
                         index = timeformat.timeindex(),
-                        columns=list(map(lambda eu: eu.name, enduses)))
+                        columns=[eu.name for eu in enduses])
 
 
 # -----------------------------------------------------------------------------
@@ -118,9 +118,9 @@ def from_standard_array(dataarray, timeformat, enduses):
 ## Counties
 
 def read_counties(h5file):
-    counties = [County(county['state_fips'], 
-                       county['county_fips'], 
-                       county['state'].decode(ENCODING), 
+    counties = [County(county['state_fips'],
+                       county['county_fips'],
+                       county['state'].decode(ENCODING),
                        county['county'].decode(ENCODING)) for county in h5file['counties'][:]]
     fips_list = [(county.state_fips, county.county_fips) for county in counties]
     return fips_list, counties
@@ -215,8 +215,8 @@ def write_sectors(h5file, sectors, enduses=None, county_check=True):
                 len(subsector.enduses),
                 len(subsector.counties_data)))
             enduse_mapping = np.array(
-                list(map(lambda enduse: enduses.index(enduse),
-                        subsector.enduses)), dtype='u1')
+                [enduses.index(enduse) for enduse in subsector.enduses],
+                dtype='u1')
 
             for i, county_data in enumerate(subsector.counties_data):
                 county_mapping[county_data[0]] = i
@@ -225,7 +225,7 @@ def write_sectors(h5file, sectors, enduses=None, county_check=True):
 
             if subsector.slug in sector_group:
                 del sector_group[subsector.slug]
- 
+
             sector_group[subsector.slug] = allcounties_data
             sector_group[subsector.slug].attrs["slug"] = subsector.slug
             sector_group[subsector.slug].attrs["name"] = subsector.name
@@ -338,9 +338,9 @@ class Subsector:
     def __init__(self, slug, name, timeformat, enduses):
 
         if type(enduses[0]) is not EndUse:
-            enduses = list(map(EndUse, enduses))
+            enduses = [EndUse(eu) for eu in enduses]
 
-        enduse_name_lengths = list(map(lambda enduse: len(enduse.name), enduses))
+        enduse_name_lengths = [len(enduse.name) for enduse in enduses]
         if max(enduse_name_lengths) > 64:
             raise ValueError("End-use names cannot be longer than 64 characters")
 
@@ -357,9 +357,9 @@ class Subsector:
             self.name == other.name and
             self.timeformat == other.timeformat and
             self.enduses == other.enduses and
-            all(list(map(lambda cd1, cd2:
-                         (cd1[0] == cd2[0]).all() and (cd1[1] == cd2[1]).all(),
-                         self.counties_data, other.counties_data))))
+            all((cd1[0] == cd2[0]).all() and (cd1[1] == cd2[1]).all()
+                for cd1, cd2 in zip(self.counties_data, other.counties_data))
+        )
 
     def __repr__(self):
         return "%s(%r)" % (self.__class__, self.__dict__)

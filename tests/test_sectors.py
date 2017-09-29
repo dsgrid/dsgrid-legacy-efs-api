@@ -15,9 +15,9 @@ def test_sectors():
 
     tfmt = timeformats.hourofweekdayweekend
     timestamps = tfmt.timeindex()
-    enduses = ['Space Heating', 
+    enduses = ['Space Heating',
                'Space Cooling',
-               'Water Heating', 
+               'Water Heating',
                'Other']
 
     df1 = pd.DataFrame(10 + np.random.randn(48, 4),
@@ -90,7 +90,7 @@ def test_sectors():
     with TempHDF5() as testfile:
 
         write_counties(testfile, standard_counties)
-        write_enduses(testfile, list(map(EndUse, enduses)))
+        write_enduses(testfile, [EndUse(eu) for eu in enduses])
         write_sectors(testfile, sectors, county_check=False)
 
         h5sectors = read_sectors(testfile)
