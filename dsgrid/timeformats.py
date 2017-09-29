@@ -5,6 +5,12 @@ import h5py
 
 weatheryear = pd.DatetimeIndex(start='1/1/2012', freq='H', periods=8784)
 
+# for Python2 and Python3 compatibility
+try:
+    xrange
+except NameError:
+    xrange = range
+
 # Class hierarchy
 
 class TimeFormat:

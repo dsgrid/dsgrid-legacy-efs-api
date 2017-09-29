@@ -6,10 +6,27 @@ import h5py
 from collections import namedtuple
 from warnings import warn
 
-from timeformats import *
+from .timeformats import *
+
+ENCODING = 'utf-8'
+
+# ------------------------------------------------------------------------------
+# Define EndUses 
+# ------------------------------------------------------------------------------
+
+enduse_dtype = np.dtype([
+    ('name', 'S64')
+])
+
+
+EndUse = namedtuple("EndUse",["name"])
+
+
+# ------------------------------------------------------------------------------
+# Define Counties
+# ------------------------------------------------------------------------------
 
 # NumPy <--> HDF5 bit types
-
 county_dtype = np.dtype([
     ('state_fips', 'u1'),
     ('county_fips', 'u2'),
@@ -17,53 +34,53 @@ county_dtype = np.dtype([
     ('county', 'S30')
     ])
 
-enduse_dtype = np.dtype([
-    ('name', 'S64')
-])
+# Have standard_counties be list of named tuples. Follow EndUse pattern.
+County = namedtuple("County",["state_fips","county_fips","state","county"])
 
-EndUse = namedtuple("EndUse", "name")
 
-counties_filepath = os.path.join(os.path.dirname(__file__), 'counties.csv')
+def load_counties(counties_filepath):
+    """
+    Loads counties.csv and returns 
 
-def load_counties():
+        - countymap (dict) - (state_fips, county_fips): index into counties
+        - counties (list of County objects) - County namedtuple objects
+    """
 
     countymap = dict()
-    statefipss = []
-    countyfipss = []
-    statenames = []
-    countynames = []
-    i = 0
+    counties = []
 
     with open(counties_filepath) as counties_file:
 
-        for county in csv.DictReader(counties_file):
-
+        for i, county in enumerate(csv.DictReader(counties_file)):
             statefips = int(county["StateFIPS"])
             countyfips = int(county["CountyFIPS"])
-
             countymap[(statefips, countyfips)] = i
-            statefipss.append(statefips)
-            countyfipss.append(countyfips)
-            statenames.append(county["State"])
-            countynames.append(county["County"])
-
-            i += 1
-
-    counties = np.empty(i, dtype=county_dtype)
-    counties["state_fips"] = statefipss
-    counties["county_fips"] = countyfipss
-    counties["state"] = statenames
-    counties["county"] = countynames
+            counties.append(County(statefips,countyfips,county["State"],county["County"]))
 
     return countymap, counties
 
-standard_fipstoindex, standard_counties = load_counties()
+
+counties_filepath = os.path.join(os.path.dirname(__file__), 'counties.csv')
+standard_fipstoindex, standard_counties = load_counties(counties_filepath)
+
 
 def fips_to_countyindex(fips_list, fips_to_index):
-    return map(lambda x: fips_to_index[x], fips_list)
+    """
+    Helper function for using data returned from read_counties.
+
+    Arguments:
+        - fips_list (list) - list of (state_fips, county_fips) tuples
+        - fips_to_index (dict) - map from (state_fips, county_fips) to index
+              in list of County objects
+
+    Returns list of indicies corresponding to fips_list
+    """
+    return [fips_to_index[x] for x in fips_list]
 
 
+# ------------------------------------------------------------------------------
 # Data standardization
+# ------------------------------------------------------------------------------
 
 def to_standard_array(dataframe, timeformat, enduses):
 
@@ -71,7 +88,7 @@ def to_standard_array(dataframe, timeformat, enduses):
         ValueError(
             "Input row indices must match the subsector time format")
 
-    enduses = map(lambda enduse: enduse.name, enduses)
+    enduses = [enduse.name for enduse in enduses]
     set_enduses = set(enduses)
     set_cols = set(dataframe.columns)
     if not set_enduses.issubset(set_cols):
@@ -90,35 +107,45 @@ def to_standard_array(dataframe, timeformat, enduses):
 
 def from_standard_array(dataarray, timeformat, enduses):
     return pd.DataFrame(dataarray,
-                         index = timeformat.timeindex(),
-                         columns=map(lambda eu: eu.name, enduses))
+                        index = timeformat.timeindex(),
+                        columns=[eu.name for eu in enduses])
 
+
+# -----------------------------------------------------------------------------
 # HDF5 File Manipulation
+# ------------------------------------------------------------------------------
 
 ## Counties
 
 def read_counties(h5file):
-    h5_counties = h5file['counties']
-    h5_fips_list = list(zip(h5_counties['state_fips'],
-                          h5_counties['county_fips']))
-    return h5_fips_list, h5_counties
+    counties = [County(county['state_fips'],
+                       county['county_fips'],
+                       county['state'].decode(ENCODING),
+                       county['county'].decode(ENCODING)) for county in h5file['counties'][:]]
+    fips_list = [(county.state_fips, county.county_fips) for county in counties]
+    return fips_list, counties
 
 def write_counties(h5file, counties):
+    h5counties = np.empty(len(counties),dtype=county_dtype)
+    h5counties['state_fips'] = [county.state_fips for county in counties]
+    h5counties['county_fips'] = [county.county_fips for county in counties]
+    h5counties['state'] = [county.state.encode(ENCODING) for county in counties]
+    h5counties['county'] = [county.county.encode(ENCODING) for county in counties]
+
     if 'counties' in h5file:
         del h5file['counties']
-    h5file['counties'] = counties
-    return None
+    h5file['counties'] = h5counties
+    return
 
 ## End-Uses
 
 def read_enduses(h5file):
-    enduses = [EndUse(enduse['name']) for enduse in h5file['enduses'][:]]
+    enduses = [EndUse(enduse['name'].decode(ENCODING)) for enduse in h5file['enduses'][:]]
     return enduses
 
 def write_enduses(h5file, enduses):
-
     h5enduses = np.empty(len(enduses), dtype=enduse_dtype)
-    h5enduses['name'] = map(lambda x: x.name, enduses)
+    h5enduses['name'] = [enduse.name.encode(ENCODING) for enduse in enduses]
 
     if 'enduses' in h5file:
         del h5file['enduses']
@@ -126,18 +153,16 @@ def write_enduses(h5file, enduses):
 
     return None
 
-
 # Sectors / subsectors
 
 def read_sectors(h5file):
-
     h5_county_fips, h5_counties = read_counties(h5file)
     h5_to_standard_mapping = np.array(
         fips_to_countyindex(h5_county_fips, standard_fipstoindex))
     enduses = read_enduses(h5file)
 
     return {slug: load_sector(sector_group, h5_to_standard_mapping, enduses)
-                         for slug, sector_group in h5file.iteritems()
+                         for slug, sector_group in h5file.items()
                          if isinstance(sector_group, h5py.Group)}
 
 def load_sector(sector_group, h5_to_standard_mapping, enduses):
@@ -145,7 +170,7 @@ def load_sector(sector_group, h5_to_standard_mapping, enduses):
     sector = Sector(sector_group.attrs["slug"], sector_group.attrs["name"])
     sector.subsectors = {slug: load_subsector(
         subsector_dataset, h5_to_standard_mapping, enduses)
-        for slug, subsector_dataset in sector_group.iteritems()}
+        for slug, subsector_dataset in sector_group.items()}
     return sector
 
 def load_subsector(subsector_dataset, h5_to_standard_mapping, enduses):
@@ -153,9 +178,9 @@ def load_subsector(subsector_dataset, h5_to_standard_mapping, enduses):
     subsector_enduses = [enduse[0] for enduse
                              in np.array(enduses)[subsector_dataset.attrs["enduses"]]]
     subsector = Subsector(subsector_dataset.attrs["slug"],
-                              subsector_dataset.attrs["name"],
-                              parse_timeformat(subsector_dataset.attrs),
-                              subsector_enduses)
+                          subsector_dataset.attrs["name"],
+                          parse_timeformat(subsector_dataset.attrs),
+                          subsector_enduses)
 
     n_regiondatasets = subsector_dataset.shape[2]
     countymap = subsector_dataset.attrs["countymap"]
@@ -190,8 +215,8 @@ def write_sectors(h5file, sectors, enduses=None, county_check=True):
                 len(subsector.enduses),
                 len(subsector.counties_data)))
             enduse_mapping = np.array(
-                map(lambda enduse: enduses.index(enduse),
-                        subsector.enduses), dtype='u1')
+                [enduses.index(enduse) for enduse in subsector.enduses],
+                dtype='u1')
 
             for i, county_data in enumerate(subsector.counties_data):
                 county_mapping[county_data[0]] = i
@@ -200,14 +225,14 @@ def write_sectors(h5file, sectors, enduses=None, county_check=True):
 
             if subsector.slug in sector_group:
                 del sector_group[subsector.slug]
- 
+
             sector_group[subsector.slug] = allcounties_data
             sector_group[subsector.slug].attrs["slug"] = subsector.slug
             sector_group[subsector.slug].attrs["name"] = subsector.name
             sector_group[subsector.slug].attrs["countymap"] = county_mapping
             sector_group[subsector.slug].attrs["enduses"] = enduse_mapping
 
-            for attr, val in subsector.timeformat.to_hdf5_attributes().iteritems():
+            for attr, val in subsector.timeformat.to_hdf5_attributes().items():
                 sector_group[subsector.slug].attrs[attr] = val
 
             if county_check and county_missing.any():
@@ -313,9 +338,9 @@ class Subsector:
     def __init__(self, slug, name, timeformat, enduses):
 
         if type(enduses[0]) is not EndUse:
-            enduses = map(EndUse, enduses)
+            enduses = [EndUse(eu) for eu in enduses]
 
-        enduse_name_lengths = map(lambda enduse: len(enduse.name), enduses)
+        enduse_name_lengths = [len(enduse.name) for enduse in enduses]
         if max(enduse_name_lengths) > 64:
             raise ValueError("End-use names cannot be longer than 64 characters")
 
@@ -332,9 +357,9 @@ class Subsector:
             self.name == other.name and
             self.timeformat == other.timeformat and
             self.enduses == other.enduses and
-            all(map(lambda cd1, cd2:
-                    (cd1[0] == cd2[0]).all() and (cd1[1] == cd2[1]).all(),
-                    self.counties_data, other.counties_data)))
+            all((cd1[0] == cd2[0]).all() and (cd1[1] == cd2[1]).all()
+                for cd1, cd2 in zip(self.counties_data, other.counties_data))
+        )
 
     def __repr__(self):
         return "%s(%r)" % (self.__class__, self.__dict__)

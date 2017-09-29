@@ -1,15 +1,13 @@
 import numpy as np
 import pandas as pd
-from temphdf5 import TempHDF5
+from .temphdf5 import TempHDF5
 
 from dsgrid.dataformat import Sector, Subsector, read_sectors, write_sectors, standard_counties, write_counties, EndUse, write_enduses
 import dsgrid.timeformats as timeformats
 
 # TODO: Probably potential for more tests here
 
-othercounties = zip(
-    standard_counties[3:]["state_fips"],
-    standard_counties[3:]["county_fips"])
+othercounties = [(county.state_fips,county.county_fips) for county in standard_counties[3:]]
 
 def test_sectors():
 
@@ -17,8 +15,10 @@ def test_sectors():
 
     tfmt = timeformats.hourofweekdayweekend
     timestamps = tfmt.timeindex()
-    enduses = ["Space Heating", "Space Cooling",
-                "Water Heating", "Other"]
+    enduses = ['Space Heating',
+               'Space Cooling',
+               'Water Heating',
+               'Other']
 
     df1 = pd.DataFrame(10 + np.random.randn(48, 4),
                         columns=enduses,
@@ -41,8 +41,11 @@ def test_sectors():
 
     # Add another sector
 
-    enduses = ["Space Heating", "Space Cooling",
-                "Water Heating", "Refrigeration", "Other"]
+    enduses = ['Space Heating',
+               'Space Cooling',
+               'Water Heating',
+               'Refrigeration',
+               'Other']
     df3 = df1 + 10
     df3["Refrigeration"] = 20 + np.random.randn(48)
     df3["Random Extra Column"] = 20 + np.random.randn(48)
@@ -87,7 +90,7 @@ def test_sectors():
     with TempHDF5() as testfile:
 
         write_counties(testfile, standard_counties)
-        write_enduses(testfile, map(EndUse, enduses))
+        write_enduses(testfile, [EndUse(eu) for eu in enduses])
         write_sectors(testfile, sectors, county_check=False)
 
         h5sectors = read_sectors(testfile)
