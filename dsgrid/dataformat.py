@@ -11,7 +11,7 @@ from .timeformats import *
 ENCODING = 'utf-8'
 
 # ------------------------------------------------------------------------------
-# Define EndUses 
+# Define EndUses
 # ------------------------------------------------------------------------------
 
 enduse_dtype = np.dtype([
@@ -40,7 +40,7 @@ County = namedtuple("County",["state_fips","county_fips","state","county"])
 
 def load_counties(counties_filepath):
     """
-    Loads counties.csv and returns 
+    Loads counties.csv and returns
 
         - countymap (dict) - (state_fips, county_fips): index into counties
         - counties (list of County objects) - County namedtuple objects
@@ -288,20 +288,21 @@ class DSGridFile:
     def add_sector(self, slug, name):
         sector = Sector(slug, name)
         self.sectors[slug] = sector
+        # TODO: Persist sector metadata to HDF5 group
         return sector
 
-    def write(self, filepath=None, county_check=True):
+    # def write(self, filepath=None, county_check=True):
 
-        if not filepath:
-            filepath = self.filepath
+    #     if not filepath:
+    #         filepath = self.filepath
 
-        with h5py.File(filepath, 'a') as hdf5file:
-            write_counties(hdf5file, standard_counties)
-            write_enduses(hdf5file, collect_enduses(self.sectors))
-            write_sectors(hdf5file, self.sectors,
-                              county_check=county_check)
+    #     with h5py.File(filepath, 'a') as hdf5file:
+    #         write_counties(hdf5file, standard_counties)
+    #         write_enduses(hdf5file, collect_enduses(self.sectors))
+    #         write_sectors(hdf5file, self.sectors,
+    #                           county_check=county_check)
 
-        return None
+    #     return None
 
 
 class Sector:
@@ -330,6 +331,7 @@ class Sector:
     def add_subsector(self, slug, name, timeformat, enduses):
         subsector = Subsector(slug, name, timeformat, enduses)
         self.subsectors[slug] = subsector
+        # TODO: Persist subsector metadata / initial dataset to HDF5
         return subsector
 
 
@@ -387,5 +389,7 @@ class Subsector:
                 county_assignments, standard_fipstoindex), dtype='u2'),
             to_standard_array(dataframe, self.timeformat, self.enduses)
             ))
+
+        # TODO: Persist new sub-dataset (or update existing dataset) in HDF5
 
         return None
