@@ -6,15 +6,17 @@ ENCODING = "utf-8"
 
 class Enumeration(object):
 
+    max_id_len = 64
+    max_name_len = 128
     enum_dtype = np.dtype([
-        ("id", "S64"),
-        ("name", "S64")
+        ("id", "S" + str(max_id_len)),
+        ("name", "S" + str(max_name_len))
     ])
 
     dimension = None
 
-    @staticmethod
-    def checkvalues(ids, names):
+    @classmethod
+    def checkvalues(cls, ids, names):
 
         n_ids = len(ids)
         n_names = len(names)
@@ -32,11 +34,13 @@ class Enumeration(object):
         if len(set(ids)) != n_ids:
             raise ValueError("Enumeration ids must be unique")
 
-        if max(len(value) for value in ids) > 64:
-            raise ValueError("Enumeration ids must be less than 64 characters")
+        if max(len(value) for value in ids) > cls.max_id_len:
+            raise ValueError("Enumeration ids cannot exceed " +
+                             str(cls.max_id_len) + " characters")
 
-        if max(len(value) for value in names) > 64:
-            raise ValueError("Enumeration names must be less than 64 characters")
+        if max(len(value) for value in names) > cls.max_name_len:
+            raise ValueError("Enumeration names cannot exceed " +
+                             str(cls.max_name_len) + " characters")
 
 
     def __init__(self, name, ids, names):
@@ -53,6 +57,9 @@ class Enumeration(object):
             self.__dict__ == other.__dict__
         )
 
+    def __len__(self):
+        return len(self.ids)
+
     def __repr__(self):
         return "%s(%r)" % (self.__class__, self.__dict__)
 
@@ -65,7 +72,7 @@ class Enumeration(object):
         dset = h5group.create_dataset(
             self.dimension,
             dtype=self.enum_dtype,
-            shape=(len(self.ids),))
+            shape=(len(self),))
 
         dset.attrs["name"] = self.name
 
@@ -83,6 +90,12 @@ class Enumeration(object):
             [vname.decode(ENCODING) for vname in h5dset["name"]]
         )
 
+    @classmethod
+    def read_csv(cls, filepath, name):
+        enum = pd.read_csv(filepath , dtype=str)
+        return cls(name, list(enum.id), list(enum.name))
+
+
 class SectorEnumeration(Enumeration):
     dimension = "sector"
 
@@ -95,23 +108,16 @@ class EndUseEnumeration(Enumeration):
 class TimeEnumeration(Enumeration):
     dimension = "time"
 
-# Load prepackaged Enumerations
-
 enumdata_folder = path.join(path.dirname(__file__), "enumeration_data/")
 
-sectors = SectorEnumeration("sector_subsectors",
-                            ["res__sfd"],
-                            ["Residential: Single Family Detached"])
+sectors_subsectors = SectorEnumeration.read_csv(
+    enumdata_folder + "sectors_subsectors.csv", "standard_sector_subsectors")
 
-counties = pd.read_csv(enumdata_folder + "counties.csv", dtype=str)
-counties = GeographyEnumeration("counties",
-                                list(counties.id),
-                                list(counties.name))
+counties = GeographyEnumeration.read_csv(
+    enumdata_folder + "counties.csv", "counties")
 
-enduses = EndUseEnumeration("enduses",
-                            ["water_heating"],
-                            ["Water Heating"])
+enduses = EndUseEnumeration.read_csv(
+    enumdata_folder + "enduses.csv", "standard_enduses")
 
-hourly2012 = TimeEnumeration("2012 Hourly",
-                             ["hour1"],
-                             ["hour1"])
+hourly2012 = TimeEnumeration.read_csv(
+    enumdata_folder + "hourly2012.csv", "standard_2012_hourly")

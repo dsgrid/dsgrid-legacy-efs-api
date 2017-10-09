@@ -111,7 +111,7 @@ class SectorDataset(object):
             self.datafile.geo_enum.ids.index(geo_id)
             for geo_id in geo_ids])
         scalings = np.array(scalings)
-        data = np.array(dataframe.loc[self.times, self.enduses])
+        data = np.array(dataframe.loc[self.times, self.enduses]).T
         np.nan_to_num(data, copy=False)
 
         with h5py.File(self.datafile.h5path, "r+") as f:
@@ -148,7 +148,7 @@ class SectorDataset(object):
             if geo_idx == ZERO_IDX:
                 data = 0
             else:
-                data = dset[geo_idx, :, :] * geo_scale
+                data = dset[geo_idx, :, :].T * geo_scale
 
         return pd.DataFrame(data,
                             index=self.times,

@@ -1,0 +1,162 @@
+id,name
+com__AdministrativeProfessionalOffice,Commercial: AdministrativeProfessionalOffice
+com__BankOtherFinancial,Commercial: BankOtherFinancial
+com__BarPubLounge,Commercial: BarPubLounge
+com__ClinicOtherOutpatientHealth,Commercial: ClinicOtherOutpatientHealth
+com__CollegeUniversity,Commercial: CollegeUniversity
+com__ConvenienceStore,Commercial: ConvenienceStore
+com__ConvenienceStoreWithGasStation,Commercial: ConvenienceStoreWithGasStation
+com__CourthouseProbationOffice,Commercial: CourthouseProbationOffice
+com__DistributionShippingCenter,Commercial: DistributionShippingCenter
+com__DormitoryFraternitySorority,Commercial: DormitoryFraternitySorority
+com__ElementaryMiddleSchool,Commercial: ElementaryMiddleSchool
+com__EnclosedMall,Commercial: EnclosedMall
+com__EntertainmentCulture,Commercial: EntertainmentCulture
+com__FastFood,Commercial: FastFood
+com__FireStationPoliceStation,Commercial: FireStationPoliceStation
+com__GovernmentOffice,Commercial: GovernmentOffice
+com__GroceryStoreFoodMarket,Commercial: GroceryStoreFoodMarket
+com__Highschool,Commercial: Highschool
+com__HospitalInpatientHealth,Commercial: HospitalInpatientHealth
+com__Hotel,Commercial: Hotel
+com__Laboratory,Commercial: Laboratory
+com__Library,Commercial: Library
+com__MedicalOfficeDiagnostic,Commercial: MedicalOfficeDiagnostic
+com__MedicalOffice_NonDiagnostic,Commercial: MedicalOffice_NonDiagnostic
+com__MixedUseOffice,Commercial: MixedUseOffice
+com__MotelOrInn,Commercial: MotelOrInn
+com__NonRefrigeratedWarehouse,Commercial: NonRefrigeratedWarehouse
+com__NursingHomeAssistedLiving,Commercial: NursingHomeAssistedLiving
+com__Other,Commercial: Other
+com__OtherClassroomEducation,Commercial: OtherClassroomEducation
+com__OtherFoodSales,Commercial: OtherFoodSales
+com__OtherFoodService,Commercial: OtherFoodService
+com__OtherLodging,Commercial: OtherLodging
+com__OtherOffice,Commercial: OtherOffice
+com__OtherPublicAssembly,Commercial: OtherPublicAssembly
+com__OtherPublicOrderAndSafety,Commercial: OtherPublicOrderAndSafety
+com__OtherRetail,Commercial: OtherRetail
+com__OtherService,Commercial: OtherService
+com__PostOfficePostalCenter,Commercial: PostOfficePostalCenter
+com__PreschoolDaycare,Commercial: PreschoolDaycare
+com__Recreation,Commercial: Recreation
+com__RefrigeratedWarehouse,Commercial: RefrigeratedWarehouse
+com__ReligiousWorship,Commercial: ReligiousWorship
+com__RepairShop,Commercial: RepairShop
+com__RestaurantCafeteria,Commercial: RestaurantCafeteria
+com__RetailStore,Commercial: RetailStore
+com__SelfStorage,Commercial: SelfStorage
+com__SocialMeeting,Commercial: SocialMeeting
+com__StripShoppingMall,Commercial: StripShoppingMall
+com__Vacant,Commercial: Vacant
+com__VehicleDealershipShowroom,Commercial: VehicleDealershipShowroom
+com__VehicleServiceRepairShop,Commercial: VehicleServiceRepairShop
+com__VehicleStorageMaintenance,Commercial: VehicleStorageMaintenance
+res__ApartmentInBuilding2to4Units,Residential: ApartmentInBuilding2to4Units
+res__ApartmentInBuilding5PlusUnits,Residential: ApartmentInBuilding5PlusUnits
+res__MobileHome,Residential: MobileHome
+res__SingleFamilyAttached,Residential: SingleFamilyAttached
+res__SingleFamilyDetached,Residential: SingleFamilyDetached
+trans__Air,Transportation: Air
+trans__BusTransportation,Transportation: BusTransportation
+trans__CommercialLightTrucks,Transportation: CommercialLightTrucks
+trans__FreightTrucks,Transportation: FreightTrucks
+trans__LightDutyVehicles,Transportation: LightDutyVehicles
+trans__Lubricants,Transportation: Lubricants
+trans__MilitaryUse,Transportation: MilitaryUse
+trans__PipelineFuelNaturalGas,Transportation: PipelineFuelNaturalGas
+trans__RailFreight,Transportation: RailFreight
+trans__RailPassenger,Transportation: RailPassenger
+trans__RecreationalBoats,Transportation: RecreationalBoats
+trans__ShippingDomestic,Transportation: ShippingDomestic
+trans__ShippingInternational,Transportation: ShippingInternational
+ind__11,"Industry: Agriculture, Forestry, Fishing and Hunting"
+ind__21,"Industry: Mining, Quarrying, and Oil and Gas Extraction"
+ind__22,Industry: Utilities
+ind__23,Industry: Construction
+ind__3111,Industry: Animal Food Manufacturing
+ind__3112,Industry: Grain and Oilseed Milling
+ind__3113,Industry: Sugar and Confectionery Product Manufacturing
+ind__3114,Industry: Fruit and Vegetable Preserving and Specialty Food Manufacturing
+ind__3115,Industry: Dairy Product Manufacturing
+ind__3116,Industry: Animal Slaughtering and Processing
+ind__3117,Industry: Seafood Product Preparation and Packaging
+ind__3118,Industry: Bakeries and Tortilla Manufacturing
+ind__3119,Industry: Other Food Manufacturing
+ind__3121,Industry: Beverage Manufacturing
+ind__3122,Industry: Tobacco Manufacturing
+ind__3131,"Industry: Fiber, Yarn, and Thread Mills"
+ind__3132,Industry: Fabric Mills
+ind__3133,Industry: Textile and Fabric Finishing and Fabric Coating Mills
+ind__3141,Industry: Textile Furnishings Mills
+ind__3149,Industry: Other Textile Product Mills
+ind__3151,Industry: Apparel Knitting Mills
+ind__3152,Industry: Cut and Sew Apparel Manufacturing
+ind__3159,Industry: Apparel Accessories and Other Apparel Manufacturing
+ind__3161,Industry: Leather and Hide Tanning and Finishing
+ind__3162,Industry: Footwear Manufacturing
+ind__3169,Industry: Other Leather and Allied Product Manufacturing
+ind__3211,Industry: Sawmills and Wood Preservation
+ind__3212,"Industry: Veneer, Plywood, and Engineered Wood Product Manufacturing"
+ind__3219,Industry: Other Wood Product Manufacturing
+ind__3221,"Industry: Pulp, Paper, and Paperboard Mills"
+ind__3222,Industry: Converted Paper Product Manufacturing
+ind__3231,Industry: Printing and Related Support Activities
+ind__3241,Industry: Petroleum and Coal Products Manufacturing
+ind__3251,Industry: Basic Chemical Manufacturing
+ind__3252,"Industry: Resin, Synthetic Rubber, and Artificial and Synthetic Fibers and Filaments Manufacturing"
+ind__3253,"Industry: Pesticide, Fertilizer, and Other Agricultural Chemical Manufacturing"
+ind__3254,Industry: Pharmaceutical and Medicine Manufacturing
+ind__3255,"Industry: Paint, Coating, and Adhesive Manufacturing"
+ind__3256,"Industry: Soap, Cleaning Compound, and Toilet Preparation Manufacturing"
+ind__3259,Industry: Other Chemical Product and Preparation Manufacturing
+ind__3261,Industry: Plastics Product Manufacturing
+ind__3262,Industry: Rubber Product Manufacturing
+ind__3271,Industry: Clay Product and Refractory Manufacturing
+ind__3272,Industry: Glass and Glass Product Manufacturing
+ind__3273,Industry: Cement and Concrete Product Manufacturing
+ind__3274,Industry: Lime and Gypsum Product Manufacturing
+ind__3279,Industry: Other Nonmetallic Mineral Product Manufacturing
+ind__3311,Industry: Iron and Steel Mills and Ferroalloy Manufacturing
+ind__3312,Industry: Steel Product Manufacturing from Purchased Steel
+ind__3313,Industry: Alumina and Aluminum Production and Processing
+ind__3314,Industry: Nonferrous Metal (except Aluminum) Production and Processing
+ind__3315,Industry: Foundries
+ind__3321,Industry: Forging and Stamping
+ind__3322,Industry: Cutlery and Handtool Manufacturing
+ind__3323,Industry: Architectural and Structural Metals Manufacturing
+ind__3324,"Industry: Boiler, Tank, and Shipping Container Manufacturing"
+ind__3325,Industry: Hardware Manufacturing
+ind__3326,Industry: Spring and Wire Product Manufacturing
+ind__3327,"Industry: Machine Shops; Turned Product; and Screw, Nut, and Bolt Manufacturing"
+ind__3328,"Industry: Coating, Engraving, Heat Treating, and Allied Activities"
+ind__3329,Industry: Other Fabricated Metal Product Manufacturing
+ind__3331,"Industry: Agriculture, Construction, and Mining Machinery Manufacturing"
+ind__3332,Industry: Industrial Machinery Manufacturing
+ind__3333,Industry: Commercial and Service Industry Machinery Manufacturing
+ind__3334,"Industry: Ventilation, Heating, Air-Conditioning, and Commercial Refrigeration Equipment Manufacturing"
+ind__3335,Industry: Metalworking Machinery Manufacturing
+ind__3336,"Industry: Engine, Turbine, and Power Transmission Equipment Manufacturing"
+ind__3339,Industry: Other General Purpose Machinery Manufacturing
+ind__3341,Industry: Computer and Peripheral Equipment Manufacturing
+ind__3342,Industry: Communications Equipment Manufacturing
+ind__3343,Industry: Audio and Video Equipment Manufacturing
+ind__3344,Industry: Semiconductor and Other Electronic Component Manufacturing
+ind__3345,"Industry: Navigational, Measuring, Electromedical, and Control Instruments Manufacturing"
+ind__3346,Industry: Manufacturing and Reproducing Magnetic and Optical Media
+ind__3351,Industry: Electric Lighting Equipment Manufacturing
+ind__3352,Industry: Household Appliance Manufacturing
+ind__3353,Industry: Electrical Equipment Manufacturing
+ind__3359,Industry: Other Electrical Equipment and Component Manufacturing
+ind__3361,Industry: Motor Vehicle Manufacturing
+ind__3362,Industry: Motor Vehicle Body and Trailer Manufacturing
+ind__3363,Industry: Motor Vehicle Parts Manufacturing
+ind__3364,Industry: Aerospace Product and Parts Manufacturing
+ind__3365,Industry: Railroad Rolling Stock Manufacturing
+ind__3366,Industry: Ship and Boat Building
+ind__3369,Industry: Other Transportation Equipment Manufacturing
+ind__3371,Industry: Household and Institutional Furniture and Kitchen Cabinet Manufacturing
+ind__3372,Industry: Office Furniture (including Fixtures) Manufacturing
+ind__3379,Industry: Other Furniture Related Product Manufacturing
+ind__3391,Industry: Medical Equipment and Supplies Manufacturing
+ind__3399,Industry: Other Miscellaneous Manufacturing

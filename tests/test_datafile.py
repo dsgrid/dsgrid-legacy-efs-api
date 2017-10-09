@@ -3,7 +3,7 @@ from py.test import raises
 from dsgrid.datafile import Datafile
 from dsgrid.sectordataset import SectorDataset
 from dsgrid.enumeration import (
-    sectors, counties, enduses, hourly2012
+    sectors_subsectors, counties, enduses, hourly2012
 )
 
 def test_datafile_io():
@@ -12,8 +12,8 @@ def test_datafile_io():
 
         raises(FileNotFoundError, Datafile, filepath)
 
-        datafile = Datafile(filepath, sectors, counties, enduses, hourly2012)
-        datafile.add_sector("res__sfd")
+        datafile = Datafile(filepath, sectors_subsectors, counties, enduses, hourly2012)
+        datafile.add_sector("res__SingleFamilyDetached")
 
         datafile2 = Datafile(filepath)
 
