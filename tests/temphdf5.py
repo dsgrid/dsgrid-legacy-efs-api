@@ -1,8 +1,8 @@
 import h5py
-import os
+from os import remove
 from uuid import uuid4
 
-class TempHDF5():
+class TempHDF5File():
 
     def __init__(self):
         self.filename = str(uuid4()) + ".h5"
@@ -13,4 +13,16 @@ class TempHDF5():
 
     def __exit__(self, ctx_type, ctx_value, ctx_traceback):
         self.file.close()
-        os.remove(self.filename)
+        remove(self.filename)
+
+
+class TempHDF5Filepath():
+
+    def __init__(self):
+        self.filename = str(uuid4()) + ".h5"
+
+    def __enter__(self):
+        return self.filename
+
+    def __exit__(self, ctx_type, ctx_value, ctx_traceback):
+        remove(self.filename)

@@ -1,19 +1,34 @@
+import h5py
 import numpy as np
 
 ZERO_IDX = 65535
 
 class SectorDataset(object):
 
-    def __init__(self, sector_id, datafile, enduse_ids=None, time_ids=None):
+    def __init__(self, sector_id, datafile, enduses=None, times=None):
 
-        if not enduse_ids:
-            enduse_ids = datafile.enduse_enum.ids
+        if sector_id not in datafile.sector_enum.ids:
+            raise ValueError("Sector ID " + sector_id + " is not in " +
+                                "the Datafile's SectorEnumeration")
 
-        if not time_ids:
-            time_ids = datafile.time_enum.ids
+        if enduses:
+            if not set(enduses).issubset(set(datafile.enduse_enum.ids)):
+                raise ValueError("Supplied enduses are not a subset of the " +
+                                 "Datafile's EndUseEnumeration")
+        else:
+            enduses = datafile.enduse_enum.ids
+
+        if times:
+            if not set(times).issubset(set(datafile.time_enum.ids)):
+                raise ValueError("Supplied times are not a subset of the " +
+                             "Datafile's TimeEnumeration")
+        else:
+            times = datafile.time_enum.ids
 
         self.sector_id = sector_id
         self.datafile = datafile
+        self.enduses = enduses
+        self.times = times
 
         # Initialize geography metadata
         n_total_geos = len(datafile.geo_enum.ids)
@@ -23,26 +38,28 @@ class SectorDataset(object):
         self.geo_scalings = np.ones(shape=n_total_geos)
 
         # Initialize enduse metadata
-        n_total_enduses = len(datafile.enduse_enum.ids)
-        self.enduse_ids = enduse_ids
         self.n_enduses = len(self.enduses)
-        self.enduse_mappings = np.full(n_total_enduses, ZERO_IDX, dtype="u2")
-        self.enduse_scalings = np.ones(shape=n_total_enduses)
-
-        for i, enduse_id in enumerate(self.enduse_ids):
-            enduse_idx = datafile.enduse_enum.ids.index(enduse_id)
-            self.enduse_mappings[enduse_idx] = i
+        self.enduse_mappings = np.array([
+            datafile.enduse_enum.ids.index(enduse)
+            for enduse in self.enduses], dtype="u2")
 
         # Initialize time metadata
-        n_total_times = len(datafile.time_enum.ids)
-        self.time_ids = time_ids
         self.n_times = len(self.times)
-        self.time_mappings = np.full(n_total_times, ZERO_IDX, dtype="u2")
-        self.time_scalings = np.ones(shape=n_total_times)
+        self.time_mappings = np.array([
+            datafile.time_enum.ids.index(time)
+            for time in self.times], dtype="u2")
 
-        for i, time_id in enumerate(self.time_ids):
-            time_idx = datafile.time_enum.ids.index(time_id)
-            self.time_mappings[time_idx] = i
+    def __eq__(self, other):
+        return (
+            isinstance(other, self.__class__) and
+            self.__dict__ == self.__dict__
+            )
+
+    def __repr__(self):
+        return "%s(%r)" % (self.__class__, self.__dict__)
+
+    def __str__(self):
+        return self.__repr__()
 
     def h5init(self, h5group):
 
@@ -52,7 +69,7 @@ class SectorDataset(object):
 
         dset = h5group.create_dataset(
             self.sector_id,
-            shape=shape
+            shape=shape,
             maxshape=max_shape,
             chunks=chunk_shape,
             compression="gzip")
@@ -61,10 +78,8 @@ class SectorDataset(object):
         dset.attrs["geo_scalings"] = self.geo_scalings
 
         dset.attrs["enduse_mappings"] = self.enduse_mappings
-        dset.attrs["enduse_scalings"] = self.enduse_scalings
 
         dset.attrs["time_mappings"] = self.time_mappings
-        dset.attrs["time_scalings"] = self.time_scalings
 
 
     def add_data(self, dataframe, geo_ids, scale=[]):
@@ -100,10 +115,31 @@ class SectorDataset(object):
         data = np.array(dataframe[self.times, self.enduse])
         np.nan_to_num(data, copy=False)
 
-        with h5py.File(self.datafile.h5path, "w-") as f:
+        with h5py.File(self.datafile.h5path, "r+") as f:
 
-            dset = f["data/"+self.sector_id]
+            dset = f["data/" + self.sector_id]
             new_idx = self.n_geos
             dset.resize(new_idx+1, 1)
             dset[new_idx, :, :] = data
-            n_geos += 1
+            self.n_geos += 1
+
+    @classmethod
+    def loadall(cls, datafile, h5group):
+
+        enduses = np.array(datafile.enduse_enum.ids)
+        times = np.array(datafile.time_enum.ids)
+
+        sectors = {}
+
+        for dset_id, dset in h5group.items():
+
+            if isinstance(dset, h5py.Dataset):
+
+                sectors[dset_id] = cls(
+                    dset_id,
+                    datafile,
+                    list(enduses[dset.attrs["enduse_mappings"][:]]),
+                    list(times[dset.attrs["time_mappings"][:]])
+                )
+
+        return sectors
