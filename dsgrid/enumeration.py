@@ -1,4 +1,6 @@
+from os import path
 import numpy as np
+import pandas as pd
 
 ENCODING = "utf-8"
 
@@ -93,15 +95,23 @@ class EndUseEnumeration(Enumeration):
 class TimeEnumeration(Enumeration):
     dimension = "time"
 
+# Load prepackaged Enumerations
+
+enumdata_folder = path.join(path.dirname(__file__), "enumeration_data/")
+
 sectors = SectorEnumeration("sector_subsectors",
                             ["res__sfd"],
                             ["Residential: Single Family Detached"])
+
+counties = pd.read_csv(enumdata_folder + "counties.csv", dtype=str)
 counties = GeographyEnumeration("counties",
-                                ["01001"],
-                                ["A county"])
+                                list(counties.id),
+                                list(counties.name))
+
 enduses = EndUseEnumeration("enduses",
                             ["water_heating"],
                             ["Water Heating"])
+
 hourly2012 = TimeEnumeration("2012 Hourly",
                              ["hour1"],
                              ["hour1"])

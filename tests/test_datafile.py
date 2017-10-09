@@ -15,6 +15,6 @@ def test_datafile_io():
         datafile = Datafile(filepath, sectors, counties, enduses, hourly2012)
         datafile.add_sector("res__sfd")
 
-        assert(datafile.sectordata["res__sfd"] ==
-            SectorDataset("res__sfd", datafile))
-        assert(datafile == Datafile(filepath))
+        datafile2 = Datafile(filepath)
+
+        assert(datafile == datafile2)

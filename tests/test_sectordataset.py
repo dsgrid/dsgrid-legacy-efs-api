@@ -36,10 +36,18 @@ def test_sectordataset_validation():
 
 def test_sectordataset_io():
 
-    data = pd.DataFrame(0, columns=["water_heating"], index=["hour1"])
+    zerodata = pd.DataFrame(0, columns=["water_heating"], index=["hour1"], dtype='float32')
+    data = pd.DataFrame(123, columns=["water_heating"], index=["hour1"], dtype='float32')
 
     with TempHDF5Filepath() as filepath:
 
         datafile = Datafile(filepath, sectors, counties, enduses, hourly2012)
         dataset = datafile.add_sector("res__sfd")
-        dataset.add_data(data, ["01001"])
+
+        dataset.add_data(data, ["01001", "01003"], [2.3, 4.5])
+        pd.testing.assert_frame_equal(dataset["01001"], data*2.3,
+                                      check_like=True)
+        pd.testing.assert_frame_equal(dataset["01003"], data*4.5,
+                                      check_like=True)
+        pd.testing.assert_frame_equal(dataset["01005"], zerodata,
+                                      check_like=True)

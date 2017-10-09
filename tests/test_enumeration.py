@@ -6,6 +6,15 @@ from dsgrid.enumeration import (
     sectors, counties, enduses, hourly2012
 )
 
+def test_enumeration_prepackaged():
+
+    assert(len(counties.ids) == 3108)
+    assert(counties.ids[245] == "08059")
+    assert(counties.names[245] == "Jefferson County, CO")
+    assert(counties.ids[940] == "20173")
+    assert(counties.names[940] == "Sedgwick County, KS")
+
+
 def test_enumeration_validation():
 
     mismatchedvaluecount = ["abc", "def"]

@@ -78,11 +78,8 @@ class Datafile(object):
 
     def add_sector(self, sector_id, enduses=None, times=None):
 
-        sector = SectorDataset(sector_id, self, enduses, times)
-
-        with h5py.File(self.h5path, "r+") as f:
-            sector.h5init(f["data"])
-
+        sector = SectorDataset(sector_id, self,
+                               enduses, times, persist=True)
         self.sectordata[sector_id] = sector
 
         return sector
