@@ -102,24 +102,24 @@ class SectorDataset(object):
                 raise ValueError("Geography ID must be in the " +
                                  "DataFile's GeographyEnumeration")
 
-        for time_id in dataframe.index:
-            if time_id not in self.time_ids:
+        for time in dataframe.index:
+            if time not in self.times:
                 raise ValueError("All time IDs (DataFrame row indices) must be " +
                                  "in the DataFile's TimeEnumeration")
 
-        for enduse_id in dataframe.columns:
-            if enduse_id not in self.enduse_ids:
+        for enduse in dataframe.columns:
+            if enduse not in self.enduses:
                 raise ValueError("All end-use IDs (DataFrame column names) must be " +
                                  "in the DataFile's EndUseEnumeration")
 
-        data = np.array(dataframe[self.times, self.enduse])
+        data = np.array(dataframe.loc[self.times, self.enduses])
         np.nan_to_num(data, copy=False)
 
         with h5py.File(self.datafile.h5path, "r+") as f:
 
             dset = f["data/" + self.sector_id]
             new_idx = self.n_geos
-            dset.resize(new_idx+1, 1)
+            dset.resize(new_idx+1, 0)
             dset[new_idx, :, :] = data
             self.n_geos += 1
 
