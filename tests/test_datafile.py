@@ -6,6 +6,12 @@ from dsgrid.enumeration import (
     sectors_subsectors, counties, enduses, hourly2012
 )
 
+# Python2 doesn't have a FileNotFoundError
+try:
+    FileNotFoundError
+except NameError:
+    FileNotFoundError = IOError
+
 def test_datafile_io():
 
     with TempHDF5Filepath() as filepath:
@@ -13,7 +19,8 @@ def test_datafile_io():
         raises(FileNotFoundError, Datafile, filepath)
 
         datafile = Datafile(filepath, sectors_subsectors, counties, enduses, hourly2012)
-        datafile.add_sector("res__SingleFamilyDetached")
+        sector = datafile.add_sector("res__SingleFamilyDetached")
+        assert(sector is datafile["res__SingleFamilyDetached"])
 
         datafile2 = Datafile(filepath)
 

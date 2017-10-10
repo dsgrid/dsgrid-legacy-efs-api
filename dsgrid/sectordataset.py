@@ -112,7 +112,7 @@ class SectorDataset(object):
             for geo_id in geo_ids])
         scalings = np.array(scalings)
         data = np.array(dataframe.loc[self.times, self.enduses]).T
-        np.nan_to_num(data, copy=False)
+        data = np.nan_to_num(data)
 
         with h5py.File(self.datafile.h5path, "r+") as f:
 

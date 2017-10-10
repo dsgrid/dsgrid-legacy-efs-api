@@ -6,6 +6,12 @@ from dsgrid.enumeration import (
     EndUseEnumeration, TimeEnumeration)
 from dsgrid.sectordataset import SectorDataset
 
+# Python2 doesn't have a FileNotFoundError
+try:
+    FileNotFoundError
+except NameError:
+    FileNotFoundError = IOError
+
 class Datafile(object):
 
     def __init__(self, h5path,
@@ -43,6 +49,9 @@ class Datafile(object):
 
     def __str__(self):
         return self.__repr__()
+
+    def __getitem__(self, sector_id):
+        return self.sectordata[sector_id]
 
     def _new(self, sector_enum, geo_enum, enduse_enum, time_enum):
 

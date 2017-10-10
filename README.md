@@ -1,6 +1,6 @@
 # dsgrid Data Marshalling
 
-This package provides functionality for marshaling sector-based electricity demand data (stored in a Pandas DataFrame) into the common dsgrid HDF5 data format and persisting it to disk. The package targets Python 2 but if a Python 3 version would be useful, let Gord know at [gord.stephen@nrel.gov](mailto:gord.stephen@nrel.gov).
+This package provides functionality for marshaling sector-based electricity demand data (stored in a Pandas DataFrame) into the common dsgrid HDF5 data format and persisting it to disk. The package should work on both Python 2 and Python 3.
 
 ## Installation
 
@@ -18,62 +18,63 @@ This is an overview of the basics of using the package. If desired, more extensi
 
 ### Creating a new data file
 
-To begin, create an empty `DSGridFile` object and add a sector to it. Adding the sector returns the newly created `Sector` object, which can be assigned to a variable if desired:
+To begin, create an empty `Datafile` object. This involves providing a file path for the HDF5 file that will be created, and a set of master lists of valid sectors, geographies, enduses, and times (these master lists are referred to as `Enumeration`s in the package). The package includes predefined `Enumeration`s for sector model data. An `Enumeration` includes both a list of unique IDs identifying individual allowed values, as well as a matching list of more descriptive names.
 
 ```python
-from dsgrid.dataformat import DSGridFile
-from dsgrid.timeformats import hourofyear
+from dsgrid.datafile import Datafile
+from dsgrid.enumeration import (
+    sectors_subsectors, counties, enduses, hourly2012
+)
 
-f = DSGridFile()
+f = Datafile("hdf5filename.h5", sectors_subsectors, counties, enduses, hourly2012)
 
-# Provide both a short and long name
-mysector = f.add_sector("mysectorshortname", "My Sector Long Name")
 ```
 
-The `Sector` object can also be referenced via its short name as an attribute on the `DSGridFile` object:
+A `SectorDataset` can now be added to the `Datafile`. Note that here "sector" refers to both levels of the sector/subsector hierarchy. This is for extensibility of the format to support less resolved datasets where data may only be available by aggregate sector, or even just economy-wide.
+
+The following would create a sector dataset that spans all enduses and time periods, assuming the provided sector ID exists in `f`'s `SectorEnumeration`:
 
 ```python
-assert(f.mysectorshortname is mysector)
+f.add_sector("res__SingleFamilyDetached")
 ```
 
-`Subsector` objects can be accessed analogously via attributes on a `Sector` object. Creating a new subsector requires providing a short name, long name, time format, and a list of end-uses associated with the data to be provided. End-use names cannot exceed 64 characters. The `hourofyear` (8784 sequential hourly values) and `hourofweekdayweekend` (24 typical weekday + 24 typical weekend values) time formats are provided out of the box, although others can be defined as necessary by subclassing `TimeFormat` and implementing the required abstract methods.
+However, it's likely that a single sector/subsector will not be drawing load for all possible end uses. In that case, to save space on disk, the sector can be defined to use only a subset of the end-uses listed in the `DataFile`'s `EndUseEnumeration` ID list:
 
 ```python
-subsector = mysector.add_subsector("mysubsec", "My Subsector Long Name",
-                                   hourofyear, ["End-Use 1", "End-Use 2"])
+singlefamilydetached = f.add_sector("res__SingleFamilyDetached",
+                                    enduses=["heating", "cooling", "interior_lights"])
 ```
 
-Simulation data can now be assigned to the subsector. The data should be in the form of a Pandas DataFrame with rows representing the timestamps of the supplied time format and columns representing the supplied subsector enduses. A list (or single) tuple providing a (State FIPS code, county FIPS code) pair is required to define the geographic extent of the dataset.
+One could restrict the dataset to a subset of times in a similar fashion.
+
+Simulation data can now be assigned to the sector (subsector). The data should be in the form of a Pandas DataFrame with rows indices corresponding to IDs in the `Datafile`'s `TimeEnumeration` and column names corresponding to enduse IDs in the `Datafile`'s `EndUseEnumeration` (or the predetermined subset discussed immediately above). Each DataFrame is assigned to at least one geography, which are represented by IDs in the `Datafile`'s `GeographyEnumeration`. In this case, `"08059"` is the ID and FIPS code for Jefferson County, Colorado:
 
 ```python
-subsector[(8, 59)] = mydata
+singlefamilydetached["08059"] = jeffco_sfd_data
+singlefamilydetached[["08001", "08003", "08005"]] = same_sfd_data_in_many_counties
 ```
 
-Finally, the stored data can be written out to an HDF5 file:
+Individual geographies can be associated with a scaling factor to be applied to their corresponding data, although this requires a method call rather than the nicer indexing syntax. This is most useful when load shapes are shared between counties but magnitudes differ:
 
 ```python
-f.write("file.h5")
+singlefamilydetached.add_data(same_sfd_shape_different_magnitudes,
+                              ["01001", "01003", "01005"], [1.1, 2.3, 6.7])
 ```
 
-### Reading / editing an existing data file
 
-If a dsgrid-formatted HDF5 file already exists, it can be read in to a Python object by passing the file name as a constructor argument:
+All data is persisted to disk (not stored in memory) as soon as it is assigned, so after adding data no further steps are required to save out the file.
+
+### Reading in an existing data file
+
+If a dsgrid-formatted HDF5 file already exists, it can be read in to a Python object by passing the file name as a constructor argument. In that case, any `Enumeration`s passed to the constructor will be ignored (with a warning).
 
 ```python
-f2 = DSGridFile("file.h5")
+f2 = Datafile("hdf5filename.h5")
 ```
 
 All of the data will then be accessible to Python just as it was when the file was first created, for example:
 
 ```python
-f2.mysectorshortname
-f2.mysectorshortname.mysubsec
-f2.mysectorshortname.mysubsec[(8,59)]
-```
-
-Data can be edited / added and then saved back out to the file:
-
-```python
-f2.mysectorshortname.mysubsec[(20, 173)] = myotherdata
-f2.write("file.h5")
+sfd = f2["res__SingleFamilyDetached"]
+jeffco_sfd = sfd["08059"]
 ```
