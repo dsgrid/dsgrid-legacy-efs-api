@@ -1,3 +1,7 @@
+__Note that package development has now moved to https://github.com/dsgrid/dataformat__
+
+<hr/>
+
 # dsgrid Data Marshalling
 
 This package provides functionality for marshaling sector-based electricity demand data (stored in a Pandas DataFrame) into the common dsgrid HDF5 data format and persisting it to disk. The package should work on both Python 2 and Python 3.
