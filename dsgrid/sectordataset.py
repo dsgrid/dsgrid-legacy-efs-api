@@ -97,10 +97,16 @@ class SectorDataset(object):
                 raise ValueError("Geography ID must be in the " +
                                  "DataFile's GeographyEnumeration")
 
+        if len(dataframe.index.unique()) != len(dataframe.index):
+            raise ValueError("DataFrame row indices must be unique")
+
         for time in dataframe.index:
             if time not in self.times:
                 raise ValueError("All time IDs (DataFrame row indices) must be " +
                                  "in the DataFile's TimeEnumeration")
+
+        if len(dataframe.columns.unique()) != len(dataframe.columns):
+            raise ValueError("DataFrame column names must be unique")
 
         for enduse in dataframe.columns:
             if enduse not in self.enduses:

@@ -28,14 +28,24 @@ def test_sectordataset_validation():
         raises(ValueError, dataset.add_data, data, ["01001"], [2.3, 4.5])
         raises(ValueError, dataset.add_data, data, ["bogus_geography"])
 
-        data2 = pd.DataFrame(columns=["heating", "bogus_enduse"],
+        baddata = pd.DataFrame(columns=["heating", "bogus_enduse"],
                              index=hourly2012.ids, dtype="float32")
-        raises(ValueError, dataset.add_data, data2, ["01001"])
+        raises(ValueError, dataset.add_data, baddata, ["01001"])
 
-        data2 = pd.DataFrame(columns=["heating", "cooling"],
+        baddata = pd.DataFrame(columns=["heating", "cooling"],
                              index=hourly2012.ids[:-1] + ["bogus_time"],
                              dtype="float32")
-        raises(ValueError, dataset.add_data, data2, ["01001"])
+        raises(ValueError, dataset.add_data, baddata, ["01001"])
+
+        baddata = pd.DataFrame(columns=["heating", "heating"],
+                             index=hourly2012.ids, dtype="float32")
+        raises(ValueError, dataset.add_data, baddata, ["01001"])
+
+        baddata = pd.DataFrame(columns=["heating", "cooling"],
+                               index=["2012-04-28 02:00:00-05:00",
+                                      "2012-04-28 02:00:00-05:00"],
+                               dtype="float32")
+        raises(ValueError, dataset.add_data, baddata, ["01001"])
 
         dataset.add_data(data, ["01001"])
 
