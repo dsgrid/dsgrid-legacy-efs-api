@@ -4,7 +4,7 @@ This package provides functionality for marshaling sector-based electricity dema
 
 ## Installation
 
-Download the latest source distribution tarball from the repo [releases page](https://github.nrel.gov/dsgrid/dataformat/releases) (e.g. `dsgrid-x.y.z.tar.gz`), and run:
+Download the latest source distribution tarball from the repo [releases page](https://github.com/dsgrid/dataformat/releases) (e.g. `dsgrid-x.y.z.tar.gz`), and run:
 
 ```
 pip install /filepath/to/dsgrid.x.y.z.tar.gz
