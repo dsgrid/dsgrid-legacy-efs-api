@@ -11,7 +11,9 @@ def make_data(enduses, times):
     return pd.DataFrame({
         enduse: np.random.rand(len(times))
         for enduse in enduses
-        }, index=times)
+        },
+       index=pd.CategoricalIndex(times),
+       dtype="float32")
 
 
 def test_datatable_read():
@@ -39,3 +41,23 @@ def test_datatable_read():
         dt = Datatable(datafile)
 
         assert(len(dt.data) == 8784*(2*4 + 4*3))
+
+        pd.testing.assert_series_equal(
+            dt.data.xs(("com__Laboratory", "CO", "heating")),
+            data1["heating"], check_names=False)
+
+        pd.testing.assert_series_equal(
+            dt.data.xs(("com__Laboratory", "CA", "cooling")),
+            data1["cooling"]*6.7, check_names=False)
+
+        pd.testing.assert_series_equal(
+            dt.data.xs(("com__Laboratory", "IL", "cooling")),
+            data2["cooling"], check_names=False)
+
+        pd.testing.assert_series_equal(
+            dt.data.xs(("ind__11", "KS", "pumps")),
+            data3["pumps"]*1.3, check_names=False)
+
+        pd.testing.assert_series_equal(
+            dt.data.xs(("ind__11", "WA", "fans")),
+            data4["fans"], check_names=False)
