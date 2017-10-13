@@ -108,16 +108,33 @@ class EndUseEnumeration(Enumeration):
 class TimeEnumeration(Enumeration):
     dimension = "time"
 
+# Define standard enumerations
+
 enumdata_folder = path.join(path.dirname(__file__), "enumeration_data/")
 
+## Sectors
 sectors_subsectors = SectorEnumeration.read_csv(
     enumdata_folder + "sectors_subsectors.csv", "standard_sector_subsectors")
 
+allsectors = SectorEnumeration("all_sectors", ["All"], ["All Sectors"])
+
+## Geographies
 counties = GeographyEnumeration.read_csv(
     enumdata_folder + "counties.csv", "counties")
 
+states = GeographyEnumeration.read_csv(
+    enumdata_folder + "states.csv", "states")
+
+conus = GeographyEnumeration("conus", ["conus"], ["Continental United States"])
+
+## End Uses
 enduses = EndUseEnumeration.read_csv(
     enumdata_folder + "enduses.csv", "standard_enduses")
 
+allenduses = EndUseEnumeration("all_enduses", ["All"], ["All End-uses"])
+
+# Time
 hourly2012 = TimeEnumeration.read_csv(
     enumdata_folder + "hourly2012.csv", "standard_2012_hourly")
+
+annual = TimeEnumeration("annual", ["Annual"], ["Annual"])
