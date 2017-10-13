@@ -3,16 +3,27 @@ from .temphdf5 import TempHDF5File
 from dsgrid.enumeration import (
     Enumeration, SectorEnumeration, GeographyEnumeration,
     EndUseEnumeration, TimeEnumeration,
-    sectors_subsectors, counties, enduses, hourly2012
+    allsectors, sectors_subsectors,
+    conus, states, counties,
+    allenduses, enduses,
+    annual, hourly2012
 )
 
 def test_enumeration_prepackaged():
 
+    assert(len(allsectors) == 1)
     assert(len(sectors_subsectors) == 161)
     assert(sectors_subsectors.ids[20] == "com__Laboratory")
     assert(sectors_subsectors.names[20] == "Commercial: Laboratory")
     assert(sectors_subsectors.ids[152] == "ind__3364")
-    assert(sectors_subsectors.names[152] == "Industry: Aerospace Product and Parts Manufacturing")
+    assert(sectors_subsectors.names[152] ==
+           "Industry: Aerospace Product and Parts Manufacturing")
+
+    assert(len(conus) == 1)
+
+    assert(len(states) == 49)
+    assert(states.ids[4] == "CO")
+    assert(states.names[40] == "Tennessee")
 
     assert(len(counties) == 3108)
     assert(counties.ids[245] == "08059")
@@ -20,8 +31,11 @@ def test_enumeration_prepackaged():
     assert(counties.ids[940] == "20173")
     assert(counties.names[940] == "Sedgwick County, KS")
 
-    assert(len(hourly2012) == 8784)
+    assert(len(enduses) == 29)
+    assert(len(allenduses) == 1)
 
+    assert(len(annual) == 1)
+    assert(len(hourly2012) == 8784)
 
 def test_enumeration_validation():
 
