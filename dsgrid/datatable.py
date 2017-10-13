@@ -40,26 +40,32 @@ class Datatable(object):
 
         self.data.sort_index(inplace=True)
 
+    def __getitem__(self, idxs):
+
+        if len(idxs) != 4:
+            raise KeyError("Indexing into a Datatable requires indices " +
+                           "for all four dimensions")
+
+        return self.data.loc[idxs]
+
     def _categoricalmultiindex(self, sectors, geos, enduses, times):
 
         sectors = pd.CategoricalIndex(
             data = sectors,
-            categories=self.sector_enum.ids,
-            name="Sector")
+            categories=self.sector_enum.ids)
 
         geos = pd.CategoricalIndex(
             data = geos,
-            categories = self.geo_enum.ids,
-            name = "Geography")
+            categories = self.geo_enum.ids)
 
         enduses = pd.CategoricalIndex(
             data = enduses,
-            categories = self.enduse_enum.ids,
-            name = "End Use")
+            categories = self.enduse_enum.ids)
 
         times = pd.CategoricalIndex(
             data = times,
-            categories = self.time_enum.ids,
-            name = "Time")
+            categories = self.time_enum.ids)
 
-        return pd.MultiIndex.from_product([sectors, geos, enduses, times])
+        return pd.MultiIndex.from_product(
+            [sectors, geos, enduses, times],
+            names=["sector", "geography", "enduse", "time"])

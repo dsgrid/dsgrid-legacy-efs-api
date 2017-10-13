@@ -78,3 +78,23 @@ All of the data will then be accessible to Python just as it was when the file w
 sfd = f2["res__SingleFamilyDetached"]
 jeffco_sfd = sfd["08059"]
 ```
+
+For easier data manipulation, the full contents of the `Datafile` can also be read into memory in a tabular format by creating a `Datatable` object:
+
+```python
+from dsgrid.datatable import Datatable
+dt = Datatable(f2)
+```
+
+A `Datatable` is just a thin wrapper around a Pandas `Series` with a four-level `MultiIndex`. The `Datatable` can be indexed into for quick access to a relevant subset of the data, or the underlying `Series` can be accessed and manipulated directly.
+
+```python
+# Accessing a single value
+dt["res__SingleFamilyDetached", "08059", "heating", "2012-04-28 02:00:00-05:00"]
+
+# Accessing a Series slice
+dt["res__SingleFamilyDetached", "08059", "heating", :]
+
+# Working directly with the underlying Series
+sector_enduse_totals = dt.data.groupby(levels=["sector", "enduse"]).sum()
+```

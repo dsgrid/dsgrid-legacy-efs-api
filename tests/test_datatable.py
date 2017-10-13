@@ -46,9 +46,21 @@ def test_datatable_read():
             dt.data.xs(("com__Laboratory", "CO", "heating")),
             data1["heating"], check_names=False)
 
+        co_lab_heating = dt["com__Laboratory", "CO", "heating", :]
+        np.testing.assert_allclose(
+            np.array(co_lab_heating),
+            np.array(data1["heating"]),
+            rtol=1e-6)
+
         pd.testing.assert_series_equal(
             dt.data.xs(("com__Laboratory", "CA", "cooling")),
             data1["cooling"]*6.7, check_names=False)
+
+        ca_lab_cooling = dt["com__Laboratory", "CA", "cooling", :]
+        np.testing.assert_allclose(
+            np.array(ca_lab_cooling),
+            np.array(data1["cooling"])*6.7,
+            rtol=1e-6)
 
         pd.testing.assert_series_equal(
             dt.data.xs(("com__Laboratory", "IL", "cooling")),
@@ -61,3 +73,5 @@ def test_datatable_read():
         pd.testing.assert_series_equal(
             dt.data.xs(("ind__11", "WA", "fans")),
             data4["fans"], check_names=False)
+
+        dt.data.groupby(level=["geography", "enduse"]).sum()
