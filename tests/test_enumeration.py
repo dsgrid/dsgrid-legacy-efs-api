@@ -3,7 +3,7 @@ from .temphdf5 import TempHDF5File
 from dsgrid.enumeration import (
     Enumeration, SectorEnumeration, GeographyEnumeration,
     EndUseEnumeration, TimeEnumeration,
-    allsectors, sectors_subsectors,
+    allsectors, sectors, sectors_subsectors,
     conus, states, counties,
     allenduses, enduses,
     annual, hourly2012
@@ -12,6 +12,7 @@ from dsgrid.enumeration import (
 def test_enumeration_prepackaged():
 
     assert(len(allsectors) == 1)
+    assert(len(sectors) == 4)
     assert(len(sectors_subsectors) == 161)
     assert(sectors_subsectors.ids[20] == "com__Laboratory")
     assert(sectors_subsectors.names[20] == "Commercial: Laboratory")
