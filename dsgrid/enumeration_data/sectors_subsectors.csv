@@ -52,6 +52,20 @@ com__Vacant,Commercial: Vacant
 com__VehicleDealershipShowroom,Commercial: VehicleDealershipShowroom
 com__VehicleServiceRepairShop,Commercial: VehicleServiceRepairShop
 com__VehicleStorageMaintenance,Commercial: VehicleStorageMaintenance
+com__SmallOffice,Commercial: Small Office
+com__LargeHotel,Commercial: Large Hotel
+com__StandaloneRetail,Commercial: Standalone Retail Store
+com__FullServiceRestaurant,Commercial: Full Service Restaurant
+com__StripMall,Commercial: Strip Mall
+com__Outpatient,Commercial: Outpatient Treatment Facility
+com__PrimarySchool,Commercial: Primary School
+com__Warehouse,Commercial: Warehouse
+com__MidriseApartment,Commercial: Midrise Appartment Building
+com__SmallHotel,Commercial: Small Hotel
+com__Hospital,Commercial: Hospital
+com__QuickServiceRestaurant,Commercial: Quick Service Restaurant
+com__MediumOffice,Commercial: Medium Office
+com__SecondarySchool,Commercial: Secondary School
 res__ApartmentInBuilding2to4Units,Residential: ApartmentInBuilding2to4Units
 res__ApartmentInBuilding5PlusUnits,Residential: ApartmentInBuilding5PlusUnits
 res__MobileHome,Residential: MobileHome

@@ -4,6 +4,7 @@ pumps,Pumps
 heating,Heating
 cooling,Cooling
 heat_rejection,Heat Rejection
+heat_rejection__water,Heat Rejection Water
 interior_lights,Interior Lights
 exterior_lights,Exterior Lights
 water_systems,Water Systems
@@ -28,3 +29,8 @@ electricity_generation,Conventional Electricity Generation
 other_nonprocess,Other Nonprocess Use
 not_reported,End-use not reported
 transportation,Transportation
+facility_heating__district_heating,Heating (District Heating)
+facility_cooling__district_cooling,Cooling (District Cooling)
+facility,Facility Electricity Use
+facility__gas,Facility Gas Use
+facility__water,Facility Water Use
