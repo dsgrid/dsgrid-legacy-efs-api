@@ -1,0 +1,2 @@
+
+class DSGridError(Exception): pass
