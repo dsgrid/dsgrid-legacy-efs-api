@@ -1,6 +1,6 @@
 from py.test import raises
 from .temphdf5 import TempHDF5File
-from dsgrid.enumeration import (
+from dsgrid.dataformat.enumeration import (
     Enumeration, SectorEnumeration, GeographyEnumeration,
     EndUseEnumeration, TimeEnumeration,
     allsectors, sectors, sectors_subsectors,

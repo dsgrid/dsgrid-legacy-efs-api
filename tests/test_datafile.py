@@ -1,8 +1,8 @@
 from .temphdf5 import TempHDF5Filepath
 from py.test import raises
-from dsgrid.datafile import Datafile
-from dsgrid.sectordataset import SectorDataset
-from dsgrid.enumeration import (
+from dsgrid.dataformat.datafile import Datafile
+from dsgrid.dataformat.sectordataset import SectorDataset
+from dsgrid.dataformat.enumeration import (
     sectors_subsectors, counties, enduses, hourly2012
 )
 

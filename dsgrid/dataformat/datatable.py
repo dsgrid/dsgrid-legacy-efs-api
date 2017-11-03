@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import h5py
-from dsgrid.sectordataset import ZERO_IDX
+from dsgrid.dataformat.sectordataset import ZERO_IDX
 
 class Datatable(object):
 
