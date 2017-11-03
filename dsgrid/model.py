@@ -22,6 +22,7 @@ class LoadModelComponent(object):
         self.name = name
         self.color = color
         self._datafile = None
+        self._datatable = None
 
     @property
     def key(self):
@@ -33,11 +34,12 @@ class LoadModelComponent(object):
     def load_datafile(self,filepath):
         self._datafile = Datafile(filepath)
 
-    @property
-    def datatable(self):
-        if self._datafile is not None:
-            return Datatable(self._datafile)
-        return None
+    def get_datatable(self,sort=True,**kwargs):
+        if self._datatable is None and self._datafile is not None:
+            self._datatable = Datatable(self._datafile,sort=sort,**kwargs)
+        if sort and not self._datatable.sorted:
+            self._datatable.sort()
+        return self._datatable
 
 
 class LoadModel(object):
