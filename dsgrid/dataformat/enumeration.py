@@ -128,6 +128,15 @@ counties = GeographyEnumeration.read_csv(
 states = GeographyEnumeration.read_csv(
     enumdata_folder + "states.csv", "states")
 
+census_divisions = GeographyEnumeration.read_csv(
+    enumdata_folder + "census_divisions.csv", "census_divisions")
+
+res_state_groups = GeographyEnumeration.read_csv(
+    enumdata_folder + "res_state_groups.csv", "state_groups")
+
+census_regions = GeographyEnumeration.read_csv(
+    enumdata_folder + "census_regions.csv", "census_regions")
+
 conus = GeographyEnumeration("conus", ["conus"], ["Continental United States"])
 
 ## End Uses
