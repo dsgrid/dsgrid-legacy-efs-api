@@ -143,6 +143,9 @@ conus = GeographyEnumeration("conus", ["conus"], ["Continental United States"])
 enduses = EndUseEnumeration.read_csv(
     enumdata_folder + "enduses.csv", "standard_enduses")
 
+gaps_enduses = EndUseEnumeration.read_csv(
+    enumdata_folder + "gaps_enduses.csv", "gaps_enduses")
+
 allenduses = EndUseEnumeration("all_enduses", ["All"], ["All End-uses"])
 
 # Time
