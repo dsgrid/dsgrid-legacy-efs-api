@@ -1,10 +1,10 @@
 import h5py
 from os.path import exists
 from warnings import warn
-from dsgrid.dataformat.enumeration import (
+from dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
     EndUseEnumeration, TimeEnumeration)
-from dsgrid.dataformat.sectordataset import SectorDataset
+from dataformat.sectordataset import SectorDataset
 
 # Python2 doesn't have a FileNotFoundError
 try:
