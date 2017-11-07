@@ -149,6 +149,9 @@ enduses = EndUseEnumeration.read_csv(
 gaps_enduses = EndUseEnumeration.read_csv(
     enumdata_folder + "gaps_enduses.csv", "gaps_enduses")
 
+fuel_types = EndUseEnumeration.read_csv(
+    enumdata_folder + "fuel_types.csv", "fuel_types")
+
 allenduses = EndUseEnumeration("all_enduses", ["All"], ["All End-uses"])
 
 # Time
