@@ -28,11 +28,15 @@ class LoadModelComponent(object):
     def key(self):
         return (self.component_type,self.name)
 
+    @property
+    def datafile(self):
+        return self._datafile
+
     def __str__(self):
         return "{}, {}".format(self.name,self.component_type.name)
 
     def load_datafile(self,filepath):
-        self._datafile = Datafile(filepath)
+        self._datafile = Datafile.load(filepath)
 
     def get_datatable(self,sort=True,**kwargs):
         if self._datatable is None and self._datafile is not None:
@@ -40,6 +44,12 @@ class LoadModelComponent(object):
         if sort and not self._datatable.sorted:
             self._datatable.sort()
         return self._datatable
+
+    def aggregate(self,dirpath,mapping):
+        result = LoadModelComponent(self.component_type,self.name,color=self.color)
+        if self._datafile:
+            result._datafile = self._datafile.aggregate(os.path.join(dirpath,os.path.basename(self.datafile.h5path)),mapping)
+        return result
 
 
 class LoadModel(object):
@@ -55,4 +65,14 @@ class LoadModel(object):
             if not isinstance(component,LoadModelComponent):
                 raise DSGridError("Expected a LoadModelComponent, got a {}.".format(type(component)))
             result.components[component.key] = component
+        return result
+
+    def aggregate(self,dirpath,mapping):
+        if os.path.exists(dirpath):
+            raise DSGridError("Must aggregate to a new location")
+        os.mkdir(dirpath)
+        result = LoadModel()
+        for key, component in self.components.items():
+            agg_component = component.aggregate(dirpath,mapping)
+            result.components[key] = agg_component
         return result

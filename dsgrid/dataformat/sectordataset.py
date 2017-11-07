@@ -6,7 +6,11 @@ ZERO_IDX = 65535
 
 class SectorDataset(object):
 
-    def __init__(self, sector_id, datafile, enduses=None, times=None, persist=False):
+    def __init__(self,sector_id,datafile,enduses=None,times=None,loading=False):
+        """
+        Initialize the SectorDataset within datafile. If not loading, then are
+        creating a new dataset and start persisting the new data.
+        """
 
         if sector_id not in datafile.sector_enum.ids:
             raise ValueError("Sector ID " + sector_id + " is not in " +
@@ -34,11 +38,8 @@ class SectorDataset(object):
         n_total_geos = len(datafile.geo_enum.ids)
         self.n_geos = 0
 
-
-        if persist:
-
+        if not loading:
             with h5py.File(self.datafile.h5path, "r+") as f:
-
                 n_enduses = len(self.enduses)
                 n_times = len(self.times)
 
@@ -64,20 +65,26 @@ class SectorDataset(object):
                     datafile.time_enum.ids.index(time)
                     for time in self.times], dtype="u2")
 
+
     def __eq__(self, other):
         return (
             isinstance(other, self.__class__) and
             self.__dict__ == self.__dict__
             )
 
+
     def __repr__(self):
         return "%s(%r)" % (self.__class__, self.__dict__)
+
 
     def __str__(self):
         return self.__repr__()
 
 
-    def add_data(self, dataframe, geo_ids, scalings=[]):
+    def add_data(self,dataframe,geo_ids,scalings=[]):
+        """
+        Add new data to this SectorDataset, as part of the self.datafile HDF5.
+        """
 
         if type(geo_ids) is not list:
             geo_ids = [geo_ids]
@@ -137,6 +144,7 @@ class SectorDataset(object):
             geo_scalings[id_idxs] = scalings
             dset.attrs["geo_scalings"] = geo_scalings
 
+
     def __setitem__(self, geo_ids, dataframe):
         self.add_data(dataframe, geo_ids)
 
@@ -145,7 +153,6 @@ class SectorDataset(object):
         id_idx = self.datafile.geo_enum.ids.index(geo_id)
 
         with h5py.File(self.datafile.h5path, "r") as f:
-
             dset = f["data/" + self.sector_id]
 
             geo_idx = dset.attrs["geo_mappings"][id_idx]
@@ -162,22 +169,56 @@ class SectorDataset(object):
                             dtype="float32")
 
     @classmethod
-    def loadall(cls, datafile, h5group):
-
+    def loadall(cls,datafile,h5group):
         enduses = np.array(datafile.enduse_enum.ids)
         times = np.array(datafile.time_enum.ids)
-
         sectors = {}
-
         for dset_id, dset in h5group.items():
-
             if isinstance(dset, h5py.Dataset):
-
                 sectors[dset_id] = cls(
                     dset_id,
                     datafile,
                     list(enduses[dset.attrs["enduse_mappings"][:]]),
-                    list(times[dset.attrs["time_mappings"][:]])
-                )
+                    list(times[dset.attrs["time_mappings"][:]]),
+                    loading=True)
 
         return sectors
+
+    def aggregate(self,agg_datafile,mapping):
+        result = self.__class__(self.sector_id,agg_datafile,
+            None if isinstance(mapping.to_enum,EndUseEnumeration) else self.enduses,
+            None if isinstance(mapping.to_enum,TimeEnumeration) else self.times)
+        if isinstance(mapping.to_enum,GeographyEnumeration):
+            # Geographic mapping. Aggregation proceeds alltogether.
+            data = OrderedDict()
+            for geo_id in self.datafile.geo_enum.ids:
+                new_geo_id = mapping.map(geo_id)
+                if new_geo_id in data:
+                    data[new_geo_id] = data[new_geo_id].add(self[geo_id],fill_value=0.0)
+                else:
+                    data[new_geo_id] = self[geo_id]
+            for new_geo_id in data:
+                result.add_data(data[new_geo_id],new_geo_id)
+        elif isinstance(mapping.to_enum,TimeEnumeration):
+            # Aggregate dataframe indices
+            for geo_id in self.datafile.geo_enum.ids:
+                df = self[geo_id]
+                cols = df.columns
+                df[mapping.to_enum.name] = df.index.apply(mapping.map)
+                df = df.pivot_table(index=maping.to_enum.name,
+                                    columns=cols,
+                                    aggfunc=np.sum,
+                                    fill_value=0.0)
+                result.add_data(df,geo_id)
+        elif isinstance(mapping.to_enum,EndUseEnumeration):
+            # Aggregate dataframe columns
+            for geo_id in self.datafile.geo_enum.ids:
+                df = self[geo_id]
+                df.columns = [mapping.map(col) for col in df.columns]
+                df = df.groupby(df.columns,axis=1).sum()
+                result.add_data(df,geo_id)
+        else:
+            raise DSGridError("SectorDataset is not able to aggregate to {}.".format(mapping.to_enum))
+
+
+

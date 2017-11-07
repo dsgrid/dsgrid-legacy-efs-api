@@ -21,7 +21,7 @@ def test_sectordataset_validation():
                times=["bogus_time"])
 
         dataset = SectorDataset("ind__22", datafile,
-                                ["heating", "cooling"], persist=True)
+                                ["heating", "cooling"])
         data = pd.DataFrame(columns=["heating", "cooling"],
                             index=hourly2012.ids, dtype="float32")
 

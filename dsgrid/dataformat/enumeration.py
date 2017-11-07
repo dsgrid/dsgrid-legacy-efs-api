@@ -150,3 +150,12 @@ hourly2012 = TimeEnumeration.read_csv(
     enumdata_folder + "hourly2012.csv", "standard_2012_hourly")
 
 annual = TimeEnumeration("annual", ["Annual"], ["Annual"])
+
+
+class AggregationMap(object):
+    def __init__(self,from_enum,to_enum):
+        self.from_enum = from_enum
+        self.to_enum = to_enum
+
+    def __getitem__(self,from_id):
+        pass

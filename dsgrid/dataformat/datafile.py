@@ -1,6 +1,9 @@
 import h5py
 from os.path import exists
+from shutil import copyfile
 from warnings import warn
+
+from dsgrid import DSGridNotImplemented
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
     EndUseEnumeration, TimeEnumeration)
@@ -14,29 +17,27 @@ except NameError:
 
 class Datafile(object):
 
-    def __init__(self, h5path,
-                 sector_enum=None, geography_enum=None,
-                 enduse_enum=None, time_enum=None):
-
+    def __init__(self,h5path,sector_enum,geography_enum,enduse_enum,time_enum,
+                 loading=False):
+        """
+        Create a new Datafile object.
+        """
         self.h5path = h5path
+        self.sector_enum = sector_enum
+        self.geo_enum = geography_enum
+        self.enduse_enum = enduse_enum
+        self.time_enum = time_enum
+        self.sectordata = {}
+        if not loading:
+            with h5py.File(self.h5path,mode="w-") as f:
+                enum_group = f.create_group("enumerations")
+                data_group = f.create_group("data")
 
-        if exists(h5path):
-
-            if sector_enum or geography_enum or time_enum or enduse_enum:
-                warn("File already exists at " + h5path +
-                        " and will be loaded: provided Enumerations will be ignored.")
-
-            self._load()
-
-        elif sector_enum and geography_enum and time_enum and enduse_enum:
-            self._new(sector_enum, geography_enum, enduse_enum, time_enum)
-
-        else:
-            raise FileNotFoundError("No file exists at " + h5path +
-                                    " - to create a new datafile, provide " +
-                                    "sector/subsector, geography, " +
-                                    "time, and enduse Enumerations.")
-
+                self.sector_enum.persist(enum_group)
+                self.geo_enum.persist(enum_group)
+                self.time_enum.persist(enum_group)
+                self.enduse_enum.persist(enum_group)
+                print("Saved enums to {}".format(self.h5path))
 
     def __eq__(self, other):
         return (
@@ -53,42 +54,44 @@ class Datafile(object):
     def __getitem__(self, sector_id):
         return self.sectordata[sector_id]
 
-    def _new(self, sector_enum, geo_enum, enduse_enum, time_enum):
-
-        with h5py.File(self.h5path, "w-") as f:
-
-            enum_group = f.create_group("enumerations")
-            data_group = f.create_group("data")
-
-            sector_enum.persist(enum_group)
-            geo_enum.persist(enum_group)
-            time_enum.persist(enum_group)
-            enduse_enum.persist(enum_group)
-
-        self.sector_enum = sector_enum
-        self.geo_enum = geo_enum
-        self.enduse_enum = enduse_enum
-        self.time_enum = time_enum
-        self.sectordata = {}
-
-
-    def _load(self):
-
-        with h5py.File(self.h5path, "r") as f:
-
+    @classmethod
+    def load(cls,filepath):
+        with h5py.File(filepath, "r") as f:
             enum_group = f["enumerations"]
-            self.sector_enum = SectorEnumeration.load(enum_group)
-            self.geo_enum = GeographyEnumeration.load(enum_group)
-            self.enduse_enum = EndUseEnumeration.load(enum_group)
-            self.time_enum = TimeEnumeration.load(enum_group)
+            result = cls(filepath,
+                         SectorEnumeration.load(enum_group),
+                         GeographyEnumeration.load(enum_group),
+                         EndUseEnumeration.load(enum_group),
+                         TimeEnumeration.load(enum_group),
+                         loading=True)
+            for sector_id, sector_dataset in SectorDataset.loadall(result,f["data"]).items():
+                result.sectordata[sector_id] = sector_dataset
+        return result
 
-            self.sectordata = SectorDataset.loadall(self, f["data"])
+    def save(self,filepath):
+        """
+        Save self to filepath and return newly created Datafile
+        """
+        copyfile(self.h5path,filepath)
+        return self.__class__.load(filepath)
 
+    def add_sector(self,sector_id,enduses=None,times=None):
+        """
+        Adds a SectorDataset to this file and returns it.
+        """
 
-    def add_sector(self, sector_id, enduses=None, times=None):
-
-        sector = SectorDataset(sector_id, self,
-                               enduses, times, persist=True)
+        sector = SectorDataset(sector_id,self,enduses=enduses,times=times)
         self.sectordata[sector_id] = sector
 
         return sector
+
+    def aggregate(self,filepath,mapping): 
+        if isinstance(mapping,to_enum,SectorEnumeration):
+            raise DSGridNotImplemented("Aggregating subsectors at the Datafile level has not yet been implemented. Datatables can be used to aggregate subsectors.")
+        result = self.__class__(filepath,
+            mapping.to_enum if isinstance(mapping.to_enum,SectorEnumeration) else self.sector_enum,
+            mapping.to_enum if isinstance(mapping.to_enum,GeographyEnumeration) else self.geo_enum,
+            mapping.to_enum if isinstance(mapping.to_enum,EndUseEnumeration) else self.enduse_enum,
+            mapping.to_enum if isinstance(mapping.to_enum,TimeEnumeration) else self.time_enum)
+        for sector_id, sectordataset in self.sectordata.items():
+            result[sector_id] = sectordataset.aggregate(result,mapping)
