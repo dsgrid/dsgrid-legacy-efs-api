@@ -119,6 +119,9 @@ enumdata_folder = path.join(path.dirname(__file__), "enumeration_data/")
 sectors_subsectors = SectorEnumeration.read_csv(
     enumdata_folder + "sectors_subsectors.csv", "standard_sector_subsectors")
 
+mecs_subsectors = SectorEnumeration.read_csv(
+    enumdata_folder + "mecs_subsectors.csv", "mecs_subsectors")
+
 sectors = SectorEnumeration.read_csv(
     enumdata_folder + "sectors.csv", "standard_sectors")
 
@@ -145,6 +148,12 @@ conus = GeographyEnumeration("conus", ["conus"], ["Continental United States"])
 ## End Uses
 enduses = EndUseEnumeration.read_csv(
     enumdata_folder + "enduses.csv", "standard_enduses")
+
+gaps_enduses = EndUseEnumeration.read_csv(
+    enumdata_folder + "gaps_enduses.csv", "gaps_enduses")
+
+fuel_types = EndUseEnumeration.read_csv(
+    enumdata_folder + "fuel_types.csv", "fuel_types")
 
 allenduses = EndUseEnumeration("all_enduses", ["All"], ["All End-uses"])
 

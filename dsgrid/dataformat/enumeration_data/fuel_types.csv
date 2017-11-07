@@ -1,0 +1,20 @@
+id,name
+motor_gasoline_excluding_e85,Motor Gasoline excluding E85
+e85,E85
+compressed/liquefied_natural_gas,Compressed/Liquefied Natural Gas
+propane,Propane
+electricity,Electricity
+distillate_fuel_oil_(diesel),Distillate Fuel Oil (diesel)
+motor_gasoline,Motor Gasoline
+residual_oil,Residual Oil
+jet_fuel,Jet Fuel
+aviation_gasoline,Aviation Gasoline
+jet_fuel_and_aviation_gasoline,Jet Fuel and Aviation Gasoline
+residual_fuel_oil,Residual Fuel Oil
+distillates_and_diesel,Distillates and Diesel
+diesel,Diesel
+gasoline,Gasoline
+lubricants,Lubricants
+pipeline_fuel_natural_gas,Pipeline Fuel Natural Gas
+water,Water
+natural_gas,Natrual Gas

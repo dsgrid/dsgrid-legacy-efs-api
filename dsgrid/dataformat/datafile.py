@@ -4,11 +4,12 @@ from os.path import exists
 from shutil import copyfile
 from warnings import warn
 
+
 from dsgrid import DSGridNotImplemented
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
     EndUseEnumeration, TimeEnumeration)
-from dsgrid.dataformat.sectordataset import SectorDataset
+from dataformat.sectordataset import SectorDataset
 
 logger = logging.getLogger(__name__)
 
