@@ -1,0 +1,82 @@
+id,name
+ind__311,Industry: Food
+ind__3112,Industry: Grain and Oilseed Milling
+ind__311221,Industry: Wet Corn Milling
+ind__31131,Industry: Sugar Manufacturing
+ind__3114,Industry: Fruit and Vegetable Preserving and Specialty Food 
+ind__3115,Industry: Dairy Product
+ind__3116,Industry: Animal Slaughtering and Processing
+ind__312,Industry: Beverage and Tobacco Products
+ind__3121,Industry:   Beverages
+ind__3122,Industry:   Tobacco 
+ind__313,Industry: Textile Mills
+ind__314,Industry: Textile Product Mills
+ind__315,Industry: Apparel
+ind__316,Industry: Leather and Allied Products
+ind__321,Industry: Wood Products
+ind__321113,Industry:   Sawmills
+ind__3212,"Industry:   Veneer, Plywood, and Engineered Woods"
+ind__321219,Industry:    Reconstituted Wood Products
+ind__3219,Industry:   Other Wood Products
+ind__322,Industry: Paper
+ind__322110,Industry:   Pulp Mills
+ind__322121,"Industry:   Paper Mills, except Newsprint"
+ind__322122,Industry:   Newsprint Mills
+ind__322130,Industry:   Paperboard Mills
+ind__323,Industry: Printing and Related Support
+ind__324,Industry: Petroleum and Coal Products
+ind__324110,Industry:   Petroleum Refineries
+ind__324121,Industry:    Asphalt Paving Mixture and Block
+ind__324122,Industry:    Asphalt Shingle and Coating Materials
+ind__324199,Industry:   Other Petroleum and Coal Products
+ind__325,Industry: Chemicals
+ind__325110,Industry:   Petrochemicals
+ind__325120,Industry:   Industrial Gases
+ind__325180,Industry:   Other Basic Inorganic Chemicals
+ind__325193,Industry:   Ethyl Alcohol 
+ind__325194,"Industry:   Cyclic Crudes, Intermediate and Gum and Wood Chemicals"
+ind__325199,Industry:   Other Basic Organic Chemicals
+ind__325211,Industry:   Plastics Materials and Resins
+ind__325212,Industry:   Synthetic Rubber
+ind__325220,Industry:   Artificial and Synthetic Fibers and Filaments
+ind__325311,Industry:   Nitrogenous Fertilizers
+ind__325312,Industry:   Phosphatic Fertilizers
+ind__3254,Industry:   Pharmaceuticals and Medicines
+ind__325412,Industry:   Pharmaceutical Preparation
+ind__325992,"Industry:   Photographic Film, Paper, Plate, and Chemicals"
+ind__326,Industry: Plastics and Rubber Products
+ind__327,Industry: Nonmetallic Mineral Products
+ind__327120,Industry:    Clay Building Material and Refractories
+ind__327211,Industry:   Flat Glass
+ind__327212,Industry:   Other Pressed and Blown Glass and Glassware
+ind__327213,Industry:   Glass Containers
+ind__327215,Industry:   Glass Products from Purchased Glass
+ind__327310,Industry:   Cements
+ind__327410,Industry:   Lime
+ind__327420,Industry:  Gypsum
+ind__327993,Industry:   Mineral Wool
+ind__331,Industry: Primary Metals
+ind__331110,Industry:   Iron and Steel Mills and Ferroalloys
+ind__3312,Industry:  Steel Products from Purchased Steel
+ind__3313,Industry:  Alumina and Aluminum
+ind__331314,Industry:   Secondary Smelting and Alloying of Aluminum
+ind__331315,"Industry:   Aluminum Sheet, Plate and Foils"
+ind__331318,"Industry:   Other Aluminum Rolling, Drawing and Extruding"
+ind__3314,"Industry:  Nonferrous Metals, except Aluminum"
+ind__331410,Industry:    Nonferrous Metal (except Aluminum) Smelting and Refining
+ind__3315,Industry:  Foundries
+ind__331511,Industry:    Iron Foundries
+ind__331523,Industry:    Nonferrous Metal Die-Casting Foundries
+ind__331524,"Industry:   Aluminum Foundries, except Die-Casting"
+ind__332,Industry: Fabricated Metal Products
+ind__333,Industry: Machinery
+ind__334,Industry: Computer and Electronic Products
+ind__334413,Industry:   Semiconductors and Related Devices
+ind__335,"Industry: Electrical Equip., Appliances, and Components"
+ind__336,Industry: Transportation Equipment
+ind__336111,Industry: Automobiles
+ind__336112,Industry:   Light Trucks and Utility Vehicles
+ind__3364,Industry: Aerospace Product and Parts
+ind__336411,Industry: Aircraft
+ind__337,Industry: Furniture and Related Products
+ind__339,Industry: Miscellaneous

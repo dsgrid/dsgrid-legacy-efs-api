@@ -116,8 +116,8 @@ enumdata_folder = path.join(path.dirname(__file__), "enumeration_data/")
 sectors_subsectors = SectorEnumeration.read_csv(
     enumdata_folder + "sectors_subsectors.csv", "standard_sector_subsectors")
 
-ind_subsectors = SectorEnumeration.read_csv(
-    enumdata_folder + "ind_subsectors.csv", "ind_subsectors")
+mecs_subsectors = SectorEnumeration.read_csv(
+    enumdata_folder + "mecs_subsectors.csv", "mecs_subsectors")
 
 sectors = SectorEnumeration.read_csv(
     enumdata_folder + "sectors.csv", "standard_sectors")
