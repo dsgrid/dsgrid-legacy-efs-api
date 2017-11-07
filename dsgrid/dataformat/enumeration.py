@@ -1,6 +1,9 @@
+from collections import defaultdict
 from os import path
 import numpy as np
 import pandas as pd
+
+from dsgrid import DSGridError
 
 ENCODING = "utf-8"
 
@@ -157,5 +160,90 @@ class AggregationMap(object):
         self.from_enum = from_enum
         self.to_enum = to_enum
 
-    def __getitem__(self,from_id):
-        pass
+    def map(self,from_id):
+        """
+        Returns the appropriate to_id.
+        """
+        return None
+
+
+class TautologyMapping(AggregationMap):
+    def __init__(self,from_to_enum):
+        super().__init__(from_to_enum,from_to_enum)
+
+    def map(self,from_id):
+        return from_id
+
+
+class Mappings(object):
+
+    def __init__(self):
+        self._mappings = defaultdict(lambda: None)
+
+    def add_mapping(self,mapping):
+        self._mappings[(mapping.from_enum.name,mapping.to_enum.name)] = mapping
+
+    def get_mapping(self,datafile,to_enum):
+        
+        from_enum = None
+        if isinstance(to_enum,SectorEnumeration):
+            from_enum = datafile.sector_enum
+        elif isinstance(to_enum,GeographyEnumeration):
+            from_enum = datafile.geo_enum
+        elif isinstance(to_enum,EndUseEnumeration):
+            from_enum = datafile.enduse_enum
+        elif isinstance(to_enum,TimeEnumeration):
+            from_enum = datafile.time_enum
+        else:
+            raise DSGridError("to_enum {} is not a recognized enumeration type.".format(repr(to_enum)))
+
+        key = (from_enum.name,to_enum.name)
+        if key in self._mappings:
+            return self._mappings[key]
+
+        # No immediate match
+        # Is the requested mapping a tautology?
+        if from_enum == to_enum:
+            return TautologyMapping(to_enum)
+        # Are elements in from_enum a subset of a stored mapping.from_enum?
+        candidates = [mapping for key, mapping in self._mappings.items() if key[1] == to_enum.name]
+        for candidate in candidates:
+            okay = True
+            for from_id in from_enum.ids:
+                if from_id not in candidate.from_enum.ids:
+                    okay = False
+                    break
+            if okay:
+                return candidate
+        return None
+
+
+class FilterOnlyMap(AggregationMap):
+
+    def __init__(self,from_enum,to_enum,exclude_list=[]):
+        super().__init__(from_enum,to_enum)
+        if len(to_enum.ids) > 1:
+            raise DSGridError("FilterOnlyMaps are aggregates that may exclude " + 
+                "some items, but otherwise aggretate up to one quantity. " + 
+                "to_enum {} contains too many items.".format(repr(to_enum)))
+        self.to_id = to_enum.ids[0]
+
+        self.exclude_list = exclude_list
+        for exclude_item in self.exclude_list:
+            if exclude_item not in from_enum.ids:
+                raise DSGridError("exclude_list must contain ids in from_enum " + 
+                    "that are to be exluded from the overall aggregation. "
+                    "Found {} in exclude list, which is not in {}.".format(exclude_item,from_enum))
+
+    def map(self,from_id):
+        if from_id in self.exclude_list:
+            return None
+        return self.to_id
+
+
+mappings = Mappings()
+mappings.add_mapping(FilterOnlyMap(states,conus,exclude_list=['AK','HI']))
+mappings.add_mapping(FilterOnlyMap(hourly2012,annual))
+mappings.add_mapping(FilterOnlyMap(sectors,allsectors))
+mappings.add_mapping(FilterOnlyMap(sectors_subsectors,allsectors))
+mappings.add_mapping(FilterOnlyMap(enduses,allenduses))

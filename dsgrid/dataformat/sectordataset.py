@@ -1,6 +1,11 @@
+from collections import OrderedDict
 import h5py
 import numpy as np
 import pandas as pd
+
+from dsgrid.dataformat.enumeration import (
+    SectorEnumeration, GeographyEnumeration,
+    EndUseEnumeration, TimeEnumeration)
 
 ZERO_IDX = 65535
 
@@ -193,6 +198,9 @@ class SectorDataset(object):
             data = OrderedDict()
             for geo_id in self.datafile.geo_enum.ids:
                 new_geo_id = mapping.map(geo_id)
+                if new_geo_id is None:
+                    # No mapping--filter out
+                    continue
                 if new_geo_id in data:
                     data[new_geo_id] = data[new_geo_id].add(self[geo_id],fill_value=0.0)
                 else:
@@ -204,9 +212,11 @@ class SectorDataset(object):
             for geo_id in self.datafile.geo_enum.ids:
                 df = self[geo_id]
                 cols = df.columns
-                df[mapping.to_enum.name] = df.index.apply(mapping.map)
-                df = df.pivot_table(index=maping.to_enum.name,
-                                    columns=cols,
+                df[mapping.to_enum.name] = df.index.to_series().apply(mapping.map)
+                # Filter out unmapped items
+                df = df[~(df[mapping.to_enum.name] == None)]
+                df = df.pivot_table(index=mapping.to_enum.name,
+                                    values=cols,
                                     aggfunc=np.sum,
                                     fill_value=0.0)
                 result.add_data(df,geo_id)
@@ -215,10 +225,13 @@ class SectorDataset(object):
             for geo_id in self.datafile.geo_enum.ids:
                 df = self[geo_id]
                 df.columns = [mapping.map(col) for col in df.columns]
+                # Filter out unmapped items
+                df = df[[col for col in df.columns if col is not None]]
                 df = df.groupby(df.columns,axis=1).sum()
                 result.add_data(df,geo_id)
         else:
             raise DSGridError("SectorDataset is not able to aggregate to {}.".format(mapping.to_enum))
+        return result
 
 
 

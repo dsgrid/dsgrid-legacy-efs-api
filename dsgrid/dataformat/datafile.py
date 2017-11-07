@@ -1,4 +1,5 @@
 import h5py
+import logging
 from os.path import exists
 from shutil import copyfile
 from warnings import warn
@@ -9,11 +10,8 @@ from dsgrid.dataformat.enumeration import (
     EndUseEnumeration, TimeEnumeration)
 from dsgrid.dataformat.sectordataset import SectorDataset
 
-# Python2 doesn't have a FileNotFoundError
-try:
-    FileNotFoundError
-except NameError:
-    FileNotFoundError = IOError
+logger = logging.getLogger(__name__)
+
 
 class Datafile(object):
 
@@ -37,7 +35,7 @@ class Datafile(object):
                 self.geo_enum.persist(enum_group)
                 self.time_enum.persist(enum_group)
                 self.enduse_enum.persist(enum_group)
-                print("Saved enums to {}".format(self.h5path))
+                logger.debug("Saved enums to {}".format(self.h5path))
 
     def __eq__(self, other):
         return (
@@ -86,7 +84,7 @@ class Datafile(object):
         return sector
 
     def aggregate(self,filepath,mapping): 
-        if isinstance(mapping,to_enum,SectorEnumeration):
+        if isinstance(mapping.to_enum,SectorEnumeration):
             raise DSGridNotImplemented("Aggregating subsectors at the Datafile level has not yet been implemented. Datatables can be used to aggregate subsectors.")
         result = self.__class__(filepath,
             mapping.to_enum if isinstance(mapping.to_enum,SectorEnumeration) else self.sector_enum,
@@ -94,4 +92,6 @@ class Datafile(object):
             mapping.to_enum if isinstance(mapping.to_enum,EndUseEnumeration) else self.enduse_enum,
             mapping.to_enum if isinstance(mapping.to_enum,TimeEnumeration) else self.time_enum)
         for sector_id, sectordataset in self.sectordata.items():
-            result[sector_id] = sectordataset.aggregate(result,mapping)
+            assert sectordataset is not None, "sector_id {} in file {} contains no data".format(sector_id,self.h5path)
+            result.sectordata[sector_id] = sectordataset.aggregate(result,mapping)
+        return result
