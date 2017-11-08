@@ -9,7 +9,7 @@ from dsgrid import DSGridNotImplemented
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
     EndUseEnumeration, TimeEnumeration)
-from dataformat.sectordataset import SectorDataset
+from dsgrid.dataformat.sectordataset import SectorDataset
 
 logger = logging.getLogger(__name__)
 
@@ -94,5 +94,6 @@ class Datafile(object):
             mapping.to_enum if isinstance(mapping.to_enum,TimeEnumeration) else self.time_enum)
         for sector_id, sectordataset in self.sectordata.items():
             assert sectordataset is not None, "sector_id {} in file {} contains no data".format(sector_id,self.h5path)
+            print("Aggregating {} in {}".format(sector_id,self.h5path))
             result.sectordata[sector_id] = sectordataset.aggregate(result,mapping)
         return result

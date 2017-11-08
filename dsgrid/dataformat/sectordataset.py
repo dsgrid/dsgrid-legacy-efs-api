@@ -173,6 +173,14 @@ class SectorDataset(object):
                             columns=self.enduses,
                             dtype="float32")
 
+    def is_empty(self,geo_id):
+        id_idx = self.datafile.geo_enum.ids.index(geo_id)
+        with h5py.File(self.datafile.h5path, "r") as f:
+            dset = f["data/" + self.sector_id]
+
+            geo_idx = dset.attrs["geo_mappings"][id_idx]
+            return geo_idx == ZERO_IDX
+
     @classmethod
     def loadall(cls,datafile,h5group):
         enduses = np.array(datafile.enduse_enum.ids)
@@ -197,6 +205,9 @@ class SectorDataset(object):
             # Geographic mapping. Aggregation proceeds alltogether.
             data = OrderedDict()
             for geo_id in self.datafile.geo_enum.ids:
+                if self.is_empty(geo_id):
+                    # No data--ignore
+                    continue
                 new_geo_id = mapping.map(geo_id)
                 if new_geo_id is None:
                     # No mapping--filter out
@@ -210,6 +221,9 @@ class SectorDataset(object):
         elif isinstance(mapping.to_enum,TimeEnumeration):
             # Aggregate dataframe indices
             for geo_id in self.datafile.geo_enum.ids:
+                if self.is_empty(geo_id):
+                    # No data--ignore
+                    continue
                 df = self[geo_id]
                 cols = df.columns
                 df[mapping.to_enum.name] = df.index.to_series().apply(mapping.map)
@@ -223,6 +237,9 @@ class SectorDataset(object):
         elif isinstance(mapping.to_enum,EndUseEnumeration):
             # Aggregate dataframe columns
             for geo_id in self.datafile.geo_enum.ids:
+                if self.is_empty(geo_id):
+                    # No data--ignore
+                    continue
                 df = self[geo_id]
                 df.columns = [mapping.map(col) for col in df.columns]
                 # Filter out unmapped items

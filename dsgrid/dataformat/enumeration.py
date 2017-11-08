@@ -1,5 +1,6 @@
 from collections import defaultdict
-from os import path
+import os
+
 import numpy as np
 import pandas as pd
 
@@ -69,6 +70,16 @@ class Enumeration(object):
     def __str__(self):
         return self.__repr__()
 
+    def is_subset(self,other_enum):
+        """
+        Returns true if this Enumeration is a subset of other_enum.
+        """
+        if not isinstance(other_enum,self.__class__):
+            return False
+        for my_id in self.ids:
+            if not (my_id in other_enum.ids):
+                return False
+        return True
 
     def persist(self, h5group):
 
@@ -113,7 +124,7 @@ class TimeEnumeration(Enumeration):
 
 # Define standard enumerations
 
-enumdata_folder = path.join(path.dirname(__file__), "enumeration_data/")
+enumdata_folder = os.path.join(os.path.dirname(__file__), "enumeration_data/")
 
 ## Sectors
 sectors_subsectors = SectorEnumeration.read_csv(
@@ -184,6 +195,50 @@ class TautologyMapping(AggregationMap):
         return from_id
 
 
+class FilterOnlyMap(AggregationMap):
+
+    def __init__(self,from_enum,to_enum,exclude_list=[]):
+        super().__init__(from_enum,to_enum)
+        if len(to_enum.ids) > 1:
+            raise DSGridError("FilterOnlyMaps are aggregates that may exclude " + 
+                "some items, but otherwise aggretate up to one quantity. " + 
+                "to_enum {} contains too many items.".format(repr(to_enum)))
+        self.to_id = to_enum.ids[0]
+
+        self.exclude_list = exclude_list
+        for exclude_item in self.exclude_list:
+            if exclude_item not in from_enum.ids:
+                raise DSGridError("exclude_list must contain ids in from_enum " + 
+                    "that are to be exluded from the overall aggregation. "
+                    "Found {} in exclude list, which is not in {}.".format(exclude_item,from_enum))
+
+    def map(self,from_id):
+        if from_id in self.exclude_list:
+            return None
+        return self.to_id
+
+
+class ExplicitMap(AggregationMap):
+    def __init__(self,from_enum,to_enum,dictmap):
+        super().__init__(from_enum,to_enum)
+        self._dictmap = defaultdict(lambda: None)
+        for from_id, to_id in dictmap.items():
+            if from_id not in self.from_enum.ids:
+                raise DSGridError("Id {} is not in from_enum {}.".format(from_id,self.from_enum))
+            if to_id not in self.to_enum.ids:
+                raise DSGridError("Id {} is not in to_enum {}.".format(to_id,self.to_enum))
+            self._dictmap[from_id] = to_id
+
+    def map(self,from_id):
+        return self._dictmap[from_id]
+
+    @classmethod
+    def create_from_csv(cls,from_enum,to_enum,filepath):
+        mapdata = pd.read_csv(filepath,dtype=str)
+        return cls(from_enum,to_enum,
+                   {from_id: to_id for from_id, to_id in zip(mapdata.from_id,mapdata.to_id)})
+
+
 class Mappings(object):
 
     def __init__(self):
@@ -214,6 +269,8 @@ class Mappings(object):
         # Is the requested mapping a tautology?
         if from_enum == to_enum:
             return TautologyMapping(to_enum)
+        if from_enum.is_subset(to_enum):
+            return TautologyMapping(to_enum)
         # Are elements in from_enum a subset of a stored mapping.from_enum?
         candidates = [mapping for key, mapping in self._mappings.items() if key[1] == to_enum.name]
         for candidate in candidates:
@@ -227,32 +284,11 @@ class Mappings(object):
         return None
 
 
-class FilterOnlyMap(AggregationMap):
-
-    def __init__(self,from_enum,to_enum,exclude_list=[]):
-        super().__init__(from_enum,to_enum)
-        if len(to_enum.ids) > 1:
-            raise DSGridError("FilterOnlyMaps are aggregates that may exclude " + 
-                "some items, but otherwise aggretate up to one quantity. " + 
-                "to_enum {} contains too many items.".format(repr(to_enum)))
-        self.to_id = to_enum.ids[0]
-
-        self.exclude_list = exclude_list
-        for exclude_item in self.exclude_list:
-            if exclude_item not in from_enum.ids:
-                raise DSGridError("exclude_list must contain ids in from_enum " + 
-                    "that are to be exluded from the overall aggregation. "
-                    "Found {} in exclude list, which is not in {}.".format(exclude_item,from_enum))
-
-    def map(self,from_id):
-        if from_id in self.exclude_list:
-            return None
-        return self.to_id
-
-
 mappings = Mappings()
+mappings.add_mapping(ExplicitMap.create_from_csv(counties,states,os.path.join(enumdata_folder,'counties_to_states.csv')))
 mappings.add_mapping(FilterOnlyMap(states,conus,exclude_list=['AK','HI']))
 mappings.add_mapping(FilterOnlyMap(hourly2012,annual))
 mappings.add_mapping(FilterOnlyMap(sectors,allsectors))
 mappings.add_mapping(FilterOnlyMap(sectors_subsectors,allsectors))
 mappings.add_mapping(FilterOnlyMap(enduses,allenduses))
+mappings.add_mapping(ExplicitMap.create_from_csv(enduses,fuel_types,os.path.join(enumdata_folder,'enduses_to_fuel_types.csv')))
