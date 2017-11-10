@@ -43,7 +43,13 @@ class SectorDataset(object):
         n_total_geos = len(datafile.geo_enum.ids)
         self.n_geos = 0
 
-        if not loading:
+        if loading:
+            # determine how many geos
+            with h5py.File(self.datafile.h5path,'r') as f:
+                dset = f["data/" + self.sector_id]
+                geo_ptrs = [x for x in dset.attrs["geo_mappings"] if not (x == ZERO_IDX)]
+                self.n_geos = len(set(geo_ptrs))
+        else:
             with h5py.File(self.datafile.h5path, "r+") as f:
                 n_enduses = len(self.enduses)
                 n_times = len(self.times)
@@ -86,7 +92,7 @@ class SectorDataset(object):
         return self.__repr__()
 
 
-    def add_data(self,dataframe,geo_ids,scalings=[]):
+    def add_data(self,dataframe,geo_ids,scalings=[],full_validation=True):
         """
         Add new data to this SectorDataset, as part of the self.datafile HDF5.
         """
@@ -104,26 +110,29 @@ class SectorDataset(object):
             raise ValueError("Geography ID and scale factor " +
                              "list lengths must match")
 
-        for geo_id in geo_ids:
-            if geo_id not in self.datafile.geo_enum.ids:
-                raise ValueError("Geography ID must be in the " +
-                                 "DataFile's GeographyEnumeration")
+        if full_validation:
+            for geo_id in geo_ids:
+                if geo_id not in self.datafile.geo_enum.ids:
+                    raise ValueError("Geography ID must be in the " +
+                                     "DataFile's GeographyEnumeration")
 
         if len(dataframe.index.unique()) != len(dataframe.index):
             raise ValueError("DataFrame row indices must be unique")
 
-        for time in dataframe.index:
-            if time not in self.times:
-                raise ValueError("All time IDs (DataFrame row indices) must be " +
-                                 "in the DataFile's TimeEnumeration")
+        if full_validation:
+            for time in dataframe.index:
+                if time not in self.times:
+                    raise ValueError("All time IDs (DataFrame row indices) must be " +
+                                     "in the DataFile's TimeEnumeration")
 
         if len(dataframe.columns.unique()) != len(dataframe.columns):
             raise ValueError("DataFrame column names must be unique")
 
-        for enduse in dataframe.columns:
-            if enduse not in self.enduses:
-                raise ValueError("All end-use IDs (DataFrame column names) must be " +
-                                 "in the DataFile's EndUseEnumeration")
+        if full_validation:
+            for enduse in dataframe.columns:
+                if enduse not in self.enduses:
+                    raise ValueError("All end-use IDs (DataFrame column names) must be " +
+                                     "in the DataFile's EndUseEnumeration")
 
         id_idxs = np.array([
             self.datafile.geo_enum.ids.index(geo_id)
@@ -197,8 +206,8 @@ class SectorDataset(object):
 
         return sectors
 
-    def aggregate(self,agg_datafile,mapping):
-        result = self.__class__(self.sector_id,agg_datafile,
+    def map_dimension(self,new_datafile,mapping):
+        result = self.__class__(self.sector_id,new_datafile,
             None if isinstance(mapping.to_enum,EndUseEnumeration) else self.enduses,
             None if isinstance(mapping.to_enum,TimeEnumeration) else self.times)
         if isinstance(mapping.to_enum,GeographyEnumeration):
@@ -217,9 +226,9 @@ class SectorDataset(object):
                 else:
                     data[new_geo_id] = self[geo_id]
             for new_geo_id in data:
-                result.add_data(data[new_geo_id],new_geo_id)
+                result.add_data(data[new_geo_id],[new_geo_id],full_validation=False)
         elif isinstance(mapping.to_enum,TimeEnumeration):
-            # Aggregate dataframe indices
+            # Map dataframe indices
             for geo_id in self.datafile.geo_enum.ids:
                 if self.is_empty(geo_id):
                     # No data--ignore
@@ -233,9 +242,9 @@ class SectorDataset(object):
                                     values=cols,
                                     aggfunc=np.sum,
                                     fill_value=0.0)
-                result.add_data(df,geo_id)
+                result.add_data(df,[geo_id],full_validation=False)
         elif isinstance(mapping.to_enum,EndUseEnumeration):
-            # Aggregate dataframe columns
+            # Map dataframe columns
             for geo_id in self.datafile.geo_enum.ids:
                 if self.is_empty(geo_id):
                     # No data--ignore
@@ -245,10 +254,28 @@ class SectorDataset(object):
                 # Filter out unmapped items
                 df = df[[col for col in df.columns if col is not None]]
                 df = df.groupby(df.columns,axis=1).sum()
-                result.add_data(df,geo_id)
+                result.add_data(df,[geo_id],full_validation=False)
         else:
-            raise DSGridError("SectorDataset is not able to aggregate to {}.".format(mapping.to_enum))
+            raise DSGridError("SectorDataset is not able to map to {}.".format(mapping.to_enum))
         return result
 
 
+    def scale_data(self,new_datafile,factor=0.001):
+        """
+        Scale all the data in self by factor, creating a new HDF5 file and 
+        corresponding Datafile. 
+
+        Arguments:
+            - filepath (str) - Location for the new HDF5 file to be created
+            - factor (float) - Factor by which all the data in the file is to be
+                  multiplied. The default value of 0.001 corresponds to converting
+                  the bottom-up data from kWh to MWh.
+        """
+        result = self.__class__(self.sector_id,new_datafile,self.enduses,self.times)
+        for geo_id in self.datafile.geo_enum.ids:
+            if self.is_empty(geo_id):
+                continue
+            df = self[geo_id] * factor
+            result.add_data(df,[geo_id],full_validation=False)
+        return result
 

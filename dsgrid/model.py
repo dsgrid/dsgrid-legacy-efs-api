@@ -50,18 +50,36 @@ class LoadModelComponent(object):
             self._datatable.sort()
         return self._datatable
 
-    def aggregate(self,dirpath,to_enum,mappings):
+    def map_dimension(self,dirpath,to_enum,mappings):
         result = LoadModelComponent(self.component_type,self.name,color=self.color)
         if self._datafile:
             mapping = mappings.get_mapping(self._datafile,to_enum)
             if mapping is None:
-                logger.warn("Unable to aggregate Component {} to {}".format(self.name,to_enum.name))
+                logger.warn("Unable to map Component {} to {}".format(self.name,to_enum.name))
                 return None
             p = os.path.join(dirpath,os.path.basename(self.datafile.h5path))
             if isinstance(mapping,TautologyMapping):
                 result._datafile = self._datafile.save(p)
             else:
-                result._datafile = self._datafile.aggregate(p,mapping)
+                result._datafile = self._datafile.map_dimension(p,mapping)
+        return result
+
+    def scale_data(self,dirpath,factor=0.001):
+        """
+        Scale all the data in self.datafile by factor, creating a new HDF5 file 
+        and corresponding LoadModelComponent. 
+
+        Arguments:
+            - dirpath (str) - Folder the new version of the data should be 
+                  placed in. This LoadModelComponent's filename will be retained.
+            - factor (float) - Factor by which all the data in the file is to be
+                  multiplied. The default value of 0.001 corresponds to converting
+                  the bottom-up data from kWh to MWh.
+        """
+        result = LoadModelComponent(self.component_type,self.name,color=self.color)
+        if self._datafile:
+            p = os.path.join(dirpath,os.path.basename(self.datafile.h5path))
+            result._datafile = self._datafile.scale_data(p,factor=factor)
         return result
 
 
@@ -80,12 +98,12 @@ class LoadModel(object):
             result.components[component.key] = component
         return result
 
-    def aggregate(self,dirpath,to_enum,mappings):
+    def map_dimension(self,dirpath,to_enum,mappings):
         if os.path.exists(dirpath):
-            raise DSGridError("Must aggregate to a new location")
+            raise DSGridError("Must map_dimension to a new location")
         os.mkdir(dirpath)
         result = LoadModel()
         for key, component in self.components.items():
-            agg_component = component.aggregate(dirpath,to_enum,mappings)
+            agg_component = component.map_dimension(dirpath,to_enum,mappings)
             result.components[key] = agg_component
         return result

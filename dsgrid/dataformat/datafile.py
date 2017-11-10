@@ -84,9 +84,9 @@ class Datafile(object):
 
         return sector
 
-    def aggregate(self,filepath,mapping): 
+    def map_dimension(self,filepath,mapping): 
         if isinstance(mapping.to_enum,SectorEnumeration):
-            raise DSGridNotImplemented("Aggregating subsectors at the Datafile level has not yet been implemented. Datatables can be used to aggregate subsectors.")
+            raise DSGridNotImplemented("Mapping/aggregating subsectors at the Datafile level has not yet been implemented. Datatables can be used to map/aggregate subsectors.")
         result = self.__class__(filepath,
             mapping.to_enum if isinstance(mapping.to_enum,SectorEnumeration) else self.sector_enum,
             mapping.to_enum if isinstance(mapping.to_enum,GeographyEnumeration) else self.geo_enum,
@@ -94,6 +94,25 @@ class Datafile(object):
             mapping.to_enum if isinstance(mapping.to_enum,TimeEnumeration) else self.time_enum)
         for sector_id, sectordataset in self.sectordata.items():
             assert sectordataset is not None, "sector_id {} in file {} contains no data".format(sector_id,self.h5path)
-            print("Aggregating {} in {}".format(sector_id,self.h5path))
-            result.sectordata[sector_id] = sectordataset.aggregate(result,mapping)
+            print("Mapping data for {} in {}".format(sector_id,self.h5path))
+            result.sectordata[sector_id] = sectordataset.map_dimension(result,mapping)
+        return result
+
+    def scale_data(self,filepath,factor=0.001):
+        """
+        Scale all the data in self by factor, creating a new HDF5 file and 
+        corresponding Datafile. 
+
+        Arguments:
+            - filepath (str) - Location for the new HDF5 file to be created
+            - factor (float) - Factor by which all the data in the file is to be
+                  multiplied. The default value of 0.001 corresponds to converting
+                  the bottom-up data from kWh to MWh.
+        """
+        result = self.__class__(filepath,self.sector_enum,self.geo_enum,
+                                self.enduse_enum,self.time_enum)
+        for sector_id, sectordataset in self.sectordata.items():
+            assert sectordataset is not None, "sector_id {} in file {} contains no data".format(sector_id,self.h5path)
+            print("Scaling data for {} in {}".format(sector_id,self.h5path))
+            result.sectordata[sector_id] = sectordataset.scale_data(result,factor=factor)
         return result

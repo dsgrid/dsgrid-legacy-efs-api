@@ -175,7 +175,7 @@ hourly2012 = TimeEnumeration.read_csv(
 annual = TimeEnumeration("annual", ["Annual"], ["Annual"])
 
 
-class AggregationMap(object):
+class DimensionMap(object):
     def __init__(self,from_enum,to_enum):
         self.from_enum = from_enum
         self.to_enum = to_enum
@@ -187,7 +187,7 @@ class AggregationMap(object):
         return None
 
 
-class TautologyMapping(AggregationMap):
+class TautologyMapping(DimensionMap):
     def __init__(self,from_to_enum):
         super().__init__(from_to_enum,from_to_enum)
 
@@ -195,12 +195,18 @@ class TautologyMapping(AggregationMap):
         return from_id
 
 
-class FilterOnlyMap(AggregationMap):
+class FullAggregationMap(DimensionMap):
 
     def __init__(self,from_enum,to_enum,exclude_list=[]):
+        """
+        Arguments:
+            - to_enum (Enumeration) - an enumeration with exactly one element
+            - exclude_list (list of from_enum.ids) - from_enum values that should 
+                  be dropped from the aggregation
+        """
         super().__init__(from_enum,to_enum)
         if len(to_enum.ids) > 1:
-            raise DSGridError("FilterOnlyMaps are aggregates that may exclude " + 
+            raise DSGridError("FullAggregationMaps are aggregates that may exclude " + 
                 "some items, but otherwise aggretate up to one quantity. " + 
                 "to_enum {} contains too many items.".format(repr(to_enum)))
         self.to_id = to_enum.ids[0]
@@ -218,7 +224,24 @@ class FilterOnlyMap(AggregationMap):
         return self.to_id
 
 
-class ExplicitMap(AggregationMap):
+class FilterToSubsetMap(DimensionMap):
+    def __init__(self,from_enum,to_enum):
+        """
+        Arguments:
+            - to_enum (Enumeration) - should be a subset of from_enum
+        """
+        super().__init__(from_enum,to_enum)
+        for to_id in to_enum.ids:
+            if not to_id in from_enum.ids:
+                raise DSGridError("to_enum should be a subset of from_enum")
+
+    def map(self,from_id):
+        if from_id in self.to_enum.ids:
+            return from_id
+        return None
+
+
+class ExplicitMap(DimensionMap):
     def __init__(self,from_enum,to_enum,dictmap):
         super().__init__(from_enum,to_enum)
         self._dictmap = defaultdict(lambda: None)
@@ -286,9 +309,9 @@ class Mappings(object):
 
 mappings = Mappings()
 mappings.add_mapping(ExplicitMap.create_from_csv(counties,states,os.path.join(enumdata_folder,'counties_to_states.csv')))
-mappings.add_mapping(FilterOnlyMap(states,conus,exclude_list=['AK','HI']))
-mappings.add_mapping(FilterOnlyMap(hourly2012,annual))
-mappings.add_mapping(FilterOnlyMap(sectors,allsectors))
-mappings.add_mapping(FilterOnlyMap(sectors_subsectors,allsectors))
-mappings.add_mapping(FilterOnlyMap(enduses,allenduses))
+mappings.add_mapping(FullAggregationMap(states,conus,exclude_list=['AK','HI']))
+mappings.add_mapping(FullAggregationMap(hourly2012,annual))
+mappings.add_mapping(FullAggregationMap(sectors,allsectors))
+mappings.add_mapping(FullAggregationMap(sectors_subsectors,allsectors))
+mappings.add_mapping(FullAggregationMap(enduses,allenduses))
 mappings.add_mapping(ExplicitMap.create_from_csv(enduses,fuel_types,os.path.join(enumdata_folder,'enduses_to_fuel_types.csv')))

@@ -1,0 +1,36 @@
+id,name
+fans,Fans
+pumps,Pumps
+heating,Heating
+cooling,Cooling
+heat_rejection,Heat Rejection
+heat_rejection__water,Heat Rejection (Water)
+interior_lights,Interior Lights
+exterior_lights,Exterior Lights
+water_systems,Water Systems
+interior_equipment,Interior Equipment
+heating__gas,Heating (Gas)
+water_systems__gas,Water Systems (Gas)
+interior_equipment__gas,InteriorEquipment (Gas)
+water_systems__water,Water Systems (Water)
+heating__district_heating,Heating (District Heating)
+cooling__district_cooling,Cooling (District Cooling)
+boiler,Conventional Boiler Use
+chp_cogen,CHP Cogeneration Process
+process_heating,Process Heating
+process_cooling,Process Cooling and Refrigeration
+machine_drive,Machine Drive
+electrochemical,Electrochemical Processes
+other_process,Other Process Use
+facility_hvac,Facility HVAC
+facility_lighting,Facility Lighting
+facility_other,Other Facility Support
+electricity_generation,Conventional Electricity Generation
+other_nonprocess,Other Nonprocess Use
+not_reported,End-use not reported
+transportation,Transportation
+facility_heating__district_heating,Total District Heating
+facility_cooling__district_cooling,Total District Cooling
+facility,Total Electricity
+facility__gas,Total Natual Gas
+facility__water,Total Water
