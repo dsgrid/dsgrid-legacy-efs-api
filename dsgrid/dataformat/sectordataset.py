@@ -291,7 +291,7 @@ class SectorDataset(object):
                 # apply the mapping
                 df.columns = [mapping.map(col) for col in df.columns]
                 # filter out unmapped items
-                df = df[[col for col in df.columns if col is not None]]
+                df = df.iloc[:,[i for i, col in enumerate(df.columns) if col is not None]]
                 df = df.groupby(df.columns,axis=1).sum()
 
                 # add the mapped data to the new file
