@@ -182,6 +182,40 @@ class SectorDataset(object):
                             columns=self.enduses,
                             dtype="float32")
 
+    def get_data(self, dataset_geo_index):
+        """
+        Get data in this file's native format. 
+
+        Arguments:
+            - dataset_geo_index (int) - Index into the geography dimension of 
+                  this dataset. Is an integer in the range [0,self.n_geos) that
+                  corresponds to the values in this dataset's geo_mappings that 
+                  are not equal to ZERO_IDX.
+
+        Returns dataframe, geo_ids, scalings that are needed to add_data.
+        """
+        if (dataset_geo_index < 0) or (not dataset_geo_index < self.n_geos):
+            raise ValueError("dataset_geo_index must be in the range [0,{})".format(self.n_geos))
+
+        with h5py.File(self.datafile.h5path, "r") as f:
+
+            dset = f["data/" + self.sector_id]
+            data = dset[dataset_geo_index, :, :]
+            data = data.T
+            df = pd.DataFrame(data,
+                              index=self.times,
+                              columns=self.enduses,
+                              dtype="float32")
+
+            geo_mappings = dset.attrs["geo_mappings"][:]
+            geo_idxs = [i for i, val in enumerate(geo_mappings) if val == dataset_geo_index]
+            geo_ids = [self.datafile.geo_enum.ids[i] for i in geo_idxs]
+
+            geo_scalings = dset.attrs["geo_scalings"][:]
+            scalings = [geo_scalings[i] for i in geo_idxs]
+        return df, geo_ids, scalings
+
+
     def is_empty(self,geo_id):
         id_idx = self.datafile.geo_enum.ids.index(geo_id)
         with h5py.File(self.datafile.h5path, "r") as f:
@@ -211,7 +245,8 @@ class SectorDataset(object):
             None if isinstance(mapping.to_enum,EndUseEnumeration) else self.enduses,
             None if isinstance(mapping.to_enum,TimeEnumeration) else self.times)
         if isinstance(mapping.to_enum,GeographyEnumeration):
-            # Geographic mapping. Aggregation proceeds alltogether.
+            # Geographic mapping. Aggregation proceeds alltogether
+            # TODO: See if this can be sped up using the get_data method
             data = OrderedDict()
             for geo_id in self.datafile.geo_enum.ids:
                 if self.is_empty(geo_id):
@@ -227,34 +262,41 @@ class SectorDataset(object):
                     data[new_geo_id] = self[geo_id]
             for new_geo_id in data:
                 result.add_data(data[new_geo_id],[new_geo_id],full_validation=False)
+
         elif isinstance(mapping.to_enum,TimeEnumeration):
             # Map dataframe indices
-            for geo_id in self.datafile.geo_enum.ids:
-                if self.is_empty(geo_id):
-                    # No data--ignore
-                    continue
-                df = self[geo_id]
+            for i in range(self.n_geos):
+                # pull data
+                df, geo_ids, scalings = self.get_data(i)
+
+                # apply the mapping
                 cols = df.columns
                 df[mapping.to_enum.name] = df.index.to_series().apply(mapping.map)
-                # Filter out unmapped items
+                # filter out unmapped items
                 df = df[~(df[mapping.to_enum.name] == None)]
                 df = df.pivot_table(index=mapping.to_enum.name,
                                     values=cols,
                                     aggfunc=np.sum,
                                     fill_value=0.0)
-                result.add_data(df,[geo_id],full_validation=False)
+
+                # add the mapped data to the new file
+                result.add_data(df,geo_ids,scalings=scalings,full_validation=False)
+
         elif isinstance(mapping.to_enum,EndUseEnumeration):
             # Map dataframe columns
-            for geo_id in self.datafile.geo_enum.ids:
-                if self.is_empty(geo_id):
-                    # No data--ignore
-                    continue
-                df = self[geo_id]
+            for i in range(self.n_geos):
+                # pull data
+                df, geo_ids, scalings = self.get_data(i)
+
+                # apply the mapping
                 df.columns = [mapping.map(col) for col in df.columns]
-                # Filter out unmapped items
+                # filter out unmapped items
                 df = df[[col for col in df.columns if col is not None]]
                 df = df.groupby(df.columns,axis=1).sum()
-                result.add_data(df,[geo_id],full_validation=False)
+
+                # add the mapped data to the new file
+                result.add_data(df,geo_ids,scalings=scalings,full_validation=False)
+
         else:
             raise DSGridError("SectorDataset is not able to map to {}.".format(mapping.to_enum))
         return result
@@ -272,10 +314,15 @@ class SectorDataset(object):
                   the bottom-up data from kWh to MWh.
         """
         result = self.__class__(self.sector_id,new_datafile,self.enduses,self.times)
-        for geo_id in self.datafile.geo_enum.ids:
-            if self.is_empty(geo_id):
-                continue
-            df = self[geo_id] * factor
-            result.add_data(df,[geo_id],full_validation=False)
+        # pull data
+        for i in range(self.n_geos):
+            df, geo_ids, scalings = self.get_data(i)
+
+            # apply the scaling
+            scalings = [x * factor for x in scalings]
+
+            # add the mapped data to the new file
+            result.add_data(df,geo_ids,scalings=scalings,full_validation=False)
+
         return result
 
