@@ -1,11 +1,15 @@
-from collections import OrderedDict
+from collections import defaultdict, OrderedDict
 import h5py
+import logging
 import numpy as np
 import pandas as pd
 
+from dsgrid import DSGridError, DSGridNotImplemented
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
     EndUseEnumeration, TimeEnumeration)
+
+logger = logging.getLogger(__name__)
 
 ZERO_IDX = 65535
 
@@ -100,15 +104,16 @@ class SectorDataset(object):
         if type(geo_ids) is not list:
             geo_ids = [geo_ids]
 
-        if type(scalings) is not list:
+        if not isinstance(scalings,(list,np.ndarray)):
             scalings = [scalings]
 
         if len(scalings) == 0:
             scalings = [1 for x in geo_ids]
 
         elif len(scalings) != len(geo_ids):
-            raise ValueError("Geography ID and scale factor " +
-                             "list lengths must match")
+            raise ValueError("Geography ID and scale factor list lengths must " + 
+                "match, but len(geo_ids) = {} and len(scalings) = {}, ".format(len(geo_ids),len(scalings)) + 
+                "where geo_ids = {}, scalings = {}.".format(geo_ids,scalings))
 
         if full_validation:
             for geo_id in geo_ids:
@@ -182,7 +187,7 @@ class SectorDataset(object):
                             columns=self.enduses,
                             dtype="float32")
 
-    def get_data(self, dataset_geo_index):
+    def get_data(self, dataset_geo_index, return_geo_ids_scales=True):
         """
         Get data in this file's native format. 
 
@@ -195,8 +200,9 @@ class SectorDataset(object):
         Returns dataframe, geo_ids, scalings that are needed to add_data.
         """
         if (dataset_geo_index < 0) or (not dataset_geo_index < self.n_geos):
-            raise ValueError("dataset_geo_index must be in the range [0,{})".format(self.n_geos))
+            raise ValueError("dataset_geo_index must be in the range [0,{}), but is {}.".format(self.n_geos,dataset_geo_index))
 
+        geo_ids = None; scalings = None
         with h5py.File(self.datafile.h5path, "r") as f:
 
             dset = f["data/" + self.sector_id]
@@ -207,13 +213,36 @@ class SectorDataset(object):
                               columns=self.enduses,
                               dtype="float32")
 
-            geo_mappings = dset.attrs["geo_mappings"][:]
-            geo_idxs = [i for i, val in enumerate(geo_mappings) if val == dataset_geo_index]
-            geo_ids = [self.datafile.geo_enum.ids[i] for i in geo_idxs]
+            if return_geo_ids_scales:
+                geo_mappings = dset.attrs["geo_mappings"][:]
+                geo_idxs = [i for i, val in enumerate(geo_mappings) if val == dataset_geo_index]
+                geo_ids = [self.datafile.geo_enum.ids[i] for i in geo_idxs]
 
-            geo_scalings = dset.attrs["geo_scalings"][:]
-            scalings = [geo_scalings[i] for i in geo_idxs]
+                geo_scalings = dset.attrs["geo_scalings"][:]
+                scalings = [geo_scalings[i] for i in geo_idxs]
+
         return df, geo_ids, scalings
+
+
+    def get_geo_map(self):
+        """
+        Returns ordered dict of dataset_geo_index: (geo_ids, scalings)
+        """
+        geo_mappings = None; geo_scalings = None
+        with h5py.File(self.datafile.h5path,"r") as f:
+            dset = f["data/" + self.sector_id]
+            geo_mappings = dset.attrs["geo_mappings"][:]
+            geo_scalings = dset.attrs["geo_scalings"][:]
+        temp_dict = defaultdict(lambda: ([],[]))
+        for i, val in enumerate(geo_mappings):
+            if val == ZERO_IDX:
+                continue
+            temp_dict[val][0].append(self.datafile.geo_enum.ids[i])
+            temp_dict[val][1].append(geo_scalings[i])
+        result = OrderedDict()
+        for val in sorted(temp_dict.keys()):
+            result[val] = temp_dict[val]
+        return result
 
 
     def is_empty(self,geo_id):
@@ -241,29 +270,98 @@ class SectorDataset(object):
         return sectors
 
     def map_dimension(self,new_datafile,mapping):
+        # import ExplicitDisaggregation here to avoid circular import but be 
+        # able to test and raise DSGridNotImplemented as needed
+        from dsgrid.dataformat.dimmap import ExplicitDisaggregation
+
         result = self.__class__(self.sector_id,new_datafile,
             None if isinstance(mapping.to_enum,EndUseEnumeration) else self.enduses,
             None if isinstance(mapping.to_enum,TimeEnumeration) else self.times)
         if isinstance(mapping.to_enum,GeographyEnumeration):
-            # Geographic mapping. Aggregation proceeds alltogether
-            # TODO: See if this can be sped up using the get_data method
-            data = OrderedDict()
-            for geo_id in self.datafile.geo_enum.ids:
-                if self.is_empty(geo_id):
-                    # No data--ignore
-                    continue
-                new_geo_id = mapping.map(geo_id)
-                if new_geo_id is None:
-                    # No mapping--filter out
-                    continue
-                if new_geo_id in data:
-                    data[new_geo_id] = data[new_geo_id].add(self[geo_id],fill_value=0.0)
+            # 1. Figure out how geography is mapped now, where it needs to get
+            # mapped to, and what the new scalings should be on a 
+            # per-dataset_geo_index basis
+            from_geo_map = self.get_geo_map() # dataset_geo_index: (geo_ids, scalings) in THIS dataset
+            to_geo_map = OrderedDict()        # DITTO, but for mapped dataset, ignoring aggregation for now
+            # new_geo_id: [dataset_geo_indices] so can see what aggregation needs to be done
+            new_geo_ids_to_dataset_geo_index_map = defaultdict(lambda: []) 
+            for dataset_geo_index in from_geo_map:
+                geo_ids, scalings = from_geo_map[dataset_geo_index]
+                new_geo_ids = []
+                new_scalings = []
+                for i, geo_id in enumerate(geo_ids):
+                    new_geo_id = mapping.map(geo_id)
+                    if new_geo_id is None:
+                        # filtering out; moving on
+                        continue
+                    if isinstance(new_geo_id,list):
+                        # disaggregating
+                        new_geo_ids += new_geo_id
+                        new_scaling = mapping.get_scalings(new_geo_id)
+                        logger.debug("Disaggregating.\n  new_geo_id: {}".format(new_geo_id) + 
+                                     "\n  new_scaling: {}".format(new_scaling))
+                        new_scalings = np.concatenate((new_scalings, (new_scaling * scalings[i])))
+                        for newid in new_geo_id:
+                            new_geo_ids_to_dataset_geo_index_map[newid].append(dataset_geo_index)
+                    else:
+                        new_geo_ids.append(new_geo_id)
+                        new_scalings.append(scalings[i])
+                        new_geo_ids_to_dataset_geo_index_map[new_geo_id].append(dataset_geo_index)
+                to_geo_map[dataset_geo_index] = (new_geo_ids,new_scalings)
+
+            # 2. Step through via new_geo_ids_to_dataset_geo_index_map. Pull out 
+            # new_geo_ids that are aggregations across dataset_geo_indices. Then
+            # process those new_geo_ids first.
+            pulled_data = OrderedDict() # dataset_geo_index: df
+            def get_df(dataset_geo_index,new_geo_id):
+                if not (dataset_geo_index in pulled_data):
+                    # pull the original data
+                    df, geo_ids, scalings = self.get_data(dataset_geo_index)
+                    pulled_data[dataset_geo_index] = df
+                # pull the scaling factor
+                ind = to_geo_map[dataset_geo_index][0].index(new_geo_id)
+                scale = to_geo_map[dataset_geo_index][1][ind]
+                # calculate the result
+                result = pulled_data[dataset_geo_index] * scale
+                # delete the items in to_geo_map that have now been handled
+                to_geo_map[dataset_geo_index] = (
+                    [x for i, x in enumerate(to_geo_map[dataset_geo_index][0]) if not (i == ind)],
+                    [x for i, x in enumerate(to_geo_map[dataset_geo_index][1]) if not (i == ind)])
+                # if this to_geo_map entry is empty, delete it, and delete the
+                # pulled_data too
+                assert len(to_geo_map[dataset_geo_index][0]) == len(to_geo_map[dataset_geo_index][1])
+                if len(to_geo_map[dataset_geo_index][0]) == 0:
+                    del to_geo_map[dataset_geo_index]
+                    del pulled_data[dataset_geo_index]
+                return result
+
+            require_aggregation = []
+            for new_geo_id in new_geo_ids_to_dataset_geo_index_map:
+                if len(new_geo_ids_to_dataset_geo_index_map[new_geo_id]) > 1:
+                    require_aggregation.append(new_geo_id)
+            for new_geo_id in require_aggregation:
+                aggdf = None
+                for dataset_geo_index in new_geo_ids_to_dataset_geo_index_map[new_geo_id]:
+                    tempdf = get_df(dataset_geo_index,new_geo_id)
+                    if aggdf is None:
+                        aggdf = tempdf
+                    else:
+                        aggdf = aggdf.add(tempdf,fill_value=0.0)
+                result.add_data(aggdf,[new_geo_id],full_validation=False)
+
+            # 3. Now add data that did not need to be aggregated
+            for dataset_geo_index in to_geo_map:
+                geo_ids, scalings = to_geo_map[dataset_geo_index]
+                if dataset_geo_index in pulled_data:
+                    df = pulled_data[dataset_geo_index]
+                    del pulled_data[dataset_geo_index]
                 else:
-                    data[new_geo_id] = self[geo_id]
-            for new_geo_id in data:
-                result.add_data(data[new_geo_id],[new_geo_id],full_validation=False)
+                    df, junk1, junk2 = self.get_data(dataset_geo_index,return_geo_ids_scales=False)
+                result.add_data(df,geo_ids,scalings=scalings,full_validation=False)
 
         elif isinstance(mapping.to_enum,TimeEnumeration):
+            if isinstance(mapping,ExplicitDisaggregation):
+                raise DSGridNotImplemented("Temporal disaggregations have not been implemented.")
             # Map dataframe indices
             for i in range(self.n_geos):
                 # pull data
@@ -283,6 +381,8 @@ class SectorDataset(object):
                 result.add_data(df,geo_ids,scalings=scalings,full_validation=False)
 
         elif isinstance(mapping.to_enum,EndUseEnumeration):
+            if isinstance(mapping,ExplicitDisaggregation):
+                raise DSGridNotImplemented("End-use disaggregations have not been implemented.")
             # Map dataframe columns
             for i in range(self.n_geos):
                 # pull data

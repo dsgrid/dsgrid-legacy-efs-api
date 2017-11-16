@@ -6,7 +6,7 @@ import os
 from dsgrid import DSGridError
 from dsgrid.dataformat.datafile import Datafile
 from dsgrid.dataformat.datatable import Datatable
-from dsgrid.dataformat.enumeration import TautologyMapping
+from dsgrid.dataformat.dimmap import TautologyMapping
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +17,7 @@ class LoadModelStatus(Enum):
 
 class ComponentType(Enum):
     BOTTOMUP = auto()
+    GAP = auto()
     TOPDOWN = auto()
     DERIVED = auto()
 
@@ -50,14 +51,14 @@ class LoadModelComponent(object):
             self._datatable.sort()
         return self._datatable
 
-    def map_dimension(self,dirpath,to_enum,mappings):
+    def map_dimension(self,dirpath,to_enum,mappings,filename_prefix=''):
         result = LoadModelComponent(self.component_type,self.name,color=self.color)
         if self._datafile:
             mapping = mappings.get_mapping(self._datafile,to_enum)
             if mapping is None:
                 logger.warn("Unable to map Component {} to {}".format(self.name,to_enum.name))
                 return None
-            p = os.path.join(dirpath,os.path.basename(self.datafile.h5path))
+            p = os.path.join(dirpath,filename_prefix + os.path.basename(self.datafile.h5path))
             if isinstance(mapping,TautologyMapping):
                 result._datafile = self._datafile.save(p)
             else:
