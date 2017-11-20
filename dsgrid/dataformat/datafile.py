@@ -96,7 +96,7 @@ class Datafile(object):
 
         return sector
 
-    def map_dimension(self,filepath,mapping): 
+    def map_dimension(self,filepath,mapping):
         result = self.__class__(filepath,
             mapping.to_enum if isinstance(mapping.to_enum,SectorEnumeration) else self.sector_enum,
             mapping.to_enum if isinstance(mapping.to_enum,GeographyEnumeration) else self.geo_enum,
@@ -136,8 +136,8 @@ class Datafile(object):
 
     def scale_data(self,filepath,factor=0.001):
         """
-        Scale all the data in self by factor, creating a new HDF5 file and 
-        corresponding Datafile. 
+        Scale all the data in self by factor, creating a new HDF5 file and
+        corresponding Datafile.
 
         Arguments:
             - filepath (str) - Location for the new HDF5 file to be created
