@@ -1,0 +1,13 @@
+id,name
+boiler,Conventional Boiler Use
+process_heating,Process Heating
+process_cooling,Process Cooling and Refrigeration
+machine_drive,Machine Drive
+electrochemical,Electrochemical Processes
+other_process,Other Process Use
+facility_hvac,Facility HVAC
+facility_lighting,Facility Lighting
+facility_other,Other Facility Support
+other_nonprocess,Other Nonprocess Use
+not_reported,End-use not reported
+transportation,Transportation

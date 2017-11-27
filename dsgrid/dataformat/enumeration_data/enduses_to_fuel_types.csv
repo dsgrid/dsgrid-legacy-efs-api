@@ -1,0 +1,13 @@
+from_id,to_id
+fans,electricity
+pumps,electricity
+heating,electricity
+cooling,electricity
+interior_lights,electricity
+exterior_lights,electricity
+water_systems,electricity
+interior_equipment,electricity
+heating__gas,natural_gas
+water_systems__gas,natural_gas
+interior_equipment__gas,natural_gas
+water_systems__water,water

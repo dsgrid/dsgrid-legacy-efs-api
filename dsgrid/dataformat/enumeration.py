@@ -1,4 +1,5 @@
-from os import path
+import os
+
 import numpy as np
 import pandas as pd
 
@@ -66,6 +67,16 @@ class Enumeration(object):
     def __str__(self):
         return self.__repr__()
 
+    def is_subset(self,other_enum):
+        """
+        Returns true if this Enumeration is a subset of other_enum.
+        """
+        if not isinstance(other_enum,self.__class__):
+            return False
+        for my_id in self.ids:
+            if not (my_id in other_enum.ids):
+                return False
+        return True
 
     def persist(self, h5group):
 
@@ -110,11 +121,14 @@ class TimeEnumeration(Enumeration):
 
 # Define standard enumerations
 
-enumdata_folder = path.join(path.dirname(__file__), "enumeration_data/")
+enumdata_folder = os.path.join(os.path.dirname(__file__), "enumeration_data/")
 
 ## Sectors
 sectors_subsectors = SectorEnumeration.read_csv(
     enumdata_folder + "sectors_subsectors.csv", "standard_sector_subsectors")
+
+mecs_subsectors = SectorEnumeration.read_csv(
+    enumdata_folder + "mecs_subsectors.csv", "mecs_subsectors")
 
 sectors = SectorEnumeration.read_csv(
     enumdata_folder + "sectors.csv", "standard_sectors")
@@ -128,11 +142,26 @@ counties = GeographyEnumeration.read_csv(
 states = GeographyEnumeration.read_csv(
     enumdata_folder + "states.csv", "states")
 
+census_divisions = GeographyEnumeration.read_csv(
+    enumdata_folder + "census_divisions.csv", "census_divisions")
+
+res_state_groups = GeographyEnumeration.read_csv(
+    enumdata_folder + "res_state_groups.csv", "state_groups")
+
+census_regions = GeographyEnumeration.read_csv(
+    enumdata_folder + "census_regions.csv", "census_regions")
+
 conus = GeographyEnumeration("conus", ["conus"], ["Continental United States"])
 
 ## End Uses
 enduses = EndUseEnumeration.read_csv(
     enumdata_folder + "enduses.csv", "standard_enduses")
+
+gaps_enduses = EndUseEnumeration.read_csv(
+    enumdata_folder + "gaps_enduses.csv", "gaps_enduses")
+
+fuel_types = EndUseEnumeration.read_csv(
+    enumdata_folder + "fuel_types.csv", "fuel_types")
 
 allenduses = EndUseEnumeration("all_enduses", ["All"], ["All End-uses"])
 

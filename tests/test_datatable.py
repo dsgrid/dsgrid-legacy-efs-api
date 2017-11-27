@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
-from dsgrid.datatable import Datatable
+from dsgrid.dataformat.datatable import Datatable
 from .temphdf5 import TempHDF5Filepath
-from dsgrid.datafile import Datafile
-from dsgrid.enumeration import (
+from dsgrid.dataformat.datafile import Datafile
+from dsgrid.dataformat.enumeration import (
     sectors_subsectors, states, enduses, hourly2012
 )
 

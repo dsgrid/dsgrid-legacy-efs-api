@@ -1,6 +1,6 @@
 from py.test import raises
 from .temphdf5 import TempHDF5File
-from dsgrid.enumeration import (
+from dsgrid.dataformat.enumeration import (
     Enumeration, SectorEnumeration, GeographyEnumeration,
     EndUseEnumeration, TimeEnumeration,
     allsectors, sectors, sectors_subsectors,
@@ -22,9 +22,9 @@ def test_enumeration_prepackaged():
 
     assert(len(conus) == 1)
 
-    assert(len(states) == 49)
-    assert(states.ids[4] == "CO")
-    assert(states.names[40] == "Tennessee")
+    assert(len(states) == 51)
+    assert(states.ids[5] == "CO")
+    assert(states.names[42] == "Tennessee")
 
     assert(len(counties) == 3108)
     assert(counties.ids[245] == "08059")

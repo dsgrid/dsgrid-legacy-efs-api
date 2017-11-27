@@ -1,0 +1,39 @@
+id,name
+air_conditioning,Air Conditioning
+computing,Computing
+cooking,Cooking
+lighting,Lighting
+office_equipment,Office Equipment
+other,Other
+refrigeration,Refrigeration
+space_heating,Space Heating
+ventilation,Ventilation
+water_heating,Water Heating
+conventional_boiler_use,Conventional Boiler Use
+electro-chemical_processes,Electro-Chemical Processes
+end_use_not_reported,End Use Not Reported
+facility_hvac_(g),Facility HVAC (g)
+facility_lighting,Facility Lighting
+machine_drive,Machine Drive
+onsite_transportation,Onsite Transportation
+other_facility_support,Other Facility Support
+other_nonprocess_use,Other Nonprocess Use
+other_process_use,Other Process Use
+process_cooling_and_refrigeration,Process Cooling and Refrigeration
+process_heating,Process Heating
+agriculture,Agriculture
+construction,Construction
+mining,Mining
+air,Air
+bus_transportation,Bus Transportation
+commercial_light_trucks,Commercial Light Trucks
+freight_trucks,Freight Trucks
+light_duty_vehicles,Light Duty Vehicles
+lubricants,Lubricants
+military_use,Military Use
+pipeline_fuel_natural_gas,Pipeline Fuel Natural Gas
+rail_freight,Rail Freight
+rail_passenger,Rail Passenger
+recreational_boats,Recreational Boats
+shipping_domestic,Shipping Domestic
+shipping_international,Shipping International

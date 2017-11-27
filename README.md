@@ -1,10 +1,12 @@
-# dsgrid Data Marshalling
+# dsgrid Load Model
 
-This package provides functionality for marshaling sector-based electricity demand data (stored in a Pandas DataFrame) into the common dsgrid HDF5 data format and persisting it to disk. The package should work on both Python 2 and Python 3.
+This package provides an API for dsgrid load models for Python 2 and Python 3. It consists of the following modules:
+
+- *dataformat* - functionality for marshaling sector-based electricity demand data, which is stored in a particular HDF5 data format on disk 
 
 ## Installation
 
-Download the latest source distribution tarball from the repo [releases page](https://github.com/dsgrid/dataformat/releases) (e.g. `dsgrid-x.y.z.tar.gz`), and run:
+Download the latest source distribution tarball from the repo [releases page](https://github.com/dsgrid/dsgrid-load/releases) (e.g. `dsgrid-x.y.z.tar.gz`), and run:
 
 ```
 pip install /filepath/to/dsgrid.x.y.z.tar.gz
