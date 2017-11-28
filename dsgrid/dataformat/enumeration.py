@@ -133,6 +133,9 @@ mecs_subsectors = SectorEnumeration.read_csv(
 sectors = SectorEnumeration.read_csv(
     enumdata_folder + "sectors.csv", "standard_sectors")
 
+sectors_eia_extended = SectorEnumeration.read_csv(
+    enumdata_folder + "sectors_eia_extended.csv", "sectors_eia_extended")
+
 allsectors = SectorEnumeration("all_sectors", ["All"], ["All Sectors"])
 
 ## Geographies
@@ -147,6 +150,9 @@ census_divisions = GeographyEnumeration.read_csv(
 
 res_state_groups = GeographyEnumeration.read_csv(
     enumdata_folder + "res_state_groups.csv", "state_groups")
+
+loss_state_groups = GeographyEnumeration.read_csv(
+    enumdata_folder + "loss_state_groups.csv", "loss_state_groups")
 
 census_regions = GeographyEnumeration.read_csv(
     enumdata_folder + "census_regions.csv", "census_regions")
