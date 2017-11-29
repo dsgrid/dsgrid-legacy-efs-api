@@ -234,6 +234,13 @@ class SectorDataset(object):
         return df, geo_ids, scalings
 
 
+    def copy_data(self,other_sectordataset,full_validation=True):
+        for i in range(self.n_geos):
+            # pull data
+            df, geo_ids, scalings = self.get_data(i)
+            other_sectordataset.add_data(df,geo_ids,scalings=scalings,full_validation=full_validation)
+
+
     def get_geo_map(self):
         """
         Returns ordered dict of dataset_geo_index: (geo_ids, scalings)
