@@ -118,6 +118,12 @@ class LoadModel(object):
             result.components[component.key] = component
         return result
 
+    def save(self,dirpath,clean=False):
+        if clean and os.path.exists(dirpath):
+            shutil.rmtree(dirpath)
+        os.mkdir(dirpath)
+        return self.create([component.save(dirpath) for key, component in self.components.items()])
+
     def map_dimension(self,dirpath,to_enum,mappings):
         if os.path.exists(dirpath):
             raise DSGridError("Must map_dimension to a new location")
@@ -129,6 +135,10 @@ class LoadModel(object):
         return result
 
     def move_sectors(self,dirpath,from_component_key,to_component_key,sectors_to_move):
+        """
+        Moves sectors_to_move from_component_key to_component_key. If 
+        to_component_key is None, simply drops those sectors.
+        """
         if os.path.exists(dirpath):
             raise DSGridError("Must move_sectors to a new location")
         os.mkdir(dirpath)
@@ -153,7 +163,7 @@ class LoadModel(object):
             shutil.rmtree(dirpath)
             return None
 
-        if to_component is None:
+        if (to_component is None) and (to_component_key is not None):
             logger.error("Cannot move sectors {} to component {}, because it was not found. Available components are: {}".format(
                 sectors_to_move,to_component_key,list(self.components.keys())))
             shutil.rmtree(dirpath)
@@ -187,32 +197,34 @@ class LoadModel(object):
                 current_enum.names.append(enum_name)
             return current_enum
 
-        new_to_file = os.path.join(dirpath,os.path.basename(to_component.datafile.h5path))
-        sector_enum = to_component.datafile.sector_enum
-        for sector_id in data_to_move:
-            sector_enum = append_enum_value(sector_enum,sector_id,from_component.datafile.sector_enum)
-        enduse_enum = to_component.datafile.enduse_enum
-        for sector_id, sectordataset in data_to_move.items():
-            for enduse_id in sectordataset.enduses:
-                enduse_enum = append_enum_value(enduse_enum,enduse_id,from_component.datafile.enduse_enum)
-        new_to_h5 = Datafile(new_to_file,
-                             sector_enum,
-                             to_component.datafile.geo_enum,
-                             enduse_enum,
-                             to_component.datafile.time_enum)
-        logger.info("Transferring {}".format(to_component_key))
-        for sector_id, sectordataset in to_component.datafile.sectordata.items():
-            new_sector = new_to_h5.add_sector(sector_id,enduses=sectordataset.enduses,times=sectordataset.times)
-            sectordataset.copy_data(new_sector,full_validation=False) # there should be no validation issues
+        if to_component_key is not None:
+            assert to_component is not None
+            new_to_file = os.path.join(dirpath,os.path.basename(to_component.datafile.h5path))
+            sector_enum = to_component.datafile.sector_enum
+            for sector_id in data_to_move:
+                sector_enum = append_enum_value(sector_enum,sector_id,from_component.datafile.sector_enum)
+            enduse_enum = to_component.datafile.enduse_enum
+            for sector_id, sectordataset in data_to_move.items():
+                for enduse_id in sectordataset.enduses:
+                    enduse_enum = append_enum_value(enduse_enum,enduse_id,from_component.datafile.enduse_enum)
+            new_to_h5 = Datafile(new_to_file,
+                                 sector_enum,
+                                 to_component.datafile.geo_enum,
+                                 enduse_enum,
+                                 to_component.datafile.time_enum)
+            logger.info("Transferring {}".format(to_component_key))
+            for sector_id, sectordataset in to_component.datafile.sectordata.items():
+                new_sector = new_to_h5.add_sector(sector_id,enduses=sectordataset.enduses,times=sectordataset.times)
+                sectordataset.copy_data(new_sector,full_validation=False) # there should be no validation issues
 
-        # Mow add to-be-moved data to to_component
-        logger.info("Appending part of {} to {}".format(from_component_key,to_component_key))
-        for sector_id, sectordataset in data_to_move.items():
-            new_sector = new_to_h5.add_sector(sector_id,enduses=sectordataset.enduses,times=sectordataset.times)
-            sectordataset.copy_data(new_sector) # validate because the data being transfered come from somewhere else
+            # Mow add to-be-moved data to to_component
+            logger.info("Appending part of {} to {}".format(from_component_key,to_component_key))
+            for sector_id, sectordataset in data_to_move.items():
+                new_sector = new_to_h5.add_sector(sector_id,enduses=sectordataset.enduses,times=sectordataset.times)
+                sectordataset.copy_data(new_sector) # validate because the data being transfered come from somewhere else
 
-        new_to_component = LoadModelComponent.clone(to_component,filepath=new_to_file)
-        result.components[to_component_key] = new_to_component
+            new_to_component = LoadModelComponent.clone(to_component,filepath=new_to_file)
+            result.components[to_component_key] = new_to_component
 
         assert len(result.components) == len(self.components)
         return result

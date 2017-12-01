@@ -1,0 +1,10 @@
+from_id,to_id
+east_north_central,midwest
+east_south_central,south
+mid_atlantic,northeast
+mountain,west
+new_england,northeast
+pacific,west
+south_atlantic,south
+west_north_central,midwest
+west_south_central,south

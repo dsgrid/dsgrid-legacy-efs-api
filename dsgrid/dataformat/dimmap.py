@@ -8,8 +8,9 @@ from dsgrid import DSGridError
 from dsgrid.dataformat.datatable import Datatable
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration, EndUseEnumeration, TimeEnumeration,
-    allenduses,allsectors,annual,conus,counties,enduses,enumdata_folder,
-    fuel_types,hourly2012,loss_state_groups,sectors,sectors_subsectors,states)
+    allenduses,allsectors,annual,census_divisions,census_regions,conus,counties,
+    enduses,enumdata_folder,fuel_types,hourly2012,loss_state_groups,sectors,
+    sectors_subsectors,states)
 
 class DimensionMap(object):
     def __init__(self,from_enum,to_enum):
@@ -224,9 +225,13 @@ class Mappings(object):
 mappings = Mappings()
 mappings.add_mapping(ExplicitAggregation.create_from_csv(counties,states,os.path.join(enumdata_folder,'counties_to_states.csv')))
 mappings.add_mapping(FullAggregationMap(states,conus,exclude_list=['AK','HI']))
+mappings.add_mapping(FullAggregationMap(census_regions,conus))
 mappings.add_mapping(FullAggregationMap(hourly2012,annual))
 mappings.add_mapping(FullAggregationMap(sectors,allsectors))
 mappings.add_mapping(FullAggregationMap(sectors_subsectors,allsectors))
 mappings.add_mapping(FullAggregationMap(enduses,allenduses))
 mappings.add_mapping(ExplicitAggregation.create_from_csv(enduses,fuel_types,os.path.join(enumdata_folder,'enduses_to_fuel_types.csv')))
 mappings.add_mapping(ExplicitAggregation.create_from_csv(states,loss_state_groups,os.path.join(enumdata_folder,'states_to_loss_state_groups.csv')))
+# Sneaky trick here--dropping non-CONUS states
+mappings.add_mapping(ExplicitAggregation.create_from_csv(states,census_divisions,os.path.join(enumdata_folder,'states_to_census_divisions_conus_only.csv')))
+mappings.add_mapping(ExplicitAggregation.create_from_csv(census_divisions,census_regions,os.path.join(enumdata_folder,'census_divisions_to_census_regions.csv')))
