@@ -8,8 +8,9 @@ from dsgrid import DSGridError
 from dsgrid.dataformat.datatable import Datatable
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration, EndUseEnumeration, TimeEnumeration,
-    allenduses,allsectors,annual,conus,counties,enduses,enumdata_folder,
-    fuel_types,hourly2012,sectors,sectors_subsectors,states)
+    allenduses,allsectors,annual,census_divisions,census_regions,conus,counties,
+    enduses,enumdata_folder,fuel_types,hourly2012,loss_state_groups,sectors,
+    sectors_subsectors,states)
 
 class DimensionMap(object):
     def __init__(self,from_enum,to_enum):
@@ -91,7 +92,10 @@ class ExplicitMap(DimensionMap):
 
 
 class ExplicitDisaggregation(ExplicitMap):
-    def __init__(self,from_enum,to_enum,dictmap,scaling_datafile):
+    def __init__(self,from_enum,to_enum,dictmap,scaling_datafile=None):
+        """
+        If no scaling_datafile, scaling factors are assumed to be 1.0.
+        """
         super().__init__(from_enum,to_enum,dictmap)
         self._dictmap = defaultdict(lambda: [])
         for from_id, to_ids in dictmap.items():
@@ -102,14 +106,19 @@ class ExplicitDisaggregation(ExplicitMap):
                     raise DSGridError("Id {} is not in to_enum {}.".format(to_id,self.to_enum))
             self._dictmap[from_id] = to_ids
         # scaling_datafile must have to_enum as one of its dimensions
-        if not scaling_datafile.contains(to_enum):
+        if (scaling_datafile is not None) and (not scaling_datafile.contains(to_enum)):
             raise DSGridError("Datafile {} cannot be used to scale this map ".format(repr(scaling_datafile)) + 
                 "because it does not contain to_enum {}.".format(repr(to_enum)))
         self._scaling_datafile = scaling_datafile
         self._scaling_datatable = None
 
     @property
+    def default_scaling(self):
+        return self._scaling_datafile is None
+
+    @property
     def scaling_datatable(self):
+        assert not self.default_scaling
         if self._scaling_datatable is None:
             self._scaling_datatable = Datatable(self._scaling_datafile)
         return self._scaling_datatable
@@ -118,6 +127,9 @@ class ExplicitDisaggregation(ExplicitMap):
         """
         Return an array of scalings for to_ids.
         """
+        if self.default_scaling:
+            return np.array([1.0 for to_id in to_ids]) 
+
         if isinstance(self.to_enum,SectorEnumeration):
             temp = self.scaling_datatable[to_ids,:,:,:]
             temp = temp.groupby(level='sector').sum()
@@ -138,9 +150,9 @@ class ExplicitDisaggregation(ExplicitMap):
         return result
 
     @classmethod
-    def create_from_csv(cls,from_enum,to_enum,filepath,scaling_datafile):
+    def create_from_csv(cls,from_enum,to_enum,filepath,scaling_datafile=None):
         mapdata = pd.read_csv(filepath,dtype=str)
-        return cls(from_enum,to_enum,cls._make_dictmap(mapdata),scaling_datafile)
+        return cls(from_enum,to_enum,cls._make_dictmap(mapdata),scaling_datafile=scaling_datafile)
 
     @classmethod
     def _make_dictmap(cls,mapdata):
@@ -213,8 +225,13 @@ class Mappings(object):
 mappings = Mappings()
 mappings.add_mapping(ExplicitAggregation.create_from_csv(counties,states,os.path.join(enumdata_folder,'counties_to_states.csv')))
 mappings.add_mapping(FullAggregationMap(states,conus,exclude_list=['AK','HI']))
+mappings.add_mapping(FullAggregationMap(census_regions,conus))
 mappings.add_mapping(FullAggregationMap(hourly2012,annual))
 mappings.add_mapping(FullAggregationMap(sectors,allsectors))
 mappings.add_mapping(FullAggregationMap(sectors_subsectors,allsectors))
 mappings.add_mapping(FullAggregationMap(enduses,allenduses))
 mappings.add_mapping(ExplicitAggregation.create_from_csv(enduses,fuel_types,os.path.join(enumdata_folder,'enduses_to_fuel_types.csv')))
+mappings.add_mapping(ExplicitAggregation.create_from_csv(states,loss_state_groups,os.path.join(enumdata_folder,'states_to_loss_state_groups.csv')))
+# Sneaky trick here--dropping non-CONUS states
+mappings.add_mapping(ExplicitAggregation.create_from_csv(states,census_divisions,os.path.join(enumdata_folder,'states_to_census_divisions_conus_only.csv')))
+mappings.add_mapping(ExplicitAggregation.create_from_csv(census_divisions,census_regions,os.path.join(enumdata_folder,'census_divisions_to_census_regions.csv')))

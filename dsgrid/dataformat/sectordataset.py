@@ -104,6 +104,12 @@ class SectorDataset(object):
         if type(geo_ids) is not list:
             geo_ids = [geo_ids]
 
+        if len(geo_ids) == 0:
+            logger.info("Skipping call to add_data because geo_ids is empty.")
+            if not dataframe.empty:
+                logger.warn("Although geo_ids is empty, dataframe is not:\n{}".format(dataframe))
+            return
+
         if not isinstance(scalings,(list,np.ndarray)):
             scalings = [scalings]
 
@@ -156,7 +162,11 @@ class SectorDataset(object):
             self.n_geos += 1
 
             geo_mappings = dset.attrs["geo_mappings"][:]
-            geo_mappings[id_idxs] = new_idx
+            try:
+                geo_mappings[id_idxs] = new_idx
+            except: 
+                logger.error("Unable to set geo_mappings[id_idxs] = new_idx with geo_ids: {}, id_idx: {}, geo_mappings: {}".format(repr(geo_ids), repr(id_idxs), repr(geo_mappings)))
+                raise
             dset.attrs["geo_mappings"] = geo_mappings
 
             geo_scalings = dset.attrs["geo_scalings"][:]
@@ -222,6 +232,13 @@ class SectorDataset(object):
                 scalings = [geo_scalings[i] for i in geo_idxs]
 
         return df, geo_ids, scalings
+
+
+    def copy_data(self,other_sectordataset,full_validation=True):
+        for i in range(self.n_geos):
+            # pull data
+            df, geo_ids, scalings = self.get_data(i)
+            other_sectordataset.add_data(df,geo_ids,scalings=scalings,full_validation=full_validation)
 
 
     def get_geo_map(self):
@@ -352,6 +369,9 @@ class SectorDataset(object):
             # 3. Now add data that did not need to be aggregated
             for dataset_geo_index in to_geo_map:
                 geo_ids, scalings = to_geo_map[dataset_geo_index]
+                if len(geo_ids) == 0:
+                    logger.debug("All data from dataset_geo_index {} is being dropped.".format(dataset_geo_index))
+                    continue
                 if dataset_geo_index in pulled_data:
                     df = pulled_data[dataset_geo_index]
                     del pulled_data[dataset_geo_index]
