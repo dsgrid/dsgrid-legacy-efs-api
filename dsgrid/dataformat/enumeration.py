@@ -16,8 +16,17 @@ class Enumeration(object):
 
     dimension = None
 
-    @classmethod
-    def checkvalues(cls, ids, names):
+    def __init__(self, name, ids, names):
+        self.name = name
+        self.ids = ids
+        self.names = names
+
+        self.checkvalues()
+        return
+
+    def checkvalues(self):
+
+        ids = self.ids; names = self.names
 
         n_ids = len(ids)
         n_names = len(names)
@@ -42,15 +51,6 @@ class Enumeration(object):
         if max(len(value) for value in names) > cls.max_name_len:
             raise ValueError("Enumeration names cannot exceed " +
                              str(cls.max_name_len) + " characters")
-
-
-    def __init__(self, name, ids, names):
-
-        Enumeration.checkvalues(ids, names)
-
-        self.name = name
-        self.ids = ids
-        self.names = names
 
     def __eq__(self, other):
         return (
@@ -107,17 +107,107 @@ class Enumeration(object):
         return cls(name, list(enum.id), list(enum.name))
 
 
+# Define standard dimensions
+
 class SectorEnumeration(Enumeration):
     dimension = "sector"
 
 class GeographyEnumeration(Enumeration):
     dimension = "geography"
 
-class EndUseEnumeration(Enumeration):
+class EndUseEnumerationBase(Enumeration):
     dimension = "enduse"
+
+    def fuel_type(self,id): pass
+
+    def units(self,id): pass
+
+    @classmethod
+    def load(cls, h5group):
+        h5dset = h5group[cls.dimension]
+        name = h5dset.attrs["name"],
+        ids = [vid.decode(ENCODING) for vid in h5dset["id"]]
+        names = [vname.decode(ENCODING) for vname in h5dset["name"]]
+
+        # Create correct type of EndUseEnumerationBase depending on auxillary data
+        # if h5dset has attr fuel_type
+        #     SingleFuelEndUseEnumeration
+        # elif h5dset has FuelTypeEnumeration
+        #     MultiFuelEndUseEnumeration
+        # else
+        #     EndUseEnumeration
+
 
 class TimeEnumeration(Enumeration):
     dimension = "time"
+
+
+# Define data units -- these are ultimately associated with end-uses
+
+class EndUseEnumeration(EndUseEnumerationBase):
+    """
+    Provided for backward compatibility with dsgrid v0.1.0 datasets.
+    """
+    def fuel_type(self,id):
+        logger.warn("Deprecated: Fuel type has not been explicitly specified. Returning default value.")
+        return 'Electricity'
+
+    def units(self,id):
+        logger.warn("Deprecated: Units have not been explicitly specified. Returning default value.")
+        return 'MWh'
+
+
+class SingleFuelEndUseEnumeration(EndUseEnumerationBase):
+    """
+    If the end-use enumeration only applies to a single fuel type, and all the 
+    data is in the same units, just give the fuel_type and units.
+    """
+
+    def __init__(self, name, ids, names, fuel_type='Electricity', units='MWh'):
+        super().__init__(name,ids,names)
+        self._fuel_type = fuel_type
+        self._units = units
+
+    def fuel_type(self,id):
+        return self._fuel_type
+
+    def units(self,id):
+        return self._units
+
+    def persist(self, h5group):
+        dset = super().persist(h5group)
+
+        dset.attrs["fuel_type"] = self._fuel_type
+        dset.attrs["units"] = self._units
+
+        return dset
+
+
+class FuelTypeEnumeration(Enumeration): 
+    def __init__(self, name, ids, names, units):
+        self.units = units
+        super().__init__(name,ids,names)
+
+    def checkvalues(self):
+        super().checkvalues()
+
+        # make sure units is as long as ids
+
+
+class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
+
+    def __init__(self, name, ids, names, fuel_type_enum, fuel_type_ids):
+        self.fuel_type_enum = fuel_type_enum
+        self._fuel_type_ids = fuel_type_ids
+        super().__init__(name,ids,names)
+
+    def checkvalues(self):
+        super().checkvalues()
+
+        # make sure fuel_type_ids are in fuel_type enum
+
+        # make sure fuel_type_ids is as long as ids
+
 
 # Define standard enumerations
 
