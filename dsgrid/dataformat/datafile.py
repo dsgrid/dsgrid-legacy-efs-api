@@ -10,7 +10,7 @@ import h5py
 from dsgrid import DSGridNotImplemented
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
-    EndUseEnumeration, TimeEnumeration)
+    EndUseEnumerationBase, TimeEnumeration)
 from dsgrid.dataformat.sectordataset import SectorDataset
 
 logger = logging.getLogger(__name__)
@@ -60,7 +60,7 @@ class Datafile(object):
             return an_enum == self.sector_enum
         elif isinstance(an_enum,GeographyEnumeration):
             return an_enum == self.geo_enum
-        elif isinstance(an_enum,EndUseEnumeration):
+        elif isinstance(an_enum,EndUseEnumerationBase):
             return an_enum == self.enduse_enum
         assert isinstance(an_enum,TimeEnumeration)
         return an_enum == self.time_enum
@@ -72,7 +72,7 @@ class Datafile(object):
             result = cls(filepath,
                          SectorEnumeration.load(enum_group),
                          GeographyEnumeration.load(enum_group),
-                         EndUseEnumeration.load(enum_group),
+                         EndUseEnumerationBase.load(enum_group),
                          TimeEnumeration.load(enum_group),
                          loading=True)
             for sector_id, sector_dataset in SectorDataset.loadall(result,f["data"]).items():
@@ -100,7 +100,7 @@ class Datafile(object):
         result = self.__class__(filepath,
             mapping.to_enum if isinstance(mapping.to_enum,SectorEnumeration) else self.sector_enum,
             mapping.to_enum if isinstance(mapping.to_enum,GeographyEnumeration) else self.geo_enum,
-            mapping.to_enum if isinstance(mapping.to_enum,EndUseEnumeration) else self.enduse_enum,
+            mapping.to_enum if isinstance(mapping.to_enum,EndUseEnumerationBase) else self.enduse_enum,
             mapping.to_enum if isinstance(mapping.to_enum,TimeEnumeration) else self.time_enum)
         data = defaultdict(lambda: [])
         if isinstance(mapping.to_enum,SectorEnumeration):
