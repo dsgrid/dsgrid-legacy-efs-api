@@ -1,11 +1,14 @@
+import os
 from py.test import raises
 from .temphdf5 import TempHDF5File
 from dsgrid import DSGridValueError
 from dsgrid.dataformat.enumeration import (
     Enumeration, SectorEnumeration, GeographyEnumeration, EndUseEnumeration, 
-    EndUseEnumerationBase, TimeEnumeration, 
+    EndUseEnumerationBase, TimeEnumeration, MultiFuelEndUseEnumeration, 
+    SingleFuelEndUseEnumeration, FuelEnumeration,
     allsectors, sectors, sectors_subsectors, conus, states, counties, 
-    allenduses, enduses, annual, hourly2012
+    allenduses, enduses, annual, hourly2012,
+    enumdata_folder
 )
 
 def test_enumeration_prepackaged():
@@ -73,3 +76,39 @@ def test_enumeration_io():
         assert(counties == GeographyEnumeration.load(f))
         assert(enduses == EndUseEnumerationBase.load(f))
         assert(hourly2012 == TimeEnumeration.load(f))
+
+def test_multifuel_enduse_enumeration():
+    # load resstock from file
+    resstock_enduses = MultiFuelEndUseEnumeration.read_csv(
+        os.path.join(enumdata_folder,'resstock_enduses.csv'),
+        'ResStock Enduses')
+
+    # should be same as making fuel_enum first
+    fuel_enum = FuelEnumeration('ResStock Enduses Fuels',
+                                ['electricity','gas'],
+                                ['Electricity','Gas'],
+                                ['kWh','kBtu'])
+    resstock_enduses_2 = MultiFuelEndUseEnumeration.read_csv(
+        os.path.join(enumdata_folder,'resstock_enduses.csv'),
+        'ResStock Enduses',
+        fuel_enum=fuel_enum)
+
+    assert(resstock_enduses == resstock_enduses_2)
+
+    with TempHDF5File() as f:
+        resstock_enduses.persist(f)
+
+        assert(resstock_enduses == EndUseEnumerationBase.load(f))
+
+def test_singlefuel_enduse_enumeration():
+    resstock_elec_enduses = SingleFuelEndUseEnumeration.read_csv(
+        os.path.join(enumdata_folder,'enduses_electric_res.csv'),
+        'ResStock Electric Enduses',units='kWh')
+
+    assert(resstock_elec_enduses.units('fans') == 'kWh')
+    assert(resstock_elec_enduses.fuel('interior_lights') == 'Electricity')
+
+    with TempHDF5File() as f:
+        resstock_elec_enduses.persist(f)
+
+        assert(resstock_elec_enduses == EndUseEnumerationBase.load(f))

@@ -59,7 +59,7 @@ class Enumeration(object):
         )
 
     def __len__(self):
-        return len(self.ids)
+        return len(list(self.ids))
 
     def __repr__(self):
         return "%s(%r)" % (self.__class__, self.__dict__)
@@ -185,6 +185,11 @@ class SingleFuelEndUseEnumeration(EndUseEnumerationBase):
 
         return dset
 
+    @classmethod
+    def read_csv(cls, filepath, name, fuel='Electricity', units='MWh'):
+        enum = pd.read_csv(filepath , dtype=str)
+        return cls(name, list(enum.id), list(enum.name), fuel=fuel, units=units)
+
 
 class FuelEnumeration(Enumeration): 
     dimension = "fuel"
@@ -261,8 +266,6 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
         if n_fuel_ids != n_ids:
             raise DSGridValueError("Number of fuel ids (" + str(n_fuel_ids) + 
                 ") must match number of ids (" + str(n_ids) + ")")
-        
-        super().checkvalues()
 
         if not isinstance(fuel_enum,FuelEnumeration):
             raise DSGridValueError("The fuel_enum must be of type " + 
@@ -275,19 +278,21 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
                 raise DSGridValueError("The fuel_ids must each be an id in the fuel_enum." + 
                     "fuel_id: {}, fuel_enum.ids: {}".format(fuel_id,fuel_enum.ids))
 
+        super().checkvalues()
+
         return
 
     @property
     def ids(self):
-        yield zip(self._ids,self._fuel_ids)
+        return zip(self._ids,self._fuel_ids)
 
     @property
     def names(self):
-        for i, _id in self._ids:
+        for i, _id in enumerate(self._ids):
             yield "{} ({})".format(self._names[i],self.fuel((_id,self._fuel_ids[i])))
 
     def fuel(self,id):
-        assert isinstance(id,tuple) & len(id) == 2, "The ids for MultiFuelEndUseEnumerations are (enduse_id, fuel_id)."
+        assert isinstance(id,tuple) & (len(id) == 2), "The ids for MultiFuelEndUseEnumerations are (enduse_id, fuel_id)."
         return self.fuel_enum.names[self.fuel_enum.ids.index(id[1])]
 
     def units(self,id):
