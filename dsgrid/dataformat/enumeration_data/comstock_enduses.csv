@@ -25,7 +25,7 @@ other_process,Other Process Use,electricity,kWh
 facility_hvac,Facility HVAC,electricity,kWh
 facility_lighting,Facility Lighting,electricity,kWh
 facility_other,Other Facility Support,electricity,kWh
-electricity_generation,Electricity Generation,conventional,kWh
+electricity_generation,Electricity Generation,conventional,unknown
 other_nonprocess,Other Nonprocess Use,electricity,kWh
 not_reported,End-use not reported,electricity,kWh
 transportation,Transportation,electricity,kWh
