@@ -73,11 +73,11 @@ class SectorDataset(object):
                 dset.attrs["geo_scalings"] = np.ones(shape=n_total_geos)
 
                 dset.attrs["enduse_mappings"] = np.array([
-                    datafile.enduse_enum.ids.index(enduse)
+                    list(datafile.enduse_enum.ids).index(enduse)
                     for enduse in self.enduses], dtype="u2")
 
                 dset.attrs["time_mappings"] = np.array([
-                    datafile.time_enum.ids.index(time)
+                    list(datafile.time_enum.ids).index(time)
                     for time in self.times], dtype="u2")
 
 
@@ -272,7 +272,7 @@ class SectorDataset(object):
 
     @classmethod
     def loadall(cls,datafile,h5group):
-        enduses = np.array(datafile.enduse_enum.ids)
+        enduses = list(datafile.enduse_enum.ids)
         times = np.array(datafile.time_enum.ids)
         sectors = {}
         for dset_id, dset in h5group.items():
@@ -280,7 +280,7 @@ class SectorDataset(object):
                 sectors[dset_id] = cls(
                     dset_id,
                     datafile,
-                    list(enduses[dset.attrs["enduse_mappings"][:]]),
+                    [enduses[i] for i in dset.attrs["enduse_mappings"][:]],
                     list(times[dset.attrs["time_mappings"][:]]),
                     loading=True)
 
