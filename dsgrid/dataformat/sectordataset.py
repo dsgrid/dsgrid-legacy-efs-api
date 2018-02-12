@@ -51,7 +51,7 @@ class SectorDataset(object):
             # determine how many geos
             with h5py.File(self.datafile.h5path,'r') as f:
                 dset = f["data/" + self.sector_id]
-                geo_ptrs = [x for x in dset.attrs["geo_mappings"] if not (x == ZERO_IDX)]
+                geo_ptrs = [x for x in f["data/geo_mappings"][:] if not (x == ZERO_IDX)]
                 self.n_geos = len(set(geo_ptrs))
         else:
             with h5py.File(self.datafile.h5path, "r+") as f:
@@ -69,9 +69,12 @@ class SectorDataset(object):
                     chunks=chunk_shape,
                     compression="gzip")
 
-                dset.attrs["geo_mappings"] = np.full(n_total_geos, ZERO_IDX, dtype="u2")
-                dset.attrs["geo_scalings"] = np.ones(shape=n_total_geos)
+                dset = f["data"].create_dataset("geo_mappings",
+                    data=np.full(n_total_geos, ZERO_IDX, dtype="u2"))
+                dset = f["data"].create_dataset("geo_scalings",
+                    data=np.ones(shape=n_total_geos))
 
+                dset = f["data/" + self.sector_id]
                 dset.attrs["enduse_mappings"] = np.array([
                     list(datafile.enduse_enum.ids).index(enduse)
                     for enduse in self.enduses], dtype="u2")
@@ -79,6 +82,7 @@ class SectorDataset(object):
                 dset.attrs["time_mappings"] = np.array([
                     list(datafile.time_enum.ids).index(time)
                     for time in self.times], dtype="u2")
+
 
 
     def __eq__(self, other):
@@ -161,18 +165,18 @@ class SectorDataset(object):
             dset[new_idx, :, :] = data
             self.n_geos += 1
 
-            geo_mappings = f["geo_mappings"][:]
+            geo_mappings = f["data/geo_mappings"][:]
             try:
                 geo_mappings[id_idxs] = new_idx
             except:
                 logger.error("Unable to set geo_mappings[id_idxs] = new_idx with geo_ids: {}, id_idx: {}, geo_mappings: {}".format(repr(geo_ids), repr(id_idxs), repr(geo_mappings)))
                 raise
-            dset = f["geo_mappings"]
+            dset = f["data/geo_mappings"]
             dset[:] = geo_mappings
 
-            geo_scalings = f["geo_scalings"][:]
+            geo_scalings = f["data/geo_scalings"][:]
             geo_scalings[id_idxs] = scalings
-            dset = f["geo_scalings"]
+            dset = f["data/geo_scalings"]
             dset[:] = geo_scalings
 
     def __setitem__(self, geo_ids, dataframe):
@@ -185,8 +189,8 @@ class SectorDataset(object):
         with h5py.File(self.datafile.h5path, "r") as f:
             dset = f["data/" + self.sector_id]
 
-            geo_idx = f["geo_mappings"][id_idx]
-            geo_scale = f["geo_scalings"][id_idx]
+            geo_idx = f["data/geo_mappings"][id_idx]
+            geo_scale = f["data/geo_scalings"][id_idx]
 
             if geo_idx == ZERO_IDX:
                 data = 0
@@ -225,11 +229,11 @@ class SectorDataset(object):
                               dtype="float32")
 
             if return_geo_ids_scales:
-                geo_mappings = dset.attrs["geo_mappings"][:]
+                geo_mappings = f["data/geo_mappings"][:]
                 geo_idxs = [i for i, val in enumerate(geo_mappings) if val == dataset_geo_index]
                 geo_ids = [self.datafile.geo_enum.ids[i] for i in geo_idxs]
 
-                geo_scalings = dset.attrs["geo_scalings"][:]
+                geo_scalings = f["data/geo_scalings"][:]
                 scalings = [geo_scalings[i] for i in geo_idxs]
 
         return df, geo_ids, scalings
@@ -249,8 +253,8 @@ class SectorDataset(object):
         geo_mappings = None; geo_scalings = None
         with h5py.File(self.datafile.h5path,"r") as f:
             dset = f["data/" + self.sector_id]
-            geo_mappings = dset.attrs["geo_mappings"][:]
-            geo_scalings = dset.attrs["geo_scalings"][:]
+            geo_mappings = f["data/geo_mappings"][:]
+            geo_scalings = f["data/geo_scalings"][:]
         temp_dict = defaultdict(lambda: ([],[]))
         for i, val in enumerate(geo_mappings):
             if val == ZERO_IDX:
@@ -268,7 +272,7 @@ class SectorDataset(object):
         with h5py.File(self.datafile.h5path, "r") as f:
             dset = f["data/" + self.sector_id]
 
-            geo_idx = dset.attrs["geo_mappings"][id_idx]
+            geo_idx = f["data/geo_mappings"][id_idx]
             return geo_idx == ZERO_IDX
 
     @classmethod
@@ -278,6 +282,8 @@ class SectorDataset(object):
         sectors = {}
         for dset_id, dset in h5group.items():
             if isinstance(dset, h5py.Dataset):
+                if dset_id in ["geo_mappings", "geo_scalings"]:
+                    continue
                 sectors[dset_id] = cls(
                     dset_id,
                     datafile,

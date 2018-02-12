@@ -24,10 +24,12 @@ class Datatable(object):
 
                 h5dset = f["data/" + sectorname]
 
-                geo_idxs = np.nonzero(h5dset.attrs["geo_mappings"][:] != ZERO_IDX)
+                geo_idxs = np.nonzero(f["data/geo_mappings"][:] != ZERO_IDX)
                 geo_ids = np.array(self.geo_enum.ids)[geo_idxs]
-                geo_dset_idxs = h5dset.attrs["geo_mappings"][geo_idxs]
-                geo_scales = h5dset.attrs["geo_scalings"][geo_idxs]
+                geo_dset_idxs = f["data/geo_mappings"][:]
+                geo_dset_idxs = geo_dset_idxs[geo_idxs]
+                geo_scales = f["data/geo_scalings"][:]
+                geo_scales = geo_scales[geo_idxs]
 
                 index = self._categoricalmultiindex(
                     [sectorname], geo_ids,
@@ -43,7 +45,7 @@ class Datatable(object):
         self.sorted = False; self.warned = False
         if sort:
             self.sort()
-            
+
 
     def sort(self):
         if not self.sorted:
