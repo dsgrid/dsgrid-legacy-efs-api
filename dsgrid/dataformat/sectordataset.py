@@ -117,8 +117,8 @@ class SectorDataset(object):
             scalings = [1 for x in geo_ids]
 
         elif len(scalings) != len(geo_ids):
-            raise ValueError("Geography ID and scale factor list lengths must " + 
-                "match, but len(geo_ids) = {} and len(scalings) = {}, ".format(len(geo_ids),len(scalings)) + 
+            raise ValueError("Geography ID and scale factor list lengths must " +
+                "match, but len(geo_ids) = {} and len(scalings) = {}, ".format(len(geo_ids),len(scalings)) +
                 "where geo_ids = {}, scalings = {}.".format(geo_ids,scalings))
 
         if full_validation:
@@ -161,18 +161,19 @@ class SectorDataset(object):
             dset[new_idx, :, :] = data
             self.n_geos += 1
 
-            geo_mappings = dset.attrs["geo_mappings"][:]
+            geo_mappings = f["geo_mappings"][:]
             try:
                 geo_mappings[id_idxs] = new_idx
-            except: 
+            except:
                 logger.error("Unable to set geo_mappings[id_idxs] = new_idx with geo_ids: {}, id_idx: {}, geo_mappings: {}".format(repr(geo_ids), repr(id_idxs), repr(geo_mappings)))
                 raise
-            dset.attrs["geo_mappings"] = geo_mappings
+            dset = f["geo_mappings"]
+            dset[:] = geo_mappings
 
-            geo_scalings = dset.attrs["geo_scalings"][:]
+            geo_scalings = f["geo_scalings"][:]
             geo_scalings[id_idxs] = scalings
-            dset.attrs["geo_scalings"] = geo_scalings
-
+            dset = f["geo_scalings"]
+            dset[:] = geo_scalings
 
     def __setitem__(self, geo_ids, dataframe):
         self.add_data(dataframe, geo_ids)
@@ -184,8 +185,8 @@ class SectorDataset(object):
         with h5py.File(self.datafile.h5path, "r") as f:
             dset = f["data/" + self.sector_id]
 
-            geo_idx = dset.attrs["geo_mappings"][id_idx]
-            geo_scale = dset.attrs["geo_scalings"][id_idx]
+            geo_idx = f["geo_mappings"][id_idx]
+            geo_scale = f["geo_scalings"][id_idx]
 
             if geo_idx == ZERO_IDX:
                 data = 0
@@ -199,12 +200,12 @@ class SectorDataset(object):
 
     def get_data(self, dataset_geo_index, return_geo_ids_scales=True):
         """
-        Get data in this file's native format. 
+        Get data in this file's native format.
 
         Arguments:
-            - dataset_geo_index (int) - Index into the geography dimension of 
+            - dataset_geo_index (int) - Index into the geography dimension of
                   this dataset. Is an integer in the range [0,self.n_geos) that
-                  corresponds to the values in this dataset's geo_mappings that 
+                  corresponds to the values in this dataset's geo_mappings that
                   are not equal to ZERO_IDX.
 
         Returns dataframe, geo_ids, scalings that are needed to add_data.
@@ -287,7 +288,7 @@ class SectorDataset(object):
         return sectors
 
     def map_dimension(self,new_datafile,mapping):
-        # import ExplicitDisaggregation here to avoid circular import but be 
+        # import ExplicitDisaggregation here to avoid circular import but be
         # able to test and raise DSGridNotImplemented as needed
         from dsgrid.dataformat.dimmap import ExplicitDisaggregation
 
@@ -296,12 +297,12 @@ class SectorDataset(object):
             None if isinstance(mapping.to_enum,TimeEnumeration) else self.times)
         if isinstance(mapping.to_enum,GeographyEnumeration):
             # 1. Figure out how geography is mapped now, where it needs to get
-            # mapped to, and what the new scalings should be on a 
+            # mapped to, and what the new scalings should be on a
             # per-dataset_geo_index basis
             from_geo_map = self.get_geo_map() # dataset_geo_index: (geo_ids, scalings) in THIS dataset
             to_geo_map = OrderedDict()        # DITTO, but for mapped dataset, ignoring aggregation for now
             # new_geo_id: [dataset_geo_indices] so can see what aggregation needs to be done
-            new_geo_ids_to_dataset_geo_index_map = defaultdict(lambda: []) 
+            new_geo_ids_to_dataset_geo_index_map = defaultdict(lambda: [])
             for dataset_geo_index in from_geo_map:
                 geo_ids, scalings = from_geo_map[dataset_geo_index]
                 new_geo_ids = []
@@ -315,7 +316,7 @@ class SectorDataset(object):
                         # disaggregating
                         new_geo_ids += new_geo_id
                         new_scaling = mapping.get_scalings(new_geo_id)
-                        logger.debug("Disaggregating.\n  new_geo_id: {}".format(new_geo_id) + 
+                        logger.debug("Disaggregating.\n  new_geo_id: {}".format(new_geo_id) +
                                      "\n  new_scaling: {}".format(new_scaling))
                         new_scalings = np.concatenate((new_scalings, (new_scaling * scalings[i])))
                         for newid in new_geo_id:
@@ -326,7 +327,7 @@ class SectorDataset(object):
                         new_geo_ids_to_dataset_geo_index_map[new_geo_id].append(dataset_geo_index)
                 to_geo_map[dataset_geo_index] = (new_geo_ids,new_scalings)
 
-            # 2. Step through via new_geo_ids_to_dataset_geo_index_map. Pull out 
+            # 2. Step through via new_geo_ids_to_dataset_geo_index_map. Pull out
             # new_geo_ids that are aggregations across dataset_geo_indices. Then
             # process those new_geo_ids first.
             pulled_data = OrderedDict() # dataset_geo_index: df
@@ -424,8 +425,8 @@ class SectorDataset(object):
 
     def scale_data(self,new_datafile,factor=0.001):
         """
-        Scale all the data in self by factor, creating a new HDF5 file and 
-        corresponding Datafile. 
+        Scale all the data in self by factor, creating a new HDF5 file and
+        corresponding Datafile.
 
         Arguments:
             - filepath (str) - Location for the new HDF5 file to be created
@@ -445,4 +446,3 @@ class SectorDataset(object):
             result.add_data(df,geo_ids,scalings=scalings,full_validation=False)
 
         return result
-
