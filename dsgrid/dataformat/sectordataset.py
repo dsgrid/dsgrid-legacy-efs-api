@@ -1,4 +1,5 @@
 from collections import defaultdict, OrderedDict
+from itertools import repeat
 import h5py
 import logging
 import numpy as np
@@ -11,7 +12,50 @@ from dsgrid.dataformat.enumeration import (
 
 logger = logging.getLogger(__name__)
 
-ZERO_IDX = 65535
+"""
+Each type of Enumeration has a corresponding datamap for each
+dataset that links an enumeration value with:
+
+  a) a particular index in the dataset along the Enumeration's
+     dimension; and
+  b) a scaling parameter to apply to the associated underlying
+     data.
+
+Multiple enumeration values can refer to the same index in the
+dataset's enumeration dimension, with the option to apply different
+scaling factors. The index is represented as a 32-bit unsigned
+integer, which limits dataset size to 2^32 - 2 in each dimension,
+with NULL_IDX (2^32 - 1) serving as the sentinel value assigned to
+enumeration values not described in the dataset (looking up data
+associated with such an enumeration value will simply return zeros)
+"""
+
+NULL_IDX = 2**32 - 1
+enum_datamap_dtype = np.dtype([
+    ("idx", "u4"), # 32-bit unsigned integer index
+    ("scale", "f4") # 32-bit float scaling factor
+])
+
+def create_datamap(enum, enum_ids, enum_scales=None):
+
+    datamap = np.full(len(enum.ids), (NULL_IDX, 1.0),
+                      dtype=enum_datamap_dtype)
+
+    if enum_scales:
+        if len(enum_ids) != len(enum_scales):
+            raise ValueError(enum.dimension + " id list has length " +
+                             len(enum_ids) + ", but scaling factor list " +
+                             "has length " + len(enum_scales))
+
+    else:
+        enum_scales = repeat(1.0, len(enum_ids))
+
+    for i, enum_id, enum_scale in enumerate(zip(enum_ids, enum_scales)):
+        enum_idx = list(enum.ids).index(enum_id)
+        datamap[enum_idx] = (i, enum_scale)
+
+    return datamap
+
 
 class SectorDataset(object):
 
@@ -51,8 +95,9 @@ class SectorDataset(object):
             # determine how many geos
             with h5py.File(self.datafile.h5path,'r') as f:
                 dset = f["data/" + self.sector_id]
-                geo_ptrs = [x for x in dset.attrs["geo_mappings"] if not (x == ZERO_IDX)]
+                geo_ptrs = [x for x in dset.attrs["geo_mappings"] if not (x == NULL_IDX)]
                 self.n_geos = len(set(geo_ptrs))
+
         else:
             with h5py.File(self.datafile.h5path, "r+") as f:
                 n_enduses = len(self.enduses)
@@ -62,23 +107,18 @@ class SectorDataset(object):
                 max_shape = (None, n_enduses, n_times)
                 chunk_shape = (1, n_enduses, n_times)
 
-                dset = f["data"].create_dataset(
-                    self.sector_id,
+                dgroup = f["data"].create_group(self.sector_id)
+
+                dset = dgroup.create_dataset(
+                    "data",
                     shape=shape,
                     maxshape=max_shape,
                     chunks=chunk_shape,
                     compression="gzip")
 
-                dset.attrs["geo_mappings"] = np.full(n_total_geos, ZERO_IDX, dtype="u2")
-                dset.attrs["geo_scalings"] = np.ones(shape=n_total_geos)
-
-                dset.attrs["enduse_mappings"] = np.array([
-                    list(datafile.enduse_enum.ids).index(enduse)
-                    for enduse in self.enduses], dtype="u2")
-
-                dset.attrs["time_mappings"] = np.array([
-                    list(datafile.time_enum.ids).index(time)
-                    for time in self.times], dtype="u2")
+                dgroup["geographies"] = create_datamap(datafile.geography_enum, [])
+                dgroup["enduses"] = create_datamap(datafile.enduse_enum, self.enduses)
+                dgroup["times"] = create_datamap(datafile.time_enum, self.times)
 
 
     def __eq__(self, other):
@@ -164,7 +204,7 @@ class SectorDataset(object):
             geo_mappings = dset.attrs["geo_mappings"][:]
             try:
                 geo_mappings[id_idxs] = new_idx
-            except: 
+            except:
                 logger.error("Unable to set geo_mappings[id_idxs] = new_idx with geo_ids: {}, id_idx: {}, geo_mappings: {}".format(repr(geo_ids), repr(id_idxs), repr(geo_mappings)))
                 raise
             dset.attrs["geo_mappings"] = geo_mappings
@@ -187,7 +227,7 @@ class SectorDataset(object):
             geo_idx = dset.attrs["geo_mappings"][id_idx]
             geo_scale = dset.attrs["geo_scalings"][id_idx]
 
-            if geo_idx == ZERO_IDX:
+            if geo_idx == NULL_IDX:
                 data = 0
             else:
                 data = dset[geo_idx, :, :].T * geo_scale
@@ -199,13 +239,13 @@ class SectorDataset(object):
 
     def get_data(self, dataset_geo_index, return_geo_ids_scales=True):
         """
-        Get data in this file's native format. 
+        Get data in this file's native format.
 
         Arguments:
-            - dataset_geo_index (int) - Index into the geography dimension of 
+            - dataset_geo_index (int) - Index into the geography dimension of
                   this dataset. Is an integer in the range [0,self.n_geos) that
-                  corresponds to the values in this dataset's geo_mappings that 
-                  are not equal to ZERO_IDX.
+                  corresponds to the values in this dataset's geo_mappings that
+                  are not equal to NULL_IDX.
 
         Returns dataframe, geo_ids, scalings that are needed to add_data.
         """
@@ -252,7 +292,7 @@ class SectorDataset(object):
             geo_scalings = dset.attrs["geo_scalings"][:]
         temp_dict = defaultdict(lambda: ([],[]))
         for i, val in enumerate(geo_mappings):
-            if val == ZERO_IDX:
+            if val == NULL_IDX:
                 continue
             temp_dict[val][0].append(self.datafile.geo_enum.ids[i])
             temp_dict[val][1].append(geo_scalings[i])
@@ -268,7 +308,7 @@ class SectorDataset(object):
             dset = f["data/" + self.sector_id]
 
             geo_idx = dset.attrs["geo_mappings"][id_idx]
-            return geo_idx == ZERO_IDX
+            return geo_idx == NULL_IDX
 
     @classmethod
     def loadall(cls,datafile,h5group):
@@ -287,7 +327,7 @@ class SectorDataset(object):
         return sectors
 
     def map_dimension(self,new_datafile,mapping):
-        # import ExplicitDisaggregation here to avoid circular import but be 
+        # import ExplicitDisaggregation here to avoid circular import but be
         # able to test and raise DSGridNotImplemented as needed
         from dsgrid.dataformat.dimmap import ExplicitDisaggregation
 
@@ -296,12 +336,12 @@ class SectorDataset(object):
             None if isinstance(mapping.to_enum,TimeEnumeration) else self.times)
         if isinstance(mapping.to_enum,GeographyEnumeration):
             # 1. Figure out how geography is mapped now, where it needs to get
-            # mapped to, and what the new scalings should be on a 
+            # mapped to, and what the new scalings should be on a
             # per-dataset_geo_index basis
             from_geo_map = self.get_geo_map() # dataset_geo_index: (geo_ids, scalings) in THIS dataset
             to_geo_map = OrderedDict()        # DITTO, but for mapped dataset, ignoring aggregation for now
             # new_geo_id: [dataset_geo_indices] so can see what aggregation needs to be done
-            new_geo_ids_to_dataset_geo_index_map = defaultdict(lambda: []) 
+            new_geo_ids_to_dataset_geo_index_map = defaultdict(lambda: [])
             for dataset_geo_index in from_geo_map:
                 geo_ids, scalings = from_geo_map[dataset_geo_index]
                 new_geo_ids = []
@@ -315,7 +355,7 @@ class SectorDataset(object):
                         # disaggregating
                         new_geo_ids += new_geo_id
                         new_scaling = mapping.get_scalings(new_geo_id)
-                        logger.debug("Disaggregating.\n  new_geo_id: {}".format(new_geo_id) + 
+                        logger.debug("Disaggregating.\n  new_geo_id: {}".format(new_geo_id) +
                                      "\n  new_scaling: {}".format(new_scaling))
                         new_scalings = np.concatenate((new_scalings, (new_scaling * scalings[i])))
                         for newid in new_geo_id:
@@ -445,4 +485,3 @@ class SectorDataset(object):
             result.add_data(df,geo_ids,scalings=scalings,full_validation=False)
 
         return result
-

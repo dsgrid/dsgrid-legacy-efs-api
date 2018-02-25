@@ -32,20 +32,14 @@ class Enumeration(object):
         n_ids = len(ids); n_names = len(names)
 
         if n_ids != n_names:
-            raise DSGridValueError("Number of ids (" + str(n_ids) + 
+            raise DSGridValueError("Number of ids (" + str(n_ids) +
                 ") must match number of names (" + str(n_names) + ")")
-
-        if n_ids > 65535:
-            raise DSGridValueError("Enumeration cannot contain more than " + 
-                "65535 values. {} provided".format(n_ids))
-        # 0 to 2^16-2 for indices (2^16-1 slots)
-        # 2^16-1 for zero-sentinel
 
         if len(set(ids)) != n_ids:
             raise DSGridValueError("Enumeration ids must be unique")
 
         if max(len(value) for value in ids) > self.max_id_len:
-            raise DSGridValueError("Enumeration ids cannot exceed " + 
+            raise DSGridValueError("Enumeration ids cannot exceed " +
                 "{} characters".format(self.max_id_len))
 
         if max(len(value) for value in names) > self.max_name_len:
@@ -132,9 +126,9 @@ class EndUseEnumerationBase(Enumeration):
         name = h5dset.attrs["name"]
         ids = [vid.decode(ENCODING) for vid in h5dset["id"]]
         names = [vname.decode(ENCODING) for vname in h5dset["name"]]
-        
+
         if 'fuel' in h5dset.attrs:
-            return SingleFuelEndUseEnumeration(name, ids, names, 
+            return SingleFuelEndUseEnumeration(name, ids, names,
                 fuel=h5dset.attrs['fuel'],
                 units=h5dset.attrs['units'])
         else:
