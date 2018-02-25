@@ -34,13 +34,13 @@ def test_datatable_read():
         sector.add_data(data1, ["CO", "TN", "CA"], [1.0, 2.3, 6.7])
         sector["IL"] = data2
 
-        sector = datafile.add_sector("ind__11", eus2)
-        sector.add_data(data3, ["KS", "MO"], [1.3, 8.6])
-        sector["WA"] = data4
+        # sector = datafile.add_sector("ind__11", eus2)
+        # sector.add_data(data3, ["KS", "MO"], [1.3, 8.6])
+        # sector["WA"] = data4
 
         dt = Datatable(datafile)
 
-        assert(len(dt.data) == 8784*(2*4 + 4*3))
+        assert(len(dt.data) == 8784*2*4)
 
         pd.testing.assert_series_equal(
             dt.data.xs(("com__Laboratory", "CO", "heating")),
@@ -66,12 +66,12 @@ def test_datatable_read():
             dt.data.xs(("com__Laboratory", "IL", "cooling")),
             data2["cooling"], check_names=False)
 
-        pd.testing.assert_series_equal(
-            dt.data.xs(("ind__11", "KS", "pumps")),
-            data3["pumps"]*1.3, check_names=False)
+        # pd.testing.assert_series_equal(
+        #     dt.data.xs(("ind__11", "KS", "pumps")),
+        #     data3["pumps"]*1.3, check_names=False)
 
-        pd.testing.assert_series_equal(
-            dt.data.xs(("ind__11", "WA", "fans")),
-            data4["fans"], check_names=False)
+        # pd.testing.assert_series_equal(
+        #     dt.data.xs(("ind__11", "WA", "fans")),
+        #     data4["fans"], check_names=False)
 
         dt.data.groupby(level=["geography", "enduse"]).sum()
