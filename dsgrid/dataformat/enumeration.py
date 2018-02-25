@@ -162,12 +162,12 @@ class EndUseEnumeration(EndUseEnumerationBase):
 
 class SingleFuelEndUseEnumeration(EndUseEnumerationBase):
     """
-    If the end-use enumeration only applies to a single fuel type, and all the 
+    If the end-use enumeration only applies to a single fuel type, and all the
     data is in the same units, just give the fuel and units.
     """
 
     def __init__(self, name, ids, names, fuel='Electricity', units='MWh'):
-        super().__init__(name,ids,names)
+        super(SingleFuelEndUseEnumeration, self).__init__(name,ids,names)
         self._fuel = fuel
         self._units = units
 
@@ -178,7 +178,7 @@ class SingleFuelEndUseEnumeration(EndUseEnumerationBase):
         return self._units
 
     def persist(self, h5group):
-        dset = super().persist(h5group)
+        dset = super(SingleFuelEndUseEnumeration, self).persist(h5group)
 
         dset.attrs["fuel"] = self._fuel
         dset.attrs["units"] = self._units
@@ -191,7 +191,7 @@ class SingleFuelEndUseEnumeration(EndUseEnumerationBase):
         return cls(name, list(enum.id), list(enum.name), fuel=fuel, units=units)
 
 
-class FuelEnumeration(Enumeration): 
+class FuelEnumeration(Enumeration):
     dimension = "fuel"
 
     enum_dtype = np.dtype([
@@ -202,25 +202,25 @@ class FuelEnumeration(Enumeration):
 
     def __init__(self, name, ids, names, units):
         self.units = units
-        super().__init__(name,ids,names)
+        super(FuelEnumeration, self).__init__(name,ids,names)
 
     def checkvalues(self):
-        super().checkvalues()
+        super(FuelEnumeration, self).checkvalues()
 
         # make sure units is as long as ids
         ids = list(self.ids); units = list(self.units)
         n_ids = len(ids); n_units = len(units)
 
         if n_ids != n_units:
-            raise DSGridValueError("Number of units (" + str(n_units) + 
+            raise DSGridValueError("Number of units (" + str(n_units) +
                 ") must match number of ids (" + str(n_ids) + ")")
 
         if max(len(unit) for unit in units) > self.max_id_len:
-            raise DSGridValueError("Enumeration units cannot exceed " + 
+            raise DSGridValueError("Enumeration units cannot exceed " +
                 "{} characters".format(self.max_id_len))
 
     def persist(self, h5group):
-        dset = super().persist(h5group)
+        dset = super(FuelEnumeration, self).persist(h5group)
         dset["units"] = np.array(self.units)
         return dset
 
@@ -246,7 +246,7 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
         ("id", "S" + str(Enumeration.max_id_len)),
         ("name", "S" + str(Enumeration.max_name_len)),
         ("fuel_id", "S" + str(Enumeration.max_id_len))
-    ])    
+    ])
 
     def __init__(self, name, ids, names, fuel_enum, fuel_ids):
         self.name = name
@@ -264,21 +264,21 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
 
         # make sure fuel_ids is as long as ids
         if n_fuel_ids != n_ids:
-            raise DSGridValueError("Number of fuel ids (" + str(n_fuel_ids) + 
+            raise DSGridValueError("Number of fuel ids (" + str(n_fuel_ids) +
                 ") must match number of ids (" + str(n_ids) + ")")
 
         if not isinstance(fuel_enum,FuelEnumeration):
-            raise DSGridValueError("The fuel_enum must be of type " + 
+            raise DSGridValueError("The fuel_enum must be of type " +
                 "{}, but is instead of type {}".format(FuelEnumeration.__class__,
                                                        type(fuel_enum)))
 
         # make sure fuel_ids are in fuel enum
         for fuel_id in set(fuel_ids):
             if fuel_id not in fuel_enum.ids:
-                raise DSGridValueError("The fuel_ids must each be an id in the fuel_enum." + 
+                raise DSGridValueError("The fuel_ids must each be an id in the fuel_enum." +
                     "fuel_id: {}, fuel_enum.ids: {}".format(fuel_id,fuel_enum.ids))
 
-        super().checkvalues()
+        super(MultiFuelEndUseEnumeration, self).checkvalues()
 
         return
 
