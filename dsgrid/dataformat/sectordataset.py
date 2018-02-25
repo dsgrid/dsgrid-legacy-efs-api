@@ -117,8 +117,8 @@ class SectorDataset(object):
             scalings = [1 for x in geo_ids]
 
         elif len(scalings) != len(geo_ids):
-            raise ValueError("Geography ID and scale factor list lengths must " + 
-                "match, but len(geo_ids) = {} and len(scalings) = {}, ".format(len(geo_ids),len(scalings)) + 
+            raise ValueError("Geography ID and scale factor list lengths must " +
+                "match, but len(geo_ids) = {} and len(scalings) = {}, ".format(len(geo_ids),len(scalings)) +
                 "where geo_ids = {}, scalings = {}.".format(geo_ids,scalings))
 
         if full_validation:

@@ -1,5 +1,6 @@
 import os
 from py.test import raises
+from dsgrid import VERSION
 from dsgrid.dataformat.datafile import Datafile
 from dsgrid.dataformat.sectordataset import SectorDataset
 from dsgrid.dataformat.enumeration import (
@@ -29,6 +30,8 @@ def test_datafile_io():
         verify_file_not_there(filepath)
 
         datafile = Datafile(filepath,sectors_subsectors,counties,enduses,hourly2012)
+        assert(datafile.version == VERSION)
+
         sector = datafile.add_sector("res__SingleFamilyDetached")
         assert(sector is datafile["res__SingleFamilyDetached"])
 
@@ -57,4 +60,3 @@ def test_datafile_io_fancy_enduses():
 
         datafile2 = Datafile.load(filepath)
         assert(datafile == datafile2)
-

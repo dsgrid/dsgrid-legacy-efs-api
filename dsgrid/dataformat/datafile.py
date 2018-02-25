@@ -7,7 +7,7 @@ from warnings import warn
 import h5py
 
 
-from dsgrid import DSGridNotImplemented
+from dsgrid import DSGridNotImplemented, VERSION
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
     EndUseEnumerationBase, TimeEnumeration)
@@ -31,6 +31,8 @@ class Datafile(object):
         self.sectordata = {}
         if not loading:
             with h5py.File(self.h5path,mode="w-") as f:
+                f.attrs["dsgrid"] = VERSION
+                self.version = VERSION
                 enum_group = f.create_group("enumerations")
                 data_group = f.create_group("data")
 
@@ -75,6 +77,7 @@ class Datafile(object):
                          EndUseEnumerationBase.load(enum_group),
                          TimeEnumeration.load(enum_group),
                          loading=True)
+            result.version = f.attrs.get("dsgrid", "v0.1.0")
             for sector_id, sector_dataset in SectorDataset.loadall(result,f["data"]).items():
                 result.sectordata[sector_id] = sector_dataset
         return result
