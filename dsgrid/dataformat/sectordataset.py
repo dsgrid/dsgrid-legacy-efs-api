@@ -38,8 +38,9 @@ enum_datamap_dtype = np.dtype([
 
 def create_datamap(enum, enum_ids, enum_scales=None):
 
-    datamap = np.full(len(enum.ids), (NULL_IDX, 1.0),
-                      dtype=enum_datamap_dtype)
+    datamap = np.empty(len(enum.ids), enum_datamap_dtype)
+    datamap["idx"] = NULL_IDX
+    datamap["scale"] = 0.
 
     if enum_scales:
         if len(enum_ids) != len(enum_scales):
@@ -50,7 +51,7 @@ def create_datamap(enum, enum_ids, enum_scales=None):
     else:
         enum_scales = repeat(1.0, len(enum_ids))
 
-    for i, enum_id, enum_scale in enumerate(zip(enum_ids, enum_scales)):
+    for i, (enum_id, enum_scale) in enumerate(zip(enum_ids, enum_scales)):
         enum_idx = list(enum.ids).index(enum_id)
         datamap[enum_idx] = (i, enum_scale)
 
@@ -94,9 +95,8 @@ class SectorDataset(object):
         if loading:
             # determine how many geos
             with h5py.File(self.datafile.h5path,'r') as f:
-                dset = f["data/" + self.sector_id]
-                geo_ptrs = [x for x in dset.attrs["geo_mappings"] if not (x == NULL_IDX)]
-                self.n_geos = len(set(geo_ptrs))
+                geo_mappings = f["data/" + self.sector_id + "/geographies"]
+                self.n_geos = sum(geo_mappings[:, "idx"] != NULL_IDX)
 
         else:
             with h5py.File(self.datafile.h5path, "r+") as f:
@@ -116,7 +116,7 @@ class SectorDataset(object):
                     chunks=chunk_shape,
                     compression="gzip")
 
-                dgroup["geographies"] = create_datamap(datafile.geography_enum, [])
+                dgroup["geographies"] = create_datamap(datafile.geo_enum, [])
                 dgroup["enduses"] = create_datamap(datafile.enduse_enum, self.enduses)
                 dgroup["times"] = create_datamap(datafile.time_enum, self.times)
 
@@ -173,8 +173,9 @@ class SectorDataset(object):
         if full_validation:
             for time in dataframe.index:
                 if time not in self.times:
-                    raise ValueError("All time IDs (DataFrame row indices) must be " +
-                                     "in the DataFile's TimeEnumeration")
+                    raise ValueError("Time ID (DataFrame row index) " + time +
+" is invalid: time IDs must both exist in the DataFile's TimeEnumeration and "
+"have been defined as a sector-relevant time during the SectorDataset's creation.")
 
         if len(dataframe.columns.unique()) != len(dataframe.columns):
             raise ValueError("DataFrame column names must be unique")
@@ -182,8 +183,9 @@ class SectorDataset(object):
         if full_validation:
             for enduse in dataframe.columns:
                 if enduse not in self.enduses:
-                    raise ValueError("All end-use IDs (DataFrame column names) must be " +
-                                     "in the DataFile's EndUseEnumeration")
+                    raise ValueError("End-use ID (DataFrame column name) " + enduse +
+" is invalid: end-use IDs must both exist in the DataFile's EndUseEnumeration and "
+"have been defined as a sector-relevant end-use during the SectorDataset's creation.")
 
         id_idxs = np.array([
             self.datafile.geo_enum.ids.index(geo_id)
@@ -194,24 +196,25 @@ class SectorDataset(object):
 
         with h5py.File(self.datafile.h5path, "r+") as f:
 
-            dset = f["data/" + self.sector_id]
-            new_idx = self.n_geos
+            dgroup = f["data/" + self.sector_id]
+            new_geo_idx = self.n_geos
 
-            dset.resize(new_idx+1, 0)
-            dset[new_idx, :, :] = data
+            dset = dgroup["data"]
+            dset.resize(new_geo_idx+1, 0)
+            dset[new_geo_idx, :, :] = data
             self.n_geos += 1
 
-            geo_mappings = dset.attrs["geo_mappings"][:]
+            geo_mappings = dgroup["geographies"][:, "idx"]
             try:
-                geo_mappings[id_idxs] = new_idx
+                geo_mappings[id_idxs] = new_geo_idx
             except:
-                logger.error("Unable to set geo_mappings[id_idxs] = new_idx with geo_ids: {}, id_idx: {}, geo_mappings: {}".format(repr(geo_ids), repr(id_idxs), repr(geo_mappings)))
+                logger.error("Unable to set geo_mappings[id_idxs] = new_geo_idx with geo_ids: {}, id_idx: {}, geo_mappings: {}".format(repr(geo_ids), repr(id_idxs), repr(geo_mappings)))
                 raise
-            dset.attrs["geo_mappings"] = geo_mappings
+            dgroup["geographies"][:, "idx"] = geo_mappings
 
-            geo_scalings = dset.attrs["geo_scalings"][:]
+            geo_scalings = dgroup["geographies"][:, "scale"]
             geo_scalings[id_idxs] = scalings
-            dset.attrs["geo_scalings"] = geo_scalings
+            dgroup["geographies"][:, "scale"] = geo_scalings
 
 
     def __setitem__(self, geo_ids, dataframe):
@@ -222,10 +225,10 @@ class SectorDataset(object):
         id_idx = self.datafile.geo_enum.ids.index(geo_id)
 
         with h5py.File(self.datafile.h5path, "r") as f:
-            dset = f["data/" + self.sector_id]
+            dgroup = f["data/" + self.sector_id]
+            dset = dgroup["data"]
 
-            geo_idx = dset.attrs["geo_mappings"][id_idx]
-            geo_scale = dset.attrs["geo_scalings"][id_idx]
+            geo_idx, geo_scale = dgroup["geographies"][id_idx]
 
             if geo_idx == NULL_IDX:
                 data = 0

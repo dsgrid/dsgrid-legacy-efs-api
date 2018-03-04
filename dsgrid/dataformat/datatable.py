@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import h5py
 
-from dsgrid.dataformat.sectordataset import ZERO_IDX
+from dsgrid.dataformat.sectordataset import NULL_IDX
 
 logger = logging.getLogger(__name__)
 
@@ -22,18 +22,20 @@ class Datatable(object):
 
             for sectorname, sectordataset in datafile.sectordata.items():
 
-                h5dset = f["data/" + sectorname]
+                dgroup = f["data/" + sectorname]
+                dset = dgroup["data"]
+                geo_mappings = dgroup["geographies"][:]
 
-                geo_idxs = np.nonzero(h5dset.attrs["geo_mappings"][:] != ZERO_IDX)
+                geo_idxs = np.nonzero(geo_mappings["idx"] != NULL_IDX)
                 geo_ids = np.array(self.geo_enum.ids)[geo_idxs]
-                geo_dset_idxs = h5dset.attrs["geo_mappings"][geo_idxs]
-                geo_scales = h5dset.attrs["geo_scalings"][geo_idxs]
+                geo_dset_idxs = geo_mappings["idx"][geo_idxs]
+                geo_scales = geo_mappings["scale"][geo_idxs]
 
                 index = self._categoricalmultiindex(
                     [sectorname], geo_ids,
                     sectordataset.enduses, sectordataset.times)
 
-                data = h5dset[:, :, :]
+                data = dset[:, :, :]
                 data = data[geo_dset_idxs, :, :] * geo_scales.reshape(-1,1,1)
                 data = pd.Series(data.reshape(-1),index=index,dtype="float32")
 
@@ -43,7 +45,7 @@ class Datatable(object):
         self.sorted = False; self.warned = False
         if sort:
             self.sort()
-            
+
 
     def sort(self):
         if not self.sorted:
