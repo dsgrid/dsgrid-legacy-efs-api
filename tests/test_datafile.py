@@ -1,6 +1,6 @@
 import os
 from py.test import raises
-from dsgrid import VERSION
+from dsgrid import __version__ as VERSION
 from dsgrid.dataformat.datafile import Datafile
 from dsgrid.dataformat.sectordataset import SectorDataset
 from dsgrid.dataformat.enumeration import (

@@ -7,7 +7,8 @@ from warnings import warn
 import h5py
 
 
-from dsgrid import DSGridNotImplemented, VERSION
+from dsgrid import __version__ as VERSION
+from dsgrid import DSGridNotImplemented
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
     EndUseEnumerationBase, TimeEnumeration)
