@@ -26,7 +26,7 @@ class Datatable(object):
                 dset = dgroup["data"]
                 geo_mappings = dgroup["geographies"][:]
 
-                geo_idxs = np.nonzero(geo_mappings["idx"] != NULL_IDX)
+                geo_idxs = np.flatnonzero(geo_mappings["idx"] != NULL_IDX)
                 geo_ids = np.array(self.geo_enum.ids)[geo_idxs]
                 geo_dset_idxs = geo_mappings["idx"][geo_idxs]
                 geo_scales = geo_mappings["scale"][geo_idxs]

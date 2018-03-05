@@ -78,7 +78,7 @@ class Datafile(object):
                          TimeEnumeration.load(enum_group),
                          loading=True)
             result.version = f.attrs.get("dsgrid", "v0.1.0")
-            for sector_id, sector_dataset in SectorDataset.loadall(result,f["data"]).items():
+            for sector_id, sector_dataset in SectorDataset.loadall(result,f).items():
                 result.sectordata[sector_id] = sector_dataset
         return result
 
@@ -94,7 +94,7 @@ class Datafile(object):
         Adds a SectorDataset to this file and returns it.
         """
 
-        sector = SectorDataset(sector_id,self,enduses=enduses,times=times)
+        sector = SectorDataset.new(self,sector_id,enduses,times)
         self.sectordata[sector_id] = sector
 
         return sector

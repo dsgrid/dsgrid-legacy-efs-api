@@ -18,13 +18,13 @@ def test_sectordataset_validation():
 
         datafile = Datafile(filepath, sectors_subsectors, counties, enduses, hourly2012)
 
-        raises(ValueError, SectorDataset, "bogus_sector", datafile)
-        raises(ValueError, SectorDataset, "ind__22", datafile,
+        raises(ValueError, SectorDataset.new, datafile, "bogus_sector")
+        raises(ValueError, SectorDataset.new, datafile, "ind__22",
                enduses=["bogus_enduse"])
-        raises(ValueError, SectorDataset, "ind__22", datafile,
+        raises(ValueError, SectorDataset.new, datafile, "ind__22",
                times=["bogus_time"])
 
-        dataset = SectorDataset("ind__22", datafile,
+        dataset = SectorDataset.new(datafile, "ind__22",
                                 ["heating", "cooling"])
         data = pd.DataFrame(columns=["heating", "cooling"],
                             index=hourly2012.ids, dtype="float32")
@@ -91,13 +91,13 @@ def test_sectordataset_io_fancy_enduses():
             subset_enduses.append(_id)
 
     # column names can be subset of MultiFuelEndUseEnumeration.ids ...
-    zerodata = pd.DataFrame(0, dtype='float32', columns=subset_enduses, 
+    zerodata = pd.DataFrame(0, dtype='float32', columns=subset_enduses,
                             index=hourly2012.ids)
 
     # ... OR a MultiIndex made from those tuples
     cols = pd.MultiIndex.from_tuples(subset_enduses)
     data = pd.DataFrame(np.random.rand(len(hourly2012), len(subset_enduses)),
-                        dtype='float32', 
+                        dtype='float32',
                         columns=cols, index=hourly2012.ids)
     data23 = pd.DataFrame(np.array(data)*2.3, dtype='float32',
                         columns=cols, index=hourly2012.ids)

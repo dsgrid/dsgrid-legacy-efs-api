@@ -60,65 +60,92 @@ def create_datamap(enum, enum_ids, enum_scales=None):
 
 class SectorDataset(object):
 
-    def __init__(self,sector_id,datafile,enduses=None,times=None,loading=False):
+    def __init__(self,datafile,sector_id,enduses,times):
         """
-        Initialize the SectorDataset within datafile. If not loading, then are
-        creating a new dataset and start persisting the new data.
+        Creates a SectorDataset object. Note that this does not read from
+        or write to datafile in any way, and should generally not be called directly.
+        Instead, use the SectorDataset.load or SectorDataset.new class methods.
         """
 
         if sector_id not in datafile.sector_enum.ids:
             raise ValueError("Sector ID " + sector_id + " is not in " +
                                 "the Datafile's SectorEnumeration")
 
-        if enduses:
-            if not set(enduses).issubset(set(datafile.enduse_enum.ids)):
-                raise ValueError("Supplied enduses are not a subset of the " +
-                                 "Datafile's EndUseEnumeration")
-        else:
-            enduses = datafile.enduse_enum.ids
+        if not set(enduses).issubset(set(datafile.enduse_enum.ids)):
+            raise ValueError("Supplied enduses (" + str(enduses) +
+                             ") are not a subset of the " +
+                             "Datafile's EndUseEnumeration ids (" +
+                             str(datafile.enduse_enum.ids) + ")")
 
-        if times:
-            if not set(times).issubset(set(datafile.time_enum.ids)):
-                raise ValueError("Supplied times are not a subset of the " +
+        if not set(times).issubset(set(datafile.time_enum.ids)):
+            raise ValueError("Supplied times are not a subset of the " +
                              "Datafile's TimeEnumeration")
-        else:
-            times = datafile.time_enum.ids
 
         self.sector_id = sector_id
         self.datafile = datafile
         self.enduses = enduses
         self.times = times
 
-        n_total_geos = len(datafile.geo_enum.ids)
-        self.n_geos = 0
+    @classmethod
+    def new(cls,datafile,sector_id,enduses=None,times=None):
 
-        if loading:
-            # determine how many geos
-            with h5py.File(self.datafile.h5path,'r') as f:
-                geo_mappings = f["data/" + self.sector_id + "/geographies"]
-                self.n_geos = sum(geo_mappings[:, "idx"] != NULL_IDX)
+        if not enduses:
+            enduses = datafile.enduse_enum.ids
 
-        else:
-            with h5py.File(self.datafile.h5path, "r+") as f:
-                n_enduses = len(self.enduses)
-                n_times = len(self.times)
+        if not times:
+            times = datafile.time_enum.ids
 
-                shape = (0, n_enduses, n_times)
-                max_shape = (None, n_enduses, n_times)
-                chunk_shape = (1, n_enduses, n_times)
+        sdset = cls(datafile,sector_id,enduses,times)
 
-                dgroup = f["data"].create_group(self.sector_id)
+        n_enduses = len(enduses)
+        n_times = len(times)
+        shape = (0, n_enduses, n_times)
+        max_shape = (None, n_enduses, n_times)
+        chunk_shape = (1, n_enduses, n_times)
 
-                dset = dgroup.create_dataset(
-                    "data",
-                    shape=shape,
-                    maxshape=max_shape,
-                    chunks=chunk_shape,
-                    compression="gzip")
+        with h5py.File(datafile.h5path, "r+") as f:
 
-                dgroup["geographies"] = create_datamap(datafile.geo_enum, [])
-                dgroup["enduses"] = create_datamap(datafile.enduse_enum, self.enduses)
-                dgroup["times"] = create_datamap(datafile.time_enum, self.times)
+            dgroup = f["data"].create_group(sector_id)
+
+            dset = dgroup.create_dataset(
+                "data",
+                shape=shape,
+                maxshape=max_shape,
+                chunks=chunk_shape,
+                compression="gzip")
+
+            dgroup["geographies"] = create_datamap(datafile.geo_enum, [])
+            dgroup["enduses"] = create_datamap(datafile.enduse_enum, enduses)
+            dgroup["times"] = create_datamap(datafile.time_enum, times)
+
+        return sdset
+
+
+    @classmethod
+    def load(cls,datafile,f,sector_id):
+
+        dgroup = f["data/" + sector_id]
+
+        enduses = datafile.enduse_enum.ids
+        eu_idxs = np.flatnonzero(dgroup["enduses"][:, "idx"] != NULL_IDX)
+        enduses = [enduses[i] for i in eu_idxs]
+
+        times = datafile.time_enum.ids
+        time_idxs = np.flatnonzero(dgroup["times"][:, "idx"] != NULL_IDX)
+        times = [times[i] for i in time_idxs]
+
+        return cls(datafile,sector_id,enduses,times)
+
+
+    @classmethod
+    def loadall(cls,datafile,f):
+
+        sectors = {}
+        for sector_id, sector_group in f["data"].items():
+            if isinstance(sector_group, h5py.Group):
+                sectors[sector_id] = SectorDataset.load(datafile, f, sector_id)
+
+        return sectors
 
 
     def __eq__(self, other):
@@ -197,12 +224,12 @@ class SectorDataset(object):
         with h5py.File(self.datafile.h5path, "r+") as f:
 
             dgroup = f["data/" + self.sector_id]
-            new_geo_idx = self.n_geos
-
             dset = dgroup["data"]
+
+            new_geo_idx = dset.shape[0]
+
             dset.resize(new_geo_idx+1, 0)
             dset[new_geo_idx, :, :] = data
-            self.n_geos += 1
 
             geo_mappings = dgroup["geographies"][:, "idx"]
             try:
@@ -312,22 +339,6 @@ class SectorDataset(object):
 
             geo_idx = dset.attrs["geo_mappings"][id_idx]
             return geo_idx == NULL_IDX
-
-    @classmethod
-    def loadall(cls,datafile,h5group):
-        enduses = list(datafile.enduse_enum.ids)
-        times = np.array(datafile.time_enum.ids)
-        sectors = {}
-        for dset_id, dset in h5group.items():
-            if isinstance(dset, h5py.Dataset):
-                sectors[dset_id] = cls(
-                    dset_id,
-                    datafile,
-                    [enduses[i] for i in dset.attrs["enduse_mappings"][:]],
-                    list(times[dset.attrs["time_mappings"][:]]),
-                    loading=True)
-
-        return sectors
 
     def map_dimension(self,new_datafile,mapping):
         # import ExplicitDisaggregation here to avoid circular import but be

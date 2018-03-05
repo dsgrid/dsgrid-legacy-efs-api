@@ -278,7 +278,7 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
 
     @property
     def ids(self):
-        return zip(self._ids,self._fuel_ids)
+        return list(zip(self._ids,self._fuel_ids))
 
     @property
     def names(self):
