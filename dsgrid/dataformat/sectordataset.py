@@ -38,19 +38,15 @@ enum_datamap_dtype = np.dtype([
     ("scale", "f4") # 32-bit float scaling factor
 ])
 
-def create_datamap(enum, enum_ids, enum_scales=None):
+class Datamap(object):
     """
-    Parameters
-    ----------
-    enum : dsgrid.enumeration.Enumeration
-    enum_ids : list
-        List of items in enum.ids
-    enum_scales : None or list
-        if list, is list of floats the same length as enum_ids
+    Map between Datafile-level enumeration (enum) and Sectordataset-level 
+    sub-enumeration (enum_ids). Sub-enumeration may also have non-unity scaling 
+    factors.
 
-    Returns
-    -------
-    numpy.ndarray
+    Attributes
+    ----------
+    value | numpy.ndarray
         datamap vector of length len(enum.ids) with 'idx' and 'scale' 
         dimensions. For the example of j, scale = datamap[i], 
         - i = position of enum_id in enum.ids (datafile-level enum)
@@ -58,24 +54,60 @@ def create_datamap(enum, enum_ids, enum_scales=None):
         - scale = scaling factor to apply to this enumeration element
     """
 
-    datamap = np.empty(len(enum.ids), enum_datamap_dtype)
-    datamap["idx"] = NULL_IDX
-    datamap["scale"] = 0.
+    def __init__(self,value):
+        self.value = value
 
-    if enum_scales:
-        if len(enum_ids) != len(enum_scales):
-            raise ValueError(enum.dimension + " id list has length " +
-                             len(enum_ids) + ", but scaling factor list " +
-                             "has length " + len(enum_scales))
+    def get_subenum(self,enum):
+        """
+        Parameters
+        ----------
+        enum | dsgrid.dataformat.enumeration.Enumeration
+            Datafile-level enumeration
 
-    else:
-        enum_scales = repeat(1.0, len(enum_ids))
+        Returns
+        -------
+        list of enum.ids
+            In the correct order for this Sectordataset
+        """
+        full_enum_ids = enum.ids
+        original_idxes = np.flatnonzero(self.value[:, "idx"] != NULL_IDX)
+        original_idxes = sorted(original_idxes,key=lambda x: self.value[x]['idx'])
+        return [full_enum_ids[i] for i in original_idxes]
 
-    for i, (enum_id, enum_scale) in enumerate(zip(enum_ids, enum_scales)):
-        enum_idx = list(enum.ids).index(enum_id)
-        datamap[enum_idx] = (i, enum_scale)
 
-    return datamap
+    @classmethod
+    def create(cls, enum, enum_ids, enum_scales=None):
+        """
+        Parameters
+        ----------
+        enum : dsgrid.enumeration.Enumeration
+        enum_ids : list
+            List of items in enum.ids
+        enum_scales : None or list
+            if list, is list of floats the same length as enum_ids
+
+        Returns
+        -------
+        Datamap
+        """
+        datamap = np.empty(len(enum.ids), enum_datamap_dtype)
+        datamap["idx"] = NULL_IDX
+        datamap["scale"] = 0.
+
+        if enum_scales:
+            if len(enum_ids) != len(enum_scales):
+                raise ValueError(enum.dimension + " id list has length " +
+                                 len(enum_ids) + ", but scaling factor list " +
+                                 "has length " + len(enum_scales))
+
+        else:
+            enum_scales = repeat(1.0, len(enum_ids))
+
+        for i, (enum_id, enum_scale) in enumerate(zip(enum_ids, enum_scales)):
+            enum_idx = list(enum.ids).index(enum_id)
+            datamap[enum_idx] = (i, enum_scale)
+
+        return cls(datamap)
 
 
 class SectorDataset(object):
@@ -136,9 +168,9 @@ class SectorDataset(object):
                 chunks=chunk_shape,
                 compression="gzip")
 
-            dgroup["geographies"] = create_datamap(datafile.geo_enum, [])
-            dgroup["enduses"] = create_datamap(datafile.enduse_enum, enduses)
-            dgroup["times"] = create_datamap(datafile.time_enum, times)
+            dgroup["geographies"] = Datamap.create(datafile.geo_enum, []).value
+            dgroup["enduses"] = Datamap.create(datafile.enduse_enum, enduses).value
+            dgroup["times"] = Datamap.create(datafile.time_enum, times).value
 
         return sdset
 
@@ -147,13 +179,11 @@ class SectorDataset(object):
     def load(cls,datafile,f,sector_id):
         dgroup = f["data/" + sector_id]
 
-        enduses = datafile.enduse_enum.ids
-        eu_idxs = np.flatnonzero(dgroup["enduses"][:, "idx"] != NULL_IDX)
-        enduses = [enduses[i] for i in eu_idxs]
+        datamap = Datamap(dgroup["enduses"])
+        enduses = datamap.get_subenum(datafile.enduse_enum)
 
-        times = datafile.time_enum.ids
-        time_idxs = np.flatnonzero(dgroup["times"][:, "idx"] != NULL_IDX)
-        times = [times[i] for i in time_idxs]
+        datamap = Datamap(dgroup["times"])
+        times = datamap.get_subenum(datafile.time_enum)
 
         return cls(datafile,sector_id,enduses,times)
 
