@@ -39,6 +39,24 @@ enum_datamap_dtype = np.dtype([
 ])
 
 def create_datamap(enum, enum_ids, enum_scales=None):
+    """
+    Parameters
+    ----------
+    enum : dsgrid.enumeration.Enumeration
+    enum_ids : list
+        List of items in enum.ids
+    enum_scales : None or list
+        if list, is list of floats the same length as enum_ids
+
+    Returns
+    -------
+    numpy.ndarray
+        datamap vector of length len(enum.ids) with 'idx' and 'scale' 
+        dimensions. For the example of j, scale = datamap[i], 
+        - i = position of enum_id in enum.ids (datafile-level enum)
+        - j = position of enum_id in enum_ids (sectordataset-level sub-enum)
+        - scale = scaling factor to apply to this enumeration element
+    """
 
     datamap = np.empty(len(enum.ids), enum_datamap_dtype)
     datamap["idx"] = NULL_IDX
@@ -87,6 +105,8 @@ class SectorDataset(object):
         self.datafile = datafile
         self.enduses = enduses
         self.times = times
+
+        self.n_geos = 0 # data is inserted by geography
 
     @classmethod
     def new(cls,datafile,sector_id,enduses=None,times=None):
