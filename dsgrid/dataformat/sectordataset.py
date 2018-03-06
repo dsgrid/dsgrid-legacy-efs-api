@@ -5,6 +5,7 @@ import logging
 import numpy as np
 import pandas as pd
 
+from dsgrid import __version__ as VERSION
 from dsgrid import DSGridError, DSGridNotImplemented
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
@@ -138,7 +139,7 @@ class SectorDataset(object):
 
 
     @classmethod
-    def loadall(cls,datafile,f):
+    def loadall(cls,datafile,f,version=VERSION):
 
         sectors = {}
         for sector_id, sector_group in f["data"].items():

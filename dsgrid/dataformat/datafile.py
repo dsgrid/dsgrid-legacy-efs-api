@@ -1,14 +1,14 @@
 from collections import defaultdict
+from distutils.version import StrictVersion
 import logging
-from os.path import exists
+import os
 from shutil import copyfile
 from warnings import warn
 
 import h5py
 
-
 from dsgrid import __version__ as VERSION
-from dsgrid import DSGridNotImplemented
+from dsgrid import DSGridNotImplemented, DSGridValueError
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
     EndUseEnumerationBase, TimeEnumeration)
@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 class Datafile(object):
 
     def __init__(self,h5path,sector_enum,geography_enum,enduse_enum,time_enum,
-                 loading=False):
+                 loading=False,version=VERSION):
         """
         Create a new Datafile object.
         """
@@ -29,11 +29,12 @@ class Datafile(object):
         self.geo_enum = geography_enum
         self.enduse_enum = enduse_enum
         self.time_enum = time_enum
+        self.version = version
         self.sectordata = {}
         if not loading:
+            assert StrictVersion(version) == VERSION, "New Datafiles must be created at the current version"
             with h5py.File(self.h5path,mode="w-") as f:
-                f.attrs["dsgrid"] = VERSION
-                self.version = VERSION
+                f.attrs["dsgrid"] = version
                 enum_group = f.create_group("enumerations")
                 data_group = f.create_group("data")
 
@@ -69,18 +70,51 @@ class Datafile(object):
         return an_enum == self.time_enum
 
     @classmethod
-    def load(cls,filepath):
+    def load(cls,filepath,upgrade=True,overwrite=False,new_filepath=None,**kwargs):
         with h5py.File(filepath, "r") as f:
+            
+            version = f.attrs.get("dsgrid", "0.1.0")
+            if StrictVersion(version) > StrictVersion(VERSION):
+                raise DSGridValueError("File at {} is of version {}. ".format(filepath,version) + 
+                    "It cannot be opened by this older version {} codebase.".format(VERSION))
+
             enum_group = f["enumerations"]
             result = cls(filepath,
                          SectorEnumeration.load(enum_group),
                          GeographyEnumeration.load(enum_group),
                          EndUseEnumerationBase.load(enum_group),
                          TimeEnumeration.load(enum_group),
-                         loading=True)
-            result.version = f.attrs.get("dsgrid", "v0.1.0")
-            for sector_id, sector_dataset in SectorDataset.loadall(result,f).items():
+                         loading=True,
+                         version=version)
+
+            for sector_id, sector_dataset in SectorDataset.loadall(result,f,version=version).items():
                 result.sectordata[sector_id] = sector_dataset
+
+        if StrictVersion(result.version) < StrictVersion(VERSION):
+            if upgrade:
+                fp = filepath if overwrite else new_filepath
+                if fp is None:
+                    # make up a filename
+                    filedir = os.path.dirname(filepath)
+                    filename = os.path.splitext(os.path.basename(filepath))[0]
+                    version_suffix = '_' + VERSION.replace('.','_')
+                    fp = os.path.join(filedir,filename + version_suffix + '.dsg')
+                    while os.path.exists(fp):
+                        fp = os.path.join(filedir,os.path.splitext(os.path.basename(fp))[0] + version_suffix + '.dsg')
+                    logger.info("Saving upgraded Datafile to {}".format(fp))
+
+                if fp != filepath:
+                    result.save(fp)
+
+                with h5py.File(fp,mode="a") as f:
+                    for old_version in OLD_VERSIONS:
+                        if result.version == old_version.from_version:
+                            result = old_version.upgrade(result,f)
+            elif not '__saving' in kwargs:
+                logger.warn("Not upgrading Datafile from version " + 
+                    "{} (current version is {}).".format(result.version,VERSION) + 
+                    " This package may not run properly on the loaded data.")
+
         return result
 
     def save(self,filepath):
@@ -88,7 +122,7 @@ class Datafile(object):
         Save self to filepath and return newly created Datafile
         """
         copyfile(self.h5path,filepath)
-        return self.__class__.load(filepath)
+        return self.__class__.load(filepath,upgrade=False,__saving=True)
 
     def add_sector(self,sector_id,enduses=None,times=None):
         """
@@ -156,3 +190,33 @@ class Datafile(object):
             print("Scaling data for {} in {}".format(sector_id,self.h5path))
             result.sectordata[sector_id] = sectordataset.scale_data(result,factor=factor)
         return result
+
+
+class UpgradeDatafile(object):
+    from_version = None
+    to_version = None
+
+    @classmethod
+    def upgrade(cls,datafile,f):
+        assert StrictVersion(datafile.version) == StrictVersion(cls.from_version)
+
+        cls._transform(datafile,f)
+
+        f.attrs["dsgrid"] = cls.to_version
+        datafile.version = cls.to_version
+        return datafile
+
+    @classmethod
+    def _transform(cls,datafile,f):
+        pass
+
+
+class DSG_0_1_0(UpgradeDatafile):
+    from_version = '0.1.0'
+    to_version = '0.2.0'
+
+    @classmethod
+    def _transform(cls,datafile,f):
+        pass
+
+OLD_VERSIONS = [DSG_0_1_0]

@@ -9,6 +9,8 @@ from dsgrid.dataformat.enumeration import (
 )
 from .temphdf5 import TempHDF5Filepath
 
+here = os.path.dirname(__file__)
+
 # Python2 doesn't have a FileNotFoundError
 try:
     FileNotFoundError
@@ -60,3 +62,21 @@ def test_datafile_io_fancy_enduses():
 
         datafile2 = Datafile.load(filepath)
         assert(datafile == datafile2)
+
+
+def test_backward_compatible():
+    for p, dirs, junk1 in os.walk(os.path.join(here,'data')):
+        for version_dir in dirs:
+            for pp, junk2, files in os.walk(os.path.join(p,version_dir)):
+                for filename in files:
+                    datafile1 = Datafile.load(os.path.join(pp,filename),upgrade=False)
+                    assert datafile1.version == version_dir[1:]
+                    with TempHDF5Filepath() as new_filepath:
+                        datafile2 = Datafile.load(os.path.join(pp,filename),new_filepath=new_filepath)
+                        assert datafile2.version == VERSION
+
+                        # check that data seems about the same
+                        assert len(datafile1.sectordata) == len(datafile2.sectordata)
+
+                break
+        break
