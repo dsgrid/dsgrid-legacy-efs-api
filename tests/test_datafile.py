@@ -1,5 +1,7 @@
+import logging
 import os
 from py.test import raises
+
 from dsgrid import __version__ as VERSION
 from dsgrid.dataformat.datafile import Datafile
 from dsgrid.dataformat.sectordataset import SectorDataset
@@ -9,13 +11,17 @@ from dsgrid.dataformat.enumeration import (
 )
 from .temphdf5 import TempHDF5Filepath
 
+logger = logging.getLogger(__name__)
+
 here = os.path.dirname(__file__)
+
 
 # Python2 doesn't have a FileNotFoundError
 try:
     FileNotFoundError
 except NameError:
     FileNotFoundError = IOError
+
 
 def verify_file_not_there(filepath):
     try:
@@ -69,7 +75,8 @@ def test_backward_compatible():
         for version_dir in dirs:
             for pp, junk2, files in os.walk(os.path.join(p,version_dir)):
                 for filename in files:
-                    datafile1 = Datafile.load(os.path.join(pp,filename),upgrade=False)
+                    filepath = os.path.join(pp,filename)
+                    datafile1 = Datafile.load(filepath,upgrade=False)
                     assert datafile1.version == version_dir[1:]
                     with TempHDF5Filepath() as new_filepath:
                         datafile2 = Datafile.load(os.path.join(pp,filename),new_filepath=new_filepath)
@@ -77,6 +84,13 @@ def test_backward_compatible():
 
                         # check that data seems about the same
                         assert len(datafile1.sectordata) == len(datafile2.sectordata)
+                        assert len(datafile2.sectordata) > 0
 
+                        # check that datafile2 is browsable
+                        for sector_id, sectordataset in datafile2.sectordata.items():
+                            assert sectordataset.n_geos > 0
+                            
+                            df, geo_ids, scalings = sectordataset.get_data(0)
+                            assert len(df.index) > 0
                 break
         break

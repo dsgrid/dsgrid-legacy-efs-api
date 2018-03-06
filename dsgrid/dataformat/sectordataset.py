@@ -1,4 +1,5 @@
 from collections import defaultdict, OrderedDict
+from distutils.version import StrictVersion
 from itertools import repeat
 import h5py
 import logging
@@ -124,7 +125,6 @@ class SectorDataset(object):
 
     @classmethod
     def load(cls,datafile,f,sector_id):
-
         dgroup = f["data/" + sector_id]
 
         enduses = datafile.enduse_enum.ids
@@ -139,14 +139,14 @@ class SectorDataset(object):
 
 
     @classmethod
-    def loadall(cls,datafile,f,version=VERSION):
+    def loadall(cls,datafile,f,_upgrade_class=None):
 
-        sectors = {}
         for sector_id, sector_group in f["data"].items():
-            if isinstance(sector_group, h5py.Group):
-                sectors[sector_id] = SectorDataset.load(datafile, f, sector_id)
-
-        return sectors
+            if _upgrade_class is not None:
+                yield sector_id, _upgrade_class.load_sectordataset(datafile,f,sector_id)
+                continue
+            assert isinstance(sector_group, h5py.Group)
+            yield sector_id, SectorDataset.load(datafile,f,sector_id)
 
 
     def __eq__(self, other):
