@@ -55,25 +55,8 @@ class Datamap(object):
     """
 
     def __init__(self,value):
+        assert isinstance(value,np.ndarray), type(value)
         self.value = value
-
-    def get_subenum(self,enum):
-        """
-        Parameters
-        ----------
-        enum | dsgrid.dataformat.enumeration.Enumeration
-            Datafile-level enumeration
-
-        Returns
-        -------
-        list of enum.ids
-            In the correct order for this Sectordataset
-        """
-        full_enum_ids = enum.ids
-        original_idxes = np.flatnonzero(self.value[:, "idx"] != NULL_IDX)
-        original_idxes = sorted(original_idxes,key=lambda x: self.value[x]['idx'])
-        return [full_enum_ids[i] for i in original_idxes]
-
 
     @classmethod
     def create(cls, enum, enum_ids, enum_scales=None):
@@ -108,6 +91,66 @@ class Datamap(object):
             datamap[enum_idx] = (i, enum_scale)
 
         return cls(datamap)
+
+    @classmethod
+    def load(cls,dataset):
+        assert isinstance(dataset,h5py.Dataset)
+        idx = dataset[:,"idx"]
+        scale = dataset[:,"scale"]
+        datamap = np.empty(len(idx), enum_datamap_dtype)
+        datamap["idx"] = idx
+        datamap["scale"] = scale
+        return cls(datamap)
+
+    def update(self,dataset):
+        dataset[:,"idx"] = self.value["idx"]
+        dataset[:,"scale"] = self.value["scale"]
+
+    @property
+    def num_entries(self):
+        original_idxes = np.flatnonzero(self.value["idx"] != NULL_IDX)
+        return len(set(self.value["idx"][original_idxes]))
+
+    def get_subenum(self,enum):
+        """
+        Parameters
+        ----------
+        enum | dsgrid.dataformat.enumeration.Enumeration
+            Datafile-level enumeration
+
+        Returns
+        -------
+        list of enum.ids
+            In the correct order for this Sectordataset
+        """
+        full_enum_ids = enum.ids
+        original_idxes = np.flatnonzero(self.value["idx"] != NULL_IDX)
+        original_idxes = sorted(original_idxes,key=lambda x: self.value[x]['idx'])
+        return [full_enum_ids[i] for i in original_idxes]
+
+    def append_element(self,new_elem_idx,enum_ids,enum,scalings=[]):
+        if not isinstance(scalings,(list,np.ndarray)):
+            scalings = [scalings]
+
+        if len(scalings) == 0:
+            scalings = [1 for x in enum_ids]
+
+        elif len(scalings) != len(enum_ids):
+            raise ValueError("Enum id and scale factor list lengths must " +
+                "match, but len(enum_ids) = {} and len(scalings) = {}, ".format(len(enum_ids),len(scalings)) +
+                "where enum_ids = {}, scalings = {}.".format(enum_ids,scalings))
+
+        id_idxs = np.array([enum.ids.index(enum_id) for enum_id in enum_ids])
+        scalings = np.array(scalings)
+
+        try:
+            self.value["idx"][id_idxs] = new_elem_idx
+        except:
+            logger.error("Unable to set the selected enumeration ids to new_elem_idx. " + 
+                "enum_ids: {}, id_idxs: {}, new_elem_ids: {}, datamap: {}".format(repr(enum_ids), repr(id_idxs), repr(new_elem_idx), repr(self.value)))
+            raise
+        self.value["scale"][id_idxs] = scalings
+        return
 
 
 class SectorDataset(object):
@@ -179,13 +222,18 @@ class SectorDataset(object):
     def load(cls,datafile,f,sector_id):
         dgroup = f["data/" + sector_id]
 
-        datamap = Datamap(dgroup["enduses"])
+        datamap = Datamap.load(dgroup["enduses"])
         enduses = datamap.get_subenum(datafile.enduse_enum)
 
-        datamap = Datamap(dgroup["times"])
+        datamap = Datamap.load(dgroup["times"])
         times = datamap.get_subenum(datafile.time_enum)
 
-        return cls(datafile,sector_id,enduses,times)
+        result = cls(datafile,sector_id,enduses,times)
+
+        datamap = Datamap.load(dgroup["geographies"])
+        result.n_geos = datamap.num_entries
+
+        return result
 
 
     @classmethod
@@ -228,17 +276,6 @@ class SectorDataset(object):
                 logger.warn("Although geo_ids is empty, dataframe is not:\n{}".format(dataframe))
             return
 
-        if not isinstance(scalings,(list,np.ndarray)):
-            scalings = [scalings]
-
-        if len(scalings) == 0:
-            scalings = [1 for x in geo_ids]
-
-        elif len(scalings) != len(geo_ids):
-            raise ValueError("Geography ID and scale factor list lengths must " +
-                "match, but len(geo_ids) = {} and len(scalings) = {}, ".format(len(geo_ids),len(scalings)) +
-                "where geo_ids = {}, scalings = {}.".format(geo_ids,scalings))
-
         if full_validation:
             for geo_id in geo_ids:
                 if geo_id not in self.datafile.geo_enum.ids:
@@ -265,10 +302,6 @@ class SectorDataset(object):
 " is invalid: end-use IDs must both exist in the DataFile's EndUseEnumeration and "
 "have been defined as a sector-relevant end-use during the SectorDataset's creation.")
 
-        id_idxs = np.array([
-            self.datafile.geo_enum.ids.index(geo_id)
-            for geo_id in geo_ids])
-        scalings = np.array(scalings)
         data = np.array(dataframe.loc[self.times, self.enduses]).T
         data = np.nan_to_num(data)
 
@@ -277,23 +310,15 @@ class SectorDataset(object):
             dgroup = f["data/" + self.sector_id]
             dset = dgroup["data"]
 
-            new_geo_idx = dset.shape[0]
+            new_geo_idx = self.n_geos
+            self.n_geos += 1
 
-            dset.resize(new_geo_idx+1, 0)
+            dset.resize(self.n_geos, 0)
             dset[new_geo_idx, :, :] = data
 
-            geo_mappings = dgroup["geographies"][:, "idx"]
-            try:
-                geo_mappings[id_idxs] = new_geo_idx
-            except:
-                logger.error("Unable to set geo_mappings[id_idxs] = new_geo_idx with geo_ids: {}, id_idx: {}, geo_mappings: {}".format(repr(geo_ids), repr(id_idxs), repr(geo_mappings)))
-                raise
-            dgroup["geographies"][:, "idx"] = geo_mappings
-
-            geo_scalings = dgroup["geographies"][:, "scale"]
-            geo_scalings[id_idxs] = scalings
-            dgroup["geographies"][:, "scale"] = geo_scalings
-
+            geo_mappings = Datamap.load(dgroup["geographies"])
+            geo_mappings.append_element(new_geo_idx,geo_ids,self.datafile.geo_enum,scalings=scalings)
+            geo_mappings.update(dgroup["geographies"])
 
     def __setitem__(self, geo_ids, dataframe):
         self.add_data(dataframe, geo_ids)

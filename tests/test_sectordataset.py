@@ -113,6 +113,7 @@ def test_sectordataset_io_fancy_enduses():
 
         dataset.add_data(data, ["01001", "01003"], [2.3, 4.5])
         dataset["56045"] = data
+        assert dataset.n_geos == 2
 
         pd.testing.assert_frame_equal(dataset["01001"], data23, check_like=True)
         pd.testing.assert_frame_equal(dataset["01003"], data45, check_like=True)
@@ -122,6 +123,7 @@ def test_sectordataset_io_fancy_enduses():
 
         datafile2 = Datafile.load(filepath)
         assert(datafile == datafile2)
+        assert datafile2.sectordata['com__Hotel'].n_geos == 2
 
 def test_sectordataset_io_subset_enduses_different_order():
     comstock_enduses = MultiFuelEndUseEnumeration.read_csv(
