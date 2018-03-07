@@ -14,24 +14,6 @@ from dsgrid.dataformat.enumeration import (
 
 logger = logging.getLogger(__name__)
 
-"""
-Each type of Enumeration has a corresponding datamap for each
-dataset that links an enumeration value with:
-
-  a) a particular index in the dataset along the Enumeration's
-     dimension; and
-  b) a scaling parameter to apply to the associated underlying
-     data.
-
-Multiple enumeration values can refer to the same index in the
-dataset's enumeration dimension, with the option to apply different
-scaling factors. The index is represented as a 32-bit unsigned
-integer, which limits dataset size to 2^32 - 2 in each dimension,
-with NULL_IDX (2^32 - 1) serving as the sentinel value assigned to
-enumeration values not described in the dataset (looking up data
-associated with such an enumeration value will simply return zeros)
-"""
-
 NULL_IDX = 2**32 - 1
 enum_datamap_dtype = np.dtype([
     ("idx", "u4"), # 32-bit unsigned integer index
@@ -42,7 +24,20 @@ class Datamap(object):
     """
     Map between Datafile-level enumeration (enum) and Sectordataset-level 
     sub-enumeration (enum_ids). Sub-enumeration may also have non-unity scaling 
-    factors.
+    factors. Per Sectordataset, these Datamaps link each enumeration value with:
+
+      a) a particular index in the dataset along the Enumeration's
+         dimension; and
+      b) a scaling parameter to apply to the associated underlying
+         data.
+
+    Multiple enumeration values can refer to the same index in the
+    dataset's enumeration dimension, with the option to apply different
+    scaling factors. The index is represented as a 32-bit unsigned
+    integer, which limits dataset size to 2^32 - 2 in each dimension,
+    with NULL_IDX (2^32 - 1) serving as the sentinel value assigned to
+    enumeration values not described in the dataset (looking up data
+    associated with such an enumeration value will simply return zeros)
 
     Attributes
     ----------
@@ -94,6 +89,16 @@ class Datamap(object):
 
     @classmethod
     def load(cls,dataset):
+        """
+        Parameters
+        ----------
+        dataset | h5py.Dataset
+            a Datamap serialized to h5py
+
+        Returns
+        -------
+        Datamap
+        """
         assert isinstance(dataset,h5py.Dataset)
         idx = dataset[:,"idx"]
         scale = dataset[:,"scale"]
@@ -103,11 +108,25 @@ class Datamap(object):
         return cls(datamap)
 
     def update(self,dataset):
+        """
+        Updates dataset with this Datamap's value. Overwrites current 
+        dataset[:,'idx'] and dataset[:,'scale'].
+
+        Parameters
+        ----------
+        dataset | h5py.Dataset
+            a Datamap serialized to h5py
+        """
         dataset[:,"idx"] = self.value["idx"]
         dataset[:,"scale"] = self.value["scale"]
 
     @property
     def num_entries(self):
+        """
+        The number of non-null idx values in this Datamap's value. Corresponds, 
+        e.g. to the number of number of distinct (up to a scaling factor) 
+        entries along a dimension.
+        """
         original_idxes = np.flatnonzero(self.value["idx"] != NULL_IDX)
         return len(set(self.value["idx"][original_idxes]))
 
@@ -129,6 +148,22 @@ class Datamap(object):
         return [full_enum_ids[i] for i in original_idxes]
 
     def append_element(self,new_elem_idx,enum_ids,enum,scalings=[]):
+        """
+        Appends a new non-null element for this Datamap that defines the index 
+        (new_elem_idx) for data that corresponds to enum_ids in enum.
+
+        Parameters
+        ----------
+        new_elem_idx | int
+            index value for the new element
+        enum_ids | list
+            list of distinct elements in enum.ids
+        enum | dsgrid.dataformat.enumeration.Enumeration
+            should be same Enumeration originally used to .create this Datamap
+        scalinges | list of numeric
+            if empty, will be defaulted to 1.0. otherwise should be the same 
+            length as enum_ids
+        """
         if not isinstance(scalings,(list,np.ndarray)):
             scalings = [scalings]
 
@@ -151,6 +186,30 @@ class Datamap(object):
             raise
         self.value["scale"][id_idxs] = scalings
         return
+
+
+def append_element_to_dataset_dimension(dataset,new_elem_idx,enum_ids,enum,scalings=[]):
+    """
+    Helper method to do all the work of adding a new element to a SectorDataset 
+    dimenstion.
+
+    Parameters
+    ----------
+    dataset | h5py.Dataset
+        a Datamap serialized to h5py
+    new_elem_idx | int
+        index value for the new element
+    enum_ids | list
+        list of distinct elements in enum.ids
+    enum | dsgrid.dataformat.enumeration.Enumeration
+        should be same Enumeration originally used to .create this Datamap
+    scalinges | list of numeric
+        if empty, will be defaulted to 1.0. otherwise should be the same 
+        length as enum_ids
+    """
+    datamap = Datamap.load(dataset)
+    datamap.append_element(new_elem_idx,enum_ids,enum,scalings=scalings)
+    datamap.update(dataset)
 
 
 class SectorDataset(object):
@@ -316,9 +375,8 @@ class SectorDataset(object):
             dset.resize(self.n_geos, 0)
             dset[new_geo_idx, :, :] = data
 
-            geo_mappings = Datamap.load(dgroup["geographies"])
-            geo_mappings.append_element(new_geo_idx,geo_ids,self.datafile.geo_enum,scalings=scalings)
-            geo_mappings.update(dgroup["geographies"])
+            append_element_to_dataset_dimension(dgroup["geographies"],
+                new_geo_idx,geo_ids,self.datafile.geo_enum,scalings=scalings)
 
     def __setitem__(self, geo_ids, dataframe):
         self.add_data(dataframe, geo_ids)
