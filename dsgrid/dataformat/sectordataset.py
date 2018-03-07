@@ -41,7 +41,7 @@ class Datamap(object):
 
     Attributes
     ----------
-    value | numpy.ndarray
+    value : numpy.ndarray
         datamap vector of length len(enum.ids) with 'idx' and 'scale' 
         dimensions. For the example of j, scale = datamap[i], 
         - i = position of enum_id in enum.ids (datafile-level enum)
@@ -92,7 +92,7 @@ class Datamap(object):
         """
         Parameters
         ----------
-        dataset | h5py.Dataset
+        dataset : h5py.Dataset
             a Datamap serialized to h5py
 
         Returns
@@ -114,7 +114,7 @@ class Datamap(object):
 
         Parameters
         ----------
-        dataset | h5py.Dataset
+        dataset : h5py.Dataset
             a Datamap serialized to h5py
         """
         dataset[:,"idx"] = self.value["idx"]
@@ -134,7 +134,7 @@ class Datamap(object):
         """
         Parameters
         ----------
-        enum | dsgrid.dataformat.enumeration.Enumeration
+        enum : dsgrid.dataformat.enumeration.Enumeration
             Datafile-level enumeration
 
         Returns
@@ -147,6 +147,83 @@ class Datamap(object):
         original_idxes = sorted(original_idxes,key=lambda x: self.value[x]['idx'])
         return [full_enum_ids[i] for i in original_idxes]
 
+    def is_empty(self,enum_id,enum):
+        """
+        Parameters
+        ----------
+        enum_id : str
+            element of enum.ids
+        enum : dsgrid.dataformat.enumeration.Enumeration
+            Datafile-level enumeration
+
+        Returns
+        -------
+        bool
+            True if the dataset has no data for enum_id, False otherwise
+        """
+        id_idx = list(enum.ids).index(enum_id)
+        return self.value[id_idx]['idx'] == NULL_IDX
+
+    def get_map(self,enum):
+        """
+        Get the data in this map in ordered, hashed form, with the dataset-level 
+        idx as the key.
+
+        Parameters
+        ----------
+        enum : dsgrid.dataformat.enumeration.Enumeration
+            Datafile-level enumeration
+
+        Returns
+        -------
+        OrderedDict
+            idx: (list of enum.ids, scales)
+        """
+        result = OrderedDict()
+        original_idxes = np.flatnonzero(self.value["idx"] != NULL_IDX)
+        unique_idxes = sorted(list(set(self.value["idx"][original_idxes])))
+        for i in unique_idxes:
+            result[i] = (self.ids(i,enum), self.scales(i))
+        return result   
+
+    def ids(self,idx,enum):
+        """
+        Returns the enum.ids for that are mapped to the dataset idx
+
+        Parameters
+        ----------
+        idx : int
+            dataset-level sub-enumeration index
+        enum : dsgrid.dataformat.Enumeration
+            datafile-level enumeration the sub-enum is based on
+
+        Returns
+        -------
+        list of enum.ids
+            in particular, the ones that are mapped to idx, in the order 
+            specified by enum.ids
+        """
+        orig_idxs = [i for i, val in enumerate(self.value['idx']) if val == idx]
+        all_ids = list(enum.ids)
+        return [all_ids[i] for i in orig_idxs]
+
+    def scales(self,idx):
+        """
+        Returns the scaling factors that correspond to the dataset idx
+
+        Parameters
+        ----------
+        idx : int
+            dataset-level sub-enumeration index
+
+        Returns
+        -------
+        list of float
+            one for each of the .ids(idx,enum), and in the same order
+        """
+        orig_idxs = [i for i, val in enumerate(self.value['idx']) if val == idx]
+        return [self.value[i]['scale'] for i in orig_idxs]
+
     def append_element(self,new_elem_idx,enum_ids,enum,scalings=[]):
         """
         Appends a new non-null element for this Datamap that defines the index 
@@ -154,13 +231,13 @@ class Datamap(object):
 
         Parameters
         ----------
-        new_elem_idx | int
+        new_elem_idx : int
             index value for the new element
-        enum_ids | list
+        enum_ids : list
             list of distinct elements in enum.ids
-        enum | dsgrid.dataformat.enumeration.Enumeration
+        enum : dsgrid.dataformat.enumeration.Enumeration
             should be same Enumeration originally used to .create this Datamap
-        scalinges | list of numeric
+        scalinges : list of numeric
             if empty, will be defaulted to 1.0. otherwise should be the same 
             length as enum_ids
         """
@@ -195,15 +272,15 @@ def append_element_to_dataset_dimension(dataset,new_elem_idx,enum_ids,enum,scali
 
     Parameters
     ----------
-    dataset | h5py.Dataset
+    dataset : h5py.Dataset
         a Datamap serialized to h5py
-    new_elem_idx | int
+    new_elem_idx : int
         index value for the new element
-    enum_ids | list
+    enum_ids : list
         list of distinct elements in enum.ids
-    enum | dsgrid.dataformat.enumeration.Enumeration
+    enum : dsgrid.dataformat.enumeration.Enumeration
         should be same Enumeration originally used to .create this Datamap
-    scalinges | list of numeric
+    scalinges : list of numeric
         if empty, will be defaulted to 1.0. otherwise should be the same 
         length as enum_ids
     """
@@ -401,25 +478,39 @@ class SectorDataset(object):
                             columns=self.enduses,
                             dtype="float32")
 
-    def get_data(self, dataset_geo_index, return_geo_ids_scales=True):
+    def get_datamap(self,dim_key):
+        with h5py.File(self.datafile.h5path, "r") as f:
+            dgroup = f["data"][self.sector_id]
+            result = Datamap.load(dgroup[dim_key])
+        return result
+
+    def get_data(self, dataset_geo_index):
         """
         Get data in this file's native format.
 
-        Arguments:
-            - dataset_geo_index (int) - Index into the geography dimension of
-                  this dataset. Is an integer in the range [0,self.n_geos) that
-                  corresponds to the values in this dataset's geo_mappings that
-                  are not equal to NULL_IDX.
+        Parameters
+        ----------
+        dataset_geo_index : int
+            Index into the geography dimension of this dataset. Is an integer 
+            in the range [0,self.n_geos) that corresponds to the values in this 
+            dataset's geographies[:,'idx'] that are not equal to NULL_IDX
 
-        Returns dataframe, geo_ids, scalings that are needed to add_data.
+        Returns
+        -------
+        pandas.DataFrame
+            data indexed by time and differentiated by enduse (as columns)
+        list of .datafile.geo_enum.ids
+            geographic enum values this data applies to
+        list of float
+            one scaling factor for each geographic enum value
         """
         if (dataset_geo_index < 0) or (not dataset_geo_index < self.n_geos):
             raise ValueError("dataset_geo_index must be in the range [0,{}), but is {}.".format(self.n_geos,dataset_geo_index))
 
-        geo_ids = None; scalings = None
         with h5py.File(self.datafile.h5path, "r") as f:
 
-            dset = f["data/" + self.sector_id]
+            dgroup = f["data"][self.sector_id]
+            dset = dgroup["data"]
             data = dset[dataset_geo_index, :, :]
             data = data.T
             df = pd.DataFrame(data,
@@ -427,52 +518,27 @@ class SectorDataset(object):
                               columns=self.enduses,
                               dtype="float32")
 
-            if return_geo_ids_scales:
-                geo_mappings = dset.attrs["geo_mappings"][:]
-                geo_idxs = [i for i, val in enumerate(geo_mappings) if val == dataset_geo_index]
-                geo_ids = [self.datafile.geo_enum.ids[i] for i in geo_idxs]
-
-                geo_scalings = dset.attrs["geo_scalings"][:]
-                scalings = [geo_scalings[i] for i in geo_idxs]
+            geo_datamap = Datamap.load(dgroup["geographies"])
+            geo_ids = geo_datamap.ids(dataset_geo_index,self.datafile.geo_enum)
+            scalings = geo_datamap.scales(dataset_geo_index)
 
         return df, geo_ids, scalings
 
-
     def copy_data(self,other_sectordataset,full_validation=True):
+        """
+        Copy data from this SectorDataset into other_sectordataset.
+
+        Parameters
+        ----------
+        other_sectordataset : SectorDataset
+            target for this SectorDataset's data to be copied into
+        full_validation : bool
+            flag for SectorDataset.add_data
+        """
         for i in range(self.n_geos):
             # pull data
             df, geo_ids, scalings = self.get_data(i)
             other_sectordataset.add_data(df,geo_ids,scalings=scalings,full_validation=full_validation)
-
-
-    def get_geo_map(self):
-        """
-        Returns ordered dict of dataset_geo_index: (geo_ids, scalings)
-        """
-        geo_mappings = None; geo_scalings = None
-        with h5py.File(self.datafile.h5path,"r") as f:
-            dset = f["data/" + self.sector_id]
-            geo_mappings = dset.attrs["geo_mappings"][:]
-            geo_scalings = dset.attrs["geo_scalings"][:]
-        temp_dict = defaultdict(lambda: ([],[]))
-        for i, val in enumerate(geo_mappings):
-            if val == NULL_IDX:
-                continue
-            temp_dict[val][0].append(self.datafile.geo_enum.ids[i])
-            temp_dict[val][1].append(geo_scalings[i])
-        result = OrderedDict()
-        for val in sorted(temp_dict.keys()):
-            result[val] = temp_dict[val]
-        return result
-
-
-    def is_empty(self,geo_id):
-        id_idx = self.datafile.geo_enum.ids.index(geo_id)
-        with h5py.File(self.datafile.h5path, "r") as f:
-            dset = f["data/" + self.sector_id]
-
-            geo_idx = dset.attrs["geo_mappings"][id_idx]
-            return geo_idx == NULL_IDX
 
     def map_dimension(self,new_datafile,mapping):
         # import ExplicitDisaggregation here to avoid circular import but be
@@ -486,8 +552,9 @@ class SectorDataset(object):
             # 1. Figure out how geography is mapped now, where it needs to get
             # mapped to, and what the new scalings should be on a
             # per-dataset_geo_index basis
-            from_geo_map = self.get_geo_map() # dataset_geo_index: (geo_ids, scalings) in THIS dataset
-            to_geo_map = OrderedDict()        # DITTO, but for mapped dataset, ignoring aggregation for now
+            geo_datamap = self.get_datamap('geographies')
+            from_geo_map = geo_datamap.get_map(self.datafile.geo_enum) # dataset_geo_index: (geo_ids, scalings) in THIS dataset
+            to_geo_map = OrderedDict()                                 # DITTO, but for mapped dataset, ignoring aggregation for now
             # new_geo_id: [dataset_geo_indices] so can see what aggregation needs to be done
             new_geo_ids_to_dataset_geo_index_map = defaultdict(lambda: [])
             for dataset_geo_index in from_geo_map:
@@ -564,7 +631,7 @@ class SectorDataset(object):
                     df = pulled_data[dataset_geo_index]
                     del pulled_data[dataset_geo_index]
                 else:
-                    df, junk1, junk2 = self.get_data(dataset_geo_index,return_geo_ids_scales=False)
+                    df, junk1, junk2 = self.get_data(dataset_geo_index)
                 result.add_data(df,geo_ids,scalings=scalings,full_validation=False)
 
         elif isinstance(mapping.to_enum,TimeEnumeration):
@@ -615,11 +682,14 @@ class SectorDataset(object):
         Scale all the data in self by factor, creating a new HDF5 file and 
         corresponding Datafile. 
 
-        Arguments:
-            - filepath (str) - Location for the new HDF5 file to be created
-            - factor (float) - Factor by which all the data in the file is to be
-                  multiplied. The default value of 0.001 corresponds to converting
-                  the bottom-up data from kWh to MWh.
+        Parameters
+        ----------
+        filepath : str
+            Location for the new HDF5 file to be created
+        factor : float
+            Factor by which all the data in the file is to be multiplied. The 
+            default value of 0.001 corresponds to converting the bottom-up data 
+            from kWh to MWh.
         """
         result = self.__class__(self.sector_id,new_datafile,self.enduses,self.times)
         # pull data
