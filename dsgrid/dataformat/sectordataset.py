@@ -142,7 +142,7 @@ class Datamap(object):
         list of enum.ids
             In the correct order for this Sectordataset
         """
-        full_enum_ids = enum.ids
+        full_enum_ids = list(enum.ids)
         original_idxes = np.flatnonzero(self.value["idx"] != NULL_IDX)
         original_idxes = sorted(original_idxes,key=lambda x: self.value[x]['idx'])
         return [full_enum_ids[i] for i in original_idxes]

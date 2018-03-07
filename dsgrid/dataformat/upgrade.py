@@ -1,5 +1,6 @@
 from collections import OrderedDict
 from distutils.version import StrictVersion
+import logging
 
 import h5py
 import numpy as np
@@ -7,7 +8,9 @@ import numpy as np
 from dsgrid.dataformat.datafile import Datafile
 from dsgrid.dataformat.enumeration import (SectorEnumeration, 
     GeographyEnumeration, EndUseEnumerationBase, TimeEnumeration)
-from dsgrid.dataformat.sectordataset import SectorDataset
+from dsgrid.dataformat.sectordataset import Datamap, SectorDataset
+
+logger = logging.getLogger(__name__)
 
 class UpgradeDatafile(object):
     from_version = None
@@ -64,7 +67,35 @@ class DSG_0_1_0(UpgradeDatafile):
 
     @classmethod
     def _transform(cls,datafile,f):
-        pass
+        # from v0.1.0 to v0.2.0
+        #   - f['data'][sector_id] is no longer a h5py.Dataset with attributes
+        #   - f['data'][sector_id] is now a h5py.Group containing
+        #       - f['data'][sector_id]['data']
+        #       - f['data'][sector_id]['geographies']
+        #       - f['data'][sector_id]['enduses']
+        #       - f['data'][sector_id]['times']
+        for sector_id, sectordataset in datafile.sectordata.items():
+            tmp_name = sector_id + '_temp'
+            f['data'][tmp_name] = f['data'][sector_id]
+            orig_dset = f['data'][tmp_name]
+            del f['data'][sector_id]
+            dgroup = f['data'].create_group(sector_id)
+            
+            dgroup['geographies'] = Datamap.create(datafile.geo_enum,[]).value
+            dgroup['geographies'][:,'idx'] = orig_dset.attrs['geo_mappings']
+            dgroup['geographies'][:,'scale'] = orig_dset.attrs['geo_scalings']
+
+            # already loaded these sub-enums as part of the backward compatible 
+            # load process
+            dgroup['enduses'] = Datamap.create(datafile.enduse_enum,sectordataset.enduses).value
+            dgroup['times'] = Datamap.create(datafile.time_enum,sectordataset.times).value
+
+            for attr_name in ['geo_mappings', 'geo_scalings', 'enduse_mappings', 'time_mappings']:
+                del orig_dset.attrs[attr_name]
+            assert len(orig_dset.attrs) == 0, "There are attrs left in orig_dset: {}".format(orig_dset.attrs)
+
+            dgroup['data'] = orig_dset
+            del f['data'][tmp_name]
 
     @classmethod
     def load_sectordataset(cls,datafile,f,sector_id):
@@ -72,8 +103,8 @@ class DSG_0_1_0(UpgradeDatafile):
 
         enduses = list(datafile.enduse_enum.ids)
         times = np.array(datafile.time_enum.ids)
-        enduses = [enduses[i] for i in dset.attrs["enduse_mappings"][:]]
-        times = list(times[dset.attrs["time_mappings"][:]])
+        enduses = [enduses[i] for i in dset.attrs['enduse_mappings'][:]]
+        times = [times[i] for i in dset.attrs['time_mappings'][:]]
 
         result = SectorDataset(datafile,sector_id,enduses,times)
 

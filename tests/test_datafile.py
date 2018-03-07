@@ -86,6 +86,13 @@ def test_backward_compatible():
                         assert len(datafile1.sectordata) == len(datafile2.sectordata)
                         assert len(datafile2.sectordata) > 0
 
+                        # as of v0.2.0, sectordata enduses, times, and n_geos 
+                        # should be the same
+                        for sector_id, upgraded in datafile2.sectordata.items():
+                            assert upgraded.enduses == datafile1[sector_id].enduses
+                            assert upgraded.times == datafile1[sector_id].times
+                            assert upgraded.n_geos == datafile1[sector_id].n_geos
+
                         # check that datafile2 is browsable
                         for sector_id, sectordataset in datafile2.sectordata.items():
                             assert sectordataset.n_geos > 0

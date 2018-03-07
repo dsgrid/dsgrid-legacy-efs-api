@@ -65,7 +65,7 @@ class Datafile(object):
             return an_enum == self.geo_enum
         elif isinstance(an_enum,EndUseEnumerationBase):
             return an_enum == self.enduse_enum
-        assert isinstance(an_enum,TimeEnumeration)
+        assert isinstance(an_enum,TimeEnumeration), "Unknown enum type {}".format(type(an_enum))
         return an_enum == self.time_enum
 
     @classmethod
@@ -108,6 +108,7 @@ class Datafile(object):
             return result
 
     def upgrade(self,OLD_VERSIONS,overwrite=False,new_filepath=None):
+        # determine where to put upgraded Datafile
         filepath = self.h5path
         fp = filepath if overwrite else new_filepath
         if fp is None:
@@ -120,10 +121,13 @@ class Datafile(object):
                 fp = os.path.join(filedir,os.path.splitext(os.path.basename(fp))[0] + version_suffix + '.dsg')
             logger.info("Saving upgraded Datafile to {}".format(fp))
 
+        # if we are not overwriting, start by making a new copy of the current 
+        # Datafile
         result = self
         if fp != filepath:
             result = self.save(fp)
 
+        # now loop through the upgrade classes
         with h5py.File(fp,mode="a") as f:
             for old_version, upgrade_class in OLD_VERSIONS.items():
                 if result.version == upgrade_class.from_version:
@@ -160,6 +164,7 @@ class Datafile(object):
             for sector_id, sectordataset in self.sectordata.items():
                 new_sector_id = mapping.map(sector_id)
                 if isinstance(new_sector_id,list):
+                    os.remove(filepath)
                     raise DSGridNotImplemented("Disaggregating sectors at the Datafile level has not yet been implemented.")
                 data[new_sector_id].append(sectordataset)
             for new_sector_id, datasets in data.items():
@@ -178,12 +183,13 @@ class Datafile(object):
                             new_sector_dataset.add_data(df,geo_ids,scalings=scalings,full_validation=False)
                     else:
                         # add to what you already have
+                        os.remove(filepath)
                         raise DSGridNotImplemented("Aggregating subsectors at the Datafile level has not yet been implemented.")
                         # new_sector_dataset.add_inplace(dataset)
         else:
             for sector_id, sectordataset in self.sectordata.items():
                 assert sectordataset is not None, "sector_id {} in file {} contains no data".format(sector_id,self.h5path)
-                print("Mapping data for {} in {}".format(sector_id,self.h5path))
+                logger.info("Mapping data for {} in {}".format(sector_id,self.h5path))
                 result.sectordata[sector_id] = sectordataset.map_dimension(result,mapping)
         return result
 
@@ -192,17 +198,19 @@ class Datafile(object):
         Scale all the data in self by factor, creating a new HDF5 file and
         corresponding Datafile.
 
-        Arguments:
-            - filepath (str) - Location for the new HDF5 file to be created
-            - factor (float) - Factor by which all the data in the file is to be
-                  multiplied. The default value of 0.001 corresponds to converting
-                  the bottom-up data from kWh to MWh.
+        Parameters
+        ----------
+        filepath | str
+            Location for the new HDF5 file to be created
+        factor  | float
+            Factor by which all the data in the file is to be multiplied. The 
+            default value of 0.001 corresponds to converting the bottom-up data 
+            from kWh to MWh
         """
         result = self.__class__(filepath,self.sector_enum,self.geo_enum,
                                 self.enduse_enum,self.time_enum)
         for sector_id, sectordataset in self.sectordata.items():
             assert sectordataset is not None, "sector_id {} in file {} contains no data".format(sector_id,self.h5path)
-            print("Scaling data for {} in {}".format(sector_id,self.h5path))
+            logger.info("Scaling data for {} in {}".format(sector_id,self.h5path))
             result.sectordata[sector_id] = sectordataset.scale_data(result,factor=factor)
         return result
-
