@@ -1,4 +1,5 @@
 from distutils.core import setup
+from io import open
 import os
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -10,7 +11,7 @@ version = version.split()[2].strip('"').strip("'")
 
 setup(
     name = 'dsgrid',
-    version = versuib,
+    version = version,
     author = 'Gord Stephen',
     author_email = 'gord.stephen@nrel.gov',
     packages = ['dsgrid','dsgrid.dataformat'],
