@@ -46,10 +46,6 @@ def test_enumeration_validation():
     raises(DSGridValueError,
         Enumeration, 'enum', mismatchedvaluecount, ["ABC", "DEF", "GHI"])
 
-    toomanyvalues = [str(x) for x in range(1,70000)]
-    raises(DSGridValueError,
-        Enumeration, 'enum', toomanyvalues, toomanyvalues)
-
     repeatedvalue = ["abc", "def", "ghi", "abc"]
     unrepeatedvalue = ["A B C", "D E F", "G H I", "J K L"]
     raises(DSGridValueError,
