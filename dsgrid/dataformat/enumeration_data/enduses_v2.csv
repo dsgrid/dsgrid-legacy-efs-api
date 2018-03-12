@@ -1,0 +1,31 @@
+id,name,fuel_id,units
+fans,Fans,electricity,MWh
+pumps,Pumps,electricity,MWh
+heating,Heating,electricity,MWh
+cooling,Cooling,electricity,MWh
+heat_rejection,Heat Rejection,electricity,MWh
+interior_lights,Interior Lights,electricity,MWh
+exterior_lights,Exterior Lights,electricity,MWh
+water_systems,Water Systems,electricity,MWh
+interior_equipment,Interior Equipment,electricity,MWh
+heating__gas,Heating (Gas),natural_gas,MMBtu
+water_systems__gas,Water Systems (Gas),natural_gas,MMBtu
+interior_equipment__gas,InteriorEquipment (Gas),natural_gas,MMBtu
+water_systems__water,Water Systems (Water),water,million gal
+heating__district_heating,Heating (District Heating),delivered heating,MMBtu
+cooling__district_cooling,Cooling (District Cooling),delivered cooling,MMBtu
+boiler,Conventional Boiler Use,electricity,MWh
+chp_cogen,CHP Cogeneration Process,NA,
+process_heating,Process Heating,electricity,MWh
+process_cooling,Process Cooling and Refrigeration,electricity,MWh
+machine_drive,Machine Drive,electricity,MWh
+electrochemical,Electrochemical Processes,electricity,MWh
+other_process,Other Process Use,electricity,MWh
+facility_hvac,Facility HVAC,electricity,MWh
+facility_lighting,Facility Lighting,electricity,MWh
+facility_other,Other Facility Support,electricity,MWh
+electricity_generation,Conventional Electricity Generation,NA,
+other_nonprocess,Other Nonprocess Use,electricity,MWh
+not_reported,End-use not reported,electricity,MWh
+transportation,Transportation,electricity,MWh
+td_losses,T&D Losses,electricity,MWh
