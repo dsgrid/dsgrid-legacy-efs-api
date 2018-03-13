@@ -415,8 +415,8 @@ class SectorDataset(object):
         if full_validation:
             for geo_id in geo_ids:
                 if geo_id not in self.datafile.geo_enum.ids:
-                    raise ValueError("Geography ID must be in the " +
-                                     "DataFile's GeographyEnumeration")
+                    raise ValueError("Geography ID must be in the DataFile's " + 
+                        "GeographyEnumeration, but is {!r}".format(geo_id))
 
         if len(dataframe.index.unique()) != len(dataframe.index):
             raise ValueError("DataFrame row indices must be unique")

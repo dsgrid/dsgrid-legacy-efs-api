@@ -82,7 +82,7 @@ class Enumeration(object):
         dset.attrs["name"] = self.name
 
         dset["id"] = np.array(self.ids)
-        dset["name"] = np.array(self.names)
+        dset["name"] = np.array([name.encode(ENCODING) for name in self.names])
 
         return dset
 
@@ -302,7 +302,7 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
         dset.attrs["name"] = self.name
 
         dset["id"] = np.array(self._ids)
-        dset["name"] = np.array(self._names)
+        dset["name"] = np.array([name.encode(ENCODING) for name in self._names])
         dset["fuel_id"] = np.array(self._fuel_ids)
 
         fuel_dset = self.fuel_enum.persist(h5group)
