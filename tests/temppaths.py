@@ -1,6 +1,5 @@
 import h5py
 from os import remove
-import shutil
 from uuid import uuid4
 
 class TempHDF5File():
@@ -27,15 +26,3 @@ class TempFilepath():
 
     def __exit__(self, ctx_type, ctx_value, ctx_traceback):
         remove(self.filename)
-
-
-class TempDir():
-    def __init__(self):
-        self.dirname = str(uuid4())
-
-    def __enter__(self):
-        os.mkdir(self.dirname)
-        return self.dirname
-
-    def __exit__(self, ctx_type, ctx_value, ctx_traceback):
-        shutil.rmtree(self.dirname)

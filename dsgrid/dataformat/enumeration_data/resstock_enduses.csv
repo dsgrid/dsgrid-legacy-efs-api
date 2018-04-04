@@ -10,3 +10,4 @@ interior_equipment,Interior Equipment,electricity,kWh
 heating,Space Heating,gas,kBtu
 water_systems,Water Systems,gas,kBtu
 interior_equipment,Interior Equipment,gas,kBtu
+water_systems,Water Systems,water,gal

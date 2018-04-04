@@ -10,7 +10,7 @@ from dsgrid import __version__ as VERSION
 from dsgrid import DSGridError, DSGridNotImplemented
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
-    EndUseEnumeration, TimeEnumeration)
+    EndUseEnumerationBase, TimeEnumeration)
 
 logger = logging.getLogger(__name__)
 
@@ -401,6 +401,20 @@ class SectorDataset(object):
     def add_data(self,dataframe,geo_ids,scalings=[],full_validation=True):
         """
         Add new data to this SectorDataset, as part of the self.datafile HDF5.
+
+        Parameters
+        ----------
+        dataframe : pandas.DataFrame
+           Data to add, indexed by times, and with columns equal to enduses.
+        geo_ids : id or list of ids
+           Ids map to datafile.geo_enum
+        scalings : list of float
+           If non-empty, must be same length as geo_ids and represents the 
+           scaling factors for the geo_ids in order. Otherwise, a uniform value
+           of 1.0 is assumed for all geo_ids.
+        full_validation : bool
+           If true, checks that all enumeration ids (time, enduse, and geography)
+           are valid.
         """
 
         if type(geo_ids) is not list:
@@ -545,9 +559,9 @@ class SectorDataset(object):
         # able to test and raise DSGridNotImplemented as needed
         from dsgrid.dataformat.dimmap import ExplicitDisaggregation
 
-        result = self.__class__(self.sector_id,new_datafile,
-            None if isinstance(mapping.to_enum,EndUseEnumeration) else self.enduses,
-            None if isinstance(mapping.to_enum,TimeEnumeration) else self.times)
+        result = self.__class__.new(new_datafile,self.sector_id,
+            enduses=None if isinstance(mapping.to_enum,EndUseEnumerationBase) else self.enduses,
+            times=None if isinstance(mapping.to_enum,TimeEnumeration) else self.times)
         if isinstance(mapping.to_enum,GeographyEnumeration):
             # 1. Figure out how geography is mapped now, where it needs to get
             # mapped to, and what the new scalings should be on a
@@ -655,7 +669,7 @@ class SectorDataset(object):
                 # add the mapped data to the new file
                 result.add_data(df,geo_ids,scalings=scalings,full_validation=False)
 
-        elif isinstance(mapping.to_enum,EndUseEnumeration):
+        elif isinstance(mapping.to_enum,EndUseEnumerationBase):
             if isinstance(mapping,ExplicitDisaggregation):
                 raise DSGridNotImplemented("End-use disaggregations have not been implemented.")
             # Map dataframe columns
@@ -691,7 +705,7 @@ class SectorDataset(object):
             default value of 0.001 corresponds to converting the bottom-up data 
             from kWh to MWh.
         """
-        result = self.__class__(self.sector_id,new_datafile,self.enduses,self.times)
+        result = self.__class__.new(new_datafile,self.sector_id,self.enduses,self.times)
         # pull data
         for i in range(self.n_geos):
             df, geo_ids, scalings = self.get_data(i)

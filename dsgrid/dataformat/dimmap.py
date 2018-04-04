@@ -175,7 +175,14 @@ class ExplicitAggregation(ExplicitMap):
 
     @classmethod
     def _make_dictmap(cls,mapdata):
-        return {from_id: to_id for from_id, to_id in zip(mapdata.from_id,mapdata.to_id)}
+        result = {}
+        from_fuel_enduse = ('from_fuel_id' in mapdata.columns)
+        to_fuel_enduse = ('to_fuel_id' in mapdata.columns)
+        for row in mapdata.itertuples(index=False):
+            from_key = (row.from_id, row.from_fuel_id) if from_fuel_enduse else row.from_id
+            to_key = (row.to_id, row.to_fuel_id) if to_fuel_enduse else row.to_id
+            result[from_key] = to_key
+        return result
 
 
 class Mappings(object):

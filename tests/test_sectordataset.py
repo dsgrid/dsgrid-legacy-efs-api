@@ -12,11 +12,11 @@ from dsgrid.dataformat.enumeration import (
     annual, sectors_subsectors, counties, enduses, hourly2012,
     enumdata_folder, MultiFuelEndUseEnumeration
 )
-from .temphdf5 import TempHDF5Filepath
+from .temppaths import TempFilepath
 
 def test_sectordataset_validation():
 
-    with TempHDF5Filepath() as filepath:
+    with TempFilepath() as filepath:
 
         datafile = Datafile(filepath, sectors_subsectors, counties, enduses, hourly2012)
 
@@ -68,7 +68,7 @@ def test_sectordataset_io():
     data45 = pd.DataFrame(np.array(data)*4.5, dtype='float32',
                         columns=enduses.ids, index=hourly2012.ids)
 
-    with TempHDF5Filepath() as filepath:
+    with TempFilepath() as filepath:
 
         datafile = Datafile(filepath, sectors_subsectors, counties, enduses, hourly2012)
         dataset = datafile.add_sector("res__SingleFamilyDetached")
@@ -106,7 +106,7 @@ def test_sectordataset_io_fancy_enduses():
     data45 = pd.DataFrame(np.array(data)*4.5, dtype='float32',
                         columns=cols, index=hourly2012.ids)
 
-    with TempHDF5Filepath() as filepath:
+    with TempFilepath() as filepath:
 
         datafile = Datafile(filepath, sectors_subsectors, counties, comstock_enduses, hourly2012)
         dataset = datafile.add_sector("com__Hotel", enduses=subset_enduses)
@@ -150,7 +150,7 @@ def test_sectordataset_io_subset_enduses_different_order():
     for enduse in subset_enduses:
         data[enduse] = data[enduse] * mult[enduse]
 
-    with TempHDF5Filepath() as filepath:
+    with TempFilepath() as filepath:
         datafile = Datafile(filepath, sectors_subsectors, counties, 
                             comstock_enduses, annual)
         dataset = datafile.add_sector('com__Hotel', enduses=subset_enduses)

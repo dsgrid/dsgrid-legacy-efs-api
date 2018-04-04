@@ -61,6 +61,10 @@ class Enumeration(object):
     def __str__(self):
         return self.__repr__()
 
+    def get_name(self,id):
+        ind = list(self.ids).index(id)
+        return self.names[ind]
+
     def is_subset(self,other_enum):
         """
         Returns true if this Enumeration is a subset of other_enum.
