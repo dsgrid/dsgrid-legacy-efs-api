@@ -1,4 +1,5 @@
 from collections import defaultdict, OrderedDict
+from collections.abc import Mapping
 from distutils.version import StrictVersion
 import logging
 import os
@@ -16,7 +17,7 @@ from dsgrid.dataformat.sectordataset import SectorDataset
 logger = logging.getLogger(__name__)
 
 
-class Datafile(object):
+class Datafile(Mapping):
 
     def __init__(self,h5path,sector_enum,geography_enum,enduse_enum,time_enum,
                  loading=False,version=VERSION):
@@ -80,6 +81,13 @@ class Datafile(object):
 
     def __getitem__(self, sector_id):
         return self.sectordata[sector_id]
+
+    def __iter__(self):
+        for k in self.sectordata:
+            yield k
+
+    def __len__(self):
+        return len(self.sectordata)
 
     def contains(self, an_enum):
         if isinstance(an_enum,SectorEnumeration):

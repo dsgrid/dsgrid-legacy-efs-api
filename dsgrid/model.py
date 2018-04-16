@@ -23,9 +23,11 @@ class ComponentType(Enum):
     TOPDOWN = auto()
     DERIVED = auto()
 
+    UNKNOWN = 9999
+
 
 class LoadModelComponent(object):
-    def __init__(self,component_type,name,color=None):
+    def __init__(self,name,component_type=ComponentType.UNKNOWN,color=None):
         self.component_type = ComponentType(component_type)
         self.name = name
         self.color = color
@@ -64,14 +66,14 @@ class LoadModelComponent(object):
         """
         Saves this component to a new directory, returning the new component.
         """
-        result = LoadModelComponent(self.component_type,self.name,color=self.color)
+        result = LoadModelComponent(self.name,component_type=self.component_type,color=self.color)
         if self._datafile:
             p = os.path.join(dirpath,os.path.basename(self.datafile.h5path))
             result._datafile = self._datafile.save(p)
         return result
 
     def map_dimension(self,dirpath,to_enum,mappings,filename_prefix=''):
-        result = LoadModelComponent(self.component_type,self.name,color=self.color)
+        result = LoadModelComponent(self.name,component_type=self.component_type,color=self.color)
         if self._datafile:
             mapping = mappings.get_mapping(self._datafile,to_enum)
             if mapping is None:
@@ -96,7 +98,7 @@ class LoadModelComponent(object):
                   multiplied. The default value of 0.001 corresponds to converting
                   the bottom-up data from kWh to MWh.
         """
-        result = LoadModelComponent(self.component_type,self.name,color=self.color)
+        result = LoadModelComponent(self.name,component_type=self.component_type,color=self.color)
         if self._datafile:
             p = os.path.join(dirpath,os.path.basename(self.datafile.h5path))
             result._datafile = self._datafile.scale_data(p,factor=factor)
