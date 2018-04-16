@@ -21,7 +21,30 @@ class Datafile(object):
     def __init__(self,h5path,sector_enum,geography_enum,enduse_enum,time_enum,
                  loading=False,version=VERSION):
         """
-        Create a new Datafile object.
+        Create a new Datafile object. Use Datafile.load to open existing files.
+
+        Parameters
+        ----------
+        h5path : str
+            file to create. typically has a .dsg file extension.
+        sector_enum : dsgrid.dataformat.enumeration.SectorEnumeration
+            enumeration of sectors to be stored in this Datafile
+        geography_enum : dsgrid.dataformat.enumeration.GeographyEnumeration
+            enumeration of geographies for this Datafile. typically these are 
+            geographical units at the same level of resolution. the Datafile 
+            does not have to specify values for every geography.
+        enduse_enum : dsgrid.dataformat.enumeration.EndUseEnumerationBase
+            enumeration of end-uses. there are mutiple EndUseEnumerationBase 
+            class types. typically one would use SingeFuelEndUseEnumeration or 
+            MultiFuelEndUseEnumeration.
+        time_enum : dsgrid.dataformat.enumeration.TimeEnumeration
+            enumeration specifying the time resolution of this Datafile
+        loading : bool
+            NOT FOR GENERAL USE -- Use Datafile.load to open existing files.
+        version : str
+            NOT FOR GENERAL USE -- New file are marked with the current VERSION.
+            The load and update methods are used to manage version indicators 
+            for backward compatibility.
         """
         self.h5path = h5path
         self.sector_enum = sector_enum
