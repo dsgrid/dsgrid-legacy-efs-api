@@ -231,7 +231,8 @@ class Mappings(object):
 
 mappings = Mappings()
 mappings.add_mapping(ExplicitAggregation.create_from_csv(counties,states,os.path.join(enumdata_folder,'counties_to_states.csv')))
-mappings.add_mapping(FullAggregationMap(states,conus,exclude_list=['AK','HI']))
+conus_states = pd.read_csv(os.path.join(enumdata_folder,'conus_to_states.csv'),dtype=str)['to_id'].tolist()
+mappings.add_mapping(FullAggregationMap(states,conus,exclude_list=[state_id for state_id in states.ids if state_id not in conus_states]))
 mappings.add_mapping(FullAggregationMap(census_regions,conus))
 mappings.add_mapping(FullAggregationMap(hourly2012,annual))
 mappings.add_mapping(FullAggregationMap(sectors,allsectors))
