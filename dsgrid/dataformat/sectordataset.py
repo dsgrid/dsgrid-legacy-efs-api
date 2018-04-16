@@ -438,7 +438,7 @@ class SectorDataset(object):
         if full_validation:
             for time in dataframe.index:
                 if time not in self.times:
-                    raise ValueError("Time ID (DataFrame row index) " + time +
+                    raise ValueError("Time ID (DataFrame row index) {!r}".format(time) +
 " is invalid: time IDs must both exist in the DataFile's TimeEnumeration and "
 "have been defined as a sector-relevant time during the SectorDataset's creation.")
 
