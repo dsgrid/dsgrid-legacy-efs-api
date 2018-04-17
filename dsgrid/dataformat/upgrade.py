@@ -6,9 +6,9 @@ import h5py
 import numpy as np
 
 from dsgrid.dataformat.datafile import Datafile
-from dsgrid.dataformat.enumeration import (SectorEnumeration, 
+from dsgrid.dataformat.enumeration import (SectorEnumeration,
     GeographyEnumeration, EndUseEnumerationBase, TimeEnumeration)
-from dsgrid.dataformat.sectordataset import Datamap, SectorDataset
+from dsgrid.dataformat.sectordataset import Datamap, SectorDataset, NULL_IDX
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ class UpgradeDatafile(object):
     @classmethod
     def load_datafile(cls,filepath):
         """
-        Load enough to return a Datafile object. Object should not be 
+        Load enough to return a Datafile object. Object should not be
         expected to be fully functional.
         """
         with h5py.File(filepath, "r") as f:
@@ -53,7 +53,7 @@ class UpgradeDatafile(object):
 
     def load_sectordataset(cls,datafile,f,sector_id):
         """
-        Load enough to return a SectorDataset object. Object should not be 
+        Load enough to return a SectorDataset object. Object should not be
         expected to be fully functional.
         """
         pass
@@ -80,12 +80,17 @@ class DSG_0_1_0(UpgradeDatafile):
             orig_dset = f['data'][tmp_name]
             del f['data'][sector_id]
             dgroup = f['data'].create_group(sector_id)
-            
+
             dgroup['geographies'] = Datamap.create(datafile.geo_enum,[]).value
-            dgroup['geographies'][:,'idx'] = orig_dset.attrs['geo_mappings']
+            geo_map = orig_dset.attrs['geo_mappings'].astype("u4")
+            if np.any(geo_map == cls.ZERO_IDX):
+                null_pos = geo_map == cls.ZERO_IDX
+                geo_map[null_pos] = NULL_IDX
+
+            dgroup['geographies'][:,'idx'] = geo_map
             dgroup['geographies'][:,'scale'] = orig_dset.attrs['geo_scalings']
 
-            # already loaded these sub-enums as part of the backward compatible 
+            # already loaded these sub-enums as part of the backward compatible
             # load process
             dgroup['enduses'] = Datamap.create(datafile.enduse_enum,sectordataset.enduses).value
             dgroup['times'] = Datamap.create(datafile.time_enum,sectordataset.times).value
