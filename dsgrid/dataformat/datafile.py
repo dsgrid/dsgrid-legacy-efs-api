@@ -1,9 +1,15 @@
 from collections import defaultdict, OrderedDict
-from collections.abc import Mapping
 from distutils.version import StrictVersion
 import logging
 import os
 from shutil import copyfile
+
+try:
+    from collections.abc import Mapping
+except ImportError:
+    # Python 2
+    from collections import Mapping
+
 
 import h5py
 
