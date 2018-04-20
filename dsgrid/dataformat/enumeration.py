@@ -4,8 +4,9 @@ import numpy as np
 import pandas as pd
 
 from dsgrid import DSGridValueError
+from dsgrid.dataformat import ENCODING
 
-ENCODING = "utf-8"
+
 
 class Enumeration(object):
 

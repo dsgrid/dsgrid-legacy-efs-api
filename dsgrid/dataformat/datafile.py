@@ -15,6 +15,7 @@ import h5py
 
 from dsgrid import __version__ as VERSION
 from dsgrid import DSGridNotImplemented, DSGridValueError
+from dsgrid.dataformat import ENCODING
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
     EndUseEnumerationBase, TimeEnumeration)
@@ -110,6 +111,8 @@ class Datafile(Mapping):
         # Version Handling
         with h5py.File(filepath, "r") as f:
             version = f.attrs.get("dsgrid", "0.1.0")
+            if isinstance(version,bytes):
+                version = version.decode(ENCODING)
 
         if StrictVersion(version) > StrictVersion(VERSION):
             raise DSGridValueError("File at {} is of version {}. ".format(filepath,version) + 
