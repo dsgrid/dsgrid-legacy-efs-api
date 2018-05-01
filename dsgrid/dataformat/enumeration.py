@@ -7,7 +7,6 @@ from dsgrid import DSGridValueError
 from dsgrid.dataformat import ENCODING
 
 
-
 class Enumeration(object):
 
     max_id_len = 64
