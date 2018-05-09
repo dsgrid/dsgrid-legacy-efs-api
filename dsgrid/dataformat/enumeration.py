@@ -217,6 +217,10 @@ class FuelEnumeration(Enumeration):
             raise DSGridValueError("Enumeration units cannot exceed " +
                 "{} characters".format(self.max_id_len))
 
+    def get_units(self,id):
+        ind = list(self.ids).index(id)
+        return self.units[ind]
+
     def persist(self, h5group):
         dset = super(FuelEnumeration, self).persist(h5group)
         dset["units"] = np.array(self.units)

@@ -7,7 +7,7 @@ import pandas as pd
 from dsgrid import DSGridError
 from dsgrid.dataformat.datatable import Datatable
 from dsgrid.dataformat.enumeration import (
-    SectorEnumeration, GeographyEnumeration, EndUseEnumeration, TimeEnumeration,
+    SectorEnumeration, GeographyEnumeration, EndUseEnumerationBase, TimeEnumeration,
     allenduses,allsectors,annual,census_divisions,census_regions,conus,counties,
     enduses,enumdata_folder,fuel_types,hourly2012,loss_state_groups,sectors,
     sectors_subsectors,states)
@@ -136,7 +136,7 @@ class ExplicitDisaggregation(ExplicitMap):
         elif isinstance(self.to_enum,GeographyEnumeration):
             temp = self.scaling_datatable[:,to_ids,:,:]
             temp = temp.groupby(level='geography').sum()
-        elif isinstance(self.to_enum,EndUseEnumeration):
+        elif isinstance(self.to_enum,EndUseEnumerationBase):
             temp = self.scaling_datatable[:,:,to_ids,:]
             temp = temp.groupby(level='enduse').sum()
         else:
@@ -200,7 +200,7 @@ class Mappings(object):
             from_enum = datafile.sector_enum
         elif isinstance(to_enum,GeographyEnumeration):
             from_enum = datafile.geo_enum
-        elif isinstance(to_enum,EndUseEnumeration):
+        elif isinstance(to_enum,EndUseEnumerationBase):
             from_enum = datafile.enduse_enum
         elif isinstance(to_enum,TimeEnumeration):
             from_enum = datafile.time_enum

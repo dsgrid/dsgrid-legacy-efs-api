@@ -7,7 +7,8 @@ import numpy as np
 
 from dsgrid.dataformat.datafile import Datafile
 from dsgrid.dataformat.enumeration import (SectorEnumeration,
-    GeographyEnumeration, EndUseEnumerationBase, TimeEnumeration)
+    GeographyEnumeration, EndUseEnumeration, EndUseEnumerationBase, 
+    SingleFuelEndUseEnumeration, TimeEnumeration)
 from dsgrid.dataformat.sectordataset import Datamap, SectorDataset, NULL_IDX
 
 logger = logging.getLogger(__name__)
@@ -121,3 +122,28 @@ class DSG_0_1_0(UpgradeDatafile):
 
 OLD_VERSIONS = OrderedDict()
 OLD_VERSIONS[DSG_0_1_0.from_version] = DSG_0_1_0
+
+
+def make_fuel_and_units_explicit(datafile, filepath, fuel='Electricity', units='MWh'):
+    old_enduse_enum = datafile.enduse_enum
+    assert isinstance(old_enduse_enum,EndUseEnumeration), "This upgrade method is for datafiles with old-style EndUseEnumerations"
+    new_enduse_enum = SingleFuelEndUseEnumeration(
+        old_enduse_enum.name,
+        old_enduse_enum.ids,
+        old_enduse_enum.names,
+        fuel=fuel,
+        units=units)
+    
+    result = Datafile(filepath,
+                      datafile.sector_enum,
+                      datafile.geo_enum,
+                      new_enduse_enum,
+                      datafile.time_enum)
+    for sector_id in datafile:
+        old_sector = datafile[sector_id]
+        new_sector = result.add_sector(sector_id,enduses=old_sector.enduses,times=old_sector.times)
+        for i in range(old_sector.n_geos):
+            df, geo_ids, scalings = old_sector.get_data(i)
+            new_sector.add_data(df,geo_ids,scalings=scalings,full_validation=False)
+
+    return result

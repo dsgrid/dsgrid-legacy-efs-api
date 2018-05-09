@@ -1,4 +1,6 @@
 
+from collections import OrderedDict
+from collections.abc import MutableMapping
 import copy
 from enum import Enum, auto
 import logging
@@ -20,6 +22,7 @@ class LoadModelStatus(Enum):
 class ComponentType(Enum):
     BOTTOMUP = auto()
     GAP = auto()
+    DG = auto()
     TOPDOWN = auto()
     DERIVED = auto()
 
@@ -105,18 +108,37 @@ class LoadModelComponent(object):
         return result
 
 
-class LoadModel(object):
+class LoadModel(MutableMapping):
 
     def __init__(self):
         self.status = LoadModelStatus.RAW
-        self.components = {}
+        self.components = OrderedDict()
+
+    def __getitem__(self,key):
+        return self.components[key]
+
+    def __setitem__(self,key,value):
+        if not isinstance(value,LoadModelComponent):
+            raise DSGridError("Expected a LoadModelComponent, got a {}.".format(type(value)))
+        if not key == value.key:
+            raise DSGridError("Expected the key to match the LoadModelComponent.key, " + \
+                "but key = {} and LoadModelComponent.key = {}".format(key,value.key))
+        result.components[value.key] = value
+
+    def __delitem__(self,key):
+        del self.components[key]
+
+    def __iter__(self):
+        for key in self.components:
+            yield key
+
+    def __len__(self):
+        return len(self.components)
 
     @classmethod
     def create(cls,components):
         result = LoadModel()
         for component in components:
-            if not isinstance(component,LoadModelComponent):
-                raise DSGridError("Expected a LoadModelComponent, got a {}.".format(type(component)))
             result.components[component.key] = component
         return result
 
