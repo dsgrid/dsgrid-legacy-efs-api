@@ -100,11 +100,28 @@ class Enumeration(object):
         )
 
     @classmethod
-    def read_csv(cls, filepath, name):
-        enum = pd.read_csv(filepath , dtype=str)
+    def read_csv(cls, filepath, name=None):
+        enum = pd.read_csv(filepath, dtype=str)
+        name = cls._name_from_filepath(filepath) if name is None else name
         return cls(name, list(enum.id), list(enum.name))
 
+    def to_csv(self,filepath=None,overwrite=False):
+        p = self._default_filepath() if filepath is None else filepath
+        if not overwrite and os.path.exists(p):
+            msg = "{} already exists".format(p)
+            logger.error(msg)
+            raise DSGridRuntimeError(msg)
+        df = pd.DataFrame(list(zip(self.ids,self.names)),columns=['id','name'])
+        df.to_csv(p,index=False)
 
+    @classmethod
+    def _name_from_filepath(cls,filepath):
+        return os.path.splitext(os.path.basename(filepath))[0].replace("_"," ").tilte()
+
+    def _default_filepath(self):
+        return os.path.join(enumdata_folder,self.name.lower().replace(' ','_') + '.csv')
+
+    
 # Define standard dimensions
 
 class SectorEnumeration(Enumeration):
@@ -138,6 +155,18 @@ class EndUseEnumerationBase(Enumeration):
         else:
             return EndUseEnumeration(name,ids,names)
 
+    @classmethod
+    def read_csv(cls, filepath, name=None):
+        """
+        Infer and read into the correct derived class.
+        """
+        enum = pd.read_csv(filepath , dtype=str)
+        if 'fuel' in enum.columns:
+            return SingleFuelEndUseEnumeration.read_csv(filepath,name=name)
+        if 'fuel_id' in enum.columns:
+            return MultiFuelEndUseEnumeration.read_csv(filepath,name=name)
+        return EndUseEnumeration.read_csv(filepath,name=name)
+
 
 class TimeEnumeration(Enumeration):
     dimension = "time"
@@ -156,6 +185,12 @@ class EndUseEnumeration(EndUseEnumerationBase):
     def units(self,id):
         logger.warn("Deprecated: Units have not been explicitly specified. Returning default value.")
         return 'MWh'
+
+    @classmethod
+    def read_csv(cls, filepath, name=None):
+        enum = pd.read_csv(filepath, dtype=str)
+        name = cls._name_from_filepath(filepath) if name is None else name
+        return cls(name, list(enum.id), list(enum.name))
 
 
 class SingleFuelEndUseEnumeration(EndUseEnumerationBase):
@@ -184,9 +219,26 @@ class SingleFuelEndUseEnumeration(EndUseEnumerationBase):
         return dset
 
     @classmethod
-    def read_csv(cls, filepath, name, fuel='Electricity', units='MWh'):
+    def read_csv(cls, filepath, name=None):
         enum = pd.read_csv(filepath , dtype=str)
+        assert 'fuel' in enum.columns, "Fuel must be specified."
+        assert 'units' in enum.columns, "Units must be specified."
+        assert len(enum.fuel.unique()) == 1, "There must be exactly 1 fuel, but {} are listed".format(len(enum.fuel.unique()))
+        assert len(enum.units.unique()) == 1, "There must be exactly 1 units, but {} are listed".format(len(enum.units.unique()))
+        fuel = enum.fuel.unique().values[0]
+        units = enum.units.unique().values[0]
+        name = cls._name_from_filepath(filepath) if name is None else name
         return cls(name, list(enum.id), list(enum.name), fuel=fuel, units=units)
+
+    def to_csv(self, filepath=None, overwrite=False):
+        p = self._default_filepath() if filepath is None else filepath
+        if not overwrite and os.path.exists(p):
+            msg = "{} already exists".format(p)
+            logger.error(msg)
+            raise DSGridRuntimeError(msg)
+        data = [list(x) + [self._fuel, self._units] for x in zip(self.ids,self.names)]
+        df = pd.DataFrame(data,columns=['id','name','fuel','units'])
+        df.to_csv(p,index=False)
 
 
 class FuelEnumeration(Enumeration):
@@ -237,9 +289,20 @@ class FuelEnumeration(Enumeration):
         )
 
     @classmethod
-    def read_csv(cls, filepath, name):
+    def read_csv(cls, filepath, name=None):
         enum = pd.read_csv(filepath , dtype=str)
+        name = cls._name_from_filepath(filepath) if name is None else name
         return cls(name, list(enum.id), list(enum.name), list(enum.units))
+
+    def to_csv(self, filepath=None, overwrite=False):
+        p = self._default_filepath() if filepath is None else filepath
+        if not overwrite and os.path.exists(p):
+            msg = "{} already exists".format(p)
+            logger.error(msg)
+            raise DSGridRuntimeError(msg)
+        df = pd.DataFrame(list(zip(self.ids,self.names,self.units)),
+                          columns=['id','name','units'])
+        df.to_csv(p,index=False)
 
 
 class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
@@ -294,11 +357,11 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
             yield "{} ({})".format(self._names[i],self.fuel((_id,self._fuel_ids[i])))
 
     def fuel(self,id):
-        assert isinstance(id,tuple) & (len(id) == 2), "The ids for MultiFuelEndUseEnumerations are (enduse_id, fuel_id)."
+        assert isinstance(id,tuple) & (len(id) == 2), "The ids for MultiFuelEndUseEnumerations are (enduse_id, fuel_id). Got {!r}".format(id)
         return self.fuel_enum.names[self.fuel_enum.ids.index(id[1])]
 
     def units(self,id):
-        assert isinstance(id,tuple) & len(id) == 2, "The ids for MultiFuelEndUseEnumerations are (enduse_id, fuel_id)."
+        assert isinstance(id,tuple) & (len(id) == 2), "The ids for MultiFuelEndUseEnumerations are (enduse_id, fuel_id). Got {!r}".format(id)
         return self.fuel_enum.units[self.fuel_enum.ids.index(id[1])]
 
     def persist(self, h5group):
@@ -331,7 +394,7 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
         )
 
     @classmethod
-    def read_csv(cls, filepath, name, fuel_enum=None):
+    def read_csv(cls, filepath, name=None, fuel_enum=None):
         """
         id, name, fuel_id + pass in file_enum
 
@@ -344,6 +407,7 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
         id, name, fuel_id, units (and fuel_name will be guessed from fuel_id)
         """
         enum = pd.read_csv(filepath , dtype=str)
+        name = cls._name_from_filepath(filepath) if name is None else name
         if fuel_enum is None:
             fuel_enum_name = name + ' Fuels'
             if 'fuel_name' in enum.columns:
@@ -367,6 +431,27 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
 
         assert fuel_enum is not None
         return cls(name, list(enum.id), list(enum.name), fuel_enum, list(enum.fuel_id))
+
+    def to_csv(self, filepath=None, overwrite=False):
+        p = self._default_filepath() if filepath is None else filepath
+        if not overwrite and os.path.exists(p):
+            msg = "{} already exists".format(p)
+            logger.error(msg)
+            raise DSGridRuntimeError(msg)
+        simple_fuel_name = True
+        for fuel_id in self.fuel_enum.ids:
+            if not (fuel_id.replace("_"," ").title() == self.fuel_enum.get_name(fuel_id)):
+                simple_fuel_name = False
+                break
+        data = list(zip(self._ids,self._names,self._fuel_ids))
+        cols = ['id','name','fuel_id']
+        if not simple_fuel_name:
+            data = [list(x) + [self.fuel_enum.get_name(x[2])] for x in data]
+            cols += ['fuel_name']
+        data = [list(x) + [self.fuel_enum.get_units(x[2])] for x in data]
+        cols += ['units']
+        df = pd.DataFrame(data,columns=cols)
+        df.to_csv(p,index=False)
 
 
 # Define standard enumerations
@@ -419,7 +504,11 @@ gaps_enduses = EndUseEnumeration.read_csv(
 fuel_types = EndUseEnumeration.read_csv(
     enumdata_folder + "fuel_types.csv", "fuel_types")
 
-allenduses = EndUseEnumeration("all_enduses", ["All"], ["All End-uses"])
+deprecated_allenduses = EndUseEnumeration("all_enduses", ["All"], ["All End-uses"])
+allenduses = SingleFuelEndUseEnumeration("all_enduses", ["All"], ["All End-uses"])
+
+loss_factor = SingleFuelEndUseEnumeration('Loss Factor',['loss_factor'],
+    ['Loss Factor'],fuel='N/A',units='dimensionless')
 
 # Time
 hourly2012 = TimeEnumeration.read_csv(

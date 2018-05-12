@@ -4,10 +4,11 @@ import os
 import numpy as np
 import pandas as pd
 
-from dsgrid import DSGridError
+from dsgrid import DSGridError, DSGridNotImplemented
 from dsgrid.dataformat.datatable import Datatable
 from dsgrid.dataformat.enumeration import (
-    SectorEnumeration, GeographyEnumeration, EndUseEnumerationBase, TimeEnumeration,
+    SectorEnumeration, GeographyEnumeration, EndUseEnumeration, 
+    EndUseEnumerationBase, MultiFuelEndUseEnumeration, TimeEnumeration,
     allenduses,allsectors,annual,census_divisions,census_regions,conus,counties,
     enduses,enumdata_folder,fuel_types,hourly2012,loss_state_groups,sectors,
     sectors_subsectors,states)
@@ -22,6 +23,9 @@ class DimensionMap(object):
         Returns the appropriate to_id.
         """
         return None
+
+    def scale_factor(self,from_id):
+        return 1.0
 
 
 class TautologyMapping(DimensionMap):
@@ -76,6 +80,28 @@ class FilterToSubsetMap(DimensionMap):
         if from_id in self.to_enum.ids:
             return from_id
         return None
+
+
+class FilterToSingleFuelMap(DimensionMap):
+    def __init__(self,from_enum,fuel_to_keep):
+        assert isinstance(from_enum,MultiFuelEndUseEnumeration), "This map only applies to MultiFuelEndUseEnumerations"
+        assert fuel_to_keep in from_enum.fuel_enum.ids, "{} is not a fuel_id in {}".format(fuel_to_keep,from_enum.fuel_enum)
+        to_enum_name = from_enum.name + " ({})".format(from_enum.fuel_enum.get_name(fuel_to_keep))
+        ids = []; names = [], self._map = {}
+        for i, id in enumerate(from_enum.ids):
+            if id[1] == fuel_to_keep:
+                ids.append(id[0]); names.append(from_enum._names[i])
+                self._map[id] = id[0]
+            else:
+                self._map[id] = None
+        to_enum = SingleFuelEndUseEnumeration(to_enum_name,
+                                              ids,names,
+                                              fuel=from_enum.fuel_enum.get_name(fuel_to_keep),
+                                              units=from_enum.fuel_enum.get_units(fuel_to_keep))
+        super().__init__(from_enum,to_enum)
+
+    def map(self,from_id):
+        return self._map[from_id]
 
 
 class ExplicitMap(DimensionMap):
@@ -183,6 +209,88 @@ class ExplicitAggregation(ExplicitMap):
             to_key = (row.to_id, row.to_fuel_id) if to_fuel_enduse else row.to_id
             result[from_key] = to_key
         return result
+
+
+class UnitConversionMap(DimensionMap):
+    CONVERSION_FACTORS = {
+        ('kWh','MWh'): 1.0E-3,
+        ('MWh','GWh'): 1.0E-3,
+        ('GWh','TWh'): 1.0E-3
+    }
+
+    def __init__(self,from_enum,from_units,to_units):
+        """
+        Convert from_units to to_units.
+
+        Parameters
+        ----------
+        from_enum : EndUseEnumerationBase
+        from_units : list of str
+            List of units in from_enum that are to be converted
+        to_units : list of str
+            List of units to convert to. Same length list as from_units.
+        """
+        assert isinstance(from_enum,EndUseEnumerationBase), "Unit conversion applies to EndUseEnumerations"
+        assert not isinstance(from_enum,EndUseEnumeration), "Old-style end-use enumerations do not include units information"
+        assert len(from_units) == len(to_units), "Cannot convert {} to {} since they are of a different number".format(from_units,to_units)
+        assert len(from_units) > 0, "from_units is empty. Nothing to do."
+
+        self._scale_map = defaultdict(lambda: 1.0)
+        if isinstance(from_enum,SingleFuelEndUseEnumeration):
+            assert len(from_units) == 1
+            assert from_units[0] == from_enum._units
+            to_enum = SingleFuelEndUseEnumeration(from_enum.name,
+                                                  from_enum.ids,
+                                                  from_enum.names,
+                                                  fuel=from_enum.fuel,
+                                                  units=to_units[0])
+            self._scale_map = self.scaling_factor(from_units[0],to_units[0])
+
+        else:
+            assert isinstance(from_enum,MultiFuelEndUseEnumeration)
+            for from_unit in from_units:
+                assert from_unit in from_enum.fuel_enum.units, "{} is not a unit in {!r}".format(from_unit,from_enum.fuel_enum)
+            
+            to_fuel_enum_units = []
+            for unit in from_enum.fuel_enum.units:
+                if unit in from_units:
+                    to_fuel_enum_units.append(to_units[from_units.index(unit)])
+                else:
+                    to_fuel_enum_units.append(unit)
+            
+            to_fuel_enum = FuelEnumeration(from_enum.fuel_enum.name,
+                                           from_enum.fuel_enum.ids,
+                                           from_enum.fuel_enum.names,
+                                           to_fuel_enum_units)
+            
+            to_enum = MultiFuelEndUseEnumeration(from_enum.name,
+                                                 from_enum._ids,
+                                                 from_enum._names,
+                                                 to_fuel_enum,
+                                                 from_enum._fuel_ids)
+            for id in from_enum.ids:
+                u = from_enum.units(id)
+                if u in from_units:
+                    self._scale_map[id] = self.scaling_factor(u,to_units[from_units.index(u)])
+
+        super().__init__(from_enum,to_enum)
+
+    def map(self,from_id):
+        # no change in enduse or fuel id
+        return from_id
+
+    def scale_factor(self,from_id):
+        if isinstance(self._scale_map,dict):
+            return self._scale_map[from_id]
+        return self._scale_map        
+
+    @classmethod
+    def scaling_factor(cls,from_unit,to_unit):
+        key = (from_unit,to_unit)
+        if key in cls.CONVERSION_FACTORS:
+            return cls.CONVERSION_FACTORS[key]
+        # TODO: Derive new conversion factors using shortest path in weighted graph
+        raise DSGridNotImplemented("No conversion factor available to go from {} to {}.".format(from_unit,to_unit))
 
 
 class Mappings(object):

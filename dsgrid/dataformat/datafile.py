@@ -254,9 +254,3 @@ class Datafile(Mapping):
             logger.info("Scaling data for {} in {}".format(sector_id,self.h5path))
             result.sectordata[sector_id] = sectordataset.scale_data(result,factor=factor)
         return result
-
-    def convert_units(self,filepath,from_units=[],to_units=[]):
-        """
-        Convert this Datafile to to_units.
-        """
-        raise DSGridNotImplemented("Placeholder method to implement soon")

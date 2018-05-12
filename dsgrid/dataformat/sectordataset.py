@@ -677,6 +677,11 @@ class SectorDataset(object):
                 # pull data
                 df, geo_ids, scalings = self.get_data(i)
 
+                # apply scaling (for unit conversion)
+                for col in df.columns:
+                    if not (mapping.scale_factor(col) == 1.0):
+                        df[col] = df[col] * mapping.scale_factor(col)
+
                 # apply the mapping
                 df.columns = [mapping.map(col) for col in df.columns]
                 # filter out unmapped items

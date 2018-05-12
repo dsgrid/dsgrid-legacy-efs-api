@@ -13,3 +13,4 @@ interior_equipment,Interior Equipment,gas,kBtu
 district_cooling,District Cooling,gas,kBtu
 district_heating,District Heating,gas,kBtu
 heat_rejection,Heat Rejection,electricity,kWh
+water_systems,Water Systems,water,gal
