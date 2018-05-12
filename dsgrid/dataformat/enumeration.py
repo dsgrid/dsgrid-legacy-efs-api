@@ -1,10 +1,13 @@
 import os
+import logging
 
 import numpy as np
 import pandas as pd
 
-from dsgrid import DSGridValueError
+from dsgrid import DSGridRuntimeError, DSGridValueError
 from dsgrid.dataformat import ENCODING
+
+logger = logging.getLogger(__name__)
 
 
 class Enumeration(object):

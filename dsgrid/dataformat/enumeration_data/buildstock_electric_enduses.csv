@@ -1,0 +1,10 @@
+id,name,fuel,units
+fans,Fans,Electricity,kWh
+pumps,Pumps,Electricity,kWh
+heating,Space Heating,Electricity,kWh
+cooling,Space Cooling,Electricity,kWh
+interior_lights,Interior Lights,Electricity,kWh
+exterior_lights,Exterior Lights,Electricity,kWh
+water_systems,Water Systems,Electricity,kWh
+interior_equipment,Interior Equipment,Electricity,kWh
+heat_rejection,Heat Rejection,Electricity,kWh

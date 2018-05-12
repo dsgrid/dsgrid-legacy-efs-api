@@ -53,7 +53,7 @@ class LoadModelComponent(object):
 
     @classmethod
     def clone(cls,original,filepath=None):
-        result = cls(original.component_type,original.name,color=original.color)
+        result = cls(original.name,component_type=original.component_type,color=original.color)
         if filepath is not None:
             result.load_datafile(filepath)
         return result

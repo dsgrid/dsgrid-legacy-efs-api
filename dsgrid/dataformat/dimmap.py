@@ -8,7 +8,8 @@ from dsgrid import DSGridError, DSGridNotImplemented
 from dsgrid.dataformat.datatable import Datatable
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration, EndUseEnumeration, 
-    EndUseEnumerationBase, MultiFuelEndUseEnumeration, TimeEnumeration,
+    EndUseEnumerationBase, MultiFuelEndUseEnumeration, 
+    SingleFuelEndUseEnumeration, TimeEnumeration,
     allenduses,allsectors,annual,census_divisions,census_regions,conus,counties,
     enduses,enumdata_folder,fuel_types,hourly2012,loss_state_groups,sectors,
     sectors_subsectors,states)
@@ -87,7 +88,7 @@ class FilterToSingleFuelMap(DimensionMap):
         assert isinstance(from_enum,MultiFuelEndUseEnumeration), "This map only applies to MultiFuelEndUseEnumerations"
         assert fuel_to_keep in from_enum.fuel_enum.ids, "{} is not a fuel_id in {}".format(fuel_to_keep,from_enum.fuel_enum)
         to_enum_name = from_enum.name + " ({})".format(from_enum.fuel_enum.get_name(fuel_to_keep))
-        ids = []; names = [], self._map = {}
+        ids = []; names = []; self._map = {}
         for i, id in enumerate(from_enum.ids):
             if id[1] == fuel_to_keep:
                 ids.append(id[0]); names.append(from_enum._names[i])
@@ -242,7 +243,7 @@ class UnitConversionMap(DimensionMap):
             to_enum = SingleFuelEndUseEnumeration(from_enum.name,
                                                   from_enum.ids,
                                                   from_enum.names,
-                                                  fuel=from_enum.fuel,
+                                                  fuel=from_enum._fuel,
                                                   units=to_units[0])
             self._scale_map = self.scaling_factor(from_units[0],to_units[0])
 
