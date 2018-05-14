@@ -119,7 +119,7 @@ class Enumeration(object):
 
     @classmethod
     def _name_from_filepath(cls,filepath):
-        return os.path.splitext(os.path.basename(filepath))[0].replace("_"," ").tilte()
+        return os.path.splitext(os.path.basename(filepath))[0].replace("_"," ").title()
 
     def _default_filepath(self):
         return os.path.join(enumdata_folder,self.name.lower().replace(' ','_') + '.csv')
