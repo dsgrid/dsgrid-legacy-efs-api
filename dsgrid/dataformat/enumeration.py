@@ -480,8 +480,14 @@ allsectors = SectorEnumeration("all_sectors", ["All"], ["All Sectors"])
 counties = GeographyEnumeration.read_csv(
     enumdata_folder + "counties.csv", "counties")
 
+conus_counties = GeographyEnumeration.read_csv(
+    os.path.join(enumdata_folder,'conus_counties.csv'))
+
 states = GeographyEnumeration.read_csv(
     enumdata_folder + "states.csv", "states")
+
+conus_states = GeographyEnumeration.read_csv(
+    os.path.join(enumdata_folder,'conus_states.csv'))
 
 census_divisions = GeographyEnumeration.read_csv(
     enumdata_folder + "census_divisions.csv", "census_divisions")

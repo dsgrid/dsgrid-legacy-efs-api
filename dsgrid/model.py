@@ -79,10 +79,11 @@ class LoadModelComponent(object):
         result = LoadModelComponent(self.name,component_type=self.component_type,color=self.color)
         if self._datafile:
             mapping = mappings.get_mapping(self._datafile,to_enum)
+            p = os.path.join(dirpath,filename_prefix + os.path.basename(self.datafile.h5path))
             if mapping is None:
                 logger.warn("Unable to map Component {} to {}".format(self.name,to_enum.name))
-                return None
-            p = os.path.join(dirpath,filename_prefix + os.path.basename(self.datafile.h5path))
+                result._datafile = self._datafile.save(p)
+                return result
             if isinstance(mapping,TautologyMapping):
                 result._datafile = self._datafile.save(p)
             else:

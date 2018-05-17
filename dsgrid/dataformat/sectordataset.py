@@ -492,6 +492,18 @@ class SectorDataset(object):
                             columns=self.enduses,
                             dtype="float32")
 
+    def has_data(self,geo_id):
+        id_idx = self.datafile.geo_enum.ids.index(geo_id)
+
+        with h5py.File(self.datafile.h5path, "r") as f:
+            dgroup = f["data/" + self.sector_id]
+
+            geo_idx, geo_scale = dgroup["geographies"][id_idx]
+
+            if geo_idx == NULL_IDX:
+                return False
+        return True
+
     def get_datamap(self,dim_key):
         with h5py.File(self.datafile.h5path, "r") as f:
             dgroup = f["data"][self.sector_id]
