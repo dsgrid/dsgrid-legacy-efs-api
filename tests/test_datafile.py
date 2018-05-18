@@ -9,7 +9,7 @@ from dsgrid.dataformat.enumeration import (
     sectors_subsectors, counties, enduses, hourly2012,
     enumdata_folder, MultiFuelEndUseEnumeration
 )
-from .temphdf5 import TempHDF5Filepath
+from .temppaths import TempFilepath
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ def verify_file_not_there(filepath):
 
 def test_datafile_io():
 
-    with TempHDF5Filepath() as filepath:
+    with TempFilepath() as filepath:
 
         verify_file_not_there(filepath)
 
@@ -50,7 +50,7 @@ def test_datafile_io():
 
 
 def test_datafile_io_fancy_enduses():
-    with TempHDF5Filepath() as filepath:
+    with TempFilepath() as filepath:
 
         verify_file_not_there(filepath)
 
@@ -78,7 +78,7 @@ def test_backward_compatible():
                     filepath = os.path.join(pp,filename)
                     datafile1 = Datafile.load(filepath,upgrade=False)
                     assert datafile1.version == version_dir[1:]
-                    with TempHDF5Filepath() as new_filepath:
+                    with TempFilepath() as new_filepath:
                         datafile2 = Datafile.load(os.path.join(pp,filename),new_filepath=new_filepath)
                         assert datafile2.version == VERSION
 

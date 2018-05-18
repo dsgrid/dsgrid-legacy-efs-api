@@ -4,4 +4,6 @@ class DSGridError(Exception): pass
 
 class DSGridNotImplemented(DSGridError): pass
 
+class DSGridRuntimeError(DSGridError): pass
+
 class DSGridValueError(DSGridError): pass

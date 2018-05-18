@@ -1,0 +1,13 @@
+from_id,to_id,to_fuel_id
+fans,fans,electricity
+pumps,pumps,electricity
+heating,heating,electricity
+cooling,cooling,electricity
+interior_lights,interior_lights,electricity
+exterior_lights,exterior_lights,electricity
+water_systems,water_systems,electricity
+interior_equipment,interior_equipment,electricity
+heating__gas,heating,gas
+water_systems__gas,water_systems,gas
+interior_equipment__gas,interior_equipment,gas
+water_systems__water,water_systems,water

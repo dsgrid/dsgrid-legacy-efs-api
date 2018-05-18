@@ -1,4 +1,6 @@
 
+from collections import OrderedDict
+from collections.abc import MutableMapping
 import copy
 from enum import Enum, auto
 import logging
@@ -20,12 +22,15 @@ class LoadModelStatus(Enum):
 class ComponentType(Enum):
     BOTTOMUP = auto()
     GAP = auto()
+    DG = auto()
     TOPDOWN = auto()
     DERIVED = auto()
 
+    UNKNOWN = 9999
+
 
 class LoadModelComponent(object):
-    def __init__(self,component_type,name,color=None):
+    def __init__(self,name,component_type=ComponentType.UNKNOWN,color=None):
         self.component_type = ComponentType(component_type)
         self.name = name
         self.color = color
@@ -48,7 +53,7 @@ class LoadModelComponent(object):
 
     @classmethod
     def clone(cls,original,filepath=None):
-        result = cls(original.component_type,original.name,color=original.color)
+        result = cls(original.name,component_type=original.component_type,color=original.color)
         if filepath is not None:
             result.load_datafile(filepath)
         return result
@@ -64,20 +69,21 @@ class LoadModelComponent(object):
         """
         Saves this component to a new directory, returning the new component.
         """
-        result = LoadModelComponent(self.component_type,self.name,color=self.color)
+        result = LoadModelComponent(self.name,component_type=self.component_type,color=self.color)
         if self._datafile:
             p = os.path.join(dirpath,os.path.basename(self.datafile.h5path))
             result._datafile = self._datafile.save(p)
         return result
 
     def map_dimension(self,dirpath,to_enum,mappings,filename_prefix=''):
-        result = LoadModelComponent(self.component_type,self.name,color=self.color)
+        result = LoadModelComponent(self.name,component_type=self.component_type,color=self.color)
         if self._datafile:
             mapping = mappings.get_mapping(self._datafile,to_enum)
+            p = os.path.join(dirpath,filename_prefix + os.path.basename(self.datafile.h5path))
             if mapping is None:
                 logger.warn("Unable to map Component {} to {}".format(self.name,to_enum.name))
-                return None
-            p = os.path.join(dirpath,filename_prefix + os.path.basename(self.datafile.h5path))
+                result._datafile = self._datafile.save(p)
+                return result
             if isinstance(mapping,TautologyMapping):
                 result._datafile = self._datafile.save(p)
             else:
@@ -96,25 +102,44 @@ class LoadModelComponent(object):
                   multiplied. The default value of 0.001 corresponds to converting
                   the bottom-up data from kWh to MWh.
         """
-        result = LoadModelComponent(self.component_type,self.name,color=self.color)
+        result = LoadModelComponent(self.name,component_type=self.component_type,color=self.color)
         if self._datafile:
             p = os.path.join(dirpath,os.path.basename(self.datafile.h5path))
             result._datafile = self._datafile.scale_data(p,factor=factor)
         return result
 
 
-class LoadModel(object):
+class LoadModel(MutableMapping):
 
     def __init__(self):
         self.status = LoadModelStatus.RAW
-        self.components = {}
+        self.components = OrderedDict()
+
+    def __getitem__(self,key):
+        return self.components[key]
+
+    def __setitem__(self,key,value):
+        if not isinstance(value,LoadModelComponent):
+            raise DSGridError("Expected a LoadModelComponent, got a {}.".format(type(value)))
+        if not key == value.key:
+            raise DSGridError("Expected the key to match the LoadModelComponent.key, " + \
+                "but key = {} and LoadModelComponent.key = {}".format(key,value.key))
+        result.components[value.key] = value
+
+    def __delitem__(self,key):
+        del self.components[key]
+
+    def __iter__(self):
+        for key in self.components:
+            yield key
+
+    def __len__(self):
+        return len(self.components)
 
     @classmethod
     def create(cls,components):
         result = LoadModel()
         for component in components:
-            if not isinstance(component,LoadModelComponent):
-                raise DSGridError("Expected a LoadModelComponent, got a {}.".format(type(component)))
             result.components[component.key] = component
         return result
 

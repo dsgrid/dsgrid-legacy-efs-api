@@ -1,36 +1,15 @@
 id,name,fuel_id,units
 fans,Fans,electricity,kWh
 pumps,Pumps,electricity,kWh
-heating,Heating,electricity,kWh
-cooling,Cooling,electricity,kWh
-heat_rejection,Heat Rejection,electricity,kWh
-heat_rejection,Heat Rejection,water,gal
+heating,Space Heating,electricity,kWh
+heating,Space Heating,gas,kBtu
+cooling,Space Cooling,electricity,kWh
 interior_lights,Interior Lights,electricity,kWh
 exterior_lights,Exterior Lights,electricity,kWh
 water_systems,Water Systems,electricity,kWh
-interior_equipment,Interior Equipment,electricity,kWh
-heating,Heating,gas,kBtu
 water_systems,Water Systems,gas,kBtu
-interior_equipment,InteriorEquipment,gas,kBtu
-water_systems,Water Systems,water,gal
-heating,Heating,district_heating,unknown
-cooling,Cooling,district_cooling,unknown
-boiler,Conventional Boiler Use,conventional,unknown
-chp_cogen,CHP Cogeneration Process,unknown,unknown
-process_heating,Process Heating,electricity,kWh
-process_cooling,Process Cooling and Refrigeration,electricity,kWh
-machine_drive,Machine Drive,electricity,kWh
-electrochemical,Electrochemical Processes,electricity,kWh
-other_process,Other Process Use,electricity,kWh
-facility_hvac,Facility HVAC,electricity,kWh
-facility_lighting,Facility Lighting,electricity,kWh
-facility_other,Other Facility Support,electricity,kWh
-electricity_generation,Electricity Generation,conventional,unknown
-other_nonprocess,Other Nonprocess Use,electricity,kWh
-not_reported,End-use not reported,electricity,kWh
-transportation,Transportation,electricity,kWh
-facility_heating,Total Heating,district_heating,unknown
-facility_cooling,Total Cooling,district_cooling,unknown
-facility,Total,electricity,kWh
-facility,Total,gas,kBtu
-facility,Total,water,gal
+interior_equipment,Interior Equipment,electricity,kWh
+interior_equipment,Interior Equipment,gas,kBtu
+district_cooling,District Cooling,gas,kBtu
+district_heating,District Heating,gas,kBtu
+heat_rejection,Heat Rejection,electricity,kWh

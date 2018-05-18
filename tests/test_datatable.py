@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from dsgrid.dataformat.datatable import Datatable
-from .temphdf5 import TempHDF5Filepath
+from .temppaths import TempFilepath
 from dsgrid.dataformat.datafile import Datafile
 from dsgrid.dataformat.enumeration import (
     sectors_subsectors, states, enduses, hourly2012
@@ -26,7 +26,7 @@ def test_datatable_read():
     data3 = make_data(eus2, hourly2012.ids)
     data4 = make_data(eus2, hourly2012.ids)
 
-    with TempHDF5Filepath() as filepath:
+    with TempFilepath() as filepath:
 
         datafile = Datafile(filepath, sectors_subsectors, states, enduses, hourly2012)
 

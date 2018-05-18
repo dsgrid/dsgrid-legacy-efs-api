@@ -1,5 +1,4 @@
 id,name
-AK,Alaska
 AL,Alabama
 AR,Arkansas
 AZ,Arizona
@@ -10,7 +9,6 @@ DC,District of Columbia
 DE,Delaware
 FL,Florida
 GA,Georgia
-HI,Hawaii
 IA,Iowa
 ID,Idaho
 IL,Illinois
@@ -50,8 +48,3 @@ WA,Washington
 WI,Wisconsin
 WV,West Virginia
 WY,Wyoming
-AS,American Samoa
-GU,Guam
-MP,Northern Mariana Islands
-PR,Puerto Rico
-VI,U.S. Virgin Islands

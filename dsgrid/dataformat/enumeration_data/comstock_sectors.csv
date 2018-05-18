@@ -1,0 +1,31 @@
+id,name
+com__Laboratory,Commercial: Laboratory
+com__ConvenienceStore,Commercial: ConvenienceStore
+com__ConvenienceStoreWithGasStation,Commercial: ConvenienceStoreWithGasStation
+com__GroceryStoreFoodMarket,Commercial: GroceryStoreFoodMarket
+com__FireStationPoliceStation,Commercial: FireStationPoliceStation
+com__OtherPublicOrderAndSafety,Commercial: OtherPublicOrderAndSafety
+com__ReligiousWorship,Commercial: ReligiousWorship
+com__EntertainmentCulture,Commercial: EntertainmentCulture
+com__Library,Commercial: Library
+com__Recreation,Commercial: Recreation
+com__VehicleDealershipShowroom,Commercial: VehicleDealershipShowroom
+com__VehicleServiceRepairShop,Commercial: VehicleServiceRepairShop
+com__VehicleStorageMaintenance,Commercial: VehicleStorageMaintenance
+com__Gap,Commercial: Gap Model
+com__Other,Commercial: Other
+com__SmallOffice,Commercial: Small Office
+com__MediumOffice,Commercial: Medium Office
+com__LargeOffice,Commercial: Large Office
+com__LargeHotel,Commercial: Large Hotel
+com__StandaloneRetail,Commercial: Standalone Retail Store
+com__Hospital,Commercial: Hospital
+com__StripMall,Commercial: Strip Mall
+com__Outpatient,Commercial: Outpatient Treatment Facility
+com__PrimarySchool,Commercial: Primary School
+com__SecondarySchool,Commercial: Secondary School
+com__Warehouse,Commercial: Warehouse
+com__MidriseApartment,Commercial: Midrise Appartment Building
+com__SmallHotel,Commercial: Small Hotel
+com__QuickServiceRestaurant,Commercial: Quick Service Restaurant
+com__FullServiceRestaurant,Commercial: Full Service Restaurant

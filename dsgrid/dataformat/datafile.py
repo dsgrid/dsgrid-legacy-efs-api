@@ -4,10 +4,18 @@ import logging
 import os
 from shutil import copyfile
 
+try:
+    from collections.abc import Mapping
+except ImportError:
+    # Python 2
+    from collections import Mapping
+
+
 import h5py
 
 from dsgrid import __version__ as VERSION
 from dsgrid import DSGridNotImplemented, DSGridValueError
+from dsgrid.dataformat import ENCODING
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
     EndUseEnumerationBase, TimeEnumeration)
@@ -16,12 +24,35 @@ from dsgrid.dataformat.sectordataset import SectorDataset
 logger = logging.getLogger(__name__)
 
 
-class Datafile(object):
+class Datafile(Mapping):
 
     def __init__(self,h5path,sector_enum,geography_enum,enduse_enum,time_enum,
                  loading=False,version=VERSION):
         """
-        Create a new Datafile object.
+        Create a new Datafile object. Use Datafile.load to open existing files.
+
+        Parameters
+        ----------
+        h5path : str
+            file to create. typically has a .dsg file extension.
+        sector_enum : dsgrid.dataformat.enumeration.SectorEnumeration
+            enumeration of sectors to be stored in this Datafile
+        geography_enum : dsgrid.dataformat.enumeration.GeographyEnumeration
+            enumeration of geographies for this Datafile. typically these are 
+            geographical units at the same level of resolution. the Datafile 
+            does not have to specify values for every geography.
+        enduse_enum : dsgrid.dataformat.enumeration.EndUseEnumerationBase
+            enumeration of end-uses. there are mutiple EndUseEnumerationBase 
+            class types. typically one would use SingeFuelEndUseEnumeration or 
+            MultiFuelEndUseEnumeration.
+        time_enum : dsgrid.dataformat.enumeration.TimeEnumeration
+            enumeration specifying the time resolution of this Datafile
+        loading : bool
+            NOT FOR GENERAL USE -- Use Datafile.load to open existing files.
+        version : str
+            NOT FOR GENERAL USE -- New file are marked with the current VERSION.
+            The load and update methods are used to manage version indicators 
+            for backward compatibility.
         """
         self.h5path = h5path
         self.sector_enum = sector_enum
@@ -58,6 +89,13 @@ class Datafile(object):
     def __getitem__(self, sector_id):
         return self.sectordata[sector_id]
 
+    def __iter__(self):
+        for k in self.sectordata:
+            yield k
+
+    def __len__(self):
+        return len(self.sectordata)
+
     def contains(self, an_enum):
         if isinstance(an_enum,SectorEnumeration):
             return an_enum == self.sector_enum
@@ -73,6 +111,8 @@ class Datafile(object):
         # Version Handling
         with h5py.File(filepath, "r") as f:
             version = f.attrs.get("dsgrid", "0.1.0")
+            if isinstance(version,bytes):
+                version = version.decode(ENCODING)
 
         if StrictVersion(version) > StrictVersion(VERSION):
             raise DSGridValueError("File at {} is of version {}. ".format(filepath,version) + 

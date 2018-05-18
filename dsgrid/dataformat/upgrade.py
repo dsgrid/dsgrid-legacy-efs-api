@@ -6,9 +6,10 @@ import h5py
 import numpy as np
 
 from dsgrid.dataformat.datafile import Datafile
-from dsgrid.dataformat.enumeration import (SectorEnumeration, 
-    GeographyEnumeration, EndUseEnumerationBase, TimeEnumeration)
-from dsgrid.dataformat.sectordataset import Datamap, SectorDataset
+from dsgrid.dataformat.enumeration import (SectorEnumeration,
+    GeographyEnumeration, EndUseEnumeration, EndUseEnumerationBase, 
+    SingleFuelEndUseEnumeration, TimeEnumeration)
+from dsgrid.dataformat.sectordataset import Datamap, SectorDataset, NULL_IDX
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +34,7 @@ class UpgradeDatafile(object):
     @classmethod
     def load_datafile(cls,filepath):
         """
-        Load enough to return a Datafile object. Object should not be 
+        Load enough to return a Datafile object. Object should not be
         expected to be fully functional.
         """
         with h5py.File(filepath, "r") as f:
@@ -53,7 +54,7 @@ class UpgradeDatafile(object):
 
     def load_sectordataset(cls,datafile,f,sector_id):
         """
-        Load enough to return a SectorDataset object. Object should not be 
+        Load enough to return a SectorDataset object. Object should not be
         expected to be fully functional.
         """
         pass
@@ -80,12 +81,17 @@ class DSG_0_1_0(UpgradeDatafile):
             orig_dset = f['data'][tmp_name]
             del f['data'][sector_id]
             dgroup = f['data'].create_group(sector_id)
-            
+
             dgroup['geographies'] = Datamap.create(datafile.geo_enum,[]).value
-            dgroup['geographies'][:,'idx'] = orig_dset.attrs['geo_mappings']
+            geo_map = orig_dset.attrs['geo_mappings'].astype("u4")
+            if np.any(geo_map == cls.ZERO_IDX):
+                null_pos = geo_map == cls.ZERO_IDX
+                geo_map[null_pos] = NULL_IDX
+
+            dgroup['geographies'][:,'idx'] = geo_map
             dgroup['geographies'][:,'scale'] = orig_dset.attrs['geo_scalings']
 
-            # already loaded these sub-enums as part of the backward compatible 
+            # already loaded these sub-enums as part of the backward compatible
             # load process
             dgroup['enduses'] = Datamap.create(datafile.enduse_enum,sectordataset.enduses).value
             dgroup['times'] = Datamap.create(datafile.time_enum,sectordataset.times).value
@@ -116,3 +122,28 @@ class DSG_0_1_0(UpgradeDatafile):
 
 OLD_VERSIONS = OrderedDict()
 OLD_VERSIONS[DSG_0_1_0.from_version] = DSG_0_1_0
+
+
+def make_fuel_and_units_explicit(datafile, filepath, fuel='Electricity', units='MWh'):
+    old_enduse_enum = datafile.enduse_enum
+    assert isinstance(old_enduse_enum,EndUseEnumeration), "This upgrade method is for datafiles with old-style EndUseEnumerations"
+    new_enduse_enum = SingleFuelEndUseEnumeration(
+        old_enduse_enum.name,
+        old_enduse_enum.ids,
+        old_enduse_enum.names,
+        fuel=fuel,
+        units=units)
+    
+    result = Datafile(filepath,
+                      datafile.sector_enum,
+                      datafile.geo_enum,
+                      new_enduse_enum,
+                      datafile.time_enum)
+    for sector_id in datafile:
+        old_sector = datafile[sector_id]
+        new_sector = result.add_sector(sector_id,enduses=old_sector.enduses,times=old_sector.times)
+        for i in range(old_sector.n_geos):
+            df, geo_ids, scalings = old_sector.get_data(i)
+            new_sector.add_data(df,geo_ids,scalings=scalings,full_validation=False)
+
+    return result

@@ -1,6 +1,6 @@
 import os
 from py.test import raises
-from .temphdf5 import TempHDF5File
+from .temppaths import TempHDF5File
 from dsgrid import DSGridValueError
 from dsgrid.dataformat.enumeration import (
     Enumeration, SectorEnumeration, GeographyEnumeration, EndUseEnumeration, 
