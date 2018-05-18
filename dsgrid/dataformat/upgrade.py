@@ -83,13 +83,21 @@ class DSG_0_1_0(UpgradeDatafile):
             dgroup = f['data'].create_group(sector_id)
 
             dgroup['geographies'] = Datamap.create(datafile.geo_enum,[]).value
-            geo_map = orig_dset.attrs['geo_mappings'].astype("u4")
+            try:
+                geo_map = orig_dset.attrs['geo_mappings'].astype("u4")
+            except:
+                geo_map = f['geo_mappings'][()].astype("u4")
             if np.any(geo_map == cls.ZERO_IDX):
-                null_pos = geo_map == cls.ZERO_IDX
+                null_pos = (geo_map == cls.ZERO_IDX)
                 geo_map[null_pos] = NULL_IDX
 
             dgroup['geographies'][:,'idx'] = geo_map
-            dgroup['geographies'][:,'scale'] = orig_dset.attrs['geo_scalings']
+            try:
+                scalings = orig_dset.attrs['geo_scalings']
+            except:
+                # Handle Joe's format
+                scalings = f['geo_scalings'][()]
+            dgroup['geographies'][:,'scale'] = scalings
 
             # already loaded these sub-enums as part of the backward compatible
             # load process
@@ -97,7 +105,8 @@ class DSG_0_1_0(UpgradeDatafile):
             dgroup['times'] = Datamap.create(datafile.time_enum,sectordataset.times).value
 
             for attr_name in ['geo_mappings', 'geo_scalings', 'enduse_mappings', 'time_mappings']:
-                del orig_dset.attrs[attr_name]
+                if attr_name in orig_dset.attrs:
+                    del orig_dset.attrs[attr_name]
             assert len(orig_dset.attrs) == 0, "There are attrs left in orig_dset: {}".format(orig_dset.attrs)
 
             dgroup['data'] = orig_dset
@@ -113,8 +122,15 @@ class DSG_0_1_0(UpgradeDatafile):
         times = [times[i] for i in dset.attrs['time_mappings'][:]]
 
         result = SectorDataset(datafile,sector_id,enduses,times)
+                
+        try:
+            geo_mappings = dset.attrs["geo_mappings"]
+        except:
+            # handles Joe's files
+            geo_mappings = f["geo_mappings"]
 
-        geo_ptrs = [x for x in dset.attrs["geo_mappings"] if not (x == cls.ZERO_IDX)]
+        geo_ptrs = [x for x in geo_mappings if not (x == cls.ZERO_IDX)]
+        
         result.n_geos = len(set(geo_ptrs))
 
         return result
