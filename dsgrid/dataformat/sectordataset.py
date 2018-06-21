@@ -43,10 +43,13 @@ class Datamap(object):
     ----------
     value : numpy.ndarray
         datamap vector of length len(enum.ids) with 'idx' and 'scale' 
-        dimensions. For the example of j, scale = datamap[i], 
-        - i = position of enum_id in enum.ids (datafile-level enum)
-        - j = position of enum_id in enum_ids (sectordataset-level sub-enum)
-        - scale = scaling factor to apply to this enumeration element
+        dimensions. For the example of (j, scale) = self.value[i],
+
+            - i = position of enum_id in enum.ids (datafile-level enum)
+            - j = position of enum_id in enum_ids (sectordataset-level sub-enum)
+            - scale = scaling factor to apply to this enumeration element
+
+        We also have j = self.value[i]['idx'], scale = self.value[i]['scale'].
     """
 
     def __init__(self,value):
@@ -140,7 +143,8 @@ class Datamap(object):
         Returns
         -------
         list of enum.ids
-            In the correct order for this Sectordataset
+            ids in enum for which there is data in this SectorDataset. The ids 
+            are returned in the order imposed by the SectorData In the correct order for this Sectordataset
         """
         full_enum_ids = list(enum.ids)
         original_idxes = np.flatnonzero(self.value["idx"] != NULL_IDX)
@@ -726,6 +730,10 @@ class SectorDataset(object):
         # pull data
         for i in range(self.n_geos):
             df, geo_ids, scalings = self.get_data(i)
+            
+            if not geo_ids and not df.empty:
+                # This will cause warning later and shouldn't be happening
+                raise DSGridError("No geo_ids associated with a non-empty DataFrame. Sector ID: {}, idx: {}".format(self.sector_id,i))
 
             # apply the scaling
             scalings = [x * factor for x in scalings]
