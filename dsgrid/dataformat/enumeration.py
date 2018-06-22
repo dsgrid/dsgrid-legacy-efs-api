@@ -226,10 +226,10 @@ class SingleFuelEndUseEnumeration(EndUseEnumerationBase):
         enum = pd.read_csv(filepath , dtype=str)
         assert 'fuel' in enum.columns, "Fuel must be specified."
         assert 'units' in enum.columns, "Units must be specified."
-        assert len(enum.fuel.unique()) == 1, "There must be exactly 1 fuel, but {} are listed".format(len(enum.fuel.unique()))
-        assert len(enum.units.unique()) == 1, "There must be exactly 1 units, but {} are listed".format(len(enum.units.unique()))
-        fuel = enum.fuel.unique().values[0]
-        units = enum.units.unique().values[0]
+        assert len(enum['fuel'].unique()) == 1, "There must be exactly 1 fuel, but {} are listed".format(len(enum.fuel.unique()))
+        assert len(enum['units'].unique()) == 1, "There must be exactly 1 units, but {} are listed".format(len(enum.units.unique()))
+        fuel = enum['fuel'].unique()[0]
+        units = enum['units'].unique()[0]
         name = cls._name_from_filepath(filepath) if name is None else name
         return cls(name, list(enum.id), list(enum.name), fuel=fuel, units=units)
 

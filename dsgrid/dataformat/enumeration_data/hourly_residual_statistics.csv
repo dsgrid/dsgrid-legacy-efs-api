@@ -1,0 +1,9 @@
+id,name,fuel_id,units
+MBE,Mean Bias Error,electricity,MWh
+MAE,Mean Absolute Error,electricity,MWh
+MARE,Mean Absolute Relative Error,none,fraction
+RMSE,Root Mean Square Error,electricity,MWh
+E_tot,Annual Site Energy,electricity,MWh
+E_avg,Average Site Energy per Interval,electricity,MWh
+E_min,Minimum Site Energy per Interval,electricity,MWh
+E_max,Maximum Site Energy per Interval,electricity,MWh

@@ -119,6 +119,9 @@ class ExplicitMap(DimensionMap):
         mapdata = pd.read_csv(filepath,dtype=str)
         return cls(from_enum,to_enum,cls._make_dictmap(mapdata))
 
+    @classmethod
+    def _make_dictmap(cls,mapdata): pass
+
 
 class ExplicitDisaggregation(ExplicitMap):
     def __init__(self,from_enum,to_enum,dictmap,scaling_datafile=None):

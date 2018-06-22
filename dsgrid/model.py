@@ -150,6 +150,22 @@ class LoadModel(MutableMapping):
         return self.create([component.save(dirpath) for key, component in self.components.items()])
 
     def map_dimension(self,dirpath,to_enum,mappings):
+        """
+        Map the appropriate dimension to_enum for all possible components. Will 
+        only map those components for which the given dimension (determined by 
+        to_enum's class) is resolved by a from_enum for which a map between 
+        from_enum and to_enum is in mappings.
+
+        Parameters
+        ----------
+        dirpath : str
+            Folder for new model created by doing this mapping
+        to_enum : dsgrid.dataformat.Enumeration
+            Enumeration to which to map the appropriate dimension
+        mappings : dsgrid.dimmap.Mappings
+            collection of dsgrid.dimmap.DimensionMap objects. Only maps 
+            registered in this object will be applied.
+        """
         if os.path.exists(dirpath):
             raise DSGridError("Must map_dimension to a new location")
         os.mkdir(dirpath)
