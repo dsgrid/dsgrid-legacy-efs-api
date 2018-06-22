@@ -521,6 +521,21 @@ loss_factor = SingleFuelEndUseEnumeration('Loss Factor',['loss_factor'],
 
 # Time
 hourly2012 = TimeEnumeration.read_csv(
-    enumdata_folder + "hourly2012.csv", "standard_2012_hourly")
+    os.path.join(enumdata_folder,'hourly2012.csv'))
+
+daily2012 = TimeEnumeration.read_csv(
+    os.path.join(enumdata_folder,'daily2012.csv'))
+
+weekdays = TimeEnumeration.read_csv(
+    os.path.join(enumdata_folder,'weekdays.csv'))
+
+daytypes = TimeEnumeration.read_csv(
+    os.path.join(enumdata_folder,'day_types.csv'))
+
+weekly2012 = TimeEnumeration.read_csv(
+    os.path.join(enumdata_folder,'weekly2012.csv'))
+
+seasons = TimeEnumeration.read_csv(
+    os.path.join(enumdata_folder,'seasons.csv'))
 
 annual = TimeEnumeration("annual", ["Annual"], ["Annual"])

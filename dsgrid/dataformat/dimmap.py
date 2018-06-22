@@ -11,8 +11,10 @@ from dsgrid.dataformat.enumeration import (
     EndUseEnumerationBase, MultiFuelEndUseEnumeration, 
     SingleFuelEndUseEnumeration, TimeEnumeration,
     allenduses,allsectors,annual,census_divisions,census_regions,conus,
-    conus_counties,conus_states,counties,enduses,enumdata_folder,fuel_types,
-    hourly2012,loss_state_groups,sectors,sectors_subsectors,states)
+    conus_counties,conus_states,counties,daily2012,daytypes,enduses,
+    enumdata_folder,fuel_types,hourly2012,loss_state_groups,seasons,sectors,
+    sectors_subsectors,states,weekdays,weekly2012)
+
 
 class DimensionMap(object):
     def __init__(self,from_enum,to_enum):
@@ -339,11 +341,17 @@ class Mappings(object):
         return None
 
 mappings = Mappings()
+
+# key geography
 mappings.add_mapping(ExplicitAggregation.create_from_csv(counties,states,os.path.join(enumdata_folder,'counties_to_states.csv')))
 conus_states_list = pd.read_csv(os.path.join(enumdata_folder,'conus_to_states.csv'),dtype=str)['to_id'].tolist()
 mappings.add_mapping(FullAggregationMap(states,conus,exclude_list=[state_id for state_id in states.ids if state_id not in conus_states_list]))
+# full aggregations
 mappings.add_mapping(FullAggregationMap(census_regions,conus))
 mappings.add_mapping(FullAggregationMap(hourly2012,annual))
+mappings.add_mapping(FullAggregationMap(daily2012,annual))
+mappings.add_mapping(FullAggregationMap(weekly2012,annual))
+mappings.add_mapping(FullAggregationMap(seasons,annual))
 mappings.add_mapping(FullAggregationMap(sectors,allsectors))
 mappings.add_mapping(FullAggregationMap(sectors_subsectors,allsectors))
 mappings.add_mapping(FullAggregationMap(enduses,allenduses))
@@ -354,6 +362,11 @@ mappings.add_mapping(FilterToSubsetMap(counties,conus_counties))
 mappings.add_mapping(ExplicitAggregation.create_from_csv(conus_states,states,os.path.join(enumdata_folder,'conus_states_to_states.csv')))
 mappings.add_mapping(ExplicitAggregation.create_from_csv(conus_counties,counties,os.path.join(enumdata_folder,'conus_counties_to_counties.csv')))
 # explicit aggregations
+mappings.add_mapping(ExplicitAggregation.create_from_csv(hourly2012,daily2012,os.path.join(enumdata_folder,'hourly2012_to_daily2012.csv')))
+mappings.add_mapping(ExplicitAggregation.create_from_csv(hourly2012,weekly2012,os.path.join(enumdata_folder,'hourly2012_to_weekly2012.csv')))
+mappings.add_mapping(ExplicitAggregation.create_from_csv(hourly2012,seasons,os.path.join(enumdata_folder,'hourly2012_to_seasons.csv')))
+mappings.add_mapping(ExplicitAggregation.create_from_csv(daily2012,weekly2012,os.path.join(enumdata_folder,'daily2012_to_weekly2012.csv')))
+mappings.add_mapping(ExplicitAggregation.create_from_csv(daily2012,seasons,os.path.join(enumdata_folder,'daily2012_to_seasons.csv')))
 mappings.add_mapping(ExplicitAggregation.create_from_csv(enduses,fuel_types,os.path.join(enumdata_folder,'enduses_to_fuel_types.csv')))
 mappings.add_mapping(ExplicitAggregation.create_from_csv(states,loss_state_groups,os.path.join(enumdata_folder,'states_to_loss_state_groups.csv')))
 mappings.add_mapping(ExplicitAggregation.create_from_csv(states,census_divisions,os.path.join(enumdata_folder,'states_to_census_divisions.csv')))
