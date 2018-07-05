@@ -1,0 +1,3 @@
+id,name,fuel,units
+MARE_fit,energy-weighted mean absolute relative error,none,dimensionless
+MAE_fit,energy-weighted mean absolute error,none,dimensionless

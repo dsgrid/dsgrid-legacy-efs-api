@@ -1,0 +1,6 @@
+id,name,fuel_id,units
+err,Error,electricity,MWh
+abserr,Absolute Error,electricity,MWh
+relerr,Relative Error,none,fraction
+MARE,Mean Absolute Relative Error,none,fraction
+E_tot,Annual Site Energy,electricity,MWh
