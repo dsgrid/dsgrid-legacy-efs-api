@@ -1,3 +1,12 @@
+"""
+A dsgrid LoadModel consists of a number of different LoadModelComponents. Each
+LoadModelComponent is a BOTTOMUP, GAP, DG, TOPDOWN, or DERIVED ComponentType. 
+Load is represented by the BOTTOMUP (detailed) and GAP (coarser) models. The 
+other components allow for computation of variants other than total site load 
+(e.g. net site load, system load), as well as validation/calibration/
+reconciliation with historical data.
+"""
+
 
 from collections import OrderedDict
 from collections.abc import MutableMapping
@@ -19,6 +28,9 @@ class LoadModelStatus(Enum):
     RAW = auto()
 
 
+# TODO: Losses should be their own component type. And maybe DERIVED should be
+# replaced by RESIDUALS/ERRORS?
+
 class ComponentType(Enum):
     BOTTOMUP = auto()
     GAP = auto()
@@ -30,7 +42,26 @@ class ComponentType(Enum):
 
 
 class LoadModelComponent(object):
+
     def __init__(self,name,component_type=ComponentType.UNKNOWN,color=None):
+        """
+        A LoadModelComponent is generally associated with a 
+        dsgrid.dataformat.Datafile, and is therefore data of a particular type,
+        represented at a certain geographic, temporal, sectoral, and end-use 
+        resolution. A LoadModelComponent is also commonly part of a LoadModel. 
+        Based on the dimension-mapping capabilities of dsgrid, the LoadModel 
+        likely has uniform geographical and temporal extents and resolution.
+
+        Attributes
+        ----------
+        name : str
+            The name of the LoadModelComponent
+        component_type : ComponentType
+            The type of the LoadModelComponent, defaults to ComponentType.UNKNOWN
+        color : str
+            Color to use when plotting this LoadModelComponent, in Hexadecimal.
+            Otherwise None.
+        """
         self.component_type = ComponentType(component_type)
         self.name = name
         self.color = color
@@ -39,20 +70,66 @@ class LoadModelComponent(object):
 
     @property
     def key(self):
+        """
+        The (hash) key used by LoadModel to identify this LoadModelComponent.
+
+        Returns
+        -------
+        tuple
+            (self.component_type,self.name)
+        """
         return (self.component_type,self.name)
 
     @property
     def datafile(self):
+        """
+        Returns
+        -------
+        None or dsgrid.dataformat.Datafile
+            Returns a Datafile if self.load_datafile has been called successfully.
+        """
         return self._datafile
 
     def __str__(self):
+        """
+        Returns
+        -------
+        str
+            name, component_type name
+        """
         return "{}, {}".format(self.name,self.component_type.name)
 
     def load_datafile(self,filepath):
+        """
+        Parameters
+        ----------
+        filepath : str
+            Path to dsgrid.dataformat.Datafile corresponding to this component
+        """
         self._datafile = Datafile.load(filepath)
 
     @classmethod
     def clone(cls,original,filepath=None):
+        """
+        Creates a new instance of a LoadModelComponent, perhaps pointing to a 
+        different dsgrid.dataformat.Datafile.
+
+        Parameters
+        ----------
+        original : LoadModelComponent
+            Only the metadata (e.g. name, type, color) are used, and orignial 
+            is not modified in any way
+        filepath : str or None
+            If not None, path to the dsgrid.dataformat.Datafile corresponding to 
+            the new LoadModelComponent created by this method. In most cases, 
+            should not be the same as original.datafile.h5path.
+
+        Returns
+        -------
+        LoadModelComponent
+            Clone of original, with the appropriate dsgrid.dataformat.Datafile
+            loaded if filepath was not None.
+        """
         result = cls(original.name,component_type=original.component_type,color=original.color)
         if filepath is not None:
             result.load_datafile(filepath)
@@ -67,7 +144,19 @@ class LoadModelComponent(object):
 
     def save(self,dirpath):
         """
-        Saves this component to a new directory, returning the new component.
+        Saves this component (primarily its datafile) to a new directory.
+
+        Parameters
+        ----------
+        dirpath : str
+            The folder to which to save this component's datafile (using the 
+            same filename)
+        
+        Returns
+        -------
+        LoadModelComponent
+            A new component with the copy of this component's datafile that has 
+            been saved to dirpath already loaded
         """
         result = LoadModelComponent(self.name,component_type=self.component_type,color=self.color)
         if self._datafile:
@@ -76,6 +165,41 @@ class LoadModelComponent(object):
         return result
 
     def map_dimension(self,dirpath,to_enum,mappings,filename_prefix=''):
+        """
+        If there is an appropriate mapping, map the dimension specified by 
+        to_enum's class to match to_enum. If there is not, simply create a copy
+        of this LoadModelComponent in the new location.
+
+        Parameters
+        ----------
+        dirpath : str
+            Directory in which to save the result of mapping this LoadModelComponent
+        to_enum : dsgrid.dataformat.enumeration.Enumeration
+            This enumeration's class (e.g. SectorEnumeration, TimeEnumeration) 
+            determines which dimension is being mapped. The enumeration 
+            specifies the target resolution and particular naming convention 
+            that is desired.
+        mappings : dsgrid.dataformat.dimmap.Mappings
+            Container of dsgrid.dataformat.dimmap.DimensionMaps. If for the 
+            dimension in question this component's enumeration (the from_enum), 
+            there is either a TautologyMapping to to_enum, or there is an 
+            explicit mapping to to_enum, then we say that we are able to map 
+            this component, and proceed to do that by either simply saving this 
+            component to the new location or by calling 
+            dsgrid.dataformat.Datafile.map_dimension.
+        filename_prefix : str
+            Default is the empty string, ''. If not empty, the new 
+            dsgrid.dataformat.Datafile created by this method is saved using the 
+            filename created by placing this string before the current 
+            datafile's filename.
+
+        Returns
+        -------
+        LoadModelComponent
+            New component with either a copy of this component's datafile loaded,
+            or a new, mapped datafile loaded. In either case the new datafile is
+            located at os.path.join(dirpath,filename_prefix + os.path.basename(self.datafile.h5path)).
+        """
         result = LoadModelComponent(self.name,component_type=self.component_type,color=self.color)
         if self._datafile:
             mapping = mappings.get_mapping(self._datafile,to_enum)
@@ -88,6 +212,8 @@ class LoadModelComponent(object):
                 result._datafile = self._datafile.save(p)
             else:
                 result._datafile = self._datafile.map_dimension(p,mapping)
+        else:
+            logger.warn("Asked to map LoadModelComponent {} even though no Datafile is loaded.".format(self))
         return result
 
     def scale_data(self,dirpath,factor=0.001):
@@ -95,12 +221,15 @@ class LoadModelComponent(object):
         Scale all the data in self.datafile by factor, creating a new HDF5 file 
         and corresponding LoadModelComponent. 
 
-        Arguments:
-            - dirpath (str) - Folder the new version of the data should be 
-                  placed in. This LoadModelComponent's filename will be retained.
-            - factor (float) - Factor by which all the data in the file is to be
-                  multiplied. The default value of 0.001 corresponds to converting
-                  the bottom-up data from kWh to MWh.
+        Parameters
+        ----------
+        dirpath : str
+            Folder the new version of the data should be placed in. This 
+            LoadModelComponent's filename will be retained.
+        factor : float
+            Factor by which all the data in the file is to be multiplied. The 
+            default value of 0.001 corresponds to converting the bottom-up data 
+            from kWh to MWh.
         """
         result = LoadModelComponent(self.name,component_type=self.component_type,color=self.color)
         if self._datafile:
