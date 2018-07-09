@@ -1,0 +1,4 @@
+id,name,fuel,units
+chp,Combined Heat and Power,Electricity,MWh
+thermal_dg,Thermal DG,Electricity,MWh
+dpv,Distributed PV,Electricity,MWh
