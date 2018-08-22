@@ -101,7 +101,7 @@ class Enumeration(object):
     def load(cls, h5group):
         h5dset = h5group[cls.dimension]
         return cls(
-            h5dset.attrs["name"],
+            h5dset.attrs["name"].decode(ENCODING),
             [vid.decode(ENCODING) for vid in h5dset["id"]],
             [vname.decode(ENCODING) for vname in h5dset["name"]]
         )
@@ -151,7 +151,7 @@ class EndUseEnumerationBase(Enumeration):
             return MultiFuelEndUseEnumeration.load(h5group)
 
         h5dset = h5group[cls.dimension]
-        name = h5dset.attrs["name"]
+        name = h5dset.attrs["name"].decode(ENCODING)
         ids = [vid.decode(ENCODING) for vid in h5dset["id"]]
         names = [vname.decode(ENCODING) for vname in h5dset["name"]]
 
@@ -494,7 +494,7 @@ class FuelEnumeration(Enumeration):
     def load(cls, h5group):
         h5dset = h5group[cls.dimension]
         return cls(
-            h5dset.attrs["name"],
+            h5dset.attrs["name"].decode(ENCODING),
             [vid.decode(ENCODING) for vid in h5dset["id"]],
             [vname.decode(ENCODING) for vname in h5dset["name"]],
             [vunits.decode(ENCODING) for vunits in h5dset["units"]]
@@ -598,7 +598,7 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
 
         h5dset = h5group[cls.dimension]
         return cls(
-            h5dset.attrs["name"],
+            h5dset.attrs["name"].decode(ENCODING),
             [vid.decode(ENCODING) for vid in h5dset["id"]],
             [vname.decode(ENCODING) for vname in h5dset["name"]],
             fuel_enum,
