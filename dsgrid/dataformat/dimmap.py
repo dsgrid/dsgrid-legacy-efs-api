@@ -8,7 +8,7 @@ from dsgrid import DSGridError, DSGridNotImplemented
 from dsgrid.dataformat.datatable import Datatable
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration, EndUseEnumeration, 
-    EndUseEnumerationBase, MultiFuelEndUseEnumeration, 
+    EndUseEnumerationBase, FuelEnumeration, MultiFuelEndUseEnumeration, 
     SingleFuelEndUseEnumeration, TimeEnumeration,
     allenduses,allsectors,annual,census_divisions,census_regions,conus,
     conus_counties,conus_states,counties,daily2012,daytypes,enduses,
