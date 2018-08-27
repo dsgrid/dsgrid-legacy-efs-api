@@ -63,7 +63,7 @@ class Datafile(Mapping):
         self.sectordata = OrderedDict()
         if not loading:
             assert StrictVersion(version) == VERSION, "New Datafiles must be created at the current version"
-            with h5py.File(self.h5path,mode="w-") as f:
+            with h5py.File(self.h5path,mode="w-",driver='core') as f:
                 f.attrs["dsgrid"] = version
                 enum_group = f.create_group("enumerations")
                 data_group = f.create_group("data")

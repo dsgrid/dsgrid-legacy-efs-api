@@ -340,7 +340,7 @@ class SectorDataset(object):
         max_shape = (None, n_enduses, n_times)
         chunk_shape = (1, n_enduses, n_times)
 
-        with h5py.File(datafile.h5path, "r+") as f:
+        with h5py.File(datafile.h5path, "r+", driver='core') as f:
 
             dgroup = f["data"].create_group(sector_id)
 
@@ -402,7 +402,39 @@ class SectorDataset(object):
         return self.__repr__()
 
 
-    def add_data(self,dataframe,geo_ids,scalings=[],full_validation=True):
+    def add_data_batch(self,dataframes,geo_ids,scalings=None,full_validation=True):
+        """
+        Add a batch of new data to this SectorDataset. Uses the basic add_data 
+        functionality, but handles the h5 file so as to write data to memory first
+        and only write to disk upon closing.
+
+        Parameters
+        ----------
+        dataframes : iterable
+            One dataframe per call to add_data
+        geo_ids : list
+            List of geo_ids arguments to pass to add_data
+        scalings : None or list of lists
+            If None, [] will be passed in to each call of add_data. Otherwise, 
+            this must be a list of the scalings arguments to pass, which must be 
+            lists of the same size as the geo_ids argument for that call.
+        full_validation : bool
+            If true, checks that all enumeration ids (time, enduse, and geography)
+           are valid. If false, does this, but only for the first item.
+        """
+        with h5py.File(self.datafile.h5path, "r+", driver='core') as f:
+            first = True
+            for i, dataframe in enumerate(dataframes):
+                self.add_data(
+                    dataframe,
+                    geo_ids[i],
+                    scalings = [] if scalings is None else scalings[i],
+                    full_validation=full_validation if full_validation else first,
+                    _batch_file_object=f)
+                first = False
+
+
+    def add_data(self,dataframe,geo_ids,scalings=[],full_validation=True,_batch_file_object=None):
         """
         Add new data to this SectorDataset, as part of the self.datafile HDF5.
 
@@ -459,7 +491,7 @@ class SectorDataset(object):
         data = np.array(dataframe.loc[self.times, self.enduses]).T
         data = np.nan_to_num(data)
 
-        with h5py.File(self.datafile.h5path, "r+") as f:
+        def append_to_h5file(f):
 
             dgroup = f["data/" + self.sector_id]
             dset = dgroup["data"]
@@ -473,8 +505,16 @@ class SectorDataset(object):
             append_element_to_dataset_dimension(dgroup["geographies"],
                 new_geo_idx,geo_ids,self.datafile.geo_enum,scalings=scalings)
 
+        if _batch_file_object is None:
+            with h5py.File(self.datafile.h5path, "r+", driver='core') as f:
+                append_to_h5file(f)
+        else:
+            append_to_h5file(_batch_file_object)
+
+
     def __setitem__(self, geo_ids, dataframe):
         self.add_data(dataframe, geo_ids)
+
 
     def __getitem__(self, geo_id):
 
