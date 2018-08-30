@@ -1,10 +1,21 @@
+import os
 
 from layerstack.layer import ModelLayerBase
 
 from dsgrid import DSGridValueError
 from dsgrid.dataformat.datafile import Datafile
 
+layer_library_dir = os.path.join(os.path.dirname(__file__),'layers')
+
 class DSGridDatafileLayer(ModelLayerBase):
+
+    @classmethod
+    def new_filepath(cls, model, suffix, out_filepath=None):
+        result = out_filepath
+        if result is None:
+            filename, ext = os.path.splitext(os.path.basename(model.filepath))
+            result = os.path.join(os.path.dirname(model.filepath),filename + '_' + suffix + ext)
+        return result
 
     @classmethod
     def _check_model_type(cls, model):

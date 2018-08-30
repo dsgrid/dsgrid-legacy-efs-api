@@ -26,14 +26,14 @@ logger = logging.getLogger(__name__)
 
 class Datafile(Mapping):
 
-    def __init__(self,h5path,sector_enum,geography_enum,enduse_enum,time_enum,
+    def __init__(self,filepath,sector_enum,geography_enum,enduse_enum,time_enum,
                  loading=False,version=VERSION):
         """
         Create a new Datafile object. Use Datafile.load to open existing files.
 
         Parameters
         ----------
-        h5path : str
+        filepath : str
             file to create. typically has a .dsg file extension.
         sector_enum : dsgrid.dataformat.enumeration.SectorEnumeration
             enumeration of sectors to be stored in this Datafile
@@ -54,7 +54,8 @@ class Datafile(Mapping):
             The load and update methods are used to manage version indicators 
             for backward compatibility.
         """
-        self.h5path = h5path
+        self.h5path = filepath # deprecated
+        self.filepath = filepath
         self.sector_enum = sector_enum
         self.geo_enum = geography_enum
         self.enduse_enum = enduse_enum
@@ -63,7 +64,7 @@ class Datafile(Mapping):
         self.sectordata = OrderedDict()
         if not loading:
             assert StrictVersion(version) == VERSION, "New Datafiles must be created at the current version"
-            with h5py.File(self.h5path,mode="w-",driver='core') as f:
+            with h5py.File(self.filepath,mode="w-",driver='core') as f:
                 f.attrs["dsgrid"] = version
                 enum_group = f.create_group("enumerations")
                 data_group = f.create_group("data")
@@ -72,7 +73,7 @@ class Datafile(Mapping):
                 self.geo_enum.persist(enum_group)
                 self.time_enum.persist(enum_group)
                 self.enduse_enum.persist(enum_group)
-                logger.debug("Saved enums to {}".format(self.h5path))
+                logger.debug("Saved enums to {}".format(self.filepath))
 
     def __eq__(self, other):
         return (
@@ -148,8 +149,27 @@ class Datafile(Mapping):
             return result
 
     def upgrade(self,OLD_VERSIONS,overwrite=False,new_filepath=None):
+        """
+        Upgrade this Datafile to the latest version. This method should not 
+        usually be called directly; it is called by Datafile.load if upgrade is 
+        True.
+
+        Parameters
+        ----------
+        OLD_VERSIONS : OrderedDict of {version string : dsgrid.dataformat.upgrade.UpgradeDataFile}
+            import from dsgrid.dataformat.upgrade
+        overwrite : bool
+            if True, the upgraded Datafile overwrites the original
+        new_filepath : str
+            if not overwrite and new_filepath is not None, the new file is saved 
+            to new_filepath. If not overwrite and filepath is None then the 
+            upgraded file is saved to the same directory as the new file, with 
+            the new version number appended to the filename, and the extension 
+            '.dsg'
+        """
+
         # determine where to put upgraded Datafile
-        filepath = self.h5path
+        filepath = self.filepath
         fp = filepath if overwrite else new_filepath
         if fp is None:
             # make up a filename
@@ -180,7 +200,7 @@ class Datafile(Mapping):
         """
         Save self to filepath and return newly created Datafile
         """
-        copyfile(self.h5path,filepath)
+        copyfile(self.filepath,filepath)
         return self.__class__.load(filepath,upgrade=False,__saving=True)
 
     def add_sector(self,sector_id,enduses=None,times=None):
@@ -228,8 +248,8 @@ class Datafile(Mapping):
                         # new_sector_dataset.add_inplace(dataset)
         else:
             for sector_id, sectordataset in self.sectordata.items():
-                assert sectordataset is not None, "sector_id {} in file {} contains no data".format(sector_id,self.h5path)
-                logger.info("Mapping data for {} in {}".format(sector_id,self.h5path))
+                assert sectordataset is not None, "sector_id {} in file {} contains no data".format(sector_id,self.filepath)
+                logger.info("Mapping data for {} in {}".format(sector_id,self.filepath))
                 result.sectordata[sector_id] = sectordataset.map_dimension(result,mapping)
         return result
 
@@ -250,7 +270,7 @@ class Datafile(Mapping):
         result = self.__class__(filepath,self.sector_enum,self.geo_enum,
                                 self.enduse_enum,self.time_enum)
         for sector_id, sectordataset in self.sectordata.items():
-            assert sectordataset is not None, "sector_id {} in file {} contains no data".format(sector_id,self.h5path)
-            logger.info("Scaling data for {} in {}".format(sector_id,self.h5path))
+            assert sectordataset is not None, "sector_id {} in file {} contains no data".format(sector_id,self.filepath)
+            logger.info("Scaling data for {} in {}".format(sector_id,self.filepath))
             result.sectordata[sector_id] = sectordataset.scale_data(result,factor=factor)
         return result

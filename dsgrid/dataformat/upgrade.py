@@ -36,6 +36,16 @@ class UpgradeDatafile(object):
         """
         Load enough to return a Datafile object. Object should not be
         expected to be fully functional.
+
+        Parameters
+        ----------
+        filepath : str
+            path to Datafile
+
+        Returns
+        -------
+        dsgrid.dataformat.datafile.Datafile
+            (partially) loaded Datafile in old format
         """
         with h5py.File(filepath, "r") as f:
             enum_group = f["enumerations"]
@@ -52,6 +62,7 @@ class UpgradeDatafile(object):
 
             return result
 
+    @classmethod
     def load_sectordataset(cls,datafile,f,sector_id):
         """
         Load enough to return a SectorDataset object. Object should not be

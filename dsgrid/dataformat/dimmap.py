@@ -43,10 +43,14 @@ class FullAggregationMap(DimensionMap):
 
     def __init__(self,from_enum,to_enum,exclude_list=[]):
         """
-        Arguments:
-            - to_enum (Enumeration) - an enumeration with exactly one element
-            - exclude_list (list of from_enum.ids) - from_enum values that should 
-                  be dropped from the aggregation
+        Parameters
+        ----------
+        from_enum : dsgrid.dataformat.enumeration.Enumeration
+        to_enum : dsgrid.dataformat.enumeration.Enumeration
+            Class must correspond to the same dimension as from_enum, and 
+            the enumeration must have exactly one element
+        exclude_list : list of from_enum.ids
+            from_enum values that should be dropped from the aggregation
         """
         super().__init__(from_enum,to_enum)
         if len(to_enum.ids) > 1:
