@@ -169,8 +169,12 @@ def make_fuel_and_units_explicit(datafile, filepath, fuel='Electricity', units='
     for sector_id in datafile:
         old_sector = datafile[sector_id]
         new_sector = result.add_sector(sector_id,enduses=old_sector.enduses,times=old_sector.times)
+        batch_dataframes = []; batch_geo_ids = []; batch_scalings = []
         for i in range(old_sector.n_geos):
             df, geo_ids, scalings = old_sector.get_data(i)
-            new_sector.add_data(df,geo_ids,scalings=scalings,full_validation=False)
+            batch_dataframes.append(df)
+            batch_geo_ids.append(geo_ids)
+            batch_scalings.append(scalings)
+        new_sector.add_data_batch(batch_dataframes,batch_geo_ids,scalings=batch_scalings,full_validation=False)
 
     return result

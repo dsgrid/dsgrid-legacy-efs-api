@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 from dsgrid import DSGridRuntimeError, DSGridValueError
-from dsgrid.dataformat import ENCODING
+from dsgrid.dataformat import ENCODING, get_str
 
 logger = logging.getLogger(__name__)
 
@@ -101,9 +101,9 @@ class Enumeration(object):
     def load(cls, h5group):
         h5dset = h5group[cls.dimension]
         return cls(
-            h5dset.attrs["name"].decode(ENCODING),
-            [vid.decode(ENCODING) for vid in h5dset["id"]],
-            [vname.decode(ENCODING) for vname in h5dset["name"]]
+            get_str(h5dset.attrs["name"]),
+            [get_str(vid) for vid in h5dset["id"]],
+            [get_str(vname) for vname in h5dset["name"]]
         )
 
     @classmethod
@@ -151,9 +151,9 @@ class EndUseEnumerationBase(Enumeration):
             return MultiFuelEndUseEnumeration.load(h5group)
 
         h5dset = h5group[cls.dimension]
-        name = h5dset.attrs["name"].decode(ENCODING)
-        ids = [vid.decode(ENCODING) for vid in h5dset["id"]]
-        names = [vname.decode(ENCODING) for vname in h5dset["name"]]
+        name = get_str(h5dset.attrs["name"])
+        ids = [get_str(vid) for vid in h5dset["id"]]
+        names = [get_str(vname) for vname in h5dset["name"]]
 
         if 'fuel' in h5dset.attrs:
             return SingleFuelEndUseEnumeration(name, ids, names,
@@ -494,10 +494,10 @@ class FuelEnumeration(Enumeration):
     def load(cls, h5group):
         h5dset = h5group[cls.dimension]
         return cls(
-            h5dset.attrs["name"].decode(ENCODING),
-            [vid.decode(ENCODING) for vid in h5dset["id"]],
-            [vname.decode(ENCODING) for vname in h5dset["name"]],
-            [vunits.decode(ENCODING) for vunits in h5dset["units"]]
+            get_str(h5dset.attrs["name"]),
+            [get_str(vid) for vid in h5dset["id"]],
+            [get_str(vname) for vname in h5dset["name"]],
+            [get_str(vunits) for vunits in h5dset["units"]]
         )
 
     @classmethod
@@ -598,11 +598,11 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
 
         h5dset = h5group[cls.dimension]
         return cls(
-            h5dset.attrs["name"].decode(ENCODING),
-            [vid.decode(ENCODING) for vid in h5dset["id"]],
-            [vname.decode(ENCODING) for vname in h5dset["name"]],
+            get_str(h5dset.attrs["name"]),
+            [get_str(vid) for vid in h5dset["id"]],
+            [get_str(vname) for vname in h5dset["name"]],
             fuel_enum,
-            [vfuel_id.decode(ENCODING) for vfuel_id in h5dset["fuel_id"]]
+            [get_str(vfuel_id) for vfuel_id in h5dset["fuel_id"]]
         )
 
     @classmethod

@@ -15,7 +15,7 @@ import h5py
 
 from dsgrid import __version__ as VERSION
 from dsgrid import DSGridNotImplemented, DSGridValueError
-from dsgrid.dataformat import ENCODING
+from dsgrid.dataformat import get_str
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
     EndUseEnumerationBase, TimeEnumeration)
@@ -111,9 +111,7 @@ class Datafile(Mapping):
     def load(cls,filepath,upgrade=True,overwrite=False,new_filepath=None,**kwargs):
         # Version Handling
         with h5py.File(filepath, "r") as f:
-            version = f.attrs.get("dsgrid", "0.1.0")
-            if isinstance(version,bytes):
-                version = version.decode(ENCODING)
+            version = get_str(f.attrs.get("dsgrid", "0.1.0"))
 
         if StrictVersion(version) > StrictVersion(VERSION):
             raise DSGridValueError("File at {} is of version {}. ".format(filepath,version) + 
@@ -236,11 +234,15 @@ class Datafile(Mapping):
                     if i == 0:
                         # for first, create and add_data
                         new_sector_dataset = result.add_sector(new_sector_id,enduses=dataset.enduses,times=dataset.times)
+                        batch_dataframes = []; batch_geo_ids = []; batch_scalings = []
                         for i in range(dataset.n_geos):
                             # pull data
                             df, geo_ids, scalings = dataset.get_data(i)
                             # push data
-                            new_sector_dataset.add_data(df,geo_ids,scalings=scalings,full_validation=False)
+                            batch_dataframes.append(df)
+                            batch_geo_ids.append(geo_ids)
+                            batch_scalings.append(scalings)
+                        new_sector_dataset.add_data_batch(batch_dataframes,batch_geo_ids,scalings=batch_scalings,full_validation=False)
                     else:
                         # add to what you already have
                         os.remove(filepath)

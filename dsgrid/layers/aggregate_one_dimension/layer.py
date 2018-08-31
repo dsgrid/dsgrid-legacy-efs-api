@@ -60,11 +60,13 @@ class AggregateOneDimension(DSGridDatafileLayer):
     @classmethod
     def apply(cls, stack, model, dimension, aggregation_id = None, 
               aggregation_name = None, out_filepath = None, exclude_list = []):
+
+        super().apply(stack,model)
         
         # figure out from_enum and to_enum
 
         # helper to create new enumeration to map to
-        def get_to_enum(enum_cls,**kwargs):
+        def get_to_enum(enum_cls,aggregation_id,aggregation_name,**kwargs):
             if aggregation_id is None:
                 logger.error("Must provide aggregation_id for dimension '{}'".format(dimension))
                 raise ValueError("aggregation_id cannot be None")
@@ -77,7 +79,7 @@ class AggregateOneDimension(DSGridDatafileLayer):
             if aggregation_id is None:
                 to_enum = allsectors
             else:
-                to_enum = get_to_enum(SectorEnumeration)
+                to_enum = get_to_enum(SectorEnumeration,aggregation_id,aggregation_name)
         elif dimension == 'enduse':
             from_enum = model.enduse_enum
             if isinstance(from_enum,MultiFuelEndUseEnumeration):
@@ -96,13 +98,13 @@ class AggregateOneDimension(DSGridDatafileLayer):
                     allenduses.name,allenduses.ids,allenduses.names,
                     **fuel_kwargs)
             else:
-                to_enum = get_to_enum(SingleFuelEndUseEnumeration,**fuel_kwargs)
+                to_enum = get_to_enum(SingleFuelEndUseEnumeration,aggregation_id,aggregation_name,**fuel_kwargs)
         elif dimension == 'geography':
             from_enum = model.geo_enum
-            to_enum = get_to_enum(GeographyEnumeration)
+            to_enum = get_to_enum(GeographyEnumeration,aggregation_id,aggregation_name)
         elif dimension == 'time':
             from_enum = model.time_enum
-            to_enum = get_to_enum(TimeEnumeration)
+            to_enum = get_to_enum(TimeEnumeration,aggregation_id,aggregation_name)
         else:
             logger.error("Unknown dimension {}".format(dimension))
             raise ValueError("dimension must be one of {}".format(cls.DIMENSIONS))

@@ -48,6 +48,7 @@ class FilterToSingleFuel(DSGridDatafileLayer):
 
     @classmethod
     def apply(cls, stack, model, fuel_id, out_filepath=None):
+        super().apply(stack,model)
         to_fuel_map = FilterToSingleFuelMap(model.enduse_enum,fuel_id)
         new_filepath = cls.new_filepath(model,fuel_id + '_only',out_filepath=out_filepath)
         model = model.map_dimension(new_filepath,to_fuel_map)

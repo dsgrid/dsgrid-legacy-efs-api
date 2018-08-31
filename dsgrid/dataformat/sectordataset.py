@@ -605,10 +605,14 @@ class SectorDataset(object):
         full_validation : bool
             flag for SectorDataset.add_data
         """
+        batch_dataframes = []; batch_geo_ids = []; batch_scalings = []
         for i in range(self.n_geos):
             # pull data
             df, geo_ids, scalings = self.get_data(i)
-            other_sectordataset.add_data(df,geo_ids,scalings=scalings,full_validation=full_validation)
+            batch_dataframes.append(df)
+            batch_geo_ids.append(geo_ids)
+            batch_scalings.append(scalings)
+        other_sectordataset.add_data_batch(batch_dataframes,batch_geo_ids,scalings=batch_scalings,full_validation=False)
 
     def map_dimension(self,new_datafile,mapping):
         # import ExplicitDisaggregation here to avoid circular import but be
@@ -681,6 +685,7 @@ class SectorDataset(object):
             for new_geo_id in new_geo_ids_to_dataset_geo_index_map:
                 if len(new_geo_ids_to_dataset_geo_index_map[new_geo_id]) > 1:
                     require_aggregation.append(new_geo_id)
+            batch_dataframes = []; batch_geo_ids = []
             for new_geo_id in require_aggregation:
                 aggdf = None
                 for dataset_geo_index in new_geo_ids_to_dataset_geo_index_map[new_geo_id]:
@@ -689,9 +694,12 @@ class SectorDataset(object):
                         aggdf = tempdf
                     else:
                         aggdf = aggdf.add(tempdf,fill_value=0.0)
-                result.add_data(aggdf,[new_geo_id],full_validation=False)
+                batch_dataframes.append(agg_df)
+                batch_geo_ids.append([new_geo_id])
+            result.add_data_batch(batch_dataframes,batch_geo_ids,full_validation=False)
 
             # 3. Now add data that did not need to be aggregated
+            batch_dataframes = []; batch_geo_ids = []; batch_scalings = []
             for dataset_geo_index in to_geo_map:
                 geo_ids, scalings = to_geo_map[dataset_geo_index]
                 if len(geo_ids) == 0:
@@ -702,12 +710,16 @@ class SectorDataset(object):
                     del pulled_data[dataset_geo_index]
                 else:
                     df, junk1, junk2 = self.get_data(dataset_geo_index)
-                result.add_data(df,geo_ids,scalings=scalings,full_validation=False)
+                batch_dataframes.append(df)
+                batch_geo_ids.append(geo_ids)
+                batch_scalings.append(scalings)
+            result.add_data_batch(batch_dataframes,batch_geo_ids,scalings=batch_scalings,full_validation=False)
 
         elif isinstance(mapping.to_enum,TimeEnumeration):
             if isinstance(mapping,ExplicitDisaggregation):
                 raise DSGridNotImplemented("Temporal disaggregations have not been implemented.")
             # Map dataframe indices
+            batch_dataframes = []; batch_geo_ids = []; batch_scalings = []
             for i in range(self.n_geos):
                 # pull data
                 df, geo_ids, scalings = self.get_data(i)
@@ -723,12 +735,16 @@ class SectorDataset(object):
                                     fill_value=0.0)
 
                 # add the mapped data to the new file
-                result.add_data(df,geo_ids,scalings=scalings,full_validation=False)
+                batch_dataframes.append(df)
+                batch_geo_ids.append(geo_ids)
+                batch_scalings.append(scalings)
+            result.add_data_batch(batch_dataframes,batch_geo_ids,scalings=batch_scalings,full_validation=False)
 
         elif isinstance(mapping.to_enum,EndUseEnumerationBase):
             if isinstance(mapping,ExplicitDisaggregation):
                 raise DSGridNotImplemented("End-use disaggregations have not been implemented.")
             # Map dataframe columns
+            batch_dataframes = []; batch_geo_ids = []; batch_scalings = []
             for i in range(self.n_geos):
                 # pull data
                 df, geo_ids, scalings = self.get_data(i)
@@ -745,7 +761,10 @@ class SectorDataset(object):
                 df = df.groupby(df.columns,axis=1).sum()
 
                 # add the mapped data to the new file
-                result.add_data(df,geo_ids,scalings=scalings,full_validation=False)
+                batch_dataframes.append(df)
+                batch_geo_ids.append(geo_ids)
+                batch_scalings.append(scalings)
+            result.add_data_batch(batch_dataframes,batch_geo_ids,scalings=batch_scalings,full_validation=False)
 
         else:
             raise DSGridError("SectorDataset is not able to map to {}.".format(mapping.to_enum))
@@ -768,6 +787,7 @@ class SectorDataset(object):
         """
         result = self.__class__.new(new_datafile,self.sector_id,self.enduses,self.times)
         # pull data
+        batch_dataframes = []; batch_geo_ids = []; batch_scalings = []
         for i in range(self.n_geos):
             df, geo_ids, scalings = self.get_data(i)
             
@@ -779,6 +799,9 @@ class SectorDataset(object):
             scalings = [x * factor for x in scalings]
 
             # add the mapped data to the new file
-            result.add_data(df,geo_ids,scalings=scalings,full_validation=False)
+            batch_dataframes.append(df)
+            batch_geo_ids.append(geo_ids)
+            batch_scalings.append(scalings)
+        result.add_data_batch(batch_dataframes,batch_geo_ids,scalings=batch_scalings,full_validation=False)
 
         return result
