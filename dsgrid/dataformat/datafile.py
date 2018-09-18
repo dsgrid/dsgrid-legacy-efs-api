@@ -217,37 +217,69 @@ class Datafile(Mapping):
             mapping.to_enum if isinstance(mapping.to_enum,GeographyEnumeration) else self.geo_enum,
             mapping.to_enum if isinstance(mapping.to_enum,EndUseEnumerationBase) else self.enduse_enum,
             mapping.to_enum if isinstance(mapping.to_enum,TimeEnumeration) else self.time_enum)
-        data = defaultdict(lambda: [])
         if isinstance(mapping.to_enum,SectorEnumeration):
+
+            # new_sector_id : [old_sector_ids]
+            data = defaultdict(lambda: [])
             for sector_id, sectordataset in self.sectordata.items():
                 new_sector_id = mapping.map(sector_id)
                 if isinstance(new_sector_id,list):
                     os.remove(filepath)
                     raise DSGridNotImplemented("Disaggregating sectors at the Datafile level has not yet been implemented.")
                 data[new_sector_id].append(sectordataset)
+
+            # subset or aggregation map
             for new_sector_id, datasets in data.items():
                 if new_sector_id == None:
                     # This data is not to be kept
                     continue
-                new_sector_dataset = None
-                for i, dataset in enumerate(datasets):
-                    if i == 0:
-                        # for first, create and add_data
-                        new_sector_dataset = result.add_sector(new_sector_id,enduses=dataset.enduses,times=dataset.times)
-                        batch_dataframes = []; batch_geo_ids = []; batch_scalings = []
-                        for i in range(dataset.n_geos):
-                            # pull data
-                            df, geo_ids, scalings = dataset.get_data(i)
-                            # push data
-                            batch_dataframes.append(df)
-                            batch_geo_ids.append(geo_ids)
-                            batch_scalings.append(scalings)
-                        new_sector_dataset.add_data_batch(batch_dataframes,batch_geo_ids,scalings=batch_scalings,full_validation=False)
+
+                assert len(datasets) > 0
+
+                if len(datasets) == 1:
+                    # basic transfer of data
+                    dataset = datasets[0]
+                    new_sector_dataset = result.add_sector(new_sector_id,enduses=dataset.enduses,times=dataset.times)
+                    batch_dataframes = []; batch_geo_ids = []; batch_scalings = []
+                    for i in range(dataset.n_geos):
+                        # pull data
+                        df, geo_ids, scalings = dataset.get_data(i)
+                        # push data
+                        batch_dataframes.append(df)
+                        batch_geo_ids.append(geo_ids)
+                        batch_scalings.append(scalings)
+                    new_sector_dataset.add_data_batch(batch_dataframes,batch_geo_ids,scalings=batch_scalings,full_validation=False)
+                else:
+                    # aggregation--for simplicity, loop through DataFile level
+                    # geography. If any dataset has data for a geo_id, pull 
+                    # for each (even if zero), add with fill_value = 0.0. This
+                    # should yield dataframes with consistent time and end-use
+                    # indices.
+                    batch_dataframes = []; batch_geo_ids = []
+                    for geo_id in self.geo_enum.ids:
+                        found = False
+                        for dataset in datasets:
+                            if dataset.has_data(geo_id):
+                                found = True
+                                break
+                        if not found:
+                            continue
+                        df = None
+                        for dataset in datasets:
+                            if df is None:
+                                df = dataset[geo_id]
+                            else:
+                                df = df.add(dataset[geo_id],fill_value=0.0)
+                        batch_dataframes.append(df)
+                        batch_geo_ids.append([geo_id])
+                    if batch_dataframes:
+                        new_sector_dataset = result.add_sector(
+                            new_sector_id,
+                            enduses=list(batch_dataframes[0].columns),
+                            times=list(batch_dataframes[0].index))
+                        new_sector_dataset.add_data_batch(batch_dataframes,batch_geo_ids,full_validation=False)
                     else:
-                        # add to what you already have
-                        os.remove(filepath)
-                        raise DSGridNotImplemented("Aggregating subsectors at the Datafile level has not yet been implemented.")
-                        # new_sector_dataset.add_inplace(dataset)
+                        logger.warn("No data in SectorDatasets {}, so {} will not be added to the new Datafile".format([dataset.sector_id for dataset in datasets],new_sector_id))
         else:
             for sector_id, sectordataset in self.sectordata.items():
                 assert sectordataset is not None, "sector_id {} in file {} contains no data".format(sector_id,self.filepath)
