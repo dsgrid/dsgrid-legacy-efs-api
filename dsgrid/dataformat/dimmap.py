@@ -114,6 +114,7 @@ class FilterToSingleFuelMap(DimensionMap):
 class ExplicitMap(DimensionMap):
     def __init__(self,from_enum,to_enum,dictmap):
         super().__init__(from_enum,to_enum)
+        self._dictmap = defaultdict(lambda: None)
 
     def map(self,from_id):
         return self._dictmap[from_id]
@@ -201,7 +202,6 @@ class ExplicitDisaggregation(ExplicitMap):
 class ExplicitAggregation(ExplicitMap):
     def __init__(self,from_enum,to_enum,dictmap):
         super().__init__(from_enum,to_enum,dictmap)
-        self._dictmap = defaultdict(lambda: None)
         for from_id, to_id in dictmap.items():
             if from_id not in self.from_enum.ids:
                 raise DSGridError("Id {} is not in from_enum {}.".format(from_id,self.from_enum))
