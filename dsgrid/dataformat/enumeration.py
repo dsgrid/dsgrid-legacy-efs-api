@@ -1,4 +1,5 @@
 import datetime as dt
+import copy
 from enum import Enum
 import os
 import logging
@@ -71,6 +72,36 @@ class Enumeration(object):
     def get_name(self,id):
         ind = list(self.ids).index(id)
         return self.names[ind]
+
+    def create_subset_enum(self,ids):
+        """
+        Returns a new enumeration that is a subset of this one, based on keeping 
+        the items in ids.
+
+        Parameters
+        ----------
+        ids : list
+            subset of self.ids that should be kept in the new enumeration
+
+        Returns
+        -------
+        self.__class__
+        """
+        _ids, _names = self._get_subset_ids_names(ids)
+        return self.__class__(self.name + ' Subset',_ids,_names)
+
+    def _get_subset_ids_names(self,ids):
+        n = len(ids)
+        _ids = [None] * n; _names = [None] * n
+        for i, full_id in enumerate(self.ids):
+            if full_id in ids:
+                j = ids.index(full_id)
+                logger.debug("Found info for {}, which is entry {} of {}".format(full_id,j,len(_ids)))
+                _ids[j] = self.ids[i]
+                _names[j] = self.names[i]
+        if len([x for x in _ids if x is None]):
+            raise DSGridRuntimeError("At least one of {} is not in {}".format(ids,self.ids))
+        return _ids, _names
 
     def is_subset(self,other_enum):
         """
@@ -422,6 +453,23 @@ class SingleFuelEndUseEnumeration(EndUseEnumerationBase):
     def units(self,id):
         return self._units
 
+    def create_subset_enum(self,ids):
+        """
+        Returns a new enumeration that is a subset of this one, based on keeping 
+        the items in ids.
+
+        Parameters
+        ----------
+        ids : list
+            subset of self.ids that should be kept in the new enumeration
+
+        Returns
+        -------
+        self.__class__
+        """
+        _ids, _names = self._get_subset_ids_names(ids)
+        return self.__class__(self.name + ' Subset',_ids,_names,fuel=self._fuel,units=self._units)
+
     def persist(self, h5group):
         dset = super(SingleFuelEndUseEnumeration, self).persist(h5group)
 
@@ -484,6 +532,33 @@ class FuelEnumeration(Enumeration):
     def get_units(self,id):
         ind = list(self.ids).index(id)
         return self.units[ind]
+
+    def create_subset_enum(self,ids):
+        """
+        Returns a new enumeration that is a subset of this one, based on keeping 
+        the items in ids.
+
+        Parameters
+        ----------
+        ids : list
+            subset of self.ids that should be kept in the new enumeration
+
+        Returns
+        -------
+        self.__class__
+        """
+        n = len(ids)
+        _ids = [None] * n; _names = [None] * n; _units = [None] * n
+        for i, full_id in enumerate(self.ids):
+            if full_id in ids:
+                j = ids.index(full_id)
+                logger.debug("Found info for {}, which is entry {} of {}".format(full_id,j,len(_ids)))
+                _ids[j] = self.ids[i]
+                _names[j] = self.names[i]
+                _units[j] = self.units[i]
+        if len([x for x in _ids if x is None]):
+            raise DSGridRuntimeError("At least one of {} is not in {}".format(ids,self.ids))
+        return self.__class__(self.name + ' Subset',_ids,_names,_units)
 
     def persist(self, h5group):
         dset = super(FuelEnumeration, self).persist(h5group)
@@ -576,6 +651,34 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
         assert isinstance(id,tuple) & (len(id) == 2), "The ids for MultiFuelEndUseEnumerations are (enduse_id, fuel_id). Got {!r}".format(id)
         return self.fuel_enum.units[self.fuel_enum.ids.index(id[1])]
 
+    def create_subset_enum(self,ids):
+        """
+        Returns a new enumeration that is a subset of this one, based on keeping 
+        the items in ids.
+
+        Parameters
+        ----------
+        ids : list of 2-tuples
+            subset of self.ids that should be kept in the new enumeration
+
+        Returns
+        -------
+        MultiFuelEndUseEnumeration
+        """
+        n = len(ids)
+        _ids = [None] * n; _names = [None] * n; _fuel_ids = [None] * n
+        for i, full_id in enumerate(self.ids):
+            if full_id in ids:
+                j = ids.index(full_id)
+                logger.debug("Found info for {}, which is entry {} of {}".format(full_id,j,len(_ids)))
+                _ids[j] = self._ids[i]
+                _fuel_ids[j] = self._fuel_ids[i]
+                _names[j] = self._names[i]
+        if len([x for x in _ids if x is None]):
+            raise DSGridRuntimeError("At least one of {} is not in {}".format(ids,self.ids))
+        fuel_enum = copy.deepcopy(self.fuel_enum)
+        return self.__class__(self.name + ' Subset',_ids,_names,fuel_enum,_fuel_ids)
+
     def persist(self, h5group):
         dset = h5group.create_dataset(
             self.dimension,
@@ -588,7 +691,7 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
         dset["name"] = np.array([name.encode(ENCODING) for name in self._names])
         dset["fuel_id"] = np.array(self._fuel_ids)
 
-        fuel_dset = self.fuel_enum.persist(h5group)
+        self.fuel_enum.persist(h5group)
 
         return dset
 
