@@ -694,7 +694,7 @@ class SectorDataset(object):
                         aggdf = tempdf
                     else:
                         aggdf = aggdf.add(tempdf,fill_value=0.0)
-                batch_dataframes.append(agg_df)
+                batch_dataframes.append(aggdf)
                 batch_geo_ids.append([new_geo_id])
             result.add_data_batch(batch_dataframes,batch_geo_ids,full_validation=False)
 
