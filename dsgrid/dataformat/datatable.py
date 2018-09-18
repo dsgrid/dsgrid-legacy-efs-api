@@ -41,7 +41,11 @@ class Datatable(object):
 
                 self.data.append(data)
 
-        self.data = pd.concat(self.data,verify_integrity=verify_integrity,copy=False)
+        if self.data:
+            self.data = pd.concat(self.data,verify_integrity=verify_integrity,copy=False)
+        else:
+            logger.warn("No data in {}".format(datafile.filepath))
+            self.data = pd.Series(dtype='float32')
         self.sorted = False; self.warned = False
         if sort:
             self.sort()
