@@ -143,8 +143,12 @@ class Enumeration(object):
         name = cls._name_from_filepath(filepath) if name is None else name
         return cls(name, list(enum.id), list(enum.name))
 
-    def to_csv(self,filepath=None,overwrite=False):
-        p = self._default_filepath() if filepath is None else filepath
+    def to_csv(self, filedir=None, filepath=None, overwrite=False):
+        p = self._default_filepath()
+        if filepath is not None:
+            p = filepath
+        elif filedir is not None:
+            p = os.path.join(filedir,self._default_filename())
         if not overwrite and os.path.exists(p):
             msg = "{} already exists".format(p)
             logger.error(msg)
@@ -157,7 +161,10 @@ class Enumeration(object):
         return os.path.splitext(os.path.basename(filepath))[0].replace("_"," ").title()
 
     def _default_filepath(self):
-        return os.path.join(enumdata_folder,self.name.lower().replace(' ','_') + '.csv')
+        return os.path.join(enumdata_folder,self._default_filename())
+
+    def _default_filename(self):
+        return self.name.lower().replace(' ','_') + '.csv'
 
     
 # Define standard dimensions
@@ -271,8 +278,14 @@ class TimeEnumeration(Enumeration):
         elif ts_pos == cls.TIMESTAMP_POSITION['period_midpoint']:
             next_stamp = start + (resolution / 2)
 
+        last_stamp = end
+        if ts_pos == cls.TIMESTAMP_POSITION['period_beginning']:
+            last_stamp = end - resolution
+        elif ts_pos == cls.TIMESTAMP_POSITION['period_midpoint']:
+            last_stamp = end - (resolution / 2)
+
         ids = []
-        while next_stamp <= end:
+        while next_stamp <= last_stamp:
             ids.append(str(extent_timezone.localize(next_stamp).astimezone(store_timezone)))
             next_stamp = next_stamp + resolution
 
@@ -490,8 +503,12 @@ class SingleFuelEndUseEnumeration(EndUseEnumerationBase):
         name = cls._name_from_filepath(filepath) if name is None else name
         return cls(name, list(enum.id), list(enum.name), fuel=fuel, units=units)
 
-    def to_csv(self, filepath=None, overwrite=False):
-        p = self._default_filepath() if filepath is None else filepath
+    def to_csv(self, filedir=None, filepath=None, overwrite=False):
+        p = self._default_filepath()
+        if filepath is not None:
+            p = filepath
+        elif filedir is not None:
+            p = os.path.join(filedir,self._default_filename())
         if not overwrite and os.path.exists(p):
             msg = "{} already exists".format(p)
             logger.error(msg)
@@ -581,8 +598,12 @@ class FuelEnumeration(Enumeration):
         name = cls._name_from_filepath(filepath) if name is None else name
         return cls(name, list(enum.id), list(enum.name), list(enum.units))
 
-    def to_csv(self, filepath=None, overwrite=False):
-        p = self._default_filepath() if filepath is None else filepath
+    def to_csv(self, filedir=None, filepath=None, overwrite=False):
+        p = self._default_filepath()
+        if filepath is not None:
+            p = filepath
+        elif filedir is not None:
+            p = os.path.join(filedir,self._default_filename())
         if not overwrite and os.path.exists(p):
             msg = "{} already exists".format(p)
             logger.error(msg)
@@ -747,8 +768,12 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
         assert fuel_enum is not None
         return cls(name, list(enum.id), list(enum.name), fuel_enum, list(enum.fuel_id))
 
-    def to_csv(self, filepath=None, overwrite=False):
-        p = self._default_filepath() if filepath is None else filepath
+    def to_csv(self, filedir=None, filepath=None, overwrite=False):
+        p = self._default_filepath()
+        if filepath is not None:
+            p = filepath
+        elif filedir is not None:
+            p = os.path.join(filedir,self._default_filename())
         if not overwrite and os.path.exists(p):
             msg = "{} already exists".format(p)
             logger.error(msg)
