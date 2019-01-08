@@ -249,7 +249,9 @@ class UnitConversionMap(DimensionMap):
         if isinstance(from_enum,SingleFuelEndUseEnumeration):
             assert len(from_units) == 1
             assert from_units[0] == from_enum._units
-            to_enum = SingleFuelEndUseEnumeration(from_enum.name,
+            to_enum_name = from_enum.name.replace(from_units[0],to_units[0])
+            to_enum_name = to_enum_name.replace(from_units[0].lower(),to_units[0].lower())
+            to_enum = SingleFuelEndUseEnumeration(to_enum_name,
                                                   from_enum.ids,
                                                   from_enum.names,
                                                   fuel=from_enum._fuel,
