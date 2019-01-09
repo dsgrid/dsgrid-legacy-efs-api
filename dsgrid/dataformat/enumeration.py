@@ -423,9 +423,33 @@ class TimeEnumeration(Enumeration):
             datetime.datetime objects and localized to a timezone.
         """
         df = pd.DataFrame([],index=self.ids)
-        return_timezone = self._timezone_object(return_timezone,self.store_timezone)
+        return_timezone = self._timezone_object(return_timezone,default=self.store_timezone)
+        logger.info("Stored timezone is {}. Returning in timezone {}.".format(self.store_timezone,return_timezone))
         df.index = pd.to_datetime(df.index).tz_localize('UTC').tz_convert(return_timezone)
         return df.index
+
+    def get_datetime_map(self,return_timezone=None):
+        """
+        Converts self.ids and result of to_datetime_index into dict that can be 
+        used to map ids to datetimes in contexts other than a single DataFrame
+        index.
+
+        Parameters
+        ----------
+        return_timezone : None or pytz.timezone
+            timezone of the returned index. If None, this is inferred from 
+            self.ids[0]
+
+        Returns
+        -------
+        dict
+            {id: localized datetime}
+        """
+        index = self.to_datetime_index(return_timezone=return_timezone)
+        result = {}
+        for i, _id in enumerate(self.ids):
+            result[_id] = index[i]
+        return result
 
 
 # Define data units -- these are ultimately associated with end-uses
