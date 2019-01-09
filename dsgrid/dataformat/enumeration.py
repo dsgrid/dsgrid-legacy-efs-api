@@ -426,6 +426,7 @@ class TimeEnumeration(Enumeration):
         return_timezone = self._timezone_object(return_timezone,default=self.store_timezone)
         logger.info("Stored timezone is {}. Returning in timezone {}.".format(self.store_timezone,return_timezone))
         df.index = pd.to_datetime(df.index).tz_localize('UTC').tz_convert(return_timezone)
+        df.index.name = 'time'
         return df.index
 
     def get_datetime_map(self,return_timezone=None):
