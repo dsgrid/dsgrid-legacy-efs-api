@@ -425,7 +425,11 @@ class TimeEnumeration(Enumeration):
         df = pd.DataFrame([],index=self.ids)
         return_timezone = self._timezone_object(return_timezone,default=self.store_timezone)
         logger.info("Stored timezone is {}. Returning in timezone {}.".format(self.store_timezone,return_timezone))
-        df.index = pd.to_datetime(df.index).tz_localize('UTC').tz_convert(return_timezone)
+        try:
+            df.index = pd.to_datetime(df.index).tz_localize('UTC').tz_convert(return_timezone)
+        except: 
+            # pandas version issue
+            df.index = pd.to_datetime(df.index).tz_convert(return_timezone)
         df.index.name = 'time'
         return df.index
 
