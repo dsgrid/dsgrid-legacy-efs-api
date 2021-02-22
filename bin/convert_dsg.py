@@ -160,7 +160,7 @@ class ConvertDsg:
         for geo, scale_factor in zip(geos, scales):
             self._load_data_lookup.append(
                 {
-                    "id": geo,
+                    "geography": geo,
                     "subsector": sector_id,
                     "scale_factor": float(scale_factor),
                     "data_id": load_id,
