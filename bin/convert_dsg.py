@@ -63,6 +63,11 @@ class ConvertDsg:
             Determine the expected size of the generated parquet file(s).
             Set this number to size / 128 MiB.
 
+            Setting num_buckets to 0 means that the code will accumulate all
+            dataframes from the .dsg file in memory. This can easily consume
+            all system memory for large files. Set num_buckets to something
+            greater than 0 to avoid this.
+
         """
         logger.info("Converting %s to parquet num_buckets=%s", filename, num_buckets)
         self._num_buckets = num_buckets
