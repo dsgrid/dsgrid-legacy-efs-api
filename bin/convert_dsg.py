@@ -203,9 +203,7 @@ def main(dsg_file, output_dir, num_buckets=0):
 
 if __name__ == "__main__":
     # Here is how to run the script through spark-submit:
-    # spark-submit --total-executor-cores=8 \
-    #     --driver-memory=8G \
-    #     --executor-memory=16G \
+    # spark-submit --driver-memory=16G \
     #     --conf spark.driver.extraJavaOptions="-Dio.netty.tryReflectionSetAccessible=true" \
     #     --conf spark.executor.extraJavaOptions="-Dio.netty.tryReflectionSetAccessible=true" \
     #     convert_dsg.py data/filename.dsg output_dir
