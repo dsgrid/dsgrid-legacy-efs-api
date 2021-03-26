@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """Converts a .dsg file to a directory of parquet files"""
 
 # Users: you need to install pyspark, h5py, numpy, pandas as well as have the
@@ -16,6 +18,7 @@ import sys
 import time
 from functools import reduce
 
+import click
 import numpy as np
 import pandas as pd
 import h5py
@@ -48,13 +51,14 @@ class ConvertDsg:
         # Optimize for converting pandas DataFrames to spark.
         self._spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "true")
 
-    def convert(self, filename, num_buckets=0):
+    def convert(self, filename, auto_scale_factor=True, num_buckets=0):
         """Convert the dsg file to parquet files.
 
         Parameters
         ----------
         output_dir : str
             output_dir directory
+        auto_scale_factor : bool
         num_buckets : int
             Number of Spark buckets to create. Use 0 for no buckets.
             This should only be set if there is no way to reasonably partition
@@ -88,7 +92,7 @@ class ConvertDsg:
             for enumeration in h5f["enumerations"].keys():
                 df = pd.DataFrame(h5f[f"enumerations/{enumeration}"][:])
                 df.to_csv(os.path.join(self._output_dir, enumeration + ".csv"))
-            self._convert(filename, h5f)
+            self._convert(filename, h5f, auto_scale_factor)
 
         duration = time.time() - start
         logger.info("Created %s duration=%s seconds", self._output_dir, duration)
@@ -112,11 +116,11 @@ class ConvertDsg:
             spark_df.write.parquet(data_filename, mode="overwrite")
             logger.info("Created temporary file %s", data_filename)
 
-    def _convert(self, filename, h5f):
+    def _convert(self, filename, h5f, auto_scale_factor):
         datafile = Datafile.load(filename)
         for _, sector_dataset in SectorDataset.loadall(datafile, h5f):
             for geo_idx in range(sector_dataset.n_geos):
-                self._convert_geo_id(sector_dataset, geo_idx)
+                self._convert_geo_id(sector_dataset, geo_idx, auto_scale_factor)
 
         record_filename = os.path.join(self._output_dir, "load_data_lookup.parquet")
         df = self._spark.createDataFrame(Row(**x) for x in self._load_data_lookup)
@@ -150,26 +154,34 @@ class ConvertDsg:
                 shutil.rmtree(data_filename)
             os.rename(tmp_path, data_filename)
 
-    def _convert_geo_id(self, sector_dataset, geo_idx):
+    def _convert_geo_id(self, sector_dataset, geo_idx, auto_scale_factor):
         df, geos, scales = sector_dataset.get_data(geo_idx)
+        if auto_scale_factor and (len(scales) == 1 or len(set(scales)) == 1):
+            keep_scaling_factor = False
+            df = df * scales[0]
+        else:
+            keep_scaling_factor = True
+
         df.reset_index(inplace=True)
         if self._timestamps is None:
             self._timestamps = pd.to_datetime(df["index"])
         df.insert(0, "timestamp", self._timestamps)
         df.drop("index", inplace=True, axis=1)
+
+
         load_id = self._next_id()
         self._append_data_dataframe(df, load_id)
         sector_id = sector_dataset.sector_id
 
         for geo, scale_factor in zip(geos, scales):
-            self._load_data_lookup.append(
-                {
-                    "geography": geo,
-                    "subsector": sector_id,
-                    "scale_factor": float(scale_factor),
-                    "data_id": load_id,
-                }
-            )
+            lookup_data = {
+                "geography": geo,
+                "subsector": sector_id,
+                "data_id": load_id,
+            }
+            if keep_scaling_factor:
+                lookup_data["scale_factor"] = float(scale_factor)
+            self._load_data_lookup.append(lookup_data)
 
 
 def setup_logging(filename, file_level=logging.INFO, console_level=logging.INFO):
@@ -188,31 +200,53 @@ def setup_logging(filename, file_level=logging.INFO, console_level=logging.INFO)
     logger.addHandler(ch)
 
 
-def main(dsg_file, output_dir, num_buckets=0):
+@click.command()
+@click.argument("dsg_file")
+@click.argument("output_dir")
+@click.option(
+    "--auto-scale-factor/--no-auto-scale-factor",
+    default=True,
+    show_default=True,
+    help="Apply the scale factor to the data and drop the column if dataframes are not shared. "
+         "If False, never apply the scale factor."
+)
+@click.option(
+    "-n", "--num-buckets",
+    default=0,
+    show_default=True,
+    help="Enable Spark bucketing with this number of buckets.",
+)
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    show_default=True,
+    help="Enable verbose log output."
+)
+def convert_dsg(dsg_file, output_dir, auto_scale_factor=True, num_buckets=0, verbose=False):
+    """Convert a DSG file to Parquet.
+
+    Run the command through spark-submit as in this example. Set driver-memory
+    to the maximum amount that your system can spare.
+
+    \b
+    spark-submit --driver-memory=16G \\
+        --conf spark.driver.extraJavaOptions="-Dio.netty.tryReflectionSetAccessible=true" \\
+        --conf spark.executor.extraJavaOptions="-Dio.netty.tryReflectionSetAccessible=true" \\
+        convert_dsg.py data/filename.dsg output_dir
+
+    """
     os.makedirs(output_dir, exist_ok=True)
     base_dir = os.path.join(output_dir, os.path.basename(dsg_file.replace(".dsg", "")))
     if os.path.exists(base_dir):
         shutil.rmtree(base_dir)
     os.makedirs(base_dir, exist_ok=True)
     log_file = os.path.join(base_dir, "convert_dsg.log")
-    setup_logging(log_file)
+    level = logging.DEBUG if verbose else logging.INFO
+    setup_logging(log_file, file_level=level, console_level=level)
     logger.info("CLI args: %s", " ".join(sys.argv))
-    ConvertDsg(base_dir).convert(dsg_file, num_buckets)
+    ConvertDsg(base_dir).convert(dsg_file, auto_scale_factor, num_buckets)
 
 
 if __name__ == "__main__":
-    # Here is how to run the script through spark-submit:
-    # spark-submit --driver-memory=16G \
-    #     --conf spark.driver.extraJavaOptions="-Dio.netty.tryReflectionSetAccessible=true" \
-    #     --conf spark.executor.extraJavaOptions="-Dio.netty.tryReflectionSetAccessible=true" \
-    #     convert_dsg.py data/filename.dsg output_dir
-
-    if len(sys.argv) not in (3, 4):
-        # Refer to ConvertDsg.convert() docstring for help on NUM_BUCKETS
-        print(f"Usage: {sys.argv[0]} DSG_FILE OUTPUT_DIR [NUM_BUCKETS]")
-        sys.exit(1)
-
-    if len(sys.argv) == 3:
-        main(sys.argv[1], sys.argv[2])
-    else:
-        main(sys.argv[1], sys.argv[2], int(sys.argv[3]))
+    convert_dsg()
