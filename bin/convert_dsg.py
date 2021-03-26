@@ -34,11 +34,10 @@ class ConvertDsg:
     def __init__(self, output_dir):
         self._output_dir = output_dir
         self._load_data_lookup = []
-        self._id = 0
+        self._data_id = 0  # Each unique dataframe gets assigned a unique ID.
         self._data_df = None
         self._data_dfs = []
         self._num_buckets = 0
-        self._basename = os.path.basename(output_dir)
         self._timestamps = None  # There is one array of timestamps per file.
                                  # Initialize on the first occurrence.
 
@@ -95,8 +94,8 @@ class ConvertDsg:
         logger.info("Created %s duration=%s seconds", self._output_dir, duration)
 
     def _next_id(self):
-        self._id += 1
-        return self._id
+        self._data_id += 1
+        return self._data_id
 
     def _append_data_dataframe(self, df, load_id):
         df["id"] = np.int32(load_id)
@@ -136,7 +135,7 @@ class ConvertDsg:
             df = df.repartition(1)
             t2 = time.time()
             logger.info("Time to repartition(1) = %s seconds", t2 - t1)
-            name = self._basename + "_bucketed"
+            name = os.path.basename(self._output_dir) + "_bucketed"
             tmp_path = os.path.join("spark-warehouse", name)
             if os.path.exists(tmp_path):
                 shutil.rmtree(tmp_path)
