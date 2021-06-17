@@ -276,6 +276,11 @@ def convert_dsg(
     spark.driver.extraJavaOptions -Dio.netty.tryReflectionSetAccessible=true
     spark.executor.extraJavaOptions -Dio.netty.tryReflectionSetAccessible=true
 
+    Spark logging is quite verbose. Suppress INFO messages by setting this line in
+    $SPARK_HOME/conf/log4j.properties:
+
+    log4j.rootCategory=WARN, console
+
     """
     os.makedirs(output_dir, exist_ok=True)
     base_dir = os.path.join(output_dir, os.path.basename(dsg_file.replace(".dsg", "")))
