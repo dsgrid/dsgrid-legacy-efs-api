@@ -39,7 +39,7 @@ def filter_midrise_apartment(src_dir):
         exterior_lights,water_systems,interior_equipment,heat_rejection,load_data.id as id,lookup.subsector as subsector
         from load_data
         join lookup
-        on lookup.data_id = load_data.id"""
+        on lookup.id = load_data.id"""
     ).filter("subsector='com__MidriseApartment'")
 
     filename = os.path.join(src_dir, f"load_data_only_midrise_apartment.parquet")

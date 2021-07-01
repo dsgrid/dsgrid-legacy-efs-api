@@ -134,7 +134,7 @@ class ConvertDsg:
 
         record_filename = os.path.join(self._output_dir, "load_data_lookup.parquet")
         df = self._spark.createDataFrame(Row(**x) for x in self._load_data_lookup)
-        df.write.parquet(record_filename, mode="overwrite")
+        df.repartition(1).write.parquet(record_filename, mode="overwrite")
 
         data_filename = os.path.join(self._output_dir, "load_data.parquet")
         if self._num_buckets == 0:
@@ -193,7 +193,7 @@ class ConvertDsg:
             lookup_data = {
                 "geography": geo,
                 "subsector": sector_id,
-                "data_id": load_id,
+                "id": load_id,
             }
             if keep_scaling_factor:
                 lookup_data["scale_factor"] = float(scale_factor)
