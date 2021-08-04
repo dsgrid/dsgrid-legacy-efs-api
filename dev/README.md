@@ -34,7 +34,7 @@ python ../dev/md_to_rst.py md_files.txt
 
 - Make sure dsgrid-legacy-efs-api is installed or is in your PYTHONPATH
 - Delete the contents of `source/api`.
-- Run `sphinx-apidoc -o source/api ../dsgrid` from the `docs/source` folder.
+- Run `sphinx-apidoc -o source/api ../dsgrid` from the `docs` folder.
 - 'git push' changes to the documentation source code as needed.
 - Make the documentation per below
 

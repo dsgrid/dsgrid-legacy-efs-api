@@ -1,7 +1,14 @@
-*.pyc
+# Packaging artifacts
 dist
 MANIFEST
+dsgrid.egg-info
+
+# Cache
+.ipynb_checkpoints
 .cache
 .pytest_cache
-dsgrid.egg-info
-.ipynb_checkpoints
+*.pyc
+
+# Sphinx documentation
+docs/_build/
+docs/source/api/
