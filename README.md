@@ -1,8 +1,9 @@
-# dsgrid Load Model
+dsgrid-legacy-efs-api
+=====================
 
-This package provides an API for dsgrid load models for Python 2 and Python 3. It consists of the following modules:
+[![Documentation](https://img.shields.io/badge/docs-ready-blue.svg)](https://dsgrid.github.io/dsgrid-load)
 
-- *dataformat* - functionality for marshaling sector-based electricity demand data, which is stored in a particular HDF5 data format on disk 
+dsgrid-legacy-efs-api is a Python API for accessing demand-side grid model (dsgrid) data produced for the Electrification Futures Study (EFS)
 
 ## Installation
 
