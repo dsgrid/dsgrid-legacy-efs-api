@@ -42,6 +42,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.githubpages",
     "sphinx.ext.napoleon",
+    "sphinx.ext.todo",
     "sphinx.ext.autosectionlabel"
 ]
 
@@ -92,7 +93,7 @@ html_static_path = ["_static"]
 
 autoclass_content = "both"
 autodoc_member_order = "bysource"
-autodoc_special_members = ['__getitem__']
+autodoc_special_members = ['__getitem__', '__setitem__']
 numpy_show_class_member = True
 
 autosectionlabel_prefix_document = True
