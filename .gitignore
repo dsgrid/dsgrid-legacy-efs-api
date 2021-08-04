@@ -4,3 +4,4 @@ MANIFEST
 .cache
 .pytest_cache
 dsgrid.egg-info
+.ipynb_checkpoints
