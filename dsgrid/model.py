@@ -253,7 +253,7 @@ class LoadModel(MutableMapping):
         if not key == value.key:
             raise DSGridError("Expected the key to match the LoadModelComponent.key, " + \
                 "but key = {} and LoadModelComponent.key = {}".format(key,value.key))
-        result.components[value.key] = value
+        self.components[value.key] = value
 
     def __delitem__(self,key):
         del self.components[key]
