@@ -93,7 +93,7 @@ Simulation data can now be assigned to the sector (subsector). The data
 should be in the form of a Pandas DataFrame with rows indices
 corresponding to IDs in the
 :class:`Datafile's <dsgrid.dataformat.datafile.Datafile>`
-``TimeEnumeration`` and column names corresponding to enduse IDs in the
+:class:`~dsgrid.dataformat.enumeration.TimeEnumeration` and column names corresponding to enduse IDs in the
 :class:`Datafile's <dsgrid.dataformat.datafile.Datafile>`
 :class:`EndUseEnumeration <dsgrid.dataformat.enumeration.EndUseEnumerationBase>`
 (or the predetermined subset discussed immediately above). Each
@@ -149,19 +149,20 @@ the file was first created, for example:
     sfd = f2["res__SingleFamilyDetached"]
     jeffco_sfd = sfd["08059"]
 
-For easier data manipulation, the full contents of the ``Datafile`` can
-also be read into memory in a tabular format by creating a ``Datatable``
+For easier data manipulation, the full contents of the :class:`~dsgrid.dataformat.datafile.Datafile` can
+also be read into memory in a tabular format by creating a :class:`~dsgrid.dataformat.datatable.Datatable`
 object:
 
 .. code:: python
 
-    from dsgrid.datatable import Datatable
+    from dsgrid.dataformat.datatable import Datatable
     dt = Datatable(f2)
 
-A ``Datatable`` is just a thin wrapper around a Pandas ``Series`` with a
-four-level ``MultiIndex``. The ``Datatable`` can be indexed into for
-quick access to a relevant subset of the data, or the underlying
-``Series`` can be accessed and manipulated directly.
+A :class:`~dsgrid.dataformat.datatable.Datatable` is just a thin wrapper around 
+a Pandas ``Series`` with a four-level ``MultiIndex``. The 
+:class:`~dsgrid.dataformat.datatable.Datatable` can be indexed into for quick 
+access to a relevant subset of the data, or the underlying ``Series`` can be 
+accessed and manipulated directly.
 
 .. code:: python
 
