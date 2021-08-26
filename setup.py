@@ -9,6 +9,10 @@ with open(os.path.join(here, 'dsgrid', '_version.py'), encoding='utf-8') as f:
 
 version = version.split()[2].strip('"').strip("'")
 
+doc_requires = ["ghp-import", "numpydoc", "pandoc", "sphinx", "sphinx_rtd_theme"]
+
+release_requires = ["twine", "setuptools", "wheel"]
+
 setup(
     name = 'dsgrid',
     version = version,
@@ -19,5 +23,5 @@ setup(
     url = 'https://github.com/dsgrid/dsgrid-load',
     description = 'dsgrid load model API',
     long_description = open('README.md').read(),
-    install_requires = ['numpy', 'pandas', 'h5py']
+    install_requires = ['numpy', 'pandas', 'h5py', 'webcolors', 'layerstack']
 )
