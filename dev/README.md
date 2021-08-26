@@ -61,7 +61,7 @@ Then run the github-related commands by hand:
 ```
 git branch -D gh-pages
 git push origin --delete gh-pages
-ghp-import -n -b gh-pages -m "Update documentation" ./_build/html
+ghp-import -n -b gh-pages -m "Update documentation" .\_build\html
 git checkout gh-pages
 git push origin gh-pages
 git checkout main # or whatever branch you were on

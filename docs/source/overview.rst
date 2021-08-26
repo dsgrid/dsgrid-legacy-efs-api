@@ -37,18 +37,18 @@ Creating a new data file
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 To begin, create an empty
-:class:``~dsgrid.dataformat.datafile.Datafile`` object. This involves
+:class:`~dsgrid.dataformat.datafile.Datafile` object. This involves
 providing a file path for the HDF5 file that will be created, and a set
 of valid
-:class:``sector <dsgrid.dataformat.enumeration.SectorEnumeration>``,
-:class:``geography <dsgrid.dataformat.enumeration.GeographyEnumeration>``,
-:class:``enduse <dsgrid.dataformat.enumeration.EndUseEnumerationBase>``,
-and :class:``time <dsgrid.dataformat.enumeration.TimeEnumeration>``
-:class:``enumerations <dsgrid.dataformat.enumeration.Enumeration>``. An
-:class:``~dsgrid.dataformat.enumeration.Enumeration`` includes both a
+:class:`sector <dsgrid.dataformat.enumeration.SectorEnumeration>`,
+:class:`geography <dsgrid.dataformat.enumeration.GeographyEnumeration>`,
+:class:`enduse <dsgrid.dataformat.enumeration.EndUseEnumerationBase>`,
+and :class:`time <dsgrid.dataformat.enumeration.TimeEnumeration>`
+:class:`enumerations <dsgrid.dataformat.enumeration.Enumeration>`. An
+:class:`~dsgrid.dataformat.enumeration.Enumeration` includes both a
 list of unique IDs identifying individual allowed values, as well as a
 matching list of more descriptive names. The package includes predefined
-:class:``Enumerations <dsgrid.dataformat.enumeration.Enumeration>`` for
+:class:`Enumerations <dsgrid.dataformat.enumeration.Enumeration>` for
 sector model data.
 
 .. code:: python
@@ -60,8 +60,8 @@ sector model data.
 
     f = Datafile("data.dsg", sectors_subsectors, counties, enduses, hourly2012)
 
-A :class:``~dsgrid.dataformat.sectordataset.SectorDataset`` can now be
-added to the :class:``~dsgrid.dataformat.datafile.Datafile``. Note that
+A :class:`~dsgrid.dataformat.sectordataset.SectorDataset` can now be
+added to the :class:`~dsgrid.dataformat.datafile.Datafile`. Note that
 here “sector” refers to both levels of the sector/subsector hierarchy.
 This is for extensibility of the format to support less resolved
 datasets where data may only be available by aggregate sector, or even
@@ -69,7 +69,7 @@ just economy-wide.
 
 The following would create a sector dataset that spans all enduses and
 time periods, assuming the provided sector ID exists in ``f``\ ’s
-:class:``~dsgrid.dataformat.enumeration.SectorEnumeration``:
+:class:`~dsgrid.dataformat.enumeration.SectorEnumeration`:
 
 .. code:: python
 
@@ -78,8 +78,8 @@ time periods, assuming the provided sector ID exists in ``f``\ ’s
 However, it’s likely that a single sector/subsector will not be drawing
 load for all possible end uses. In that case, to save space on disk, the
 sector can be defined to use only a subset of the end-uses listed in the
-:class:``Datafile's <dsgrid.dataformat.datafile.Datafile>``
-:class:``~dsgrid.dataformat.enumeration.EndUseEnumerationBase`` ID list:
+:class:`Datafile's <dsgrid.dataformat.datafile.Datafile>`
+:class:`~dsgrid.dataformat.enumeration.EndUseEnumerationBase` ID list:
 
 .. code:: python
 
@@ -92,15 +92,15 @@ fashion.
 Simulation data can now be assigned to the sector (subsector). The data
 should be in the form of a Pandas DataFrame with rows indices
 corresponding to IDs in the
-:class:``Datafile's <dsgrid.dataformat.datafile.Datafile>``
+:class:`Datafile's <dsgrid.dataformat.datafile.Datafile>`
 ``TimeEnumeration`` and column names corresponding to enduse IDs in the
-:class:``Datafile's <dsgrid.dataformat.datafile.Datafile>``
-:class:``EndUseEnumeration <dsgrid.dataformat.enumeration.EndUseEnumerationBase>``
+:class:`Datafile's <dsgrid.dataformat.datafile.Datafile>`
+:class:`EndUseEnumeration <dsgrid.dataformat.enumeration.EndUseEnumerationBase>`
 (or the predetermined subset discussed immediately above). Each
 DataFrame is assigned to at least one geography, which are represented
 by IDs in the
-:class:``Datafile's <dsgrid.dataformat.datafile.Datafile>``
-:class:``~dsgrid.dataformat.enumeration.GeographyEnumeration``. In this
+:class:`Datafile's <dsgrid.dataformat.datafile.Datafile>`
+:class:`~dsgrid.dataformat.enumeration.GeographyEnumeration`. In this
 case, ``"08059"`` is the ID and FIPS code for Jefferson County,
 Colorado:
 
@@ -126,16 +126,16 @@ the file.
 
 Additional classes and methods useful for creating new data:
 
--  :class:``~dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration``
--  :class:``~dsgrid.dataformat.enumeration.FuelEnumeration``
--  :class:``~dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration``
--  :meth:``~dsgrid.sectordataset.SectorDataset.add_data_batch``
+-  :class:`~dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration`
+-  :class:`~dsgrid.dataformat.enumeration.FuelEnumeration`
+-  :class:`~dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration`
+-  :meth:`~dsgrid.sectordataset.SectorDataset.add_data_batch`
 
 Reading in an existing data file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If a dsgrid-formatted HDF5 file already exists, it can be read into a
-:class:``~dsgrid.dataformat.datafile.Datafile`` object:
+:class:`~dsgrid.dataformat.datafile.Datafile` object:
 
 .. code:: python
 
@@ -176,7 +176,7 @@ quick access to a relevant subset of the data, or the underlying
 
 Additional methods useful for accessing data:
 
--  :meth:``dsgrid.dataformat.sectordataset.SectorDataset.get_data``
+-  :meth:`dsgrid.dataformat.sectordataset.SectorDataset.get_data`
 
 Working with a dsgrid model (collection of data files)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -186,14 +186,14 @@ TODO: Document a few basic operations using code snippets from notebooks
 Classes, methods and objects useful for working with the dsgrid EFS
 dataset:
 
--  :class:``dsgrid.model.LoadModel``
--  :class:``dsgrid.model.LoadModelComponent``
--  :class:``dsgrid.dataformat.dimmap.Mappings``
--  :class:``dsgrid.dataformat.dimmap.FullAggregationMap``
--  :class:``dsgrid.dataformat.dimmap.FilterToSubsetMap``
--  :class:``dsgrid.dataformat.dimmap.FilterToSingleFuelMap``
--  :class:``dsgrid.dataformat.dimmap.ExplicitAggregation``
--  :class:``dsgrid.dataformat.dimmap.UnitConversionMap``
--  :data:``dsgrid.dataformat.dimmap.mappings``
--  :meth:``dsgrid.dataformat.datafile.Datafile.map_dimension``
--  :meth:``dsgrid.dataformat.datafile.Datafile.scale_data``
+-  :class:`dsgrid.model.LoadModel`
+-  :class:`dsgrid.model.LoadModelComponent`
+-  :class:`dsgrid.dataformat.dimmap.Mappings`
+-  :class:`dsgrid.dataformat.dimmap.FullAggregationMap`
+-  :class:`dsgrid.dataformat.dimmap.FilterToSubsetMap`
+-  :class:`dsgrid.dataformat.dimmap.FilterToSingleFuelMap`
+-  :class:`dsgrid.dataformat.dimmap.ExplicitAggregation`
+-  :class:`dsgrid.dataformat.dimmap.UnitConversionMap`
+-  :data:`dsgrid.dataformat.dimmap.mappings`
+-  :meth:`dsgrid.dataformat.datafile.Datafile.map_dimension`
+-  :meth:`dsgrid.dataformat.datafile.Datafile.scale_data`
