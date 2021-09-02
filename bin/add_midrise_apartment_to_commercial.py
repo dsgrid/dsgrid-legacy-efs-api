@@ -40,13 +40,13 @@ def filter_midrise_apartment(src_dir):
         from load_data
         join lookup
         on lookup.id = load_data.id"""
-    ).filter("subsector='com__MidriseApartment'")
+    ).filter("subsector='MidriseApartment'")
 
     filename = os.path.join(src_dir, f"load_data_only_midrise_apartment.parquet")
     load_data_reduced_df = df.drop("subsector")
     load_data_reduced_df.write.parquet(filename)
 
-    lookup_reduced_df = lookup.filter("subsector='com__MidriseApartment'")
+    lookup_reduced_df = lookup.filter("subsector='MidriseApartment'")
     filename = os.path.join(src_dir, f"load_data_lookup_only_midrise_apartment.parquet")
     lookup_reduced_df.write.parquet(filename)
     return load_data_reduced_df, lookup_reduced_df
@@ -67,7 +67,7 @@ def setup_logging(filename, file_level=logging.INFO, console_level=logging.INFO)
 
 
 def main(commercial_dir, residential_dir):
-    """Removes com__MidriseApartment subsector data from residential and inserts it
+    """Removes MidriseApartment subsector data from residential and inserts it
     in the commercial data.
 
     """
