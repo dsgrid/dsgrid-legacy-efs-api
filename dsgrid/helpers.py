@@ -13,6 +13,24 @@ def multi_index(df, cols):
         del result[col]
     return result  
 
+def ensure_enum(cls, val):
+    """
+    Returns the instance of cls that corresponds to val. cls is expected to be 
+    an enum-type class.
+
+    Parameters
+    ----------
+    cls : an Enum class
+    val : str or cls object
+    
+    Returns
+    -------
+    cls object
+    """
+    if isinstance(val, str):
+        return cls[val]
+    return cls(val)
+
 def lighten_color(hex_color,fraction_to_white):
     rgb_color = np.array(webcolors.hex_to_rgb(hex_color))
     white = np.array([255,255,255])
@@ -26,3 +44,4 @@ def palette(hex_color,n,max_fraction=0.75):
         result.append(lighten_color(hex_color,frac))
     assert len(result) == n
     return result
+
