@@ -70,6 +70,21 @@ def add_temporal_category(data,temporal_map,category_name):
     data[category_name] = data['to_id']; del data['from_id']; del data['to_id']
     return data
 
+week_names = ['Winter','Spring','Summer','Autumn']
+week_start_days = [dt.datetime(2012,2,5),
+                   dt.datetime(2012,5,6),
+                   dt.datetime(2012,8,5),
+                   dt.datetime(2012,11,4)]
+week_start_daytimes = [model_tz.localize(start_day) for start_day in week_start_days]
+
+def prep_for_seasonal_subplots(df):
+    df.index = pd.to_datetime(df.index).tz_convert(model_tz) # .tz_localize('UTC')
+    df['Season'] = None
+    for i, start in enumerate(week_start_daytimes):
+        df.loc[start:start+dt.timedelta(hours=168),'Season'] = week_names[i]
+    df = df[df['Season'].isin(week_names)]
+    return df
+
 # ------------------------------------------------------------------------------
 # Units handling for plots
 # ------------------------------------------------------------------------------
@@ -143,7 +158,7 @@ transform_label.cache = {'Other': 'Other'}
 # Plot functions
 # ------------------------------------------------------------------------------
 
-def component_plot(df, colors, enum, area_filepath, line_filepath, show=False, **kwargs): 
+def component_plot(df, colors, enum, plots_dir, area_filepath, line_filepath, show=False, **kwargs): 
     """
     Used for seasonal_diurnal_profiles
     """
@@ -245,15 +260,17 @@ def component_plot(df, colors, enum, area_filepath, line_filepath, show=False, *
     axis_position_styler.postprocess(fig=fig_area,ax=axx_area,**axis_position_kwargs)
     axis_position_styler.postprocess(fig=fig_line,ax=axx_line,**axis_position_kwargs)
     
-    if area_filepath is not None: 
-        fig_area.savefig(area_filepath,dpi=1200)
-        if show:
-            fig_area.display()
-    if line_filepath is not None:
-        fig_line.savefig(line_filepath,dpi=1200)
-        if show:
-            fig_line.display()
-    plt.close(fig_area); plt.close(fig_line)
+    if plots_dir is not None:
+        if area_filepath is not None: 
+            fig_area.savefig(plots_dir / area_filepath, dpi=1200)
+        if line_filepath is not None:
+            fig_line.savefig(plots_dir / line_filepath, dpi=1200)
+
+    if (area_filepath is None) or (not show):
+        plt.close(fig_area)
+    if (line_filepath is None) or (not show):
+        plt.close(fig_line)
+
     matplotlib.rcParams['figure.figsize'] = original_figsize
 
 # ------------------------------------------------------------------------------
