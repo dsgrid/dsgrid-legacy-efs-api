@@ -12,8 +12,8 @@ TODO: Update links after changing repository name
 For accessing the dsgrid EFS data, `reading data
 files <#reading-in-an-existing-data-file>`__ and `working with dsgrid
 models <#working-with-a-dsgrid-model-collection-of-data-files>`__ is
-probably most of interest. However, the `brief primer on how the data
-files were created <#creating-a-new-data-file>`__ may be useful
+probably most of interest. However, the `brief primer on how to create new
+data files <#creating-a-new-data-file>`__ may be useful
 background information. Also note that while a ``.dsg`` extension is
 used for the dsgrid EFS data files, the underlying format is basic HDF5
 and can be browsed with a basic viewer like
@@ -129,7 +129,7 @@ Additional classes and methods useful for creating new data:
 -  :class:`~dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration`
 -  :class:`~dsgrid.dataformat.enumeration.FuelEnumeration`
 -  :class:`~dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration`
--  :meth:`~dsgrid.sectordataset.SectorDataset.add_data_batch`
+-  :meth:`~dsgrid.dataformat.sectordataset.SectorDataset.add_data_batch`
 
 Reading in an existing data file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -222,12 +222,11 @@ dataset:
 
 -  :class:`dsgrid.model.LoadModel`
 -  :class:`dsgrid.model.LoadModelComponent`
--  :class:`dsgrid.dataformat.dimmap.Mappings`
+-  :class:`dsgrid.dataformat.dimmap.Mappings` (Also scroll to the bottom of the source code file to see the mappings module attribute and how it is defined.)
 -  :class:`dsgrid.dataformat.dimmap.FullAggregationMap`
 -  :class:`dsgrid.dataformat.dimmap.FilterToSubsetMap`
 -  :class:`dsgrid.dataformat.dimmap.FilterToSingleFuelMap`
 -  :class:`dsgrid.dataformat.dimmap.ExplicitAggregation`
 -  :class:`dsgrid.dataformat.dimmap.UnitConversionMap`
--  :data:`dsgrid.dataformat.dimmap.mappings`
 -  :meth:`dsgrid.dataformat.datafile.Datafile.map_dimension`
 -  :meth:`dsgrid.dataformat.datafile.Datafile.scale_data`
