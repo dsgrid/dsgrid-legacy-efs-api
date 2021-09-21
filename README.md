@@ -7,11 +7,12 @@ dsgrid-legacy-efs-api is a Python API for accessing demand-side grid model (dsgr
 
 ## Installation
 
-Download the latest source distribution tarball from the repo [releases page](https://github.com/dsgrid/dsgrid-load/releases) (e.g. `dsgrid-x.y.z.tar.gz`), and run:
+While we're working through a few small tasks before publishing on PyPI, please clone this repository and then install by:
 
 ```
-pip install /filepath/to/dsgrid.x.y.z.tar.gz
+cd dsgrid-load
+pip install .
 ```
 
-The `pandas`, `numpy`, and `h5py` packages should be added automatically during the installation process, if they're not already available.
+Any missing dependencies should be added automatically during the installation process.
 
