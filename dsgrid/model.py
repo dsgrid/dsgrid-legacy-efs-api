@@ -28,9 +28,6 @@ class LoadModelStatus(Enum):
     RAW = auto()
 
 
-# TODO: Losses should be their own component type. And maybe DERIVED should be
-# replaced by RESIDUALS/ERRORS?
-
 class ComponentType(Enum):
     BOTTOMUP = auto()
     GAP = auto()

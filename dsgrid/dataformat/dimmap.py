@@ -30,6 +30,9 @@ class DimensionMap(object):
     def scale_factor(self,from_id):
         return 1.0
 
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.from_enum}, {self.to_enum})"
+
 
 class TautologyMapping(DimensionMap):
     def __init__(self,from_to_enum):
@@ -299,10 +302,45 @@ class UnitConversionMap(DimensionMap):
     @classmethod
     def scaling_factor(cls,from_unit,to_unit):
         key = (from_unit,to_unit)
-        if key in cls.CONVERSION_FACTORS:
-            return cls.CONVERSION_FACTORS[key]
-        # TODO: Derive new conversion factors using shortest path in weighted graph
+        these_factors = cls._get_all_factors(to_unit, cls.CONVERSION_FACTORS)
+        if key in these_factors:
+            return these_factors[key]
+
+        something_added = True
+        while something_added:
+            something_added = False
+            to_expand = [(a_key, val) for a_key, val in these_factors.items()]
+            for a_key, factor in to_expand:
+                candidates = cls._get_all_factors(a_key[0], cls.CONVERSION_FACTORS, multiplier=factor)
+                for b_key, val in candidates.items():
+                    c_key = (b_key[0], to_unit)
+                    if c_key not in these_factors:
+                        these_factors[c_key] = val
+                        something_added = True
+            if key in these_factors:
+                return these_factors[key]
+
         raise DSGridNotImplemented("No conversion factor available to go from {} to {}.".format(from_unit,to_unit))
+
+    @classmethod
+    def _get_all_factors(cls, to_unit, factors, multiplier = None):
+        result = {}
+
+        for units, factor in factors.items():
+            from_u, to_u = units
+            # directly in factors?
+            if to_u == to_unit:
+                result[units] = factor
+        
+            # in factors backward?
+            if from_u == to_unit:
+                result[(to_u, from_u)] = 1.0 / factor
+
+        if multiplier is not None:
+            for key in result:
+                result[key] *= multiplier
+        
+        return result
 
 
 class Mappings(object):

@@ -12,8 +12,8 @@ TODO: Update links after changing repository name
 For accessing the dsgrid EFS data, `reading data
 files <#reading-in-an-existing-data-file>`__ and `working with dsgrid
 models <#working-with-a-dsgrid-model-collection-of-data-files>`__ is
-probably most of interest. However, the `brief primer on how the data
-files were created <#creating-a-new-data-file>`__ may be useful
+probably most of interest. However, the `brief primer on how to create new
+data files <#creating-a-new-data-file>`__ may be useful
 background information. Also note that while a ``.dsg`` extension is
 used for the dsgrid EFS data files, the underlying format is basic HDF5
 and can be browsed with a basic viewer like
@@ -129,7 +129,7 @@ Additional classes and methods useful for creating new data:
 -  :class:`~dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration`
 -  :class:`~dsgrid.dataformat.enumeration.FuelEnumeration`
 -  :class:`~dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration`
--  :meth:`~dsgrid.sectordataset.SectorDataset.add_data_batch`
+-  :meth:`~dsgrid.dataformat.sectordataset.SectorDataset.add_data_batch`
 
 Reading in an existing data file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -182,19 +182,51 @@ Additional methods useful for accessing data:
 Working with a dsgrid model (collection of data files)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-TODO: Document a few basic operations using code snippets from notebooks
+A :class:`dsgrid.model.LoadModel` holds a collection of related datafiles and 
+tag each one with its :class:`~dsgrid.model.ComponentType` and an optional color 
+(for plotting). For example, a :class:`~dsgrid.model.LoadModel` can be formed 
+just from the ComponentType.BOTTOMUP components:
+
+.. code:: python
+
+    from dsgrid.model import ComponentType, LoadModelComponent, LoadModel
+
+    bottomup_components_list = [
+        ('Residential','#F7A11A','residential.dsg'),
+        ('Commercial','#5D9732','commercial.dsg'),
+        ('Industrial','#D9531E','industrial.dsg')]
+    
+    # Let datadir be a pathlib.Path pointing to a folder containing .dsg files ...
+    components = []
+    for name, color, filename in bottomup_components_list:
+        components.append(LoadModelComponent(name, component_type=ComponentType.BOTTOMUP, color=color))
+        components[-1].load_datafile(datadir / filename)
+    model = LoadModel.create(components)
+
+Dimension mappings can be applied to individual :class:`Datafiles <dsgrid.dataformat.Datafile>`,
+individual :class:`LoadModelComponents <dsgrid.model.LoadModelComponent>`, or to 
+an entire :class:`LoadModel`. For example, this code would aggregate the model 
+defined above to the census division level: 
+
+.. code:: python
+
+    from dsgrid.dataformat.enumeration import census_divisions
+    from dsgrid.dataformat.dimmap import mappings
+
+    model.map_dimension(datadir / ".." / "aggregated_to_census_division", census_divisions, mappings)
+
+See `notebooks/Visualize dsgrid model.ipynb` for more examples.
 
 Classes, methods and objects useful for working with the dsgrid EFS
 dataset:
 
 -  :class:`dsgrid.model.LoadModel`
 -  :class:`dsgrid.model.LoadModelComponent`
--  :class:`dsgrid.dataformat.dimmap.Mappings`
+-  :class:`dsgrid.dataformat.dimmap.Mappings` (Also scroll to the bottom of the source code file to see the mappings module attribute and how it is defined.)
 -  :class:`dsgrid.dataformat.dimmap.FullAggregationMap`
 -  :class:`dsgrid.dataformat.dimmap.FilterToSubsetMap`
 -  :class:`dsgrid.dataformat.dimmap.FilterToSingleFuelMap`
 -  :class:`dsgrid.dataformat.dimmap.ExplicitAggregation`
 -  :class:`dsgrid.dataformat.dimmap.UnitConversionMap`
--  :data:`dsgrid.dataformat.dimmap.mappings`
 -  :meth:`dsgrid.dataformat.datafile.Datafile.map_dimension`
 -  :meth:`dsgrid.dataformat.datafile.Datafile.scale_data`

@@ -67,7 +67,11 @@ class Enumeration(object):
         return "%s(%r)" % (self.__class__, self.__dict__)
 
     def __str__(self):
-        return self.__repr__()
+        if len(self.ids) == 1:
+            return (f"{self.__class__.__name__}({self.name}, [{self.ids[0]}], "
+                f"[{self.names[0]}])")
+        return (f"{self.__class__.__name__}({self.name}, [{self.ids[0]}, ...], "
+            f"[{self.names[0]}, ...])")
 
     def get_name(self,id):
         ind = list(self.ids).index(id)
@@ -489,6 +493,13 @@ class SingleFuelEndUseEnumeration(EndUseEnumerationBase):
         self._fuel = fuel
         self._units = units
 
+    def __str__(self):
+        if len(self.ids) == 1:
+            return (f"{self.__class__.__name__}({self.name}, [{self.ids[0]}], "
+                f"[{self.names[0]}], fuel = {self._fuel!r}, units = {self._units!r})")
+        return (f"{self.__class__.__name__}({self.name}, [{self.ids[0]}, ...], "
+            f"[{self.names[0]}, ...], fuel = {self._fuel!r}, units = {self._units!r})")
+
     def fuel(self,id):
         return self._fuel
 
@@ -559,6 +570,9 @@ class FuelEnumeration(Enumeration):
     def __init__(self, name, ids, names, units):
         self.units = units
         super(FuelEnumeration, self).__init__(name,ids,names)
+
+    def __str__(self):
+        return (f"{self.__class__.__name__}({self.name}, {self.ids}, {self.names}, {self.units})")
 
     def checkvalues(self):
         super(FuelEnumeration, self).checkvalues()
@@ -659,6 +673,10 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
 
         self.checkvalues()
         return
+
+    def __str__(self):
+        return (f"{self.__class__.__name__}({self.name}, [{self._ids[0]}, ...], "
+            f"[{self._names[0]}, ...], {self.fuel_enum}, [{self._fuel_ids[0]}, ...])")
 
     def checkvalues(self):
         ids = self._ids; fuel_ids = self._fuel_ids; fuel_enum = self.fuel_enum
