@@ -9,6 +9,7 @@
 # instructions at the bottom of the file.
 
 
+import enum
 import json
 import logging
 import os
@@ -37,13 +38,14 @@ logger = logging.getLogger(LOGGER_NAME)
 class ConvertDsg:
     """Converts a .dsg file to a directory of parquet files"""
 
-    def __init__(self, output_dir, data_id_offset):
+    def __init__(self, output_dir, data_id_offset, sector_id_type):
         self._output_dir = output_dir
         self._load_data_lookup = []
         self._data_id = data_id_offset  # Each unique dataframe gets assigned a unique ID.
         self._data_df = None
         self._data_dfs = []
         self._num_buckets = 0
+        self._sector_id_type = sector_id_type
         self._timestamps = None  # There is one array of timestamps per file.
         # Initialize on the first occurrence.
         self._spark = SparkSession.builder.appName("convert_dsg").getOrCreate()
@@ -187,19 +189,44 @@ class ConvertDsg:
 
         load_id = self._next_id()
         self._append_data_dataframe(df, load_id)
-        sector_id = sector_dataset.sector_id
+
+        sector_id = None
+        subsector_id = None
+        if self._sector_id_type == SectorIdType.SECTOR:
+            sector_id = sector_dataset.sector_id
+        elif self._sector_id_type == SectorIdType.SECTOR_SUBSECTOR:
+            if sector_dataset.sector_id == "com__MidriseApartment":
+                sector_id = "res"
+                subsector_id = "MidriseApartment"
+            else:
+                sector_id, subsector_id = sector_dataset.sector_id.split("__")
+        elif self._sector_id_type == SectorIdType.SUBSECTOR:
+            subsector_id = sector_dataset.sector_id
+        else:
+            assert False, self._sector_id_type
 
         for geo, scale_factor in zip(geos, scales):
             lookup_data = {
                 "geography": geo,
-                "subsector": sector_id,
                 "id": load_id,
             }
+            if sector_id is not None:
+                lookup_data["sector"] = sector_id
+            if subsector_id is not None:
+                lookup_data["subsector"] = subsector_id
+
             if keep_scaling_factor:
                 lookup_data["scale_factor"] = float(scale_factor)
             else:
                 scale_factors[sector_dataset.sector_id][str(geo)] = float(scales[0])
             self._load_data_lookup.append(lookup_data)
+
+
+class SectorIdType(enum.Enum):
+    """Defines how sector_id in the .dsg file should be interpreted."""
+    SECTOR = "sector"
+    SECTOR_SUBSECTOR = "sector_subsector"
+    SUBSECTOR = "subsector"
 
 
 def setup_logging(filename, file_level=logging.INFO, console_level=logging.INFO):
@@ -215,6 +242,10 @@ def setup_logging(filename, file_level=logging.INFO, console_level=logging.INFO)
     # add the handlers to the logger
     my_logger.addHandler(fh)
     my_logger.addHandler(ch)
+
+
+def _apply_sector_id_type(_, __, val):
+    return SectorIdType(val)
 
 
 @click.command()
@@ -245,6 +276,14 @@ def setup_logging(filename, file_level=logging.INFO, console_level=logging.INFO)
     help="Offset the dataframe ID by this value",
 )
 @click.option(
+    "-s",
+    "--sector-id-type",
+    required=True,
+    type=click.Choice([x.value for x in SectorIdType]),
+    callback=_apply_sector_id_type,
+    help="Defines how to interpret the sector_id field in the .dsg file",
+)
+@click.option(
     "--verbose",
     is_flag=True,
     default=False,
@@ -257,6 +296,7 @@ def convert_dsg(
     auto_scale_factor=True,
     num_buckets=0,
     data_id_offset=0,
+    sector_id_type=None,
     verbose=False,
 ):
     """Convert a DSG file to Parquet.
@@ -291,7 +331,7 @@ def convert_dsg(
     level = logging.DEBUG if verbose else logging.INFO
     setup_logging(log_file, file_level=level, console_level=level)
     logger.info("CLI args: %s", " ".join(sys.argv))
-    ConvertDsg(base_dir, data_id_offset).convert(dsg_file, auto_scale_factor, num_buckets)
+    ConvertDsg(base_dir, data_id_offset, sector_id_type).convert(dsg_file, auto_scale_factor, num_buckets)
 
 
 if __name__ == "__main__":

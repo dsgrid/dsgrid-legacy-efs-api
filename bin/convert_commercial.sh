@@ -28,7 +28,7 @@ if [ -z $OUTPUT_DIR ]; then
 	exit 1
 fi
 
-spark-submit ${SPARK_SETTINGS} ${BIN_DIR}/convert_dsg.py --num-buckets=6 ${DSG_INPUTS}/commercial.dsg ${OUTPUT_DIR}
+spark-submit ${SPARK_SETTINGS} ${BIN_DIR}/convert_dsg.py -s sector_subsector --num-buckets=6 ${DSG_INPUTS}/commercial.dsg ${OUTPUT_DIR}
 
 if [ $? -ne 0 ]; then
 	echo "Creation of commercial parquet files failed: $?"
@@ -37,7 +37,14 @@ fi
 
 # Bucketing is not required here.
 # There are 16704 dataframes in commercial.dsg; start at the next one.
-spark-submit ${SPARK_SETTINGS} ${BIN_DIR}/convert_dsg.py --data-id-offset=16704 ${DSG_INPUTS}/residential.dsg ${OUTPUT_DIR}
+grep "Last data_id=16704" ${OUTPUT_DIR}/commercial/convert_dsg.log >> /dev/null
+
+if [ $? -ne 0 ]; then
+	echo "Did not find Last data_id=16704 in commercial log file."
+	exit 1
+fi
+
+spark-submit ${SPARK_SETTINGS} ${BIN_DIR}/convert_dsg.py -s sector_subsector --data-id-offset=16704 ${DSG_INPUTS}/residential.dsg ${OUTPUT_DIR}
 
 if [ $? -ne 0 ]; then
 	echo "Creation of residential parquet files failed: $?"
