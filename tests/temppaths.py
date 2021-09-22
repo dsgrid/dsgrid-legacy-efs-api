@@ -1,8 +1,10 @@
 import h5py
+import logging
 import os
 import shutil
 from uuid import uuid4
 
+logger = logging.getLogger(__name__)
 
 class TempHDF5File():
 
@@ -14,6 +16,9 @@ class TempHDF5File():
         return self.file
 
     def __exit__(self, ctx_type, ctx_value, ctx_traceback):
+        if not os.path.exists(self.filename):
+            logger.info(f"{self.filename} does not exist")
+            return
         self.file.close()
         os.remove(self.filename)
 
@@ -27,6 +32,9 @@ class TempFilepath():
         return self.filename
 
     def __exit__(self, ctx_type, ctx_value, ctx_traceback):
+        if not os.path.exists(self.filename):
+            logger.info(f"{self.filename} does not exist")
+            return
         os.remove(self.filename)
 
 
@@ -39,4 +47,7 @@ class TempDir():
         return self.dirname
 
     def __exit__(self, ctx_type, ctx_value, ctx_traceback):
+        if not os.path.exists(self.dirname):
+            logger.info(f"{self.dirname} does not exist")
+            return
         shutil.rmtree(self.dirname)

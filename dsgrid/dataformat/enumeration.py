@@ -268,7 +268,7 @@ class TimeEnumeration(Enumeration):
         """
         num_steps = duration / resolution
         if not (num_steps == int(num_steps)):
-            logger.warn("Duration {} is not divided cleanly into steps of size {}".format(duration,resolution))
+            logger.warning("Duration {} is not divided cleanly into steps of size {}".format(duration,resolution))
         
         extent_timezone = cls._timezone_object(extent_timezone)
         store_timezone = cls._timezone_object(store_timezone,extent_timezone)
@@ -324,7 +324,7 @@ class TimeEnumeration(Enumeration):
         if not m:
             raise DSGridValueError('Not able to interpret {} as a timestamp'.format(self.ids[0]))
         if m.group(1) is None:
-            logger.warn('Explicit timezone not found in timestamp {}, assuming UTC'.format(self.ids[0]))
+            logger.warning('Explicit timezone not found in timestamp {}, assuming UTC'.format(self.ids[0]))
             return pytz.timezone('UTC')
         assert m.group(1)[3:] == ':00', m.group(1)
         tz_str = 'Etc/GMT'
@@ -391,7 +391,7 @@ class TimeEnumeration(Enumeration):
         res = self.resolution
         bres = res; eres = res
         if not isinstance(res,dt.timedelta):
-            logger.warn("Temporal resolution is not uniform. Reported extents may be inaccurate.")
+            logger.warning("Temporal resolution is not uniform. Reported extents may be inaccurate.")
             bres = res[0]; eres = res[-1]
         start = ind[0].to_pydatetime(); end = ind[-1].to_pydatetime()
 
@@ -468,11 +468,11 @@ class EndUseEnumeration(EndUseEnumerationBase):
     Provided for backward compatibility with dsgrid v0.1.0 datasets.
     """
     def fuel(self,id):
-        logger.warn("Deprecated: Fuel type has not been explicitly specified. Returning default value.")
+        logger.warning("Deprecated: Fuel type has not been explicitly specified. Returning default value.")
         return 'Electricity'
 
     def units(self,id):
-        logger.warn("Deprecated: Units have not been explicitly specified. Returning default value.")
+        logger.warning("Deprecated: Units have not been explicitly specified. Returning default value.")
         return 'MWh'
 
     @classmethod
@@ -532,14 +532,14 @@ class SingleFuelEndUseEnumeration(EndUseEnumerationBase):
         return dset
 
     @classmethod
-    def read_csv(cls, filepath, name=None):
+    def read_csv(cls, filepath, name=None, fuel='Electricity', units='MWh'):
         enum = pd.read_csv(filepath , dtype=str)
-        assert 'fuel' in enum.columns, "Fuel must be specified."
-        assert 'units' in enum.columns, "Units must be specified."
-        assert len(enum['fuel'].unique()) == 1, "There must be exactly 1 fuel, but {} are listed".format(len(enum.fuel.unique()))
-        assert len(enum['units'].unique()) == 1, "There must be exactly 1 units, but {} are listed".format(len(enum.units.unique()))
-        fuel = enum['fuel'].unique()[0]
-        units = enum['units'].unique()[0]
+        if ('fuel' in enum.columns):
+            assert len(enum['fuel'].unique()) == 1, "There must be exactly 1 fuel, but {} are listed".format(len(enum.fuel.unique()))
+            fuel = enum['fuel'].unique()[0]
+        if ('units' in enum.columns):                
+            assert len(enum['units'].unique()) == 1, "There must be exactly 1 units, but {} are listed".format(len(enum.units.unique()))
+            units = enum['units'].unique()[0]
         name = cls._name_from_filepath(filepath) if name is None else name
         return cls(name, list(enum.id), list(enum.name), fuel=fuel, units=units)
 

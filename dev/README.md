@@ -5,7 +5,7 @@
 **pip extras**
 
 ```
-pip install -e .[admin] # dev plus what is needed for creating documentation and releasing packages
+pip install -e .[dev,ntbks]
 ```
 
 **Additional software required for publishing documentation:**
@@ -27,7 +27,7 @@ Markdown files are registered in `docs/md_files.txt`. Paths in that file should 
 
 ```
 cd docs
-python ../dev/md_to_rst.py md_files.txt
+python ../dev/md_to_rst.py source/md_files.txt
 ```
 
 ### Refresh API Documentation
@@ -69,4 +69,22 @@ git checkout main # or whatever branch you were on
 
 ## Release on pypi
 
-*Not yet available*
+1. [using testpyi](https://packaging.python.org/guides/using-testpypi/) has good instructions for setting up your user account on TestPyPI and PyPI, and configuring twine to know how to access both repositories.
+   
+2. Make sure you have packaging dependencies
+
+    ```
+    pip install setuptools wheel twine
+    ```
+   
+3. Test the package
+
+    ```
+    python setup.py sdist wheel
+    twine check dist/*
+    twine upload --repository testpypi dist/*
+    # look at https://test.pypi.org/project/dsgrid-legacy-efs-api/
+    pip install --index-url https://test.pypi.org/simple/ dsgrid-legacy-efs-api[ntbks]
+    # check it out ... fix things ...
+    ```
+

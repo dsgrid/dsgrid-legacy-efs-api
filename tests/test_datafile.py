@@ -71,16 +71,16 @@ def test_datafile_io_fancy_enduses():
 
 
 def test_backward_compatible():
-    for p, dirs, junk1 in os.walk(os.path.join(here,'data')):
+    for p, dirs, _junk1 in os.walk(os.path.join(here,'data')):
         for version_dir in dirs:
-            for pp, junk2, files in os.walk(os.path.join(p,version_dir)):
+            for pp, _junk2, files in os.walk(os.path.join(p,version_dir)):
                 for filename in files:
                     filepath = os.path.join(pp,filename)
                     datafile1 = Datafile.load(filepath,upgrade=False)
                     assert datafile1.version == version_dir[1:]
                     with TempFilepath() as new_filepath:
                         datafile2 = Datafile.load(os.path.join(pp,filename),new_filepath=new_filepath)
-                        assert datafile2.version == VERSION
+                        assert datafile2.version == VERSION, filepath
 
                         # check that data seems about the same
                         assert len(datafile1.sectordata) == len(datafile2.sectordata)
@@ -98,6 +98,6 @@ def test_backward_compatible():
                             assert sectordataset.n_geos > 0
                             
                             df, geo_ids, scalings = sectordataset.get_data(0)
-                            assert len(df.index) > 0
+                            assert len(df.index) > 0, f"{sector_id}, {geo_ids}, {scalings}, \n{df}"
                 break
         break

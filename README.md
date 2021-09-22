@@ -1,18 +1,23 @@
 dsgrid-legacy-efs-api
 =====================
 
-[![Documentation](https://img.shields.io/badge/docs-ready-blue.svg)](https://dsgrid.github.io/dsgrid-load)
+[![PyPI](https://img.shields.io/pypi/v/dsgrid-legacy-efs-api.svg)](https://pypi.python.org/pypi/dsgrid-legacy-efs-api/) [![Documentation](https://img.shields.io/badge/docs-ready-blue.svg)](https://dsgrid.github.io/dsgrid-load)
 
-dsgrid-legacy-efs-api is a Python API for accessing demand-side grid model (dsgrid) data produced for the Electrification Futures Study (EFS)
+dsgrid-legacy-efs-api is a Python API for accessing demand-side grid model (dsgrid) data produced for the [Electrification Futures Study (EFS)](https://www.nrel.gov/analysis/electrification-futures.html)
 
 ## Installation
 
-While we're working through a few small tasks before publishing on PyPI, please clone this repository and then install by:
+To get the basic package, run:
 
 ```
-cd dsgrid-load
-pip install .
+pip install dsgrid-legacy-efs-api
 ```
 
-Any missing dependencies should be added automatically during the installation process.
+If you would like to run the example notebooks, install the required extra dependencies:
 
+```
+pip install dsgrid-legacy-efs-api[ntbks]
+```
+
+and also clone the repository. Then you should be able to run the .ipynb files 
+in the dsgrid-legacy-efs-api/notebooks folder.

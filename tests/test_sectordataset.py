@@ -1,7 +1,10 @@
 import copy
 import os
+import logging
 from py.test import raises
 from random import shuffle
+
+logger = logging.getLogger(__name__)
 
 import numpy as np
 import pandas as pd
@@ -81,81 +84,3 @@ def test_sectordataset_io():
         pd.testing.assert_frame_equal(dataset["01005"], zerodata, check_like=True)
         pd.testing.assert_frame_equal(dataset["56043"], zerodata, check_like=True)
         pd.testing.assert_frame_equal(dataset["56045"], data, check_like=True)
-
-def test_sectordataset_io_fancy_enduses():
-    comstock_enduses = MultiFuelEndUseEnumeration.read_csv(
-            os.path.join(enumdata_folder,'comstock_enduses.csv'),
-            'ComStock Enduses')
-
-    subset_enduses = []
-    for i, _id in enumerate(comstock_enduses.ids):
-        if _id[0].startswith('facility'):
-            subset_enduses.append(_id)
-
-    # column names can be subset of MultiFuelEndUseEnumeration.ids ...
-    zerodata = pd.DataFrame(0, dtype='float32', columns=subset_enduses,
-                            index=hourly2012.ids)
-
-    # ... OR a MultiIndex made from those tuples
-    cols = pd.MultiIndex.from_tuples(subset_enduses)
-    data = pd.DataFrame(np.random.rand(len(hourly2012), len(subset_enduses)),
-                        dtype='float32',
-                        columns=cols, index=hourly2012.ids)
-    data23 = pd.DataFrame(np.array(data)*2.3, dtype='float32',
-                        columns=cols, index=hourly2012.ids)
-    data45 = pd.DataFrame(np.array(data)*4.5, dtype='float32',
-                        columns=cols, index=hourly2012.ids)
-
-    with TempFilepath() as filepath:
-
-        datafile = Datafile(filepath, sectors_subsectors, counties, comstock_enduses, hourly2012)
-        dataset = datafile.add_sector("com__Hotel", enduses=subset_enduses)
-
-        dataset.add_data(data, ["01001", "01003"], [2.3, 4.5])
-        dataset["56045"] = data
-        assert dataset.n_geos == 2
-
-        pd.testing.assert_frame_equal(dataset["01001"], data23, check_like=True)
-        pd.testing.assert_frame_equal(dataset["01003"], data45, check_like=True)
-        pd.testing.assert_frame_equal(dataset["01005"], zerodata, check_like=True)
-        pd.testing.assert_frame_equal(dataset["56043"], zerodata, check_like=True)
-        pd.testing.assert_frame_equal(dataset["56045"], data, check_like=True)
-
-        datafile2 = Datafile.load(filepath)
-        assert(datafile == datafile2)
-        assert datafile2['com__Hotel'].n_geos == 2
-
-def test_sectordataset_io_subset_enduses_different_order():
-    comstock_enduses = MultiFuelEndUseEnumeration.read_csv(
-            os.path.join(enumdata_folder,'comstock_enduses.csv'),
-            'ComStock Enduses')
-
-    subset_enduses = []
-    for i, _id in enumerate(comstock_enduses.ids):
-        if _id[0].startswith('facility'):
-            subset_enduses.append(_id)
-
-    mult = {}
-    for i, enduse in enumerate(subset_enduses,1):
-        mult[enduse] = float(i)
-
-    original_order = copy.deepcopy(subset_enduses)
-    shuffle(subset_enduses)
-    if subset_enduses == original_order:
-        logger.debug("order was the same after shuffle")
-        subset_enduses = subset_enduses[1:] + [subset_enduses[0]]
-
-    data = pd.DataFrame(1.0, dtype='float32', 
-                       columns=subset_enduses, index=annual.ids)
-    for enduse in subset_enduses:
-        data[enduse] = data[enduse] * mult[enduse]
-
-    with TempFilepath() as filepath:
-        datafile = Datafile(filepath, sectors_subsectors, counties, 
-                            comstock_enduses, annual)
-        dataset = datafile.add_sector('com__Hotel', enduses=subset_enduses)
-
-        dataset.add_data(data, ['01001'])
-
-        datafile2 = Datafile.load(filepath)
-        pd.testing.assert_frame_equal(datafile2['com__Hotel']['01001'], data, check_like=True)

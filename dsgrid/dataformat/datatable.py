@@ -44,7 +44,7 @@ class Datatable(object):
         if self.data:
             self.data = pd.concat(self.data,verify_integrity=verify_integrity,copy=False)
         else:
-            logger.warn("No data in {}".format(datafile.filepath))
+            logger.warning("No data in {}".format(datafile.filepath))
             self.data = pd.Series(dtype='float32')
         self.sorted = False; self.warned = False
         if sort:
@@ -60,7 +60,7 @@ class Datatable(object):
 
     def __getitem__(self, idxs):
         if (not self.warned) and (not self.sorted):
-            logger.warn("Datatable is not sorted. Some kinds of indexing may be unreliable.")
+            logger.warning("Datatable is not sorted. Some kinds of indexing may be unreliable.")
             self.warned = True
 
         if len(idxs) != 4:

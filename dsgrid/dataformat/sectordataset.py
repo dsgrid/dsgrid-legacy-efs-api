@@ -459,7 +459,7 @@ class SectorDataset(object):
         if len(geo_ids) == 0:
             logger.info("Skipping call to add_data because geo_ids is empty.")
             if not dataframe.empty:
-                logger.warn("Although geo_ids is empty, dataframe is not:\n{}".format(dataframe))
+                logger.warning("Although geo_ids is empty, dataframe is not:\n{}".format(dataframe))
             return
 
         if full_validation:

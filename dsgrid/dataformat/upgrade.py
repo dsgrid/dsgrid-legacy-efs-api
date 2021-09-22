@@ -5,6 +5,7 @@ import logging
 import h5py
 import numpy as np
 
+from dsgrid import __version__ as VERSION
 from dsgrid.dataformat.datafile import Datafile
 from dsgrid.dataformat.enumeration import (SectorEnumeration,
     GeographyEnumeration, EndUseEnumeration, EndUseEnumerationBase, 

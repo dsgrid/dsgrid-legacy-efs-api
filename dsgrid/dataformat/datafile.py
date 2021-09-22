@@ -114,23 +114,25 @@ class Datafile(Mapping):
             version = get_str(f.attrs.get("dsgrid", "0.1.0"))
 
         if StrictVersion(version) > StrictVersion(VERSION):
-            raise DSGridValueError("File at {} is of version {}. ".format(filepath,version) + 
-                "It cannot be opened by this older version {} codebase.".format(VERSION))
+            raise DSGridValueError(f"File at {filepath} is of version {version}. " 
+                f"It cannot be opened by this older version {VERSION} codebase.")
 
         if StrictVersion(version) < StrictVersion(VERSION):
             from dsgrid.dataformat.upgrade import OLD_VERSIONS
             if version in OLD_VERSIONS:
+                # data actually requires upgrading to work with this code base
                 upgrade_class = OLD_VERSIONS[version]
                 result = upgrade_class.load_datafile(filepath)
                 if upgrade:
                     return result.upgrade(OLD_VERSIONS,overwrite=overwrite,new_filepath=new_filepath)
                 elif not '__saving' in kwargs:
-                    logger.warn("Not upgrading Datafile from version " + 
-                        "{} (current version is {}).".format(result.version,VERSION) + 
+                    logger.warning("Not upgrading Datafile from version "
+                        f"{result.version} (current version is {VERSION})."
                         " This package may not run properly on the loaded data.")
                 return result
 
-        # Current Version
+        # Current version, old version data that is compatible with current code,
+        # or old version data that is not compatible and not being upgraded
         with h5py.File(filepath, "r") as f:
             enum_group = f["enumerations"]
             result = cls(filepath,
@@ -139,7 +141,7 @@ class Datafile(Mapping):
                          EndUseEnumerationBase.load(enum_group),
                          TimeEnumeration.load(enum_group),
                          loading=True,
-                         version=version)
+                         version=VERSION if upgrade else version)
 
             for sector_id, sector_dataset in SectorDataset.loadall(result,f):
                 result.sectordata[sector_id] = sector_dataset
@@ -191,6 +193,10 @@ class Datafile(Mapping):
                 if result.version == upgrade_class.from_version:
                     result = upgrade_class.upgrade(result,f)
                     assert result.version == upgrade_class.to_version
+            if StrictVersion(result.version) < StrictVersion(VERSION):
+                # no-op upgrades the rest of the way--simply change the version
+                f.attrs["dsgrid"] = VERSION
+                result.version = VERSION
 
         return result
 
@@ -279,7 +285,7 @@ class Datafile(Mapping):
                             times=list(batch_dataframes[0].index))
                         new_sector_dataset.add_data_batch(batch_dataframes,batch_geo_ids,full_validation=False)
                     else:
-                        logger.warn("No data in SectorDatasets {}, so {} will not be added to the new Datafile".format([dataset.sector_id for dataset in datasets],new_sector_id))
+                        logger.warning("No data in SectorDatasets {}, so {} will not be added to the new Datafile".format([dataset.sector_id for dataset in datasets],new_sector_id))
         else:
             for sector_id, sectordataset in self.sectordata.items():
                 assert sectordataset is not None, "sector_id {} in file {} contains no data".format(sector_id,self.filepath)

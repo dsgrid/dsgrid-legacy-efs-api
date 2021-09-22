@@ -4,10 +4,8 @@ Getting Started
 This is a basic overview of how to use the dsgrid-legacy-efs-api
 ``dsgrid`` package. If desired, more extensive examples can be found
 throughout the
-`notebooks <https://github.com/dsgrid/dsgrid-load/tree/eh/create-docs/notebooks>`__
-and `tests <https://github.com/dsgrid/dsgrid-load/tree/master/tests>`__.
-
-TODO: Update links after changing repository name
+`notebooks <https://github.com/dsgrid/dsgrid-legacy-efs-api/tree/main/notebooks>`__
+and `tests <https://github.com/dsgrid/dsgrid-legacy-efs-api/tree/main/tests>`__.
 
 For accessing the dsgrid EFS data, `reading data
 files <#reading-in-an-existing-data-file>`__ and `working with dsgrid
@@ -22,16 +20,21 @@ and can be browsed with a basic viewer like
 Installation
 ~~~~~~~~~~~~
 
-Download the latest source distribution tarball from the repo `releases
-page <https://github.com/dsgrid/dsgrid-load/releases>`__ (e.g.
-``dsgrid-x.y.z.tar.gz``), and run:
+To get the basic package, run:
 
 ::
 
-    pip install /filepath/to/dsgrid.x.y.z.tar.gz
+    pip install dsgrid-legacy-efs-api
 
-TODO: Update when publish on PyPI. Document how to install optional
-dependencies.
+If you would like to run the example notebooks, install the required extra 
+dependencies:
+
+::
+
+    pip install dsgrid-legacy-efs-api[ntbks]
+
+and also clone the repository. Then you should be able to run the .ipynb files 
+in the dsgrid-legacy-efs-api/notebooks folder.
 
 Creating a new data file
 ~~~~~~~~~~~~~~~~~~~~~~~~

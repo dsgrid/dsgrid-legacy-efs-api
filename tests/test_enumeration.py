@@ -24,15 +24,11 @@ def test_enumeration_prepackaged():
 
     assert(len(conus) == 1)
 
-    assert(len(states) == 51)
+    assert(len(states) == 56)
     assert(states.ids[5] == "CO")
     assert(states.names[42] == "Tennessee")
 
-    assert(len(counties) == 3108)
-    assert(counties.ids[245] == "08059")
-    assert(counties.names[245] == "Jefferson County, CO")
-    assert(counties.ids[940] == "20173")
-    assert(counties.names[940] == "Sedgwick County, KS")
+    assert(len(counties) == 3234)
 
     assert(len(enduses) == 30)
     assert(len(allenduses) == 1)
@@ -81,9 +77,9 @@ def test_multifuel_enduse_enumeration():
 
     # should be same as making fuel_enum first
     fuel_enum = FuelEnumeration('ResStock Enduses Fuels',
-                                ['electricity','gas'],
-                                ['Electricity','Gas'],
-                                ['kWh','kBtu'])
+                                ['electricity','gas','water'],
+                                ['Electricity','Gas','Water'],
+                                ['kWh','kBtu','gal'])
     resstock_enduses_2 = MultiFuelEndUseEnumeration.read_csv(
         os.path.join(enumdata_folder,'resstock_enduses.csv'),
         'ResStock Enduses',

@@ -12,3 +12,6 @@ dsgrid.egg-info
 # Sphinx documentation
 docs/_build/
 docs/source/api/
+
+# VSCode
+.vscode

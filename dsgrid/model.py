@@ -202,7 +202,7 @@ class LoadModelComponent(object):
             mapping = mappings.get_mapping(self._datafile,to_enum)
             p = os.path.join(dirpath,filename_prefix + os.path.basename(self.datafile.h5path))
             if mapping is None:
-                logger.warn("Unable to map Component {} to {}".format(self.name,to_enum.name))
+                logger.warning("Unable to map Component {} to {}".format(self.name,to_enum.name))
                 result._datafile = self._datafile.save(p)
                 return result
             if isinstance(mapping,TautologyMapping):
@@ -210,7 +210,7 @@ class LoadModelComponent(object):
             else:
                 result._datafile = self._datafile.map_dimension(p,mapping)
         else:
-            logger.warn("Asked to map LoadModelComponent {} even though no Datafile is loaded.".format(self))
+            logger.warning("Asked to map LoadModelComponent {} even though no Datafile is loaded.".format(self))
         return result
 
     def scale_data(self,dirpath,factor=0.001):
