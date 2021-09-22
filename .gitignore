@@ -1,7 +1,7 @@
 # Packaging artifacts
 dist
 MANIFEST
-dsgrid.egg-info
+dsgrid_legacy_efs_api.egg-info
 
 # Cache
 .ipynb_checkpoints

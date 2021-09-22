@@ -50,7 +50,7 @@ setuptools.setup(
         'h5py', 
         'numpy', 
         'pandas', 
-        'layerstack'
+        'layerstack',
         'webcolors'
     ],
     extras_require = {
