@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Example usage:
-# DSG_INPUTS=./data OUTPUT_DIR=output ~/repos/dsgrid-load/bin/convert_commercial.sh
+# DSG_INPUTS=./data OUTPUT_DIR=output ~/repos/dsgrid-legacy-efs-api/bin/convert_commercial.sh
 
 # If running on Eagle:
 # - Make sure you change to /tmp/scratch and run from there.

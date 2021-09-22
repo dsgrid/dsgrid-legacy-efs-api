@@ -10,7 +10,7 @@ model (dsgrid) data produced for the `Electrification Futures Study
 .. |PyPI| image:: https://img.shields.io/pypi/v/dsgrid-legacy-efs-api.svg
    :target: https://pypi.python.org/pypi/dsgrid-legacy-efs-api/
 .. |Documentation| image:: https://img.shields.io/badge/docs-ready-blue.svg
-   :target: https://dsgrid.github.io/dsgrid-load
+   :target: https://dsgrid.github.io/dsgrid-legacy-efs-api
 
 .. toctree::
    :maxdepth: 2

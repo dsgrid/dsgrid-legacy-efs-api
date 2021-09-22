@@ -3,7 +3,7 @@
 """Converts a .dsg file to a directory of parquet files"""
 
 # Users: you need to install pyspark, h5py, numpy, pandas as well as have the
-# dsgrid-load repo in your Python path.
+# dsgrid-legacy-efs-apid repo in your Python path.
 # Installing pyspark will add spark-submit to your system path.
 # The recommended way to run this script is through spark-submit. Refer to the
 # instructions at the bottom of the file.
