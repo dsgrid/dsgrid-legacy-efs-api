@@ -37,7 +37,7 @@ setuptools.setup(
     author = metadata["__author__"],
     author_email = metadata["__maintainer_email__"],
     description = metadata["__description__"],
-    long_descripton = readme,
+    long_description = readme,
     long_description_content_type = 'text/markdown',
     url = metadata["__url__"],
     packages = setuptools.find_packages(),

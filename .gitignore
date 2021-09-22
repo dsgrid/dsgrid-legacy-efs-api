@@ -2,6 +2,7 @@
 dist
 MANIFEST
 dsgrid_legacy_efs_api.egg-info
+build
 
 # Cache
 .ipynb_checkpoints

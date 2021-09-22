@@ -46,7 +46,7 @@ Run `make html` for Mac and Linux; `make.bat html` for Windows.
 
 #### Mac/Linux
 
-```
+```cd .
 make github
 ```
 
@@ -80,7 +80,7 @@ git checkout main # or whatever branch you were on
 3. Test the package
 
     ```
-    python setup.py sdist wheel
+    python setup.py sdist bdist_wheel
     twine check dist/*
     twine upload --repository testpypi dist/*
     # look at https://test.pypi.org/project/dsgrid-legacy-efs-api/
@@ -88,3 +88,8 @@ git checkout main # or whatever branch you were on
     # check it out ... fix things ...
     ```
 
+4. Upload to pypi
+   
+   ```
+   twine upload --repository pypi dist/*
+   ```
