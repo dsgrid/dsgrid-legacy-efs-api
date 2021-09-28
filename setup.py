@@ -31,6 +31,11 @@ ntbks_require = [
     "matplotlib"
 ]
 
+oedi_requires = [
+    'h5pyd',
+    's3fs'
+]
+
 setuptools.setup(
     name = metadata["__title__"],
     version = metadata["__version__"],
@@ -48,15 +53,16 @@ setuptools.setup(
     },
     install_requires = [
         'h5py', 
-        'numpy', 
-        'pandas', 
         'layerstack',
+        'numpy', 
+        'pandas',
         'webcolors'
     ],
     extras_require = {
         'dev': doc_requires + tests_require,
         'export': export_requires,
-        'ntbks': ntbks_require
+        'ntbks': ntbks_require,
+        'oedi': oedi_requires,
     },
     license = metadata["__license__"],
     classifiers=[
