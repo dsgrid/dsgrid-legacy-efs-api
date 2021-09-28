@@ -1,0 +1,1179 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>dsgrid.dataformat.enumeration &mdash; dsgrid-legacy-efs-api 0.4.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> dsgrid-legacy-efs-api
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#creating-a-new-data-file">Creating a new data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#reading-in-an-existing-data-file">Reading in an existing data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#working-with-a-dsgrid-model-collection-of-data-files">Working with a dsgrid model (collection of data files)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/modules.html">dsgrid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html">dsgrid package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.helpers">dsgrid.helpers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.layerstack">dsgrid.layerstack module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.model">dsgrid.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/dsgrid.html">dsgrid package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.dataformat.html">dsgrid.dataformat package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.helpers">dsgrid.helpers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.layerstack">dsgrid.layerstack module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.model">dsgrid.model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/dsgrid.dataformat.html">dsgrid.dataformat package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.datafile">dsgrid.dataformat.datafile module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.datatable">dsgrid.dataformat.datatable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.dimmap">dsgrid.dataformat.dimmap module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.enumeration">dsgrid.dataformat.enumeration module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.sectordataset">dsgrid.dataformat.sectordataset module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.upgrade">dsgrid.dataformat.upgrade module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">dsgrid-legacy-efs-api</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../dsgrid.html">dsgrid</a> &raquo;</li>
+        
+          <li><a href="../dataformat.html">dsgrid.dataformat</a> &raquo;</li>
+        
+      <li>dsgrid.dataformat.enumeration</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for dsgrid.dataformat.enumeration</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">pytz</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">dsgrid</span> <span class="kn">import</span> <span class="n">DSGridRuntimeError</span><span class="p">,</span> <span class="n">DSGridValueError</span>
+<span class="kn">from</span> <span class="nn">dsgrid.dataformat</span> <span class="kn">import</span> <span class="n">ENCODING</span><span class="p">,</span> <span class="n">get_str</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Enumeration"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration">[docs]</a><span class="k">class</span> <span class="nc">Enumeration</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="n">max_id_len</span> <span class="o">=</span> <span class="mi">64</span>
+    <span class="n">max_name_len</span> <span class="o">=</span> <span class="mi">128</span>
+    <span class="n">enum_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">([</span>
+        <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">max_id_len</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">max_name_len</span><span class="p">))</span>
+    <span class="p">])</span>
+
+    <span class="n">dimension</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">names</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="n">ids</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="n">names</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkvalues</span><span class="p">()</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="Enumeration.checkvalues"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.checkvalues">[docs]</a>    <span class="k">def</span> <span class="nf">checkvalues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">);</span> <span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
+        <span class="n">n_ids</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">);</span> <span class="n">n_names</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">n_ids</span> <span class="o">!=</span> <span class="n">n_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DSGridValueError</span><span class="p">(</span><span class="s2">&quot;Number of ids (&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n_ids</span><span class="p">)</span> <span class="o">+</span>
+                <span class="s2">&quot;) must match number of names (&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n_names</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ids</span><span class="p">))</span> <span class="o">!=</span> <span class="n">n_ids</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DSGridValueError</span><span class="p">(</span><span class="s2">&quot;Enumeration ids must be unique&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_id_len</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DSGridValueError</span><span class="p">(</span><span class="s2">&quot;Enumeration ids cannot exceed &quot;</span> <span class="o">+</span>
+                <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> characters&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_id_len</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_name_len</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DSGridValueError</span><span class="p">(</span><span class="s2">&quot;Enumeration names cannot exceed &quot;</span> <span class="o">+</span>
+                             <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> characters&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_name_len</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span> <span class="ow">and</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">(</span><span class="si">%r</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">], &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">])&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">, ...], &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">, ...])&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Enumeration.get_name"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">id</span><span class="p">):</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Enumeration.create_subset_enum"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.create_subset_enum">[docs]</a>    <span class="k">def</span> <span class="nf">create_subset_enum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ids</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new enumeration that is a subset of this one, based on keeping </span>
+<span class="sd">        the items in ids.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ids : list</span>
+<span class="sd">            subset of self.ids that should be kept in the new enumeration</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self.__class__</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_ids</span><span class="p">,</span> <span class="n">_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_subset_ids_names</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; Subset&#39;</span><span class="p">,</span><span class="n">_ids</span><span class="p">,</span><span class="n">_names</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_subset_ids_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ids</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
+        <span class="n">_ids</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span><span class="p">;</span> <span class="n">_names</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">full_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">full_id</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="n">ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">full_id</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Found info for </span><span class="si">{}</span><span class="s2">, which is entry </span><span class="si">{}</span><span class="s2"> of </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_id</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">_ids</span><span class="p">)))</span>
+                <span class="n">_ids</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">_names</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_ids</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="n">DSGridRuntimeError</span><span class="p">(</span><span class="s2">&quot;At least one of </span><span class="si">{}</span><span class="s2"> is not in </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">_ids</span><span class="p">,</span> <span class="n">_names</span>
+
+<div class="viewcode-block" id="Enumeration.is_subset"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.is_subset">[docs]</a>    <span class="k">def</span> <span class="nf">is_subset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other_enum</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns true if this Enumeration is a subset of other_enum.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other_enum</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">my_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">my_id</span> <span class="ow">in</span> <span class="n">other_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Enumeration.persist"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.persist">[docs]</a>    <span class="k">def</span> <span class="nf">persist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h5group</span><span class="p">):</span>
+
+        <span class="n">dset</span> <span class="o">=</span> <span class="n">h5group</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">enum_dtype</span><span class="p">,</span>
+            <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">),))</span>
+
+        <span class="n">dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="n">dset</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
+        <span class="n">dset</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">ENCODING</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">dset</span></div>
+
+<div class="viewcode-block" id="Enumeration.load"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.load">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">h5group</span><span class="p">):</span>
+        <span class="n">h5dset</span> <span class="o">=</span> <span class="n">h5group</span><span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">dimension</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">get_str</span><span class="p">(</span><span class="n">h5dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]),</span>
+            <span class="p">[</span><span class="n">get_str</span><span class="p">(</span><span class="n">vid</span><span class="p">)</span> <span class="k">for</span> <span class="n">vid</span> <span class="ow">in</span> <span class="n">h5dset</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]],</span>
+            <span class="p">[</span><span class="n">get_str</span><span class="p">(</span><span class="n">vname</span><span class="p">)</span> <span class="k">for</span> <span class="n">vname</span> <span class="ow">in</span> <span class="n">h5dset</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Enumeration.read_csv"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.read_csv">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">enum</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_name_from_filepath</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">name</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">name</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Enumeration.to_csv"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.to_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filedir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_filepath</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">filepath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">filepath</span>
+        <span class="k">elif</span> <span class="n">filedir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filedir</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_default_filename</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> already exists&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">DSGridRuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)),</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_name_from_filepath</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">filepath</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filepath</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_default_filepath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_default_filename</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">_default_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span></div>
+
+    
+<span class="c1"># Define standard dimensions</span>
+
+<div class="viewcode-block" id="SectorEnumeration"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SectorEnumeration">[docs]</a><span class="k">class</span> <span class="nc">SectorEnumeration</span><span class="p">(</span><span class="n">Enumeration</span><span class="p">):</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="s2">&quot;sector&quot;</span></div>
+
+<div class="viewcode-block" id="GeographyEnumeration"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.GeographyEnumeration">[docs]</a><span class="k">class</span> <span class="nc">GeographyEnumeration</span><span class="p">(</span><span class="n">Enumeration</span><span class="p">):</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="s2">&quot;geography&quot;</span></div>
+
+<div class="viewcode-block" id="EndUseEnumerationBase"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumerationBase">[docs]</a><span class="k">class</span> <span class="nc">EndUseEnumerationBase</span><span class="p">(</span><span class="n">Enumeration</span><span class="p">):</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="s2">&quot;enduse&quot;</span>
+
+<div class="viewcode-block" id="EndUseEnumerationBase.fuel"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumerationBase.fuel">[docs]</a>    <span class="k">def</span> <span class="nf">fuel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">id</span><span class="p">):</span> <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="EndUseEnumerationBase.units"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumerationBase.units">[docs]</a>    <span class="k">def</span> <span class="nf">units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">id</span><span class="p">):</span> <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="EndUseEnumerationBase.load"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumerationBase.load">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">h5group</span><span class="p">):</span>
+        <span class="c1"># Create correct type of EndUseEnumerationBase depending on auxillary data</span>
+        <span class="k">if</span> <span class="n">FuelEnumeration</span><span class="o">.</span><span class="n">dimension</span> <span class="ow">in</span> <span class="n">h5group</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">MultiFuelEndUseEnumeration</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">h5group</span><span class="p">)</span>
+
+        <span class="n">h5dset</span> <span class="o">=</span> <span class="n">h5group</span><span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">dimension</span><span class="p">]</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">get_str</span><span class="p">(</span><span class="n">h5dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_str</span><span class="p">(</span><span class="n">vid</span><span class="p">)</span> <span class="k">for</span> <span class="n">vid</span> <span class="ow">in</span> <span class="n">h5dset</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]]</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_str</span><span class="p">(</span><span class="n">vname</span><span class="p">)</span> <span class="k">for</span> <span class="n">vname</span> <span class="ow">in</span> <span class="n">h5dset</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="s1">&#39;fuel&#39;</span> <span class="ow">in</span> <span class="n">h5dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SingleFuelEndUseEnumeration</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span>
+                <span class="n">fuel</span><span class="o">=</span><span class="n">h5dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;fuel&#39;</span><span class="p">],</span>
+                <span class="n">units</span><span class="o">=</span><span class="n">h5dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">EndUseEnumeration</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">ids</span><span class="p">,</span><span class="n">names</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EndUseEnumerationBase.read_csv"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumerationBase.read_csv">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Infer and read into the correct derived class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">enum</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span> <span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;fuel&#39;</span> <span class="ow">in</span> <span class="n">enum</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SingleFuelEndUseEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;fuel_id&#39;</span> <span class="ow">in</span> <span class="n">enum</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">MultiFuelEndUseEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">EndUseEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="TimeEnumeration"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration">[docs]</a><span class="k">class</span> <span class="nc">TimeEnumeration</span><span class="p">(</span><span class="n">Enumeration</span><span class="p">):</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="s2">&quot;time&quot;</span>
+
+    <span class="n">TIMESTAMP_POSITION</span> <span class="o">=</span> <span class="n">Enum</span><span class="p">(</span><span class="s1">&#39;TIMESTAMP_POSITION&#39;</span><span class="p">,</span>
+                              <span class="p">[</span><span class="s1">&#39;period_beginning&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;period_midpoint&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;period_ending&#39;</span><span class="p">])</span>
+
+    <span class="n">TIMEZONE_DISPLAY_NAMES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;Etc/GMT+5&#39;</span><span class="p">:</span> <span class="s1">&#39;EST&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Etc/GMT+6&#39;</span><span class="p">:</span> <span class="s1">&#39;CST&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Etc/GMT+7&#39;</span><span class="p">:</span> <span class="s1">&#39;MST&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Etc/GMT+8&#39;</span><span class="p">:</span> <span class="s1">&#39;PST&#39;</span> <span class="p">}</span>
+
+    <span class="n">TIMEZONE_LOOKUP</span> <span class="o">=</span> <span class="p">{</span><span class="n">val</span><span class="p">:</span> <span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">TIMEZONE_DISPLAY_NAMES</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+<div class="viewcode-block" id="TimeEnumeration.create"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.create">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">enum_name</span><span class="p">,</span><span class="n">start</span><span class="p">,</span><span class="n">duration</span><span class="p">,</span><span class="n">resolution</span><span class="p">,</span>
+               <span class="n">extent_timezone</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="s1">&#39;UTC&#39;</span><span class="p">),</span>
+               <span class="n">store_timezone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">timestamp_position</span><span class="o">=</span><span class="n">TIMESTAMP_POSITION</span><span class="p">[</span><span class="s1">&#39;period_ending&#39;</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new time enumeration based on the specified temporal extents,</span>
+<span class="sd">        resolution, and timezone.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        enum_name : str</span>
+<span class="sd">            name for this enumeration, ideally descriptive of the parameters</span>
+<span class="sd">            used for creation</span>
+<span class="sd">        start : datetime.datetime</span>
+<span class="sd">            beginning of the time period to be represented by the timestamps</span>
+<span class="sd">        duration : datetime.timedelta</span>
+<span class="sd">            total length of time to be covered</span>
+<span class="sd">        resolution : datetime.timedelta</span>
+<span class="sd">            timestep for the enumeration</span>
+<span class="sd">        extent_timezone : pytz.timezone</span>
+<span class="sd">            timezone that should be used to interpret the extent parameters</span>
+<span class="sd">        store_timezone : None or pytz.timezone</span>
+<span class="sd">            timezone to write the ids and names in. If None, extent_timezone is</span>
+<span class="sd">            used.</span>
+<span class="sd">        timestamp_position : TimeEnumeration.TIMESTAMP_POSITION or convertable str</span>
+<span class="sd">            whether timestamps are placed at the beginning, ending, or midpoint </span>
+<span class="sd">            of the time period being described</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TimeEnumeration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">num_steps</span> <span class="o">=</span> <span class="n">duration</span> <span class="o">/</span> <span class="n">resolution</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">num_steps</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_steps</span><span class="p">)):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Duration </span><span class="si">{}</span><span class="s2"> is not divided cleanly into steps of size </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span><span class="n">resolution</span><span class="p">))</span>
+        
+        <span class="n">extent_timezone</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_timezone_object</span><span class="p">(</span><span class="n">extent_timezone</span><span class="p">)</span>
+        <span class="n">store_timezone</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_timezone_object</span><span class="p">(</span><span class="n">store_timezone</span><span class="p">,</span><span class="n">extent_timezone</span><span class="p">)</span>
+
+        <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">duration</span>
+        <span class="n">ts_pos</span> <span class="o">=</span> <span class="n">timestamp_position</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">timestamp_position</span><span class="p">,</span><span class="bp">cls</span><span class="o">.</span><span class="n">TIMESTAMP_POSITION</span><span class="p">)</span> <span class="k">else</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TIMESTAMP_POSITION</span><span class="p">[</span><span class="n">timestamp_position</span><span class="p">]</span>
+        
+        <span class="n">next_stamp</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="k">if</span> <span class="n">ts_pos</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TIMESTAMP_POSITION</span><span class="p">[</span><span class="s1">&#39;period_ending&#39;</span><span class="p">]:</span>
+            <span class="n">next_stamp</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">resolution</span>
+        <span class="k">elif</span> <span class="n">ts_pos</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TIMESTAMP_POSITION</span><span class="p">[</span><span class="s1">&#39;period_midpoint&#39;</span><span class="p">]:</span>
+            <span class="n">next_stamp</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="n">resolution</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">last_stamp</span> <span class="o">=</span> <span class="n">end</span>
+        <span class="k">if</span> <span class="n">ts_pos</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TIMESTAMP_POSITION</span><span class="p">[</span><span class="s1">&#39;period_beginning&#39;</span><span class="p">]:</span>
+            <span class="n">last_stamp</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">resolution</span>
+        <span class="k">elif</span> <span class="n">ts_pos</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TIMESTAMP_POSITION</span><span class="p">[</span><span class="s1">&#39;period_midpoint&#39;</span><span class="p">]:</span>
+            <span class="n">last_stamp</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="p">(</span><span class="n">resolution</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="n">next_stamp</span> <span class="o">&lt;=</span> <span class="n">last_stamp</span><span class="p">:</span>
+            <span class="n">ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">extent_timezone</span><span class="o">.</span><span class="n">localize</span><span class="p">(</span><span class="n">next_stamp</span><span class="p">)</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">store_timezone</span><span class="p">)))</span>
+            <span class="n">next_stamp</span> <span class="o">=</span> <span class="n">next_stamp</span> <span class="o">+</span> <span class="n">resolution</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">enum_name</span><span class="p">,</span><span class="n">ids</span><span class="p">,</span><span class="n">ids</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_timezone_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">timezone</span><span class="p">,</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">timezone</span>
+        <span class="k">if</span> <span class="n">timezone</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">default</span>
+        <span class="k">if</span> <span class="n">result</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TIMEZONE_LOOKUP</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TIMEZONE_LOOKUP</span><span class="p">[</span><span class="n">result</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">store_timezone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Examines the first id to determine what timezone this TimeEnumeration</span>
+<span class="sd">        is stored in. Assumes the usage of datetime, pytz, and the &quot;standard&quot; </span>
+<span class="sd">        timezones, e.g., </span>
+<span class="sd">        </span>
+<span class="sd">            - pytz.timezone(&#39;Etc/GMT+5&#39;) = EST</span>
+<span class="sd">            - pytz.timezone(&#39;Etc/GMT+6&#39;) = CST</span>
+<span class="sd">            - pytz.timezone(&#39;Etc/GMT+7&#39;) = MST</span>
+<span class="sd">            - pytz.timezone(&#39;Etc/GMT+8&#39;) = PST</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DSGridValueError</span><span class="p">(</span><span class="s1">&#39;No instances in this </span><span class="si">{}</span><span class="s1">. Cannot determine a timezone.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[0-9]</span><span class="si">{4}</span><span class="s1">-[0-9]</span><span class="si">{2}</span><span class="s1">-[0-9]</span><span class="si">{2}</span><span class="s1"> [0-9]</span><span class="si">{2}</span><span class="s1">:[0-9]</span><span class="si">{2}</span><span class="s1">:[0-9]</span><span class="si">{2}</span><span class="s1">([+-][0-9]</span><span class="si">{2}</span><span class="s1">:[0-9]</span><span class="si">{2}</span><span class="s1">)?&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">m</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DSGridValueError</span><span class="p">(</span><span class="s1">&#39;Not able to interpret </span><span class="si">{}</span><span class="s1"> as a timestamp&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Explicit timezone not found in timestamp </span><span class="si">{}</span><span class="s1">, assuming UTC&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="s1">&#39;UTC&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">3</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;:00&#39;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">tz_str</span> <span class="o">=</span> <span class="s1">&#39;Etc/GMT&#39;</span>
+        <span class="n">tz_str</span> <span class="o">+=</span> <span class="s1">&#39;+&#39;</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span> <span class="k">else</span> <span class="s1">&#39;-&#39;</span>
+        <span class="n">tz_str</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="n">tz_str</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">store_timezone_display_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Interprets self.ids[0] to report what timezone this enumeration is </span>
+<span class="sd">        stored in. Converts from pytz strings to what we typically use, namely</span>
+<span class="sd">        EST, CST, MST, or PST.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            timezone this TimeEnumeration is stored in, per self.store_timezone </span>
+<span class="sd">            and self.TIMEZONE_DISPLAY_NAMES</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store_timezone</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">TIMEZONE_DISPLAY_NAMES</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TIMEZONE_DISPLAY_NAMES</span><span class="p">[</span><span class="n">result</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">resolution</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The resolution of this TimeEnumeration.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dt.timedelta or array of dt.timedelta</span>
+<span class="sd">            Returns a single value if the intervals are all of the same length.</span>
+<span class="sd">            Returns a vector of values if they are different.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_datetime_index</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">ind</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">ind</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">unique_vals</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_vals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">unique_vals</span><span class="o">.</span><span class="n">to_pytimedelta</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">to_pytimedelta</span><span class="p">()</span>
+
+<div class="viewcode-block" id="TimeEnumeration.get_extents"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.get_extents">[docs]</a>    <span class="k">def</span> <span class="nf">get_extents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">report_timezone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">timestamp_position</span><span class="o">=</span><span class="n">TIMESTAMP_POSITION</span><span class="p">[</span><span class="s1">&#39;period_ending&#39;</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the inclusive temporal extents represented in this </span>
+<span class="sd">        TimeEnumeration. That interpretation requires knowledge of the </span>
+<span class="sd">        timestamp_postion--beginning, end, or midpoint of the period being </span>
+<span class="sd">        described.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        report_timezone : pytz.timezone</span>
+<span class="sd">            Timezone in which to report out the result</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        (datetime.datetime,datetime.datetime)</span>
+<span class="sd">            Tuple of start and end times, inclusive of all time represented </span>
+<span class="sd">            based on the timestamp position, and in report_timezone. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_datetime_index</span><span class="p">(</span><span class="n">return_timezone</span><span class="o">=</span><span class="n">report_timezone</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span>
+        <span class="n">bres</span> <span class="o">=</span> <span class="n">res</span><span class="p">;</span> <span class="n">eres</span> <span class="o">=</span> <span class="n">res</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Temporal resolution is not uniform. Reported extents may be inaccurate.&quot;</span><span class="p">)</span>
+            <span class="n">bres</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="n">eres</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">ind</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">();</span> <span class="n">end</span> <span class="o">=</span> <span class="n">ind</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
+
+        <span class="n">ts_pos</span> <span class="o">=</span> <span class="n">timestamp_position</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">timestamp_position</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">TIMESTAMP_POSITION</span><span class="p">)</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">TIMESTAMP_POSITION</span><span class="p">[</span><span class="n">timestamp_position</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">ts_pos</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">TIMESTAMP_POSITION</span><span class="p">[</span><span class="s1">&#39;period_beginning&#39;</span><span class="p">]:</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">end</span> <span class="o">+</span> <span class="n">eres</span>
+        <span class="k">elif</span> <span class="n">ts_pos</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">TIMESTAMP_POSITION</span><span class="p">[</span><span class="s1">&#39;period_midpoint&#39;</span><span class="p">]:</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">start</span> <span class="o">-</span> <span class="p">(</span><span class="n">bres</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">end</span> <span class="o">+</span> <span class="p">(</span><span class="n">eres</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">ts_pos</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">TIMESTAMP_POSITION</span><span class="p">[</span><span class="s1">&#39;period_ending&#39;</span><span class="p">]:</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">start</span> <span class="o">-</span> <span class="n">bres</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>        </div>
+
+<div class="viewcode-block" id="TimeEnumeration.to_datetime_index"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.to_datetime_index">[docs]</a>    <span class="k">def</span> <span class="nf">to_datetime_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">return_timezone</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a Pandas DatetimeIndex corresponding to this TimeEnumeration. </span>
+<span class="sd">        By default, localizes the timestamps to the timezone inferred based on </span>
+<span class="sd">        the text of the first enumeration id. If return_timezpone is None, this </span>
+<span class="sd">        is what is returned. If return_timezone is not None, the index is </span>
+<span class="sd">        converted to that timezone before being returned.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        return_timezone : None or pytz.timezone</span>
+<span class="sd">            timezone of the returned index. If None, this is inferred from </span>
+<span class="sd">            self.ids[0]</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pandas.DatetimeIndex</span>
+<span class="sd">            same length as self.ids, but strings are converted to </span>
+<span class="sd">            datetime.datetime objects and localized to a timezone.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([],</span><span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
+        <span class="n">return_timezone</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timezone_object</span><span class="p">(</span><span class="n">return_timezone</span><span class="p">,</span><span class="n">default</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">store_timezone</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Stored timezone is </span><span class="si">{}</span><span class="s2">. Returning in timezone </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store_timezone</span><span class="p">,</span><span class="n">return_timezone</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="s1">&#39;UTC&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="n">return_timezone</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span> 
+            <span class="c1"># pandas version issue</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="n">return_timezone</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;time&#39;</span>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span></div>
+
+<div class="viewcode-block" id="TimeEnumeration.get_datetime_map"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.get_datetime_map">[docs]</a>    <span class="k">def</span> <span class="nf">get_datetime_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">return_timezone</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Converts self.ids and result of to_datetime_index into dict that can be </span>
+<span class="sd">        used to map ids to datetimes in contexts other than a single DataFrame</span>
+<span class="sd">        index.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        return_timezone : None or pytz.timezone</span>
+<span class="sd">            timezone of the returned index. If None, this is inferred from </span>
+<span class="sd">            self.ids[0]</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            {id: localized datetime}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_datetime_index</span><span class="p">(</span><span class="n">return_timezone</span><span class="o">=</span><span class="n">return_timezone</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">):</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<span class="c1"># Define data units -- these are ultimately associated with end-uses</span>
+
+<div class="viewcode-block" id="EndUseEnumeration"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumeration">[docs]</a><span class="k">class</span> <span class="nc">EndUseEnumeration</span><span class="p">(</span><span class="n">EndUseEnumerationBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provided for backward compatibility with dsgrid v0.1.0 datasets.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="EndUseEnumeration.fuel"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumeration.fuel">[docs]</a>    <span class="k">def</span> <span class="nf">fuel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">id</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Deprecated: Fuel type has not been explicitly specified. Returning default value.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;Electricity&#39;</span></div>
+
+<div class="viewcode-block" id="EndUseEnumeration.units"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumeration.units">[docs]</a>    <span class="k">def</span> <span class="nf">units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">id</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Deprecated: Units have not been explicitly specified. Returning default value.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;MWh&#39;</span></div>
+
+<div class="viewcode-block" id="EndUseEnumeration.read_csv"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumeration.read_csv">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">enum</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_name_from_filepath</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">name</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">name</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="SingleFuelEndUseEnumeration"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration">[docs]</a><span class="k">class</span> <span class="nc">SingleFuelEndUseEnumeration</span><span class="p">(</span><span class="n">EndUseEnumerationBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    If the end-use enumeration only applies to a single fuel type, and all the</span>
+<span class="sd">    data is in the same units, just give the fuel and units.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">fuel</span><span class="o">=</span><span class="s1">&#39;Electricity&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;MWh&#39;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SingleFuelEndUseEnumeration</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">ids</span><span class="p">,</span><span class="n">names</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fuel</span> <span class="o">=</span> <span class="n">fuel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_units</span> <span class="o">=</span> <span class="n">units</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">], &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">], fuel = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_fuel</span><span class="si">!r}</span><span class="s2">, units = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="si">!r}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">, ...], &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">, ...], fuel = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_fuel</span><span class="si">!r}</span><span class="s2">, units = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="si">!r}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SingleFuelEndUseEnumeration.fuel"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration.fuel">[docs]</a>    <span class="k">def</span> <span class="nf">fuel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fuel</span></div>
+
+<div class="viewcode-block" id="SingleFuelEndUseEnumeration.units"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration.units">[docs]</a>    <span class="k">def</span> <span class="nf">units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span></div>
+
+<div class="viewcode-block" id="SingleFuelEndUseEnumeration.create_subset_enum"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration.create_subset_enum">[docs]</a>    <span class="k">def</span> <span class="nf">create_subset_enum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ids</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new enumeration that is a subset of this one, based on keeping </span>
+<span class="sd">        the items in ids.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ids : list</span>
+<span class="sd">            subset of self.ids that should be kept in the new enumeration</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self.__class__</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_ids</span><span class="p">,</span> <span class="n">_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_subset_ids_names</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; Subset&#39;</span><span class="p">,</span><span class="n">_ids</span><span class="p">,</span><span class="n">_names</span><span class="p">,</span><span class="n">fuel</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_fuel</span><span class="p">,</span><span class="n">units</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SingleFuelEndUseEnumeration.persist"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration.persist">[docs]</a>    <span class="k">def</span> <span class="nf">persist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h5group</span><span class="p">):</span>
+        <span class="n">dset</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">SingleFuelEndUseEnumeration</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">persist</span><span class="p">(</span><span class="n">h5group</span><span class="p">)</span>
+
+        <span class="n">dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;fuel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fuel</span>
+        <span class="n">dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span>
+
+        <span class="k">return</span> <span class="n">dset</span></div>
+
+<div class="viewcode-block" id="SingleFuelEndUseEnumeration.read_csv"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration.read_csv">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fuel</span><span class="o">=</span><span class="s1">&#39;Electricity&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;MWh&#39;</span><span class="p">):</span>
+        <span class="n">enum</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span> <span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;fuel&#39;</span> <span class="ow">in</span> <span class="n">enum</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">enum</span><span class="p">[</span><span class="s1">&#39;fuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;There must be exactly 1 fuel, but </span><span class="si">{}</span><span class="s2"> are listed&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">fuel</span><span class="o">.</span><span class="n">unique</span><span class="p">()))</span>
+            <span class="n">fuel</span> <span class="o">=</span> <span class="n">enum</span><span class="p">[</span><span class="s1">&#39;fuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;units&#39;</span> <span class="ow">in</span> <span class="n">enum</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>                
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">enum</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;There must be exactly 1 units, but </span><span class="si">{}</span><span class="s2"> are listed&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">unique</span><span class="p">()))</span>
+            <span class="n">units</span> <span class="o">=</span> <span class="n">enum</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_name_from_filepath</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">name</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="n">fuel</span><span class="o">=</span><span class="n">fuel</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SingleFuelEndUseEnumeration.to_csv"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration.to_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filedir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_filepath</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">filepath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">filepath</span>
+        <span class="k">elif</span> <span class="n">filedir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filedir</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_default_filename</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> already exists&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">DSGridRuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_fuel</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;fuel&#39;</span><span class="p">,</span><span class="s1">&#39;units&#39;</span><span class="p">])</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="FuelEnumeration"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration">[docs]</a><span class="k">class</span> <span class="nc">FuelEnumeration</span><span class="p">(</span><span class="n">Enumeration</span><span class="p">):</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="s2">&quot;fuel&quot;</span>
+
+    <span class="n">enum_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">([</span>
+        <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Enumeration</span><span class="o">.</span><span class="n">max_id_len</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Enumeration</span><span class="o">.</span><span class="n">max_name_len</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Enumeration</span><span class="o">.</span><span class="n">max_id_len</span><span class="p">))</span>
+    <span class="p">])</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">units</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="n">units</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FuelEnumeration</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">ids</span><span class="p">,</span><span class="n">names</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FuelEnumeration.checkvalues"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration.checkvalues">[docs]</a>    <span class="k">def</span> <span class="nf">checkvalues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FuelEnumeration</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">checkvalues</span><span class="p">()</span>
+
+        <span class="c1"># make sure units is as long as ids</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">);</span> <span class="n">units</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">)</span>
+        <span class="n">n_ids</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">);</span> <span class="n">n_units</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">n_ids</span> <span class="o">!=</span> <span class="n">n_units</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DSGridValueError</span><span class="p">(</span><span class="s2">&quot;Number of units (&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n_units</span><span class="p">)</span> <span class="o">+</span>
+                <span class="s2">&quot;) must match number of ids (&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n_ids</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span> <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">units</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_id_len</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DSGridValueError</span><span class="p">(</span><span class="s2">&quot;Enumeration units cannot exceed &quot;</span> <span class="o">+</span>
+                <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> characters&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_id_len</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="FuelEnumeration.get_units"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration.get_units">[docs]</a>    <span class="k">def</span> <span class="nf">get_units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">id</span><span class="p">):</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="FuelEnumeration.create_subset_enum"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration.create_subset_enum">[docs]</a>    <span class="k">def</span> <span class="nf">create_subset_enum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ids</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new enumeration that is a subset of this one, based on keeping </span>
+<span class="sd">        the items in ids.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ids : list</span>
+<span class="sd">            subset of self.ids that should be kept in the new enumeration</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self.__class__</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
+        <span class="n">_ids</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span><span class="p">;</span> <span class="n">_names</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span><span class="p">;</span> <span class="n">_units</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">full_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">full_id</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="n">ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">full_id</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Found info for </span><span class="si">{}</span><span class="s2">, which is entry </span><span class="si">{}</span><span class="s2"> of </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_id</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">_ids</span><span class="p">)))</span>
+                <span class="n">_ids</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">_names</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">_units</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_ids</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="n">DSGridRuntimeError</span><span class="p">(</span><span class="s2">&quot;At least one of </span><span class="si">{}</span><span class="s2"> is not in </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; Subset&#39;</span><span class="p">,</span><span class="n">_ids</span><span class="p">,</span><span class="n">_names</span><span class="p">,</span><span class="n">_units</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FuelEnumeration.persist"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration.persist">[docs]</a>    <span class="k">def</span> <span class="nf">persist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h5group</span><span class="p">):</span>
+        <span class="n">dset</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">FuelEnumeration</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">persist</span><span class="p">(</span><span class="n">h5group</span><span class="p">)</span>
+        <span class="n">dset</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dset</span></div>
+
+<div class="viewcode-block" id="FuelEnumeration.load"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration.load">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">h5group</span><span class="p">):</span>
+        <span class="n">h5dset</span> <span class="o">=</span> <span class="n">h5group</span><span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">dimension</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">get_str</span><span class="p">(</span><span class="n">h5dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]),</span>
+            <span class="p">[</span><span class="n">get_str</span><span class="p">(</span><span class="n">vid</span><span class="p">)</span> <span class="k">for</span> <span class="n">vid</span> <span class="ow">in</span> <span class="n">h5dset</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]],</span>
+            <span class="p">[</span><span class="n">get_str</span><span class="p">(</span><span class="n">vname</span><span class="p">)</span> <span class="k">for</span> <span class="n">vname</span> <span class="ow">in</span> <span class="n">h5dset</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]],</span>
+            <span class="p">[</span><span class="n">get_str</span><span class="p">(</span><span class="n">vunits</span><span class="p">)</span> <span class="k">for</span> <span class="n">vunits</span> <span class="ow">in</span> <span class="n">h5dset</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]]</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="FuelEnumeration.read_csv"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration.read_csv">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">enum</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span> <span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_name_from_filepath</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">name</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">units</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="FuelEnumeration.to_csv"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration.to_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filedir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_filepath</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">filepath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">filepath</span>
+        <span class="k">elif</span> <span class="n">filedir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filedir</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_default_filename</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> already exists&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">DSGridRuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">)),</span>
+                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;units&#39;</span><span class="p">])</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="MultiFuelEndUseEnumeration"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration">[docs]</a><span class="k">class</span> <span class="nc">MultiFuelEndUseEnumeration</span><span class="p">(</span><span class="n">EndUseEnumerationBase</span><span class="p">):</span>
+
+    <span class="n">enum_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">([</span>
+        <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Enumeration</span><span class="o">.</span><span class="n">max_id_len</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Enumeration</span><span class="o">.</span><span class="n">max_name_len</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s2">&quot;fuel_id&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Enumeration</span><span class="o">.</span><span class="n">max_id_len</span><span class="p">))</span>
+    <span class="p">])</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">fuel_enum</span><span class="p">,</span> <span class="n">fuel_ids</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ids</span> <span class="o">=</span> <span class="n">ids</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="o">=</span> <span class="n">names</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fuel_enum</span> <span class="o">=</span> <span class="n">fuel_enum</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fuel_ids</span> <span class="o">=</span> <span class="n">fuel_ids</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkvalues</span><span class="p">()</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">, ...], &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">, ...], </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">fuel_enum</span><span class="si">}</span><span class="s2">, [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_fuel_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">, ...])&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MultiFuelEndUseEnumeration.checkvalues"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.checkvalues">[docs]</a>    <span class="k">def</span> <span class="nf">checkvalues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ids</span><span class="p">;</span> <span class="n">fuel_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fuel_ids</span><span class="p">;</span> <span class="n">fuel_enum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fuel_enum</span>
+        <span class="n">n_ids</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">);</span> <span class="n">n_fuel_ids</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fuel_ids</span><span class="p">)</span>
+
+        <span class="c1"># make sure fuel_ids is as long as ids</span>
+        <span class="k">if</span> <span class="n">n_fuel_ids</span> <span class="o">!=</span> <span class="n">n_ids</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DSGridValueError</span><span class="p">(</span><span class="s2">&quot;Number of fuel ids (&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n_fuel_ids</span><span class="p">)</span> <span class="o">+</span>
+                <span class="s2">&quot;) must match number of ids (&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n_ids</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fuel_enum</span><span class="p">,</span><span class="n">FuelEnumeration</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">DSGridValueError</span><span class="p">(</span><span class="s2">&quot;The fuel_enum must be of type &quot;</span> <span class="o">+</span>
+                <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, but is instead of type </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">FuelEnumeration</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span>
+                                                       <span class="nb">type</span><span class="p">(</span><span class="n">fuel_enum</span><span class="p">)))</span>
+
+        <span class="c1"># make sure fuel_ids are in fuel enum</span>
+        <span class="k">for</span> <span class="n">fuel_id</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">fuel_ids</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">fuel_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fuel_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DSGridValueError</span><span class="p">(</span><span class="s2">&quot;The fuel_ids must each be an id in the fuel_enum.&quot;</span> <span class="o">+</span>
+                    <span class="s2">&quot;fuel_id: </span><span class="si">{}</span><span class="s2">, fuel_enum.ids: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fuel_id</span><span class="p">,</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">))</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">MultiFuelEndUseEnumeration</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">checkvalues</span><span class="p">()</span>
+
+        <span class="k">return</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ids</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_fuel_ids</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ids</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> (</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">fuel</span><span class="p">((</span><span class="n">_id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_fuel_ids</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+
+<div class="viewcode-block" id="MultiFuelEndUseEnumeration.fuel"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.fuel">[docs]</a>    <span class="k">def</span> <span class="nf">fuel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">id</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span><span class="nb">tuple</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">),</span> <span class="s2">&quot;The ids for MultiFuelEndUseEnumerations are (enduse_id, fuel_id). Got </span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">id</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span></div>
+
+<div class="viewcode-block" id="MultiFuelEndUseEnumeration.units"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.units">[docs]</a>    <span class="k">def</span> <span class="nf">units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">id</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span><span class="nb">tuple</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">),</span> <span class="s2">&quot;The ids for MultiFuelEndUseEnumerations are (enduse_id, fuel_id). Got </span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">units</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">id</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span></div>
+
+<div class="viewcode-block" id="MultiFuelEndUseEnumeration.create_subset_enum"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.create_subset_enum">[docs]</a>    <span class="k">def</span> <span class="nf">create_subset_enum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ids</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new enumeration that is a subset of this one, based on keeping </span>
+<span class="sd">        the items in ids.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ids : list of 2-tuples</span>
+<span class="sd">            subset of self.ids that should be kept in the new enumeration</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        MultiFuelEndUseEnumeration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
+        <span class="n">_ids</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span><span class="p">;</span> <span class="n">_names</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span><span class="p">;</span> <span class="n">_fuel_ids</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">full_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">full_id</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="n">ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">full_id</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Found info for </span><span class="si">{}</span><span class="s2">, which is entry </span><span class="si">{}</span><span class="s2"> of </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_id</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">_ids</span><span class="p">)))</span>
+                <span class="n">_ids</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">_fuel_ids</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fuel_ids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">_names</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_ids</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="n">DSGridRuntimeError</span><span class="p">(</span><span class="s2">&quot;At least one of </span><span class="si">{}</span><span class="s2"> is not in </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">))</span>
+        <span class="n">fuel_enum</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fuel_enum</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; Subset&#39;</span><span class="p">,</span><span class="n">_ids</span><span class="p">,</span><span class="n">_names</span><span class="p">,</span><span class="n">fuel_enum</span><span class="p">,</span><span class="n">_fuel_ids</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MultiFuelEndUseEnumeration.persist"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.persist">[docs]</a>    <span class="k">def</span> <span class="nf">persist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h5group</span><span class="p">):</span>
+        <span class="n">dset</span> <span class="o">=</span> <span class="n">h5group</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">enum_dtype</span><span class="p">,</span>
+            <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">),))</span>
+
+        <span class="n">dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="n">dset</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ids</span><span class="p">)</span>
+        <span class="n">dset</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">ENCODING</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">])</span>
+        <span class="n">dset</span><span class="p">[</span><span class="s2">&quot;fuel_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fuel_ids</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">persist</span><span class="p">(</span><span class="n">h5group</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dset</span></div>
+
+<div class="viewcode-block" id="MultiFuelEndUseEnumeration.load"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.load">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">h5group</span><span class="p">):</span>
+        <span class="n">fuel_enum</span> <span class="o">=</span> <span class="n">FuelEnumeration</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">h5group</span><span class="p">)</span>
+
+        <span class="n">h5dset</span> <span class="o">=</span> <span class="n">h5group</span><span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">dimension</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">get_str</span><span class="p">(</span><span class="n">h5dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]),</span>
+            <span class="p">[</span><span class="n">get_str</span><span class="p">(</span><span class="n">vid</span><span class="p">)</span> <span class="k">for</span> <span class="n">vid</span> <span class="ow">in</span> <span class="n">h5dset</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]],</span>
+            <span class="p">[</span><span class="n">get_str</span><span class="p">(</span><span class="n">vname</span><span class="p">)</span> <span class="k">for</span> <span class="n">vname</span> <span class="ow">in</span> <span class="n">h5dset</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]],</span>
+            <span class="n">fuel_enum</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">get_str</span><span class="p">(</span><span class="n">vfuel_id</span><span class="p">)</span> <span class="k">for</span> <span class="n">vfuel_id</span> <span class="ow">in</span> <span class="n">h5dset</span><span class="p">[</span><span class="s2">&quot;fuel_id&quot;</span><span class="p">]]</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="MultiFuelEndUseEnumeration.read_csv"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.read_csv">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fuel_enum</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        id, name, fuel_id + pass in file_enum</span>
+
+<span class="sd">        or</span>
+
+<span class="sd">        id, name, fuel_id, fuel_name, units</span>
+
+<span class="sd">        or </span>
+
+<span class="sd">        id, name, fuel_id, units (and fuel_name will be guessed from fuel_id)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">enum</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span> <span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_name_from_filepath</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="n">fuel_enum</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fuel_enum_name</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; Fuels&#39;</span>
+            <span class="k">if</span> <span class="s1">&#39;fuel_name&#39;</span> <span class="ow">in</span> <span class="n">enum</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="c1"># fuel enum fully defined in this file</span>
+                <span class="n">fuel_enum</span> <span class="o">=</span> <span class="n">enum</span><span class="p">[[</span><span class="s2">&quot;fuel_id&quot;</span><span class="p">,</span><span class="s2">&quot;fuel_name&quot;</span><span class="p">,</span><span class="s2">&quot;units&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+                <span class="n">fuel_enum</span> <span class="o">=</span> <span class="n">FuelEnumeration</span><span class="p">(</span>
+                    <span class="n">fuel_enum_name</span><span class="p">,</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">fuel_id</span><span class="p">),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">fuel_name</span><span class="p">),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">units</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># create fuel enum names from fuel enum ids</span>
+                <span class="n">fuel_enum</span> <span class="o">=</span> <span class="n">enum</span><span class="p">[[</span><span class="s2">&quot;fuel_id&quot;</span><span class="p">,</span><span class="s2">&quot;units&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+                <span class="n">fuel_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">fuel_id</span><span class="p">)</span>
+                <span class="n">fuel_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">fuel_id</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="k">for</span> <span class="n">fuel_id</span> <span class="ow">in</span> <span class="n">fuel_ids</span><span class="p">]</span>
+                <span class="n">fuel_enum</span> <span class="o">=</span> <span class="n">FuelEnumeration</span><span class="p">(</span>
+                    <span class="n">fuel_enum_name</span><span class="p">,</span>
+                    <span class="n">fuel_ids</span><span class="p">,</span>
+                    <span class="n">fuel_names</span><span class="p">,</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">units</span><span class="p">))</span>
+
+        <span class="k">assert</span> <span class="n">fuel_enum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="n">fuel_enum</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">fuel_id</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MultiFuelEndUseEnumeration.to_csv"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.to_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filedir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_filepath</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">filepath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">filepath</span>
+        <span class="k">elif</span> <span class="n">filedir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filedir</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_default_filename</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> already exists&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">DSGridRuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">simple_fuel_name</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">fuel_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">fuel_id</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="n">fuel_id</span><span class="p">)):</span>
+                <span class="n">simple_fuel_name</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">break</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ids</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_fuel_ids</span><span class="p">))</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;fuel_id&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">simple_fuel_name</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+            <span class="n">cols</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;fuel_name&#39;</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">get_units</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+        <span class="n">cols</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div></div>
+
+
+<span class="c1"># Define standard enumerations</span>
+
+<span class="n">enumdata_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&quot;enumeration_data/&quot;</span><span class="p">)</span>
+
+<span class="c1">## Sectors</span>
+<span class="n">sectors_subsectors</span> <span class="o">=</span> <span class="n">SectorEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">enumdata_folder</span> <span class="o">+</span> <span class="s2">&quot;sectors_subsectors.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;standard_sector_subsectors&quot;</span><span class="p">)</span>
+
+<span class="n">mecs_subsectors</span> <span class="o">=</span> <span class="n">SectorEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">enumdata_folder</span> <span class="o">+</span> <span class="s2">&quot;mecs_subsectors.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;mecs_subsectors&quot;</span><span class="p">)</span>
+
+<span class="n">sectors</span> <span class="o">=</span> <span class="n">SectorEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">enumdata_folder</span> <span class="o">+</span> <span class="s2">&quot;sectors.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;standard_sectors&quot;</span><span class="p">)</span>
+
+<span class="n">sectors_eia_extended</span> <span class="o">=</span> <span class="n">SectorEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">enumdata_folder</span> <span class="o">+</span> <span class="s2">&quot;sectors_eia_extended.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;sectors_eia_extended&quot;</span><span class="p">)</span>
+
+<span class="n">allsectors</span> <span class="o">=</span> <span class="n">SectorEnumeration</span><span class="p">(</span><span class="s2">&quot;all_sectors&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;All&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;All Sectors&quot;</span><span class="p">])</span>
+
+<span class="c1">## Geographies</span>
+<span class="n">counties</span> <span class="o">=</span> <span class="n">GeographyEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">enumdata_folder</span> <span class="o">+</span> <span class="s2">&quot;counties.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;counties&quot;</span><span class="p">)</span>
+
+<span class="n">conus_counties</span> <span class="o">=</span> <span class="n">GeographyEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;conus_counties.csv&#39;</span><span class="p">))</span>
+
+<span class="n">states</span> <span class="o">=</span> <span class="n">GeographyEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">enumdata_folder</span> <span class="o">+</span> <span class="s2">&quot;states.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;states&quot;</span><span class="p">)</span>
+
+<span class="n">conus_states</span> <span class="o">=</span> <span class="n">GeographyEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;conus_states.csv&#39;</span><span class="p">))</span>
+
+<span class="n">census_divisions</span> <span class="o">=</span> <span class="n">GeographyEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">enumdata_folder</span> <span class="o">+</span> <span class="s2">&quot;census_divisions.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;census_divisions&quot;</span><span class="p">)</span>
+
+<span class="n">res_state_groups</span> <span class="o">=</span> <span class="n">GeographyEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">enumdata_folder</span> <span class="o">+</span> <span class="s2">&quot;res_state_groups.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;state_groups&quot;</span><span class="p">)</span>
+
+<span class="n">loss_state_groups</span> <span class="o">=</span> <span class="n">GeographyEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">enumdata_folder</span> <span class="o">+</span> <span class="s2">&quot;loss_state_groups.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;loss_state_groups&quot;</span><span class="p">)</span>
+
+<span class="n">census_regions</span> <span class="o">=</span> <span class="n">GeographyEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">enumdata_folder</span> <span class="o">+</span> <span class="s2">&quot;census_regions.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;census_regions&quot;</span><span class="p">)</span>
+
+<span class="n">conus</span> <span class="o">=</span> <span class="n">GeographyEnumeration</span><span class="p">(</span><span class="s2">&quot;conus&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;conus&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;Continental United States&quot;</span><span class="p">])</span>
+
+<span class="c1">## End Uses</span>
+<span class="n">enduses</span> <span class="o">=</span> <span class="n">EndUseEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">enumdata_folder</span> <span class="o">+</span> <span class="s2">&quot;enduses.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;standard_enduses&quot;</span><span class="p">)</span>
+
+<span class="n">gaps_enduses</span> <span class="o">=</span> <span class="n">EndUseEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">enumdata_folder</span> <span class="o">+</span> <span class="s2">&quot;gaps_enduses.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;gaps_enduses&quot;</span><span class="p">)</span>
+
+<span class="n">fuel_types</span> <span class="o">=</span> <span class="n">EndUseEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">enumdata_folder</span> <span class="o">+</span> <span class="s2">&quot;fuel_types.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;fuel_types&quot;</span><span class="p">)</span>
+
+<span class="n">deprecated_allenduses</span> <span class="o">=</span> <span class="n">EndUseEnumeration</span><span class="p">(</span><span class="s2">&quot;all_enduses&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;All&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;All End-uses&quot;</span><span class="p">])</span>
+<span class="n">allenduses</span> <span class="o">=</span> <span class="n">SingleFuelEndUseEnumeration</span><span class="p">(</span><span class="s2">&quot;all_enduses&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;All&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;All End-uses&quot;</span><span class="p">])</span>
+
+<span class="n">loss_factor</span> <span class="o">=</span> <span class="n">SingleFuelEndUseEnumeration</span><span class="p">(</span><span class="s1">&#39;Loss Factor&#39;</span><span class="p">,[</span><span class="s1">&#39;loss_factor&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;Loss Factor&#39;</span><span class="p">],</span><span class="n">fuel</span><span class="o">=</span><span class="s1">&#39;N/A&#39;</span><span class="p">,</span><span class="n">units</span><span class="o">=</span><span class="s1">&#39;dimensionless&#39;</span><span class="p">)</span>
+
+<span class="c1"># Time</span>
+<span class="n">hourly2012</span> <span class="o">=</span> <span class="n">TimeEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;hourly2012.csv&#39;</span><span class="p">))</span>
+
+<span class="n">daily2012</span> <span class="o">=</span> <span class="n">TimeEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;daily2012.csv&#39;</span><span class="p">))</span>
+
+<span class="n">weekdays</span> <span class="o">=</span> <span class="n">TimeEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;weekdays.csv&#39;</span><span class="p">))</span>
+
+<span class="n">daytypes</span> <span class="o">=</span> <span class="n">TimeEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;day_types.csv&#39;</span><span class="p">))</span>
+
+<span class="n">weekly2012</span> <span class="o">=</span> <span class="n">TimeEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;weekly2012.csv&#39;</span><span class="p">))</span>
+
+<span class="n">seasons</span> <span class="o">=</span> <span class="n">TimeEnumeration</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;seasons.csv&#39;</span><span class="p">))</span>
+
+<span class="n">annual</span> <span class="o">=</span> <span class="n">TimeEnumeration</span><span class="p">(</span><span class="s2">&quot;annual&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Annual&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;Annual&quot;</span><span class="p">])</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright Copyright 2021, The Alliance for Sustainable Energy, LLC.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

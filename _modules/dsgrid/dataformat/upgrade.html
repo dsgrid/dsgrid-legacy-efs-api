@@ -1,0 +1,435 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>dsgrid.dataformat.upgrade &mdash; dsgrid-legacy-efs-api 0.4.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> dsgrid-legacy-efs-api
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#creating-a-new-data-file">Creating a new data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#reading-in-an-existing-data-file">Reading in an existing data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#working-with-a-dsgrid-model-collection-of-data-files">Working with a dsgrid model (collection of data files)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/modules.html">dsgrid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html">dsgrid package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.helpers">dsgrid.helpers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.layerstack">dsgrid.layerstack module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.model">dsgrid.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/dsgrid.html">dsgrid package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.dataformat.html">dsgrid.dataformat package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.helpers">dsgrid.helpers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.layerstack">dsgrid.layerstack module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.model">dsgrid.model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/dsgrid.dataformat.html">dsgrid.dataformat package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.datafile">dsgrid.dataformat.datafile module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.datatable">dsgrid.dataformat.datatable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.dimmap">dsgrid.dataformat.dimmap module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.enumeration">dsgrid.dataformat.enumeration module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.sectordataset">dsgrid.dataformat.sectordataset module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.upgrade">dsgrid.dataformat.upgrade module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">dsgrid-legacy-efs-api</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../dsgrid.html">dsgrid</a> &raquo;</li>
+        
+          <li><a href="../dataformat.html">dsgrid.dataformat</a> &raquo;</li>
+        
+      <li>dsgrid.dataformat.upgrade</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for dsgrid.dataformat.upgrade</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">distutils.version</span> <span class="kn">import</span> <span class="n">StrictVersion</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">h5py</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">dsgrid</span> <span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">VERSION</span>
+<span class="kn">from</span> <span class="nn">dsgrid.dataformat.datafile</span> <span class="kn">import</span> <span class="n">Datafile</span>
+<span class="kn">from</span> <span class="nn">dsgrid.dataformat.enumeration</span> <span class="kn">import</span> <span class="p">(</span><span class="n">SectorEnumeration</span><span class="p">,</span>
+    <span class="n">GeographyEnumeration</span><span class="p">,</span> <span class="n">EndUseEnumeration</span><span class="p">,</span> <span class="n">EndUseEnumerationBase</span><span class="p">,</span> 
+    <span class="n">SingleFuelEndUseEnumeration</span><span class="p">,</span> <span class="n">TimeEnumeration</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">dsgrid.dataformat.sectordataset</span> <span class="kn">import</span> <span class="n">Datamap</span><span class="p">,</span> <span class="n">SectorDataset</span><span class="p">,</span> <span class="n">NULL_IDX</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<div class="viewcode-block" id="UpgradeDatafile"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.UpgradeDatafile">[docs]</a><span class="k">class</span> <span class="nc">UpgradeDatafile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">from_version</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">to_version</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="UpgradeDatafile.upgrade"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.UpgradeDatafile.upgrade">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">upgrade</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">datafile</span><span class="p">,</span><span class="n">f</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">StrictVersion</span><span class="p">(</span><span class="n">datafile</span><span class="o">.</span><span class="n">version</span><span class="p">)</span> <span class="o">==</span> <span class="n">StrictVersion</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">from_version</span><span class="p">)</span>
+
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_transform</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="n">f</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;dsgrid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">to_version</span>
+        <span class="n">datafile</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">to_version</span>
+        <span class="k">return</span> <span class="n">datafile</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_transform</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">datafile</span><span class="p">,</span><span class="n">f</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="UpgradeDatafile.load_datafile"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.UpgradeDatafile.load_datafile">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load_datafile</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">filepath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load enough to return a Datafile object. Object should not be</span>
+<span class="sd">        expected to be fully functional.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filepath : str</span>
+<span class="sd">            path to Datafile</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dsgrid.dataformat.datafile.Datafile</span>
+<span class="sd">            (partially) loaded Datafile in old format</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">enum_group</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;enumerations&quot;</span><span class="p">]</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">Datafile</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span>
+                              <span class="n">SectorEnumeration</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">enum_group</span><span class="p">),</span>
+                              <span class="n">GeographyEnumeration</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">enum_group</span><span class="p">),</span>
+                              <span class="n">EndUseEnumerationBase</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">enum_group</span><span class="p">),</span>
+                              <span class="n">TimeEnumeration</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">enum_group</span><span class="p">),</span>
+                              <span class="n">loading</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                              <span class="n">version</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">from_version</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">sector_id</span><span class="p">,</span> <span class="n">sector_dataset</span> <span class="ow">in</span> <span class="n">SectorDataset</span><span class="o">.</span><span class="n">loadall</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">_upgrade_class</span><span class="o">=</span><span class="bp">cls</span><span class="p">):</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">sectordata</span><span class="p">[</span><span class="n">sector_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_dataset</span>
+
+            <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="UpgradeDatafile.load_sectordataset"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.UpgradeDatafile.load_sectordataset">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load_sectordataset</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">datafile</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">sector_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load enough to return a SectorDataset object. Object should not be</span>
+<span class="sd">        expected to be fully functional.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="DSG_0_1_0"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.DSG_0_1_0">[docs]</a><span class="k">class</span> <span class="nc">DSG_0_1_0</span><span class="p">(</span><span class="n">UpgradeDatafile</span><span class="p">):</span>
+    <span class="n">from_version</span> <span class="o">=</span> <span class="s1">&#39;0.1.0&#39;</span>
+    <span class="n">to_version</span> <span class="o">=</span> <span class="s1">&#39;0.2.0&#39;</span>
+
+    <span class="n">ZERO_IDX</span> <span class="o">=</span> <span class="mi">65535</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_transform</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">datafile</span><span class="p">,</span><span class="n">f</span><span class="p">):</span>
+        <span class="c1"># from v0.1.0 to v0.2.0</span>
+        <span class="c1">#   - f[&#39;data&#39;][sector_id] is no longer a h5py.Dataset with attributes</span>
+        <span class="c1">#   - f[&#39;data&#39;][sector_id] is now a h5py.Group containing</span>
+        <span class="c1">#       - f[&#39;data&#39;][sector_id][&#39;data&#39;]</span>
+        <span class="c1">#       - f[&#39;data&#39;][sector_id][&#39;geographies&#39;]</span>
+        <span class="c1">#       - f[&#39;data&#39;][sector_id][&#39;enduses&#39;]</span>
+        <span class="c1">#       - f[&#39;data&#39;][sector_id][&#39;times&#39;]</span>
+        <span class="k">for</span> <span class="n">sector_id</span><span class="p">,</span> <span class="n">sectordataset</span> <span class="ow">in</span> <span class="n">datafile</span><span class="o">.</span><span class="n">sectordata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">tmp_name</span> <span class="o">=</span> <span class="n">sector_id</span> <span class="o">+</span> <span class="s1">&#39;_temp&#39;</span>
+            <span class="n">f</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">tmp_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">sector_id</span><span class="p">]</span>
+            <span class="n">orig_dset</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">tmp_name</span><span class="p">]</span>
+            <span class="k">del</span> <span class="n">f</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">sector_id</span><span class="p">]</span>
+            <span class="n">dgroup</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="n">sector_id</span><span class="p">)</span>
+
+            <span class="n">dgroup</span><span class="p">[</span><span class="s1">&#39;geographies&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Datamap</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">datafile</span><span class="o">.</span><span class="n">geo_enum</span><span class="p">,[])</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">geo_map</span> <span class="o">=</span> <span class="n">orig_dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;geo_mappings&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;u4&quot;</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">geo_map</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s1">&#39;geo_mappings&#39;</span><span class="p">][()]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;u4&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">geo_map</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="n">ZERO_IDX</span><span class="p">):</span>
+                <span class="n">null_pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">geo_map</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="n">ZERO_IDX</span><span class="p">)</span>
+                <span class="n">geo_map</span><span class="p">[</span><span class="n">null_pos</span><span class="p">]</span> <span class="o">=</span> <span class="n">NULL_IDX</span>
+
+            <span class="n">dgroup</span><span class="p">[</span><span class="s1">&#39;geographies&#39;</span><span class="p">][:,</span><span class="s1">&#39;idx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geo_map</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">scalings</span> <span class="o">=</span> <span class="n">orig_dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;geo_scalings&#39;</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="c1"># Handle Joe&#39;s format</span>
+                <span class="n">scalings</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s1">&#39;geo_scalings&#39;</span><span class="p">][()]</span>
+            <span class="n">dgroup</span><span class="p">[</span><span class="s1">&#39;geographies&#39;</span><span class="p">][:,</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scalings</span>
+
+            <span class="c1"># already loaded these sub-enums as part of the backward compatible</span>
+            <span class="c1"># load process</span>
+            <span class="n">dgroup</span><span class="p">[</span><span class="s1">&#39;enduses&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Datamap</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">datafile</span><span class="o">.</span><span class="n">enduse_enum</span><span class="p">,</span><span class="n">sectordataset</span><span class="o">.</span><span class="n">enduses</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">dgroup</span><span class="p">[</span><span class="s1">&#39;times&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Datamap</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">datafile</span><span class="o">.</span><span class="n">time_enum</span><span class="p">,</span><span class="n">sectordataset</span><span class="o">.</span><span class="n">times</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+
+            <span class="k">for</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;geo_mappings&#39;</span><span class="p">,</span> <span class="s1">&#39;geo_scalings&#39;</span><span class="p">,</span> <span class="s1">&#39;enduse_mappings&#39;</span><span class="p">,</span> <span class="s1">&#39;time_mappings&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="n">orig_dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="n">orig_dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">orig_dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;There are attrs left in orig_dset: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">orig_dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+
+            <span class="n">dgroup</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">orig_dset</span>
+            <span class="k">del</span> <span class="n">f</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">tmp_name</span><span class="p">]</span>
+
+<div class="viewcode-block" id="DSG_0_1_0.load_sectordataset"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.DSG_0_1_0.load_sectordataset">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load_sectordataset</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">datafile</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">sector_id</span><span class="p">):</span>
+        <span class="n">dset</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;data/&quot;</span> <span class="o">+</span> <span class="n">sector_id</span><span class="p">]</span>
+
+        <span class="n">enduses</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">datafile</span><span class="o">.</span><span class="n">enduse_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
+        <span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datafile</span><span class="o">.</span><span class="n">time_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
+        <span class="n">enduses</span> <span class="o">=</span> <span class="p">[</span><span class="n">enduses</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;enduse_mappings&#39;</span><span class="p">][:]]</span>
+        <span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;time_mappings&#39;</span><span class="p">][:]]</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">SectorDataset</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span><span class="n">sector_id</span><span class="p">,</span><span class="n">enduses</span><span class="p">,</span><span class="n">times</span><span class="p">)</span>
+                
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">geo_mappings</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;geo_mappings&quot;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="c1"># handles Joe&#39;s files</span>
+            <span class="n">geo_mappings</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;geo_mappings&quot;</span><span class="p">]</span>
+
+        <span class="n">geo_ptrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">geo_mappings</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="n">ZERO_IDX</span><span class="p">)]</span>
+        
+        <span class="n">result</span><span class="o">.</span><span class="n">n_geos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">geo_ptrs</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<span class="n">OLD_VERSIONS</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+<span class="n">OLD_VERSIONS</span><span class="p">[</span><span class="n">DSG_0_1_0</span><span class="o">.</span><span class="n">from_version</span><span class="p">]</span> <span class="o">=</span> <span class="n">DSG_0_1_0</span>
+
+
+<div class="viewcode-block" id="make_fuel_and_units_explicit"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.make_fuel_and_units_explicit">[docs]</a><span class="k">def</span> <span class="nf">make_fuel_and_units_explicit</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">fuel</span><span class="o">=</span><span class="s1">&#39;Electricity&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;MWh&#39;</span><span class="p">):</span>
+    <span class="n">old_enduse_enum</span> <span class="o">=</span> <span class="n">datafile</span><span class="o">.</span><span class="n">enduse_enum</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">old_enduse_enum</span><span class="p">,</span><span class="n">EndUseEnumeration</span><span class="p">),</span> <span class="s2">&quot;This upgrade method is for datafiles with old-style EndUseEnumerations&quot;</span>
+    <span class="n">new_enduse_enum</span> <span class="o">=</span> <span class="n">SingleFuelEndUseEnumeration</span><span class="p">(</span>
+        <span class="n">old_enduse_enum</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">old_enduse_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">,</span>
+        <span class="n">old_enduse_enum</span><span class="o">.</span><span class="n">names</span><span class="p">,</span>
+        <span class="n">fuel</span><span class="o">=</span><span class="n">fuel</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">)</span>
+    
+    <span class="n">result</span> <span class="o">=</span> <span class="n">Datafile</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span>
+                      <span class="n">datafile</span><span class="o">.</span><span class="n">sector_enum</span><span class="p">,</span>
+                      <span class="n">datafile</span><span class="o">.</span><span class="n">geo_enum</span><span class="p">,</span>
+                      <span class="n">new_enduse_enum</span><span class="p">,</span>
+                      <span class="n">datafile</span><span class="o">.</span><span class="n">time_enum</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">sector_id</span> <span class="ow">in</span> <span class="n">datafile</span><span class="p">:</span>
+        <span class="n">old_sector</span> <span class="o">=</span> <span class="n">datafile</span><span class="p">[</span><span class="n">sector_id</span><span class="p">]</span>
+        <span class="n">new_sector</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">add_sector</span><span class="p">(</span><span class="n">sector_id</span><span class="p">,</span><span class="n">enduses</span><span class="o">=</span><span class="n">old_sector</span><span class="o">.</span><span class="n">enduses</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="n">old_sector</span><span class="o">.</span><span class="n">times</span><span class="p">)</span>
+        <span class="n">batch_dataframes</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">batch_geo_ids</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">batch_scalings</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">old_sector</span><span class="o">.</span><span class="n">n_geos</span><span class="p">):</span>
+            <span class="n">df</span><span class="p">,</span> <span class="n">geo_ids</span><span class="p">,</span> <span class="n">scalings</span> <span class="o">=</span> <span class="n">old_sector</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">batch_dataframes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="n">batch_geo_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geo_ids</span><span class="p">)</span>
+            <span class="n">batch_scalings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scalings</span><span class="p">)</span>
+        <span class="n">new_sector</span><span class="o">.</span><span class="n">add_data_batch</span><span class="p">(</span><span class="n">batch_dataframes</span><span class="p">,</span><span class="n">batch_geo_ids</span><span class="p">,</span><span class="n">scalings</span><span class="o">=</span><span class="n">batch_scalings</span><span class="p">,</span><span class="n">full_validation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright Copyright 2021, The Alliance for Sustainable Energy, LLC.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

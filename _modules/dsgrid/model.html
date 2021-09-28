@@ -1,0 +1,649 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>dsgrid.model &mdash; dsgrid-legacy-efs-api 0.4.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> dsgrid-legacy-efs-api
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#creating-a-new-data-file">Creating a new data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#reading-in-an-existing-data-file">Reading in an existing data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#working-with-a-dsgrid-model-collection-of-data-files">Working with a dsgrid model (collection of data files)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/modules.html">dsgrid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/dsgrid.html">dsgrid package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/dsgrid.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/dsgrid.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/dsgrid.html#module-dsgrid.helpers">dsgrid.helpers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/dsgrid.html#module-dsgrid.layerstack">dsgrid.layerstack module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/dsgrid.html#module-dsgrid.model">dsgrid.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/dsgrid.html#module-dsgrid">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/dsgrid.html">dsgrid package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/dsgrid.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/dsgrid.dataformat.html">dsgrid.dataformat package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/dsgrid.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/dsgrid.html#module-dsgrid.helpers">dsgrid.helpers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/dsgrid.html#module-dsgrid.layerstack">dsgrid.layerstack module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/dsgrid.html#module-dsgrid.model">dsgrid.model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/dsgrid.html#module-dsgrid">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/dsgrid.dataformat.html">dsgrid.dataformat package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/dsgrid.dataformat.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.datafile">dsgrid.dataformat.datafile module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.datatable">dsgrid.dataformat.datatable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.dimmap">dsgrid.dataformat.dimmap module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.enumeration">dsgrid.dataformat.enumeration module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.sectordataset">dsgrid.dataformat.sectordataset module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.upgrade">dsgrid.dataformat.upgrade module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/dsgrid.dataformat.html#module-dsgrid.dataformat">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">dsgrid-legacy-efs-api</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../dsgrid.html">dsgrid</a> &raquo;</li>
+        
+      <li>dsgrid.model</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for dsgrid.model</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A dsgrid LoadModel consists of a number of different LoadModelComponents. Each</span>
+<span class="sd">LoadModelComponent is a BOTTOMUP, GAP, DG, TOPDOWN, or DERIVED ComponentType. </span>
+<span class="sd">Load is represented by the BOTTOMUP (detailed) and GAP (coarser) models. The </span>
+<span class="sd">other components allow for computation of variants other than total site load </span>
+<span class="sd">(e.g. net site load, system load), as well as validation/calibration/</span>
+<span class="sd">reconciliation with historical data.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">MutableMapping</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">auto</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+
+<span class="kn">from</span> <span class="nn">dsgrid</span> <span class="kn">import</span> <span class="n">DSGridError</span>
+<span class="kn">from</span> <span class="nn">dsgrid.dataformat.datafile</span> <span class="kn">import</span> <span class="n">Datafile</span>
+<span class="kn">from</span> <span class="nn">dsgrid.dataformat.datatable</span> <span class="kn">import</span> <span class="n">Datatable</span>
+<span class="kn">from</span> <span class="nn">dsgrid.dataformat.dimmap</span> <span class="kn">import</span> <span class="n">TautologyMapping</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="LoadModelStatus"><a class="viewcode-back" href="../../api/dsgrid.html#dsgrid.model.LoadModelStatus">[docs]</a><span class="k">class</span> <span class="nc">LoadModelStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">RAW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ComponentType"><a class="viewcode-back" href="../../api/dsgrid.html#dsgrid.model.ComponentType">[docs]</a><span class="k">class</span> <span class="nc">ComponentType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">BOTTOMUP</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">GAP</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">DG</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">TOPDOWN</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">DERIVED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+
+    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="mi">9999</span></div>
+
+
+<div class="viewcode-block" id="LoadModelComponent"><a class="viewcode-back" href="../../api/dsgrid.html#dsgrid.model.LoadModelComponent">[docs]</a><span class="k">class</span> <span class="nc">LoadModelComponent</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">component_type</span><span class="o">=</span><span class="n">ComponentType</span><span class="o">.</span><span class="n">UNKNOWN</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A LoadModelComponent is generally associated with a </span>
+<span class="sd">        dsgrid.dataformat.Datafile, and is therefore data of a particular type,</span>
+<span class="sd">        represented at a certain geographic, temporal, sectoral, and end-use </span>
+<span class="sd">        resolution. A LoadModelComponent is also commonly part of a LoadModel. </span>
+<span class="sd">        Based on the dimension-mapping capabilities of dsgrid, the LoadModel </span>
+<span class="sd">        likely has uniform geographical and temporal extents and resolution.</span>
+
+<span class="sd">        Attributes</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            The name of the LoadModelComponent</span>
+<span class="sd">        component_type : ComponentType</span>
+<span class="sd">            The type of the LoadModelComponent, defaults to ComponentType.UNKNOWN</span>
+<span class="sd">        color : str</span>
+<span class="sd">            Color to use when plotting this LoadModelComponent, in Hexadecimal.</span>
+<span class="sd">            Otherwise None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">component_type</span> <span class="o">=</span> <span class="n">ComponentType</span><span class="p">(</span><span class="n">component_type</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datafile</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datatable</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The (hash) key used by LoadModel to identify this LoadModelComponent.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            (self.component_type,self.name)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">component_type</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">datafile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None or dsgrid.dataformat.Datafile</span>
+<span class="sd">            Returns a Datafile if self.load_datafile has been called successfully.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datafile</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            name, component_type name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">component_type</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LoadModelComponent.load_datafile"><a class="viewcode-back" href="../../api/dsgrid.html#dsgrid.model.LoadModelComponent.load_datafile">[docs]</a>    <span class="k">def</span> <span class="nf">load_datafile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filepath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filepath : str</span>
+<span class="sd">            Path to dsgrid.dataformat.Datafile corresponding to this component</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datafile</span> <span class="o">=</span> <span class="n">Datafile</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LoadModelComponent.clone"><a class="viewcode-back" href="../../api/dsgrid.html#dsgrid.model.LoadModelComponent.clone">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">original</span><span class="p">,</span><span class="n">filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a new instance of a LoadModelComponent, perhaps pointing to a </span>
+<span class="sd">        different dsgrid.dataformat.Datafile.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        original : LoadModelComponent</span>
+<span class="sd">            Only the metadata (e.g. name, type, color) are used, and orignial </span>
+<span class="sd">            is not modified in any way</span>
+<span class="sd">        filepath : str or None</span>
+<span class="sd">            If not None, path to the dsgrid.dataformat.Datafile corresponding to </span>
+<span class="sd">            the new LoadModelComponent created by this method. In most cases, </span>
+<span class="sd">            should not be the same as original.datafile.h5path.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        LoadModelComponent</span>
+<span class="sd">            Clone of original, with the appropriate dsgrid.dataformat.Datafile</span>
+<span class="sd">            loaded if filepath was not None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">original</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">component_type</span><span class="o">=</span><span class="n">original</span><span class="o">.</span><span class="n">component_type</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">original</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">filepath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">load_datafile</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="LoadModelComponent.get_datatable"><a class="viewcode-back" href="../../api/dsgrid.html#dsgrid.model.LoadModelComponent.get_datatable">[docs]</a>    <span class="k">def</span> <span class="nf">get_datatable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datatable</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datafile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datatable</span> <span class="o">=</span> <span class="n">Datatable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_datafile</span><span class="p">,</span><span class="n">sort</span><span class="o">=</span><span class="n">sort</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sort</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_datatable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datatable</span><span class="o">.</span><span class="n">sorted</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datatable</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datatable</span></div>
+
+<div class="viewcode-block" id="LoadModelComponent.save"><a class="viewcode-back" href="../../api/dsgrid.html#dsgrid.model.LoadModelComponent.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dirpath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves this component (primarily its datafile) to a new directory.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dirpath : str</span>
+<span class="sd">            The folder to which to save this component&#39;s datafile (using the </span>
+<span class="sd">            same filename)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        LoadModelComponent</span>
+<span class="sd">            A new component with the copy of this component&#39;s datafile that has </span>
+<span class="sd">            been saved to dirpath already loaded</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">LoadModelComponent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">component_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">component_type</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datafile</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">h5path</span><span class="p">))</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">_datafile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datafile</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="LoadModelComponent.map_dimension"><a class="viewcode-back" href="../../api/dsgrid.html#dsgrid.model.LoadModelComponent.map_dimension">[docs]</a>    <span class="k">def</span> <span class="nf">map_dimension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dirpath</span><span class="p">,</span><span class="n">to_enum</span><span class="p">,</span><span class="n">mappings</span><span class="p">,</span><span class="n">filename_prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If there is an appropriate mapping, map the dimension specified by </span>
+<span class="sd">        to_enum&#39;s class to match to_enum. If there is not, simply create a copy</span>
+<span class="sd">        of this LoadModelComponent in the new location.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dirpath : str</span>
+<span class="sd">            Directory in which to save the result of mapping this LoadModelComponent</span>
+<span class="sd">        to_enum : dsgrid.dataformat.enumeration.Enumeration</span>
+<span class="sd">            This enumeration&#39;s class (e.g. SectorEnumeration, TimeEnumeration) </span>
+<span class="sd">            determines which dimension is being mapped. The enumeration </span>
+<span class="sd">            specifies the target resolution and particular naming convention </span>
+<span class="sd">            that is desired.</span>
+<span class="sd">        mappings : dsgrid.dataformat.dimmap.Mappings</span>
+<span class="sd">            Container of dsgrid.dataformat.dimmap.DimensionMaps. If for the </span>
+<span class="sd">            dimension in question this component&#39;s enumeration (the from_enum), </span>
+<span class="sd">            there is either a TautologyMapping to to_enum, or there is an </span>
+<span class="sd">            explicit mapping to to_enum, then we say that we are able to map </span>
+<span class="sd">            this component, and proceed to do that by either simply saving this </span>
+<span class="sd">            component to the new location or by calling </span>
+<span class="sd">            dsgrid.dataformat.Datafile.map_dimension.</span>
+<span class="sd">        filename_prefix : str</span>
+<span class="sd">            Default is the empty string, &#39;&#39;. If not empty, the new </span>
+<span class="sd">            dsgrid.dataformat.Datafile created by this method is saved using the </span>
+<span class="sd">            filename created by placing this string before the current </span>
+<span class="sd">            datafile&#39;s filename.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        LoadModelComponent</span>
+<span class="sd">            New component with either a copy of this component&#39;s datafile loaded,</span>
+<span class="sd">            or a new, mapped datafile loaded. In either case the new datafile is</span>
+<span class="sd">            located at os.path.join(dirpath,filename_prefix + os.path.basename(self.datafile.h5path)).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">LoadModelComponent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">component_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">component_type</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datafile</span><span class="p">:</span>
+            <span class="n">mapping</span> <span class="o">=</span> <span class="n">mappings</span><span class="o">.</span><span class="n">get_mapping</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_datafile</span><span class="p">,</span><span class="n">to_enum</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span><span class="n">filename_prefix</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">h5path</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">mapping</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Unable to map Component </span><span class="si">{}</span><span class="s2"> to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">to_enum</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">_datafile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datafile</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">result</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span><span class="n">TautologyMapping</span><span class="p">):</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">_datafile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datafile</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">_datafile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datafile</span><span class="o">.</span><span class="n">map_dimension</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">mapping</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Asked to map LoadModelComponent </span><span class="si">{}</span><span class="s2"> even though no Datafile is loaded.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="LoadModelComponent.scale_data"><a class="viewcode-back" href="../../api/dsgrid.html#dsgrid.model.LoadModelComponent.scale_data">[docs]</a>    <span class="k">def</span> <span class="nf">scale_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dirpath</span><span class="p">,</span><span class="n">factor</span><span class="o">=</span><span class="mf">0.001</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Scale all the data in self.datafile by factor, creating a new HDF5 file </span>
+<span class="sd">        and corresponding LoadModelComponent. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dirpath : str</span>
+<span class="sd">            Folder the new version of the data should be placed in. This </span>
+<span class="sd">            LoadModelComponent&#39;s filename will be retained.</span>
+<span class="sd">        factor : float</span>
+<span class="sd">            Factor by which all the data in the file is to be multiplied. The </span>
+<span class="sd">            default value of 0.001 corresponds to converting the bottom-up data </span>
+<span class="sd">            from kWh to MWh.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">LoadModelComponent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">component_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">component_type</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datafile</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">h5path</span><span class="p">))</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">_datafile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datafile</span><span class="o">.</span><span class="n">scale_data</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<div class="viewcode-block" id="LoadModel"><a class="viewcode-back" href="../../api/dsgrid.html#dsgrid.model.LoadModel">[docs]</a><span class="k">class</span> <span class="nc">LoadModel</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">LoadModelStatus</span><span class="o">.</span><span class="n">RAW</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">components</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="n">LoadModelComponent</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">DSGridError</span><span class="p">(</span><span class="s2">&quot;Expected a LoadModelComponent, got a </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span> <span class="o">==</span> <span class="n">value</span><span class="o">.</span><span class="n">key</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DSGridError</span><span class="p">(</span><span class="s2">&quot;Expected the key to match the LoadModelComponent.key, &quot;</span> <span class="o">+</span> \
+                <span class="s2">&quot;but key = </span><span class="si">{}</span><span class="s2"> and LoadModelComponent.key = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="o">.</span><span class="n">key</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">[</span><span class="n">value</span><span class="o">.</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">key</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">key</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LoadModel.create"><a class="viewcode-back" href="../../api/dsgrid.html#dsgrid.model.LoadModel.create">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">components</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">LoadModel</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">components</span><span class="p">[</span><span class="n">component</span><span class="o">.</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">component</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="LoadModel.save"><a class="viewcode-back" href="../../api/dsgrid.html#dsgrid.model.LoadModel.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dirpath</span><span class="p">,</span><span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">clean</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dirpath</span><span class="p">):</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">create</span><span class="p">([</span><span class="n">component</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">component</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span></div>
+
+<div class="viewcode-block" id="LoadModel.map_dimension"><a class="viewcode-back" href="../../api/dsgrid.html#dsgrid.model.LoadModel.map_dimension">[docs]</a>    <span class="k">def</span> <span class="nf">map_dimension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dirpath</span><span class="p">,</span><span class="n">to_enum</span><span class="p">,</span><span class="n">mappings</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Map the appropriate dimension to_enum for all possible components. Will </span>
+<span class="sd">        only map those components for which the given dimension (determined by </span>
+<span class="sd">        to_enum&#39;s class) is resolved by a from_enum for which a map between </span>
+<span class="sd">        from_enum and to_enum is in mappings.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dirpath : str</span>
+<span class="sd">            Folder for new model created by doing this mapping</span>
+<span class="sd">        to_enum : dsgrid.dataformat.Enumeration</span>
+<span class="sd">            Enumeration to which to map the appropriate dimension</span>
+<span class="sd">        mappings : dsgrid.dimmap.Mappings</span>
+<span class="sd">            collection of dsgrid.dimmap.DimensionMap objects. Only maps </span>
+<span class="sd">            registered in this object will be applied.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dirpath</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">DSGridError</span><span class="p">(</span><span class="s2">&quot;Must map_dimension to a new location&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">LoadModel</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">component</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">agg_component</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">map_dimension</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span><span class="n">to_enum</span><span class="p">,</span><span class="n">mappings</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">components</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">agg_component</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="LoadModel.move_sectors"><a class="viewcode-back" href="../../api/dsgrid.html#dsgrid.model.LoadModel.move_sectors">[docs]</a>    <span class="k">def</span> <span class="nf">move_sectors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dirpath</span><span class="p">,</span><span class="n">from_component_key</span><span class="p">,</span><span class="n">to_component_key</span><span class="p">,</span><span class="n">sectors_to_move</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Moves sectors_to_move from_component_key to_component_key. If </span>
+<span class="sd">        to_component_key is None, simply drops those sectors.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dirpath</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">DSGridError</span><span class="p">(</span><span class="s2">&quot;Must move_sectors to a new location&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">LoadModel</span><span class="p">()</span>
+
+        <span class="c1"># First find the from_ and to_ components, and transfer all other </span>
+        <span class="c1"># components as-is. ALSO, transfer to_component as-is now. It will be</span>
+        <span class="c1"># appended to later.</span>
+        <span class="n">from_component</span> <span class="o">=</span> <span class="kc">None</span><span class="p">;</span> <span class="n">to_component</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">component</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">from_component_key</span><span class="p">:</span>
+                <span class="n">from_component</span> <span class="o">=</span> <span class="n">component</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="n">to_component_key</span><span class="p">:</span>
+                <span class="n">to_component</span> <span class="o">=</span> <span class="n">component</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Transferring </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">components</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">from_component</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Cannot move sectors </span><span class="si">{}</span><span class="s2"> from component </span><span class="si">{}</span><span class="s2">, because it was not found. Available components are: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">sectors_to_move</span><span class="p">,</span><span class="n">from_component_key</span><span class="p">,</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">to_component</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">to_component_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Cannot move sectors </span><span class="si">{}</span><span class="s2"> to component </span><span class="si">{}</span><span class="s2">, because it was not found. Available components are: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">sectors_to_move</span><span class="p">,</span><span class="n">to_component_key</span><span class="p">,</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># Now loop through the from_component, moving what should stay and </span>
+        <span class="c1"># temporarily caching what needs to move</span>
+        <span class="n">new_from_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">from_component</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">h5path</span><span class="p">))</span>
+        <span class="n">new_from_h5</span> <span class="o">=</span> <span class="n">Datafile</span><span class="p">(</span><span class="n">new_from_file</span><span class="p">,</span>
+                               <span class="n">from_component</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">sector_enum</span><span class="p">,</span>
+                               <span class="n">from_component</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">geo_enum</span><span class="p">,</span>
+                               <span class="n">from_component</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">enduse_enum</span><span class="p">,</span>
+                               <span class="n">from_component</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">time_enum</span><span class="p">)</span>
+        <span class="n">data_to_move</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Transferring part of </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">from_component_key</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">sector_id</span><span class="p">,</span> <span class="n">sectordataset</span> <span class="ow">in</span> <span class="n">from_component</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">sectordata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">sector_id</span> <span class="ow">in</span> <span class="n">sectors_to_move</span><span class="p">:</span>
+                <span class="n">data_to_move</span><span class="p">[</span><span class="n">sector_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">sectordataset</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_sector</span> <span class="o">=</span> <span class="n">new_from_h5</span><span class="o">.</span><span class="n">add_sector</span><span class="p">(</span><span class="n">sector_id</span><span class="p">,</span><span class="n">enduses</span><span class="o">=</span><span class="n">sectordataset</span><span class="o">.</span><span class="n">enduses</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="n">sectordataset</span><span class="o">.</span><span class="n">times</span><span class="p">)</span>
+                <span class="n">sectordataset</span><span class="o">.</span><span class="n">copy_data</span><span class="p">(</span><span class="n">new_sector</span><span class="p">,</span><span class="n">full_validation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># there should be no new validation issues</span>
+        <span class="n">new_from_component</span> <span class="o">=</span> <span class="n">LoadModelComponent</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">from_component</span><span class="p">,</span><span class="n">filepath</span><span class="o">=</span><span class="n">new_from_file</span><span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">components</span><span class="p">[</span><span class="n">from_component_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_from_component</span>
+
+        <span class="c1"># Now transfer current data in to_component</span>
+        <span class="k">def</span> <span class="nf">append_enum_value</span><span class="p">(</span><span class="n">current_enum</span><span class="p">,</span><span class="n">enum_id_to_check</span><span class="p">,</span><span class="n">source_enum</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">enum_id_to_check</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+                <span class="n">enum_name</span> <span class="o">=</span> <span class="n">source_enum</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="n">source_enum</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">enum_id_to_check</span><span class="p">)]</span>
+                <span class="n">current_enum</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">current_enum</span><span class="p">)</span>
+                <span class="n">current_enum</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">enum_id_to_check</span><span class="p">)</span>
+                <span class="n">current_enum</span><span class="o">.</span><span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">enum_name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">current_enum</span>
+
+        <span class="k">if</span> <span class="n">to_component_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">to_component</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="n">new_to_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">to_component</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">h5path</span><span class="p">))</span>
+            <span class="n">sector_enum</span> <span class="o">=</span> <span class="n">to_component</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">sector_enum</span>
+            <span class="k">for</span> <span class="n">sector_id</span> <span class="ow">in</span> <span class="n">data_to_move</span><span class="p">:</span>
+                <span class="n">sector_enum</span> <span class="o">=</span> <span class="n">append_enum_value</span><span class="p">(</span><span class="n">sector_enum</span><span class="p">,</span><span class="n">sector_id</span><span class="p">,</span><span class="n">from_component</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">sector_enum</span><span class="p">)</span>
+            <span class="n">enduse_enum</span> <span class="o">=</span> <span class="n">to_component</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">enduse_enum</span>
+            <span class="k">for</span> <span class="n">sector_id</span><span class="p">,</span> <span class="n">sectordataset</span> <span class="ow">in</span> <span class="n">data_to_move</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">enduse_id</span> <span class="ow">in</span> <span class="n">sectordataset</span><span class="o">.</span><span class="n">enduses</span><span class="p">:</span>
+                    <span class="n">enduse_enum</span> <span class="o">=</span> <span class="n">append_enum_value</span><span class="p">(</span><span class="n">enduse_enum</span><span class="p">,</span><span class="n">enduse_id</span><span class="p">,</span><span class="n">from_component</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">enduse_enum</span><span class="p">)</span>
+            <span class="n">new_to_h5</span> <span class="o">=</span> <span class="n">Datafile</span><span class="p">(</span><span class="n">new_to_file</span><span class="p">,</span>
+                                 <span class="n">sector_enum</span><span class="p">,</span>
+                                 <span class="n">to_component</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">geo_enum</span><span class="p">,</span>
+                                 <span class="n">enduse_enum</span><span class="p">,</span>
+                                 <span class="n">to_component</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">time_enum</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Transferring </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">to_component_key</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">sector_id</span><span class="p">,</span> <span class="n">sectordataset</span> <span class="ow">in</span> <span class="n">to_component</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">sectordata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">new_sector</span> <span class="o">=</span> <span class="n">new_to_h5</span><span class="o">.</span><span class="n">add_sector</span><span class="p">(</span><span class="n">sector_id</span><span class="p">,</span><span class="n">enduses</span><span class="o">=</span><span class="n">sectordataset</span><span class="o">.</span><span class="n">enduses</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="n">sectordataset</span><span class="o">.</span><span class="n">times</span><span class="p">)</span>
+                <span class="n">sectordataset</span><span class="o">.</span><span class="n">copy_data</span><span class="p">(</span><span class="n">new_sector</span><span class="p">,</span><span class="n">full_validation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># there should be no validation issues</span>
+
+            <span class="c1"># Mow add to-be-moved data to to_component</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Appending part of </span><span class="si">{}</span><span class="s2"> to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">from_component_key</span><span class="p">,</span><span class="n">to_component_key</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">sector_id</span><span class="p">,</span> <span class="n">sectordataset</span> <span class="ow">in</span> <span class="n">data_to_move</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">new_sector</span> <span class="o">=</span> <span class="n">new_to_h5</span><span class="o">.</span><span class="n">add_sector</span><span class="p">(</span><span class="n">sector_id</span><span class="p">,</span><span class="n">enduses</span><span class="o">=</span><span class="n">sectordataset</span><span class="o">.</span><span class="n">enduses</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="n">sectordataset</span><span class="o">.</span><span class="n">times</span><span class="p">)</span>
+                <span class="n">sectordataset</span><span class="o">.</span><span class="n">copy_data</span><span class="p">(</span><span class="n">new_sector</span><span class="p">)</span> <span class="c1"># validate because the data being transfered come from somewhere else</span>
+
+            <span class="n">new_to_component</span> <span class="o">=</span> <span class="n">LoadModelComponent</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">to_component</span><span class="p">,</span><span class="n">filepath</span><span class="o">=</span><span class="n">new_to_file</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">components</span><span class="p">[</span><span class="n">to_component_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_to_component</span>
+
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">components</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright Copyright 2021, The Alliance for Sustainable Energy, LLC.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

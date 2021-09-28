@@ -1,0 +1,1062 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>dsgrid.dataformat.sectordataset &mdash; dsgrid-legacy-efs-api 0.4.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> dsgrid-legacy-efs-api
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#creating-a-new-data-file">Creating a new data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#reading-in-an-existing-data-file">Reading in an existing data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#working-with-a-dsgrid-model-collection-of-data-files">Working with a dsgrid model (collection of data files)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/modules.html">dsgrid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html">dsgrid package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.helpers">dsgrid.helpers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.layerstack">dsgrid.layerstack module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.model">dsgrid.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/dsgrid.html">dsgrid package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.dataformat.html">dsgrid.dataformat package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.helpers">dsgrid.helpers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.layerstack">dsgrid.layerstack module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.model">dsgrid.model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/dsgrid.dataformat.html">dsgrid.dataformat package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.datafile">dsgrid.dataformat.datafile module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.datatable">dsgrid.dataformat.datatable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.dimmap">dsgrid.dataformat.dimmap module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.enumeration">dsgrid.dataformat.enumeration module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.sectordataset">dsgrid.dataformat.sectordataset module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.upgrade">dsgrid.dataformat.upgrade module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">dsgrid-legacy-efs-api</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../dsgrid.html">dsgrid</a> &raquo;</li>
+        
+          <li><a href="../dataformat.html">dsgrid.dataformat</a> &raquo;</li>
+        
+      <li>dsgrid.dataformat.sectordataset</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for dsgrid.dataformat.sectordataset</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span><span class="p">,</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">distutils.version</span> <span class="kn">import</span> <span class="n">StrictVersion</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">repeat</span>
+<span class="kn">import</span> <span class="nn">h5py</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">dsgrid</span> <span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">VERSION</span>
+<span class="kn">from</span> <span class="nn">dsgrid</span> <span class="kn">import</span> <span class="n">DSGridError</span><span class="p">,</span> <span class="n">DSGridNotImplemented</span>
+<span class="kn">from</span> <span class="nn">dsgrid.helpers</span> <span class="kn">import</span> <span class="n">h5Reader</span>
+<span class="kn">from</span> <span class="nn">dsgrid.dataformat.enumeration</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">SectorEnumeration</span><span class="p">,</span> <span class="n">GeographyEnumeration</span><span class="p">,</span>
+    <span class="n">EndUseEnumerationBase</span><span class="p">,</span> <span class="n">TimeEnumeration</span><span class="p">)</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">NULL_IDX</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">32</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">enum_datamap_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">([</span>
+    <span class="p">(</span><span class="s2">&quot;idx&quot;</span><span class="p">,</span> <span class="s2">&quot;u4&quot;</span><span class="p">),</span> <span class="c1"># 32-bit unsigned integer index</span>
+    <span class="p">(</span><span class="s2">&quot;scale&quot;</span><span class="p">,</span> <span class="s2">&quot;f4&quot;</span><span class="p">)</span> <span class="c1"># 32-bit float scaling factor</span>
+<span class="p">])</span>
+
+<div class="viewcode-block" id="Datamap"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap">[docs]</a><span class="k">class</span> <span class="nc">Datamap</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Map between Datafile-level enumeration (enum) and Sectordataset-level </span>
+<span class="sd">    sub-enumeration (enum_ids). Sub-enumeration may also have non-unity scaling </span>
+<span class="sd">    factors. Per Sectordataset, these Datamaps link each enumeration value with:</span>
+
+<span class="sd">      a) a particular index in the dataset along the Enumeration&#39;s</span>
+<span class="sd">         dimension; and</span>
+<span class="sd">      b) a scaling parameter to apply to the associated underlying</span>
+<span class="sd">         data.</span>
+
+<span class="sd">    Multiple enumeration values can refer to the same index in the</span>
+<span class="sd">    dataset&#39;s enumeration dimension, with the option to apply different</span>
+<span class="sd">    scaling factors. The index is represented as a 32-bit unsigned</span>
+<span class="sd">    integer, which limits dataset size to 2^32 - 2 in each dimension,</span>
+<span class="sd">    with NULL_IDX (2^32 - 1) serving as the sentinel value assigned to</span>
+<span class="sd">    enumeration values not described in the dataset (looking up data</span>
+<span class="sd">    associated with such an enumeration value will simply return zeros)</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : numpy.ndarray</span>
+<span class="sd">        datamap vector of length len(enum.ids) with &#39;idx&#39; and &#39;scale&#39; </span>
+<span class="sd">        dimensions. For the example of (j, scale) = self.value[i],</span>
+
+<span class="sd">            - i = position of enum_id in enum.ids (datafile-level enum)</span>
+<span class="sd">            - j = position of enum_id in enum_ids (sectordataset-level sub-enum)</span>
+<span class="sd">            - scale = scaling factor to apply to this enumeration element</span>
+
+<span class="sd">        We also have j = self.value[i][&#39;idx&#39;], scale = self.value[i][&#39;scale&#39;].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="Datamap.create"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.create">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">enum</span><span class="p">,</span> <span class="n">enum_ids</span><span class="p">,</span> <span class="n">enum_scales</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        enum : dsgrid.enumeration.Enumeration</span>
+<span class="sd">        enum_ids : list</span>
+<span class="sd">            List of items in enum.ids</span>
+<span class="sd">        enum_scales : None or list</span>
+<span class="sd">            if list, is list of floats the same length as enum_ids</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Datamap</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">datamap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">ids</span><span class="p">),</span> <span class="n">enum_datamap_dtype</span><span class="p">)</span>
+        <span class="n">datamap</span><span class="p">[</span><span class="s2">&quot;idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">NULL_IDX</span>
+        <span class="n">datamap</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+
+        <span class="k">if</span> <span class="n">enum_scales</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">enum_ids</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">enum_scales</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">dimension</span> <span class="o">+</span> <span class="s2">&quot; id list has length &quot;</span> <span class="o">+</span>
+                                 <span class="nb">len</span><span class="p">(</span><span class="n">enum_ids</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, but scaling factor list &quot;</span> <span class="o">+</span>
+                                 <span class="s2">&quot;has length &quot;</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">enum_scales</span><span class="p">))</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">enum_scales</span> <span class="o">=</span> <span class="n">repeat</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">enum_ids</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">enum_id</span><span class="p">,</span> <span class="n">enum_scale</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">enum_ids</span><span class="p">,</span> <span class="n">enum_scales</span><span class="p">)):</span>
+            <span class="n">enum_idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">enum_id</span><span class="p">)</span>
+            <span class="n">datamap</span><span class="p">[</span><span class="n">enum_idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">enum_scale</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">datamap</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Datamap.load"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.load">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">dataset</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dataset : h5py.Dataset</span>
+<span class="sd">            a Datamap serialized to h5py</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Datamap</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span><span class="n">h5py</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[:,</span><span class="s2">&quot;idx&quot;</span><span class="p">]</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[:,</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span>
+        <span class="n">datamap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="n">enum_datamap_dtype</span><span class="p">)</span>
+        <span class="n">datamap</span><span class="p">[</span><span class="s2">&quot;idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+        <span class="n">datamap</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scale</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">datamap</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Datamap.update"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dataset</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates dataset with this Datamap&#39;s value. Overwrites current </span>
+<span class="sd">        dataset[:,&#39;idx&#39;] and dataset[:,&#39;scale&#39;].</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dataset : h5py.Dataset</span>
+<span class="sd">            a Datamap serialized to h5py</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dataset</span><span class="p">[:,</span><span class="s2">&quot;idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="s2">&quot;idx&quot;</span><span class="p">]</span>
+        <span class="n">dataset</span><span class="p">[:,</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_entries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The number of non-null idx values in this Datamap&#39;s value. Corresponds, </span>
+<span class="sd">        e.g. to the number of number of distinct (up to a scaling factor) </span>
+<span class="sd">        entries along a dimension.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">original_idxes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="s2">&quot;idx&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NULL_IDX</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="s2">&quot;idx&quot;</span><span class="p">][</span><span class="n">original_idxes</span><span class="p">]))</span>
+
+<div class="viewcode-block" id="Datamap.get_subenum"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.get_subenum">[docs]</a>    <span class="k">def</span> <span class="nf">get_subenum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">enum</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        enum : dsgrid.dataformat.enumeration.Enumeration</span>
+<span class="sd">            Datafile-level enumeration</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of enum.ids</span>
+<span class="sd">            ids in enum for which there is data in this SectorDataset. The ids </span>
+<span class="sd">            are returned in the order imposed by the SectorData In the correct order for this Sectordataset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">full_enum_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
+        <span class="n">original_idxes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="s2">&quot;idx&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NULL_IDX</span><span class="p">)</span>
+        <span class="n">original_idxes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">original_idxes</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s1">&#39;idx&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">full_enum_ids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">original_idxes</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Datamap.is_empty"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.is_empty">[docs]</a>    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">enum_id</span><span class="p">,</span><span class="n">enum</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        enum_id : str</span>
+<span class="sd">            element of enum.ids</span>
+<span class="sd">        enum : dsgrid.dataformat.enumeration.Enumeration</span>
+<span class="sd">            Datafile-level enumeration</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            True if the dataset has no data for enum_id, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">id_idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">enum_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">id_idx</span><span class="p">][</span><span class="s1">&#39;idx&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">NULL_IDX</span></div>
+
+<div class="viewcode-block" id="Datamap.get_map"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.get_map">[docs]</a>    <span class="k">def</span> <span class="nf">get_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">enum</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the data in this map in ordered, hashed form, with the dataset-level </span>
+<span class="sd">        idx as the key.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        enum : dsgrid.dataformat.enumeration.Enumeration</span>
+<span class="sd">            Datafile-level enumeration</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        OrderedDict</span>
+<span class="sd">            idx: (list of enum.ids, scales)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">original_idxes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="s2">&quot;idx&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NULL_IDX</span><span class="p">)</span>
+        <span class="n">unique_idxes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="s2">&quot;idx&quot;</span><span class="p">][</span><span class="n">original_idxes</span><span class="p">])))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">unique_idxes</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">enum</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">scales</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span>   </div>
+
+<div class="viewcode-block" id="Datamap.ids"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.ids">[docs]</a>    <span class="k">def</span> <span class="nf">ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">enum</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the enum.ids for that are mapped to the dataset idx</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        idx : int</span>
+<span class="sd">            dataset-level sub-enumeration index</span>
+<span class="sd">        enum : dsgrid.dataformat.Enumeration</span>
+<span class="sd">            datafile-level enumeration the sub-enum is based on</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of enum.ids</span>
+<span class="sd">            in particular, the ones that are mapped to idx, in the order </span>
+<span class="sd">            specified by enum.ids</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">orig_idxs</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="s1">&#39;idx&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="n">idx</span><span class="p">]</span>
+        <span class="n">all_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">all_ids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">orig_idxs</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Datamap.scales"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.scales">[docs]</a>    <span class="k">def</span> <span class="nf">scales</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the scaling factors that correspond to the dataset idx</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        idx : int</span>
+<span class="sd">            dataset-level sub-enumeration index</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of float</span>
+<span class="sd">            one for each of the .ids(idx,enum), and in the same order</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">orig_idxs</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="s1">&#39;idx&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="n">idx</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">orig_idxs</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Datamap.append_element"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.append_element">[docs]</a>    <span class="k">def</span> <span class="nf">append_element</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">new_elem_idx</span><span class="p">,</span><span class="n">enum_ids</span><span class="p">,</span><span class="n">enum</span><span class="p">,</span><span class="n">scalings</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Appends a new non-null element for this Datamap that defines the index </span>
+<span class="sd">        (new_elem_idx) for data that corresponds to enum_ids in enum.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        new_elem_idx : int</span>
+<span class="sd">            index value for the new element</span>
+<span class="sd">        enum_ids : list</span>
+<span class="sd">            list of distinct elements in enum.ids</span>
+<span class="sd">        enum : dsgrid.dataformat.enumeration.Enumeration</span>
+<span class="sd">            should be same Enumeration originally used to .create this Datamap</span>
+<span class="sd">        scalinges : list of numeric</span>
+<span class="sd">            if empty, will be defaulted to 1.0. otherwise should be the same </span>
+<span class="sd">            length as enum_ids</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scalings</span><span class="p">,(</span><span class="nb">list</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+            <span class="n">scalings</span> <span class="o">=</span> <span class="p">[</span><span class="n">scalings</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">scalings</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">scalings</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">enum_ids</span><span class="p">]</span>
+
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">scalings</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">enum_ids</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Enum id and scale factor list lengths must &quot;</span> <span class="o">+</span>
+                <span class="s2">&quot;match, but len(enum_ids) = </span><span class="si">{}</span><span class="s2"> and len(scalings) = </span><span class="si">{}</span><span class="s2">, &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">enum_ids</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">scalings</span><span class="p">))</span> <span class="o">+</span>
+                <span class="s2">&quot;where enum_ids = </span><span class="si">{}</span><span class="s2">, scalings = </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">enum_ids</span><span class="p">,</span><span class="n">scalings</span><span class="p">))</span>
+
+        <span class="n">id_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">enum</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">enum_id</span><span class="p">)</span> <span class="k">for</span> <span class="n">enum_id</span> <span class="ow">in</span> <span class="n">enum_ids</span><span class="p">])</span>
+        <span class="n">scalings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scalings</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="s2">&quot;idx&quot;</span><span class="p">][</span><span class="n">id_idxs</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_elem_idx</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unable to set the selected enumeration ids to new_elem_idx. &quot;</span> <span class="o">+</span> 
+                <span class="s2">&quot;enum_ids: </span><span class="si">{}</span><span class="s2">, id_idxs: </span><span class="si">{}</span><span class="s2">, new_elem_ids: </span><span class="si">{}</span><span class="s2">, datamap: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">enum_ids</span><span class="p">),</span> <span class="nb">repr</span><span class="p">(</span><span class="n">id_idxs</span><span class="p">),</span> <span class="nb">repr</span><span class="p">(</span><span class="n">new_elem_idx</span><span class="p">),</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)))</span>
+            <span class="k">raise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">][</span><span class="n">id_idxs</span><span class="p">]</span> <span class="o">=</span> <span class="n">scalings</span>
+        <span class="k">return</span></div></div>
+
+
+<div class="viewcode-block" id="append_element_to_dataset_dimension"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.append_element_to_dataset_dimension">[docs]</a><span class="k">def</span> <span class="nf">append_element_to_dataset_dimension</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span><span class="n">new_elem_idx</span><span class="p">,</span><span class="n">enum_ids</span><span class="p">,</span><span class="n">enum</span><span class="p">,</span><span class="n">scalings</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper method to do all the work of adding a new element to a SectorDataset </span>
+<span class="sd">    dimenstion.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dataset : h5py.Dataset</span>
+<span class="sd">        a Datamap serialized to h5py</span>
+<span class="sd">    new_elem_idx : int</span>
+<span class="sd">        index value for the new element</span>
+<span class="sd">    enum_ids : list</span>
+<span class="sd">        list of distinct elements in enum.ids</span>
+<span class="sd">    enum : dsgrid.dataformat.enumeration.Enumeration</span>
+<span class="sd">        should be same Enumeration originally used to .create this Datamap</span>
+<span class="sd">    scalinges : list of numeric</span>
+<span class="sd">        if empty, will be defaulted to 1.0. otherwise should be the same </span>
+<span class="sd">        length as enum_ids</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">datamap</span> <span class="o">=</span> <span class="n">Datamap</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="n">datamap</span><span class="o">.</span><span class="n">append_element</span><span class="p">(</span><span class="n">new_elem_idx</span><span class="p">,</span><span class="n">enum_ids</span><span class="p">,</span><span class="n">enum</span><span class="p">,</span><span class="n">scalings</span><span class="o">=</span><span class="n">scalings</span><span class="p">)</span>
+    <span class="n">datamap</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SectorDataset"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset">[docs]</a><span class="k">class</span> <span class="nc">SectorDataset</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">datafile</span><span class="p">,</span><span class="n">sector_id</span><span class="p">,</span><span class="n">enduses</span><span class="p">,</span><span class="n">times</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a SectorDataset object. Note that this does not read from</span>
+<span class="sd">        or write to datafile in any way, and should generally not be called directly.</span>
+<span class="sd">        Instead, use the SectorDataset.load or SectorDataset.new class methods.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">sector_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">datafile</span><span class="o">.</span><span class="n">sector_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Sector ID &quot;</span> <span class="o">+</span> <span class="n">sector_id</span> <span class="o">+</span> <span class="s2">&quot; is not in &quot;</span> <span class="o">+</span>
+                                <span class="s2">&quot;the Datafile&#39;s SectorEnumeration&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">enduses</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">datafile</span><span class="o">.</span><span class="n">enduse_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Supplied enduses (&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">enduses</span><span class="p">)</span> <span class="o">+</span>
+                             <span class="s2">&quot;) are not a subset of the &quot;</span> <span class="o">+</span>
+                             <span class="s2">&quot;Datafile&#39;s EndUseEnumeration ids (&quot;</span> <span class="o">+</span>
+                             <span class="nb">str</span><span class="p">(</span><span class="n">datafile</span><span class="o">.</span><span class="n">enduse_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">times</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">datafile</span><span class="o">.</span><span class="n">time_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Supplied times are not a subset of the &quot;</span> <span class="o">+</span>
+                             <span class="s2">&quot;Datafile&#39;s TimeEnumeration&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sector_id</span> <span class="o">=</span> <span class="n">sector_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datafile</span> <span class="o">=</span> <span class="n">datafile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enduses</span> <span class="o">=</span> <span class="n">enduses</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">times</span> <span class="o">=</span> <span class="n">times</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_geos</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># data is inserted by geography</span>
+
+<div class="viewcode-block" id="SectorDataset.new"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.new">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">new</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">datafile</span><span class="p">,</span><span class="n">sector_id</span><span class="p">,</span><span class="n">enduses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">enduses</span><span class="p">:</span>
+            <span class="n">enduses</span> <span class="o">=</span> <span class="n">datafile</span><span class="o">.</span><span class="n">enduse_enum</span><span class="o">.</span><span class="n">ids</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">times</span><span class="p">:</span>
+            <span class="n">times</span> <span class="o">=</span> <span class="n">datafile</span><span class="o">.</span><span class="n">time_enum</span><span class="o">.</span><span class="n">ids</span>
+
+        <span class="n">sdset</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span><span class="n">sector_id</span><span class="p">,</span><span class="n">enduses</span><span class="p">,</span><span class="n">times</span><span class="p">)</span>
+
+        <span class="n">n_enduses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">enduses</span><span class="p">)</span>
+        <span class="n">n_times</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_enduses</span><span class="p">,</span> <span class="n">n_times</span><span class="p">)</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_enduses</span><span class="p">,</span> <span class="n">n_times</span><span class="p">)</span>
+        <span class="n">chunk_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_enduses</span><span class="p">,</span> <span class="n">n_times</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">datafile</span><span class="o">.</span><span class="n">h5path</span><span class="p">,</span> <span class="s2">&quot;r+&quot;</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="s1">&#39;core&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+
+            <span class="n">dgroup</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="n">sector_id</span><span class="p">)</span>
+
+            <span class="n">dset</span> <span class="o">=</span> <span class="n">dgroup</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span>
+                <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+                <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+                <span class="n">maxshape</span><span class="o">=</span><span class="n">max_shape</span><span class="p">,</span>
+                <span class="n">chunks</span><span class="o">=</span><span class="n">chunk_shape</span><span class="p">,</span>
+                <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">)</span>
+
+            <span class="n">dgroup</span><span class="p">[</span><span class="s2">&quot;geographies&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Datamap</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">datafile</span><span class="o">.</span><span class="n">geo_enum</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">dgroup</span><span class="p">[</span><span class="s2">&quot;enduses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Datamap</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">datafile</span><span class="o">.</span><span class="n">enduse_enum</span><span class="p">,</span> <span class="n">enduses</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">dgroup</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Datamap</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">datafile</span><span class="o">.</span><span class="n">time_enum</span><span class="p">,</span> <span class="n">times</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="k">return</span> <span class="n">sdset</span></div>
+
+
+<div class="viewcode-block" id="SectorDataset.load"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.load">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">datafile</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">sector_id</span><span class="p">):</span>
+        <span class="n">dgroup</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;data/&quot;</span> <span class="o">+</span> <span class="n">sector_id</span><span class="p">]</span>
+
+        <span class="n">datamap</span> <span class="o">=</span> <span class="n">Datamap</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">dgroup</span><span class="p">[</span><span class="s2">&quot;enduses&quot;</span><span class="p">])</span>
+        <span class="n">enduses</span> <span class="o">=</span> <span class="n">datamap</span><span class="o">.</span><span class="n">get_subenum</span><span class="p">(</span><span class="n">datafile</span><span class="o">.</span><span class="n">enduse_enum</span><span class="p">)</span>
+
+        <span class="n">datamap</span> <span class="o">=</span> <span class="n">Datamap</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">dgroup</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">])</span>
+        <span class="n">times</span> <span class="o">=</span> <span class="n">datamap</span><span class="o">.</span><span class="n">get_subenum</span><span class="p">(</span><span class="n">datafile</span><span class="o">.</span><span class="n">time_enum</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span><span class="n">sector_id</span><span class="p">,</span><span class="n">enduses</span><span class="p">,</span><span class="n">times</span><span class="p">)</span>
+
+        <span class="n">datamap</span> <span class="o">=</span> <span class="n">Datamap</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">dgroup</span><span class="p">[</span><span class="s2">&quot;geographies&quot;</span><span class="p">])</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">n_geos</span> <span class="o">=</span> <span class="n">datamap</span><span class="o">.</span><span class="n">num_entries</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="SectorDataset.loadall"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.loadall">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">loadall</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">datafile</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">_upgrade_class</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="k">for</span> <span class="n">sector_id</span><span class="p">,</span> <span class="n">sector_group</span> <span class="ow">in</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">_upgrade_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">sector_id</span><span class="p">,</span> <span class="n">_upgrade_class</span><span class="o">.</span><span class="n">load_sectordataset</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">sector_id</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sector_group</span><span class="p">,</span> <span class="n">h5py</span><span class="o">.</span><span class="n">Group</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">sector_id</span><span class="p">,</span> <span class="n">SectorDataset</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">sector_id</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span> <span class="ow">and</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span>
+            <span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">(</span><span class="si">%r</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="SectorDataset.add_data_batch"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.add_data_batch">[docs]</a>    <span class="k">def</span> <span class="nf">add_data_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dataframes</span><span class="p">,</span><span class="n">geo_ids</span><span class="p">,</span><span class="n">scalings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">full_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a batch of new data to this SectorDataset. Uses the basic add_data </span>
+<span class="sd">        functionality, but handles the h5 file so as to write data to memory first</span>
+<span class="sd">        and only write to disk upon closing.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dataframes : iterable</span>
+<span class="sd">            One dataframe per call to add_data</span>
+<span class="sd">        geo_ids : list</span>
+<span class="sd">            List of geo_ids arguments to pass to add_data</span>
+<span class="sd">        scalings : None or list of lists</span>
+<span class="sd">            If None, [] will be passed in to each call of add_data. Otherwise, </span>
+<span class="sd">            this must be a list of the scalings arguments to pass, which must be </span>
+<span class="sd">            lists of the same size as the geo_ids argument for that call.</span>
+<span class="sd">        full_validation : bool</span>
+<span class="sd">            If true, checks that all enumeration ids (time, enduse, and geography)</span>
+<span class="sd">           are valid. If false, does this, but only for the first item.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">h5path</span><span class="p">,</span> <span class="s2">&quot;r+&quot;</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="s1">&#39;core&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dataframe</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataframes</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
+                    <span class="n">dataframe</span><span class="p">,</span>
+                    <span class="n">geo_ids</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="n">scalings</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">scalings</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">scalings</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="n">full_validation</span><span class="o">=</span><span class="n">full_validation</span> <span class="k">if</span> <span class="n">full_validation</span> <span class="k">else</span> <span class="n">first</span><span class="p">,</span>
+                    <span class="n">_batch_file_object</span><span class="o">=</span><span class="n">f</span><span class="p">)</span>
+                <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="SectorDataset.add_data"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.add_data">[docs]</a>    <span class="k">def</span> <span class="nf">add_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dataframe</span><span class="p">,</span><span class="n">geo_ids</span><span class="p">,</span><span class="n">scalings</span><span class="o">=</span><span class="p">[],</span><span class="n">full_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">_batch_file_object</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add new data to this SectorDataset, as part of the self.datafile HDF5.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dataframe : pandas.DataFrame</span>
+<span class="sd">           Data to add, indexed by times, and with columns equal to enduses.</span>
+<span class="sd">        geo_ids : id or list of ids</span>
+<span class="sd">           Ids map to datafile.geo_enum</span>
+<span class="sd">        scalings : list of float</span>
+<span class="sd">           If non-empty, must be same length as geo_ids and represents the </span>
+<span class="sd">           scaling factors for the geo_ids in order. Otherwise, a uniform value</span>
+<span class="sd">           of 1.0 is assumed for all geo_ids.</span>
+<span class="sd">        full_validation : bool</span>
+<span class="sd">           If true, checks that all enumeration ids (time, enduse, and geography)</span>
+<span class="sd">           are valid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">geo_ids</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">geo_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">geo_ids</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">geo_ids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Skipping call to add_data because geo_ids is empty.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Although geo_ids is empty, dataframe is not:</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dataframe</span><span class="p">))</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">full_validation</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">geo_id</span> <span class="ow">in</span> <span class="n">geo_ids</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">geo_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">geo_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Geography ID must be in the DataFile&#39;s &quot;</span> <span class="o">+</span> 
+                        <span class="s2">&quot;GeographyEnumeration, but is </span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">geo_id</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataframe</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataframe</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;DataFrame row indices must be unique&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">full_validation</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">time</span> <span class="ow">in</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">time</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Time ID (DataFrame row index) </span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">+</span>
+<span class="s2">&quot; is invalid: time IDs must both exist in the DataFile&#39;s TimeEnumeration and &quot;</span>
+<span class="s2">&quot;have been defined as a sector-relevant time during the SectorDataset&#39;s creation.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataframe</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataframe</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;DataFrame column names must be unique&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">full_validation</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">enduse</span> <span class="ow">in</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">enduse</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">enduses</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;End-use ID (DataFrame column name) &quot;</span> <span class="o">+</span> <span class="n">enduse</span> <span class="o">+</span>
+<span class="s2">&quot; is invalid: end-use IDs must both exist in the DataFile&#39;s EndUseEnumeration and &quot;</span>
+<span class="s2">&quot;have been defined as a sector-relevant end-use during the SectorDataset&#39;s creation.&quot;</span><span class="p">)</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">enduses</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">append_to_h5file</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+
+            <span class="n">dgroup</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;data/&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sector_id</span><span class="p">]</span>
+            <span class="n">dset</span> <span class="o">=</span> <span class="n">dgroup</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="n">new_geo_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_geos</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_geos</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="n">dset</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_geos</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">dset</span><span class="p">[</span><span class="n">new_geo_idx</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">data</span>
+
+            <span class="n">append_element_to_dataset_dimension</span><span class="p">(</span><span class="n">dgroup</span><span class="p">[</span><span class="s2">&quot;geographies&quot;</span><span class="p">],</span>
+                <span class="n">new_geo_idx</span><span class="p">,</span><span class="n">geo_ids</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">geo_enum</span><span class="p">,</span><span class="n">scalings</span><span class="o">=</span><span class="n">scalings</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">_batch_file_object</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">h5path</span><span class="p">,</span> <span class="s2">&quot;r+&quot;</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="s1">&#39;core&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">append_to_h5file</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">append_to_h5file</span><span class="p">(</span><span class="n">_batch_file_object</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geo_ids</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">geo_ids</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geo_id</span><span class="p">):</span>
+
+        <span class="n">id_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">geo_enum</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">geo_id</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">h5Reader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">h5path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">dgroup</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;data/&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sector_id</span><span class="p">]</span>
+            <span class="n">dset</span> <span class="o">=</span> <span class="n">dgroup</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="n">geo_idx</span><span class="p">,</span> <span class="n">geo_scale</span> <span class="o">=</span> <span class="n">dgroup</span><span class="p">[</span><span class="s2">&quot;geographies&quot;</span><span class="p">][</span><span class="n">id_idx</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">geo_idx</span> <span class="o">==</span> <span class="n">NULL_IDX</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">dset</span><span class="p">[</span><span class="n">geo_idx</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">geo_scale</span>
+
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span>
+                            <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">,</span>
+                            <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">enduses</span><span class="p">,</span>
+                            <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SectorDataset.has_data"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.has_data">[docs]</a>    <span class="k">def</span> <span class="nf">has_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">geo_id</span><span class="p">):</span>
+        <span class="n">id_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">geo_enum</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">geo_id</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">h5Reader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">h5path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">dgroup</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;data/&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sector_id</span><span class="p">]</span>
+
+            <span class="n">geo_idx</span><span class="p">,</span> <span class="n">geo_scale</span> <span class="o">=</span> <span class="n">dgroup</span><span class="p">[</span><span class="s2">&quot;geographies&quot;</span><span class="p">][</span><span class="n">id_idx</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">geo_idx</span> <span class="o">==</span> <span class="n">NULL_IDX</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="SectorDataset.get_datamap"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.get_datamap">[docs]</a>    <span class="k">def</span> <span class="nf">get_datamap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dim_key</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">h5Reader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">h5path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">dgroup</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">sector_id</span><span class="p">]</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">Datamap</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">dgroup</span><span class="p">[</span><span class="n">dim_key</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="SectorDataset.get_data"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.get_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_geo_index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get data in this file&#39;s native format.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dataset_geo_index : int</span>
+<span class="sd">            Index into the geography dimension of this dataset. Is an integer </span>
+<span class="sd">            in the range [0,self.n_geos) that corresponds to the values in this </span>
+<span class="sd">            dataset&#39;s geographies[:,&#39;idx&#39;] that are not equal to NULL_IDX</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pandas.DataFrame</span>
+<span class="sd">            data indexed by time and differentiated by enduse (as columns)</span>
+<span class="sd">        list of .datafile.geo_enum.ids</span>
+<span class="sd">            geographic enum values this data applies to</span>
+<span class="sd">        list of float</span>
+<span class="sd">            one scaling factor for each geographic enum value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">dataset_geo_index</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">dataset_geo_index</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_geos</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;dataset_geo_index must be in the range [0,</span><span class="si">{}</span><span class="s2">), but is </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_geos</span><span class="p">,</span><span class="n">dataset_geo_index</span><span class="p">))</span>
+
+        <span class="k">with</span> <span class="n">h5Reader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">h5path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+
+            <span class="n">dgroup</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">sector_id</span><span class="p">]</span>
+            <span class="n">dset</span> <span class="o">=</span> <span class="n">dgroup</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">dset</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span>
+                              <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">,</span>
+                              <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">enduses</span><span class="p">,</span>
+                              <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+            <span class="n">geo_datamap</span> <span class="o">=</span> <span class="n">Datamap</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">dgroup</span><span class="p">[</span><span class="s2">&quot;geographies&quot;</span><span class="p">])</span>
+            <span class="n">geo_ids</span> <span class="o">=</span> <span class="n">geo_datamap</span><span class="o">.</span><span class="n">ids</span><span class="p">(</span><span class="n">dataset_geo_index</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">geo_enum</span><span class="p">)</span>
+            <span class="n">scalings</span> <span class="o">=</span> <span class="n">geo_datamap</span><span class="o">.</span><span class="n">scales</span><span class="p">(</span><span class="n">dataset_geo_index</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">df</span><span class="p">,</span> <span class="n">geo_ids</span><span class="p">,</span> <span class="n">scalings</span></div>
+
+<div class="viewcode-block" id="SectorDataset.copy_data"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.copy_data">[docs]</a>    <span class="k">def</span> <span class="nf">copy_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other_sectordataset</span><span class="p">,</span><span class="n">full_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Copy data from this SectorDataset into other_sectordataset.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other_sectordataset : SectorDataset</span>
+<span class="sd">            target for this SectorDataset&#39;s data to be copied into</span>
+<span class="sd">        full_validation : bool</span>
+<span class="sd">            flag for SectorDataset.add_data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">batch_dataframes</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">batch_geo_ids</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">batch_scalings</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_geos</span><span class="p">):</span>
+            <span class="c1"># pull data</span>
+            <span class="n">df</span><span class="p">,</span> <span class="n">geo_ids</span><span class="p">,</span> <span class="n">scalings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">batch_dataframes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="n">batch_geo_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geo_ids</span><span class="p">)</span>
+            <span class="n">batch_scalings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scalings</span><span class="p">)</span>
+        <span class="n">other_sectordataset</span><span class="o">.</span><span class="n">add_data_batch</span><span class="p">(</span><span class="n">batch_dataframes</span><span class="p">,</span><span class="n">batch_geo_ids</span><span class="p">,</span><span class="n">scalings</span><span class="o">=</span><span class="n">batch_scalings</span><span class="p">,</span><span class="n">full_validation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SectorDataset.map_dimension"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.map_dimension">[docs]</a>    <span class="k">def</span> <span class="nf">map_dimension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">new_datafile</span><span class="p">,</span><span class="n">mapping</span><span class="p">):</span>
+        <span class="c1"># import ExplicitDisaggregation here to avoid circular import but be</span>
+        <span class="c1"># able to test and raise DSGridNotImplemented as needed</span>
+        <span class="kn">from</span> <span class="nn">dsgrid.dataformat.dimmap</span> <span class="kn">import</span> <span class="n">ExplicitDisaggregation</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">new_datafile</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">sector_id</span><span class="p">,</span>
+            <span class="n">enduses</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">to_enum</span><span class="p">,</span><span class="n">EndUseEnumerationBase</span><span class="p">)</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">enduses</span><span class="p">,</span>
+            <span class="n">times</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">to_enum</span><span class="p">,</span><span class="n">TimeEnumeration</span><span class="p">)</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">to_enum</span><span class="p">,</span><span class="n">GeographyEnumeration</span><span class="p">):</span>
+            <span class="c1"># 1. Figure out how geography is mapped now, where it needs to get</span>
+            <span class="c1"># mapped to, and what the new scalings should be on a</span>
+            <span class="c1"># per-dataset_geo_index basis</span>
+            <span class="n">geo_datamap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_datamap</span><span class="p">(</span><span class="s1">&#39;geographies&#39;</span><span class="p">)</span>
+            <span class="n">from_geo_map</span> <span class="o">=</span> <span class="n">geo_datamap</span><span class="o">.</span><span class="n">get_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="o">.</span><span class="n">geo_enum</span><span class="p">)</span> <span class="c1"># dataset_geo_index: (geo_ids, scalings) in THIS dataset</span>
+            <span class="n">to_geo_map</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>                                 <span class="c1"># DITTO, but for mapped dataset, ignoring aggregation for now</span>
+            <span class="c1"># new_geo_id: [dataset_geo_indices] so can see what aggregation needs to be done</span>
+            <span class="n">new_geo_ids_to_dataset_geo_index_map</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[])</span>
+            <span class="k">for</span> <span class="n">dataset_geo_index</span> <span class="ow">in</span> <span class="n">from_geo_map</span><span class="p">:</span>
+                <span class="n">geo_ids</span><span class="p">,</span> <span class="n">scalings</span> <span class="o">=</span> <span class="n">from_geo_map</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">]</span>
+                <span class="n">new_geo_ids</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">new_scalings</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">geo_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">geo_ids</span><span class="p">):</span>
+                    <span class="n">new_geo_id</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">geo_id</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">new_geo_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="c1"># filtering out; moving on</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_geo_id</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
+                        <span class="c1"># disaggregating</span>
+                        <span class="n">new_geo_ids</span> <span class="o">+=</span> <span class="n">new_geo_id</span>
+                        <span class="n">new_scaling</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">get_scalings</span><span class="p">(</span><span class="n">new_geo_id</span><span class="p">)</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Disaggregating.</span><span class="se">\n</span><span class="s2">  new_geo_id: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new_geo_id</span><span class="p">)</span> <span class="o">+</span>
+                                     <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  new_scaling: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new_scaling</span><span class="p">))</span>
+                        <span class="n">new_scalings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">new_scalings</span><span class="p">,</span> <span class="p">(</span><span class="n">new_scaling</span> <span class="o">*</span> <span class="n">scalings</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+                        <span class="k">for</span> <span class="n">newid</span> <span class="ow">in</span> <span class="n">new_geo_id</span><span class="p">:</span>
+                            <span class="n">new_geo_ids_to_dataset_geo_index_map</span><span class="p">[</span><span class="n">newid</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataset_geo_index</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">new_geo_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_geo_id</span><span class="p">)</span>
+                        <span class="n">new_scalings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scalings</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                        <span class="n">new_geo_ids_to_dataset_geo_index_map</span><span class="p">[</span><span class="n">new_geo_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataset_geo_index</span><span class="p">)</span>
+                <span class="n">to_geo_map</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_geo_ids</span><span class="p">,</span><span class="n">new_scalings</span><span class="p">)</span>
+
+            <span class="c1"># 2. Step through via new_geo_ids_to_dataset_geo_index_map. Pull out </span>
+            <span class="c1"># new_geo_ids that are aggregations across dataset_geo_indices. Then</span>
+            <span class="c1"># process those new_geo_ids first.</span>
+            <span class="n">pulled_data</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span> <span class="c1"># dataset_geo_index: df</span>
+            <span class="k">def</span> <span class="nf">get_df</span><span class="p">(</span><span class="n">dataset_geo_index</span><span class="p">,</span><span class="n">new_geo_id</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">dataset_geo_index</span> <span class="ow">in</span> <span class="n">pulled_data</span><span class="p">):</span>
+                    <span class="c1"># pull the original data</span>
+                    <span class="n">df</span><span class="p">,</span> <span class="n">geo_ids</span><span class="p">,</span> <span class="n">scalings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">dataset_geo_index</span><span class="p">)</span>
+                    <span class="n">pulled_data</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span>
+                <span class="c1"># pull the scaling factor</span>
+                <span class="n">ind</span> <span class="o">=</span> <span class="n">to_geo_map</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">new_geo_id</span><span class="p">)</span>
+                <span class="n">scale</span> <span class="o">=</span> <span class="n">to_geo_map</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span>
+                <span class="c1"># calculate the result</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">pulled_data</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span>
+                <span class="c1"># delete the items in to_geo_map that have now been handled</span>
+                <span class="n">to_geo_map</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">to_geo_map</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">ind</span><span class="p">)],</span>
+                    <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">to_geo_map</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">ind</span><span class="p">)])</span>
+                <span class="c1"># if this to_geo_map entry is empty, delete it, and delete the</span>
+                <span class="c1"># pulled_data too</span>
+                <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_geo_map</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_geo_map</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_geo_map</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="n">to_geo_map</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="n">pulled_data</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">result</span>
+
+            <span class="n">require_aggregation</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">new_geo_id</span> <span class="ow">in</span> <span class="n">new_geo_ids_to_dataset_geo_index_map</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_geo_ids_to_dataset_geo_index_map</span><span class="p">[</span><span class="n">new_geo_id</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">require_aggregation</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_geo_id</span><span class="p">)</span>
+            <span class="n">batch_dataframes</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">batch_geo_ids</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">new_geo_id</span> <span class="ow">in</span> <span class="n">require_aggregation</span><span class="p">:</span>
+                <span class="n">aggdf</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">dataset_geo_index</span> <span class="ow">in</span> <span class="n">new_geo_ids_to_dataset_geo_index_map</span><span class="p">[</span><span class="n">new_geo_id</span><span class="p">]:</span>
+                    <span class="n">tempdf</span> <span class="o">=</span> <span class="n">get_df</span><span class="p">(</span><span class="n">dataset_geo_index</span><span class="p">,</span><span class="n">new_geo_id</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">aggdf</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">aggdf</span> <span class="o">=</span> <span class="n">tempdf</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">aggdf</span> <span class="o">=</span> <span class="n">aggdf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tempdf</span><span class="p">,</span><span class="n">fill_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+                <span class="n">batch_dataframes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aggdf</span><span class="p">)</span>
+                <span class="n">batch_geo_ids</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">new_geo_id</span><span class="p">])</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">add_data_batch</span><span class="p">(</span><span class="n">batch_dataframes</span><span class="p">,</span><span class="n">batch_geo_ids</span><span class="p">,</span><span class="n">full_validation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="c1"># 3. Now add data that did not need to be aggregated</span>
+            <span class="n">batch_dataframes</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">batch_geo_ids</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">batch_scalings</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">dataset_geo_index</span> <span class="ow">in</span> <span class="n">to_geo_map</span><span class="p">:</span>
+                <span class="n">geo_ids</span><span class="p">,</span> <span class="n">scalings</span> <span class="o">=</span> <span class="n">to_geo_map</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">geo_ids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;All data from dataset_geo_index </span><span class="si">{}</span><span class="s2"> is being dropped.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dataset_geo_index</span><span class="p">))</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">dataset_geo_index</span> <span class="ow">in</span> <span class="n">pulled_data</span><span class="p">:</span>
+                    <span class="n">df</span> <span class="o">=</span> <span class="n">pulled_data</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="n">pulled_data</span><span class="p">[</span><span class="n">dataset_geo_index</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">df</span><span class="p">,</span> <span class="n">junk1</span><span class="p">,</span> <span class="n">junk2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">dataset_geo_index</span><span class="p">)</span>
+                <span class="n">batch_dataframes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+                <span class="n">batch_geo_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geo_ids</span><span class="p">)</span>
+                <span class="n">batch_scalings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scalings</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">add_data_batch</span><span class="p">(</span><span class="n">batch_dataframes</span><span class="p">,</span><span class="n">batch_geo_ids</span><span class="p">,</span><span class="n">scalings</span><span class="o">=</span><span class="n">batch_scalings</span><span class="p">,</span><span class="n">full_validation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">to_enum</span><span class="p">,</span><span class="n">TimeEnumeration</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span><span class="n">ExplicitDisaggregation</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">DSGridNotImplemented</span><span class="p">(</span><span class="s2">&quot;Temporal disaggregations have not been implemented.&quot;</span><span class="p">)</span>
+            <span class="c1"># Map dataframe indices</span>
+            <span class="n">batch_dataframes</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">batch_geo_ids</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">batch_scalings</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_geos</span><span class="p">):</span>
+                <span class="c1"># pull data</span>
+                <span class="n">df</span><span class="p">,</span> <span class="n">geo_ids</span><span class="p">,</span> <span class="n">scalings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+                <span class="c1"># apply the mapping</span>
+                <span class="n">cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+                <span class="n">df</span><span class="p">[</span><span class="n">mapping</span><span class="o">.</span><span class="n">to_enum</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">map</span><span class="p">)</span>
+                <span class="c1"># filter out unmapped items</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">mapping</span><span class="o">.</span><span class="n">to_enum</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">==</span> <span class="kc">None</span><span class="p">)]</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">mapping</span><span class="o">.</span><span class="n">to_enum</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                    <span class="n">values</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span>
+                                    <span class="n">aggfunc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span>
+                                    <span class="n">fill_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+
+                <span class="c1"># add the mapped data to the new file</span>
+                <span class="n">batch_dataframes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+                <span class="n">batch_geo_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geo_ids</span><span class="p">)</span>
+                <span class="n">batch_scalings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scalings</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">add_data_batch</span><span class="p">(</span><span class="n">batch_dataframes</span><span class="p">,</span><span class="n">batch_geo_ids</span><span class="p">,</span><span class="n">scalings</span><span class="o">=</span><span class="n">batch_scalings</span><span class="p">,</span><span class="n">full_validation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">to_enum</span><span class="p">,</span><span class="n">EndUseEnumerationBase</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span><span class="n">ExplicitDisaggregation</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">DSGridNotImplemented</span><span class="p">(</span><span class="s2">&quot;End-use disaggregations have not been implemented.&quot;</span><span class="p">)</span>
+            <span class="c1"># Map dataframe columns</span>
+            <span class="n">batch_dataframes</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">batch_geo_ids</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">batch_scalings</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_geos</span><span class="p">):</span>
+                <span class="c1"># pull data</span>
+                <span class="n">df</span><span class="p">,</span> <span class="n">geo_ids</span><span class="p">,</span> <span class="n">scalings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+                <span class="c1"># apply scaling (for unit conversion)</span>
+                <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">scale_factor</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">):</span>
+                        <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">*</span> <span class="n">mapping</span><span class="o">.</span><span class="n">scale_factor</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+
+                <span class="c1"># apply the mapping</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">mapping</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+                <span class="c1"># filter out unmapped items</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]]</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+                <span class="c1"># add the mapped data to the new file</span>
+                <span class="n">batch_dataframes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+                <span class="n">batch_geo_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geo_ids</span><span class="p">)</span>
+                <span class="n">batch_scalings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scalings</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">add_data_batch</span><span class="p">(</span><span class="n">batch_dataframes</span><span class="p">,</span><span class="n">batch_geo_ids</span><span class="p">,</span><span class="n">scalings</span><span class="o">=</span><span class="n">batch_scalings</span><span class="p">,</span><span class="n">full_validation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DSGridError</span><span class="p">(</span><span class="s2">&quot;SectorDataset is not able to map to </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">to_enum</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="SectorDataset.scale_data"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.scale_data">[docs]</a>    <span class="k">def</span> <span class="nf">scale_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">new_datafile</span><span class="p">,</span><span class="n">factor</span><span class="o">=</span><span class="mf">0.001</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Scale all the data in self by factor, creating a new HDF5 file and </span>
+<span class="sd">        corresponding Datafile. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filepath : str</span>
+<span class="sd">            Location for the new HDF5 file to be created</span>
+<span class="sd">        factor : float</span>
+<span class="sd">            Factor by which all the data in the file is to be multiplied. The </span>
+<span class="sd">            default value of 0.001 corresponds to converting the bottom-up data </span>
+<span class="sd">            from kWh to MWh.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">new_datafile</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">sector_id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">enduses</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">)</span>
+        <span class="c1"># pull data</span>
+        <span class="n">batch_dataframes</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">batch_geo_ids</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">batch_scalings</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_geos</span><span class="p">):</span>
+            <span class="n">df</span><span class="p">,</span> <span class="n">geo_ids</span><span class="p">,</span> <span class="n">scalings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">geo_ids</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                <span class="c1"># This will cause warning later and shouldn&#39;t be happening</span>
+                <span class="k">raise</span> <span class="n">DSGridError</span><span class="p">(</span><span class="s2">&quot;No geo_ids associated with a non-empty DataFrame. Sector ID: </span><span class="si">{}</span><span class="s2">, idx: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sector_id</span><span class="p">,</span><span class="n">i</span><span class="p">))</span>
+
+            <span class="c1"># apply the scaling</span>
+            <span class="n">scalings</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="n">factor</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">scalings</span><span class="p">]</span>
+
+            <span class="c1"># add the mapped data to the new file</span>
+            <span class="n">batch_dataframes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="n">batch_geo_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geo_ids</span><span class="p">)</span>
+            <span class="n">batch_scalings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scalings</span><span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">add_data_batch</span><span class="p">(</span><span class="n">batch_dataframes</span><span class="p">,</span><span class="n">batch_geo_ids</span><span class="p">,</span><span class="n">scalings</span><span class="o">=</span><span class="n">batch_scalings</span><span class="p">,</span><span class="n">full_validation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright Copyright 2021, The Alliance for Sustainable Energy, LLC.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

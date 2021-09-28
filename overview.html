@@ -1,0 +1,464 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Getting Started &mdash; dsgrid-legacy-efs-api 0.4.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API" href="api.html" />
+    <link rel="prev" title="dsgrid-legacy-efs-api documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> dsgrid-legacy-efs-api
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-new-data-file">Creating a new data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reading-in-an-existing-data-file">Reading in an existing data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#working-with-a-dsgrid-model-collection-of-data-files">Working with a dsgrid model (collection of data files)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/modules.html">dsgrid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.html">dsgrid package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/dsgrid.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/dsgrid.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/dsgrid.html#module-dsgrid.helpers">dsgrid.helpers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/dsgrid.html#module-dsgrid.layerstack">dsgrid.layerstack module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/dsgrid.html#module-dsgrid.model">dsgrid.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/dsgrid.html#module-dsgrid">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/dsgrid.html">dsgrid package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/dsgrid.dataformat.html">dsgrid.dataformat package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.html#module-dsgrid.helpers">dsgrid.helpers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.html#module-dsgrid.layerstack">dsgrid.layerstack module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.html#module-dsgrid.model">dsgrid.model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.html#module-dsgrid">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/dsgrid.dataformat.html">dsgrid.dataformat package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.dataformat.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.datafile">dsgrid.dataformat.datafile module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.datatable">dsgrid.dataformat.datatable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.dimmap">dsgrid.dataformat.dimmap module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.enumeration">dsgrid.dataformat.enumeration module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.sectordataset">dsgrid.dataformat.sectordataset module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.upgrade">dsgrid.dataformat.upgrade module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.dataformat.html#module-dsgrid.dataformat">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">dsgrid-legacy-efs-api</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Getting Started</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/overview.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>This is a basic overview of how to use the dsgrid-legacy-efs-api
+<code class="docutils literal notranslate"><span class="pre">dsgrid</span></code> package. If desired, more extensive examples can be found
+throughout the
+<a class="reference external" href="https://github.com/dsgrid/dsgrid-legacy-efs-api/tree/main/notebooks">notebooks</a>
+and <a class="reference external" href="https://github.com/dsgrid/dsgrid-legacy-efs-api/tree/main/tests">tests</a>.</p>
+<p>For accessing the dsgrid EFS data, <a class="reference external" href="#reading-in-an-existing-data-file">reading data
+files</a> and <a class="reference external" href="#working-with-a-dsgrid-model-collection-of-data-files">working with dsgrid
+models</a> is
+probably most of interest. However, the <a class="reference external" href="#creating-a-new-data-file">brief primer on how to create new
+data files</a> may be useful
+background information. Also note that while a <code class="docutils literal notranslate"><span class="pre">.dsg</span></code> extension is
+used for the dsgrid EFS data files, the underlying format is basic HDF5
+and can be browsed with a basic viewer like
+<a class="reference external" href="https://www.hdfgroup.org/downloads/hdfview/">HDFView</a>.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>To get the basic package, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">dsgrid</span><span class="o">-</span><span class="n">legacy</span><span class="o">-</span><span class="n">efs</span><span class="o">-</span><span class="n">api</span>
+</pre></div>
+</div>
+<p>If you would like to run the example notebooks and browse the files available
+through the Open Energy Data Initiative (OEDI), install the required extra
+dependencies:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">dsgrid</span><span class="o">-</span><span class="n">legacy</span><span class="o">-</span><span class="n">efs</span><span class="o">-</span><span class="n">api</span><span class="p">[</span><span class="n">ntbks</span><span class="p">,</span><span class="n">oedi</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>and also clone the repository. Then you should be able to run the .ipynb files
+in the dsgrid-legacy-efs-api/notebooks folder, which include functionality for
+directly browsing the OEDI <a class="reference external" href="https://data.openei.org/s3_viewer?bucket=oedi-data-lake&amp;prefix=dsgrid-2018-efs%2F">oedi-data-lake/dsgrid-2018-efs</a>
+data files. If you would like to use the HSDS service, please see the
+configuration instructions at <a class="reference external" href="https://github.com/NREL/hsds-examples/">https://github.com/NREL/hsds-examples/</a>.</p>
+</div>
+<div class="section" id="creating-a-new-data-file">
+<h2>Creating a new data file<a class="headerlink" href="#creating-a-new-data-file" title="Permalink to this headline">¶</a></h2>
+<p>To begin, create an empty
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile" title="dsgrid.dataformat.datafile.Datafile"><code class="xref py py-class docutils literal notranslate"><span class="pre">Datafile</span></code></a> object. This involves
+providing a file path for the HDF5 file that will be created, and a set
+of valid
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SectorEnumeration" title="dsgrid.dataformat.enumeration.SectorEnumeration"><code class="xref py py-class docutils literal notranslate"><span class="pre">sector</span></code></a>,
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.GeographyEnumeration" title="dsgrid.dataformat.enumeration.GeographyEnumeration"><code class="xref py py-class docutils literal notranslate"><span class="pre">geography</span></code></a>,
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumerationBase" title="dsgrid.dataformat.enumeration.EndUseEnumerationBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">enduse</span></code></a>,
+and <a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration" title="dsgrid.dataformat.enumeration.TimeEnumeration"><code class="xref py py-class docutils literal notranslate"><span class="pre">time</span></code></a>
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration" title="dsgrid.dataformat.enumeration.Enumeration"><code class="xref py py-class docutils literal notranslate"><span class="pre">enumerations</span></code></a>. An
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration" title="dsgrid.dataformat.enumeration.Enumeration"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enumeration</span></code></a> includes both a
+list of unique IDs identifying individual allowed values, as well as a
+matching list of more descriptive names. The package includes predefined
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration" title="dsgrid.dataformat.enumeration.Enumeration"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enumerations</span></code></a> for
+sector model data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dsgrid.datafile</span> <span class="kn">import</span> <span class="n">Datafile</span>
+<span class="kn">from</span> <span class="nn">dsgrid.enumeration</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">sectors_subsectors</span><span class="p">,</span> <span class="n">counties</span><span class="p">,</span> <span class="n">enduses</span><span class="p">,</span> <span class="n">hourly2012</span>
+<span class="p">)</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">Datafile</span><span class="p">(</span><span class="s2">&quot;data.dsg&quot;</span><span class="p">,</span> <span class="n">sectors_subsectors</span><span class="p">,</span> <span class="n">counties</span><span class="p">,</span> <span class="n">enduses</span><span class="p">,</span> <span class="n">hourly2012</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A <a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset" title="dsgrid.dataformat.sectordataset.SectorDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">SectorDataset</span></code></a> can now be
+added to the <a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile" title="dsgrid.dataformat.datafile.Datafile"><code class="xref py py-class docutils literal notranslate"><span class="pre">Datafile</span></code></a>. Note that
+here “sector” refers to both levels of the sector/subsector hierarchy.
+This is for extensibility of the format to support less resolved
+datasets where data may only be available by aggregate sector, or even
+just economy-wide.</p>
+<p>The following would create a sector dataset that spans all enduses and
+time periods, assuming the provided sector ID exists in <code class="docutils literal notranslate"><span class="pre">f</span></code>’s
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SectorEnumeration" title="dsgrid.dataformat.enumeration.SectorEnumeration"><code class="xref py py-class docutils literal notranslate"><span class="pre">SectorEnumeration</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">add_sector</span><span class="p">(</span><span class="s2">&quot;res__SingleFamilyDetached&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>However, it’s likely that a single sector/subsector will not be drawing
+load for all possible end uses. In that case, to save space on disk, the
+sector can be defined to use only a subset of the end-uses listed in the
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile" title="dsgrid.dataformat.datafile.Datafile"><code class="xref py py-class docutils literal notranslate"><span class="pre">Datafile's</span></code></a>
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumerationBase" title="dsgrid.dataformat.enumeration.EndUseEnumerationBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">EndUseEnumerationBase</span></code></a> ID list:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">singlefamilydetached</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">add_sector</span><span class="p">(</span><span class="s2">&quot;res__SingleFamilyDetached&quot;</span><span class="p">,</span>
+                                    <span class="n">enduses</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;heating&quot;</span><span class="p">,</span> <span class="s2">&quot;cooling&quot;</span><span class="p">,</span> <span class="s2">&quot;interior_lights&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>One could restrict the dataset to a subset of times in a similar
+fashion.</p>
+<p>Simulation data can now be assigned to the sector (subsector). The data
+should be in the form of a Pandas DataFrame with rows indices
+corresponding to IDs in the
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile" title="dsgrid.dataformat.datafile.Datafile"><code class="xref py py-class docutils literal notranslate"><span class="pre">Datafile's</span></code></a>
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration" title="dsgrid.dataformat.enumeration.TimeEnumeration"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeEnumeration</span></code></a> and column names corresponding to enduse IDs in the
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile" title="dsgrid.dataformat.datafile.Datafile"><code class="xref py py-class docutils literal notranslate"><span class="pre">Datafile's</span></code></a>
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumerationBase" title="dsgrid.dataformat.enumeration.EndUseEnumerationBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">EndUseEnumeration</span></code></a>
+(or the predetermined subset discussed immediately above). Each
+DataFrame is assigned to at least one geography, which are represented
+by IDs in the
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile" title="dsgrid.dataformat.datafile.Datafile"><code class="xref py py-class docutils literal notranslate"><span class="pre">Datafile's</span></code></a>
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.GeographyEnumeration" title="dsgrid.dataformat.enumeration.GeographyEnumeration"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeographyEnumeration</span></code></a>. In this
+case, <code class="docutils literal notranslate"><span class="pre">&quot;08059&quot;</span></code> is the ID and FIPS code for Jefferson County,
+Colorado:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">singlefamilydetached</span><span class="p">[</span><span class="s2">&quot;08059&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">jeffco_sfd_data</span>
+<span class="n">singlefamilydetached</span><span class="p">[[</span><span class="s2">&quot;08001&quot;</span><span class="p">,</span> <span class="s2">&quot;08003&quot;</span><span class="p">,</span> <span class="s2">&quot;08005&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">same_sfd_data_in_many_counties</span>
+</pre></div>
+</div>
+<p>Individual geographies can be associated with a scaling factor to be
+applied to their corresponding data, although this feature is not
+accessible through the indexed assignment syntax and instead requires a
+method call. This is most useful when load shapes are shared between
+counties but magnitudes differ:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">singlefamilydetached</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">same_sfd_shape_different_magnitudes</span><span class="p">,</span>
+                              <span class="p">[</span><span class="s2">&quot;01001&quot;</span><span class="p">,</span> <span class="s2">&quot;01003&quot;</span><span class="p">,</span> <span class="s2">&quot;01005&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">6.7</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>All data is persisted to disk (not stored in memory) as soon as it is
+assigned, so after adding data no further steps are required to save out
+the file.</p>
+<p>Additional classes and methods useful for creating new data:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration" title="dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingleFuelEndUseEnumeration</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration" title="dsgrid.dataformat.enumeration.FuelEnumeration"><code class="xref py py-class docutils literal notranslate"><span class="pre">FuelEnumeration</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration" title="dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiFuelEndUseEnumeration</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.add_data_batch" title="dsgrid.dataformat.sectordataset.SectorDataset.add_data_batch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_data_batch()</span></code></a></p></li>
+</ul>
+</div>
+<div class="section" id="reading-in-an-existing-data-file">
+<h2>Reading in an existing data file<a class="headerlink" href="#reading-in-an-existing-data-file" title="Permalink to this headline">¶</a></h2>
+<p>If a dsgrid-formatted HDF5 file already exists, it can be read into a
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile" title="dsgrid.dataformat.datafile.Datafile"><code class="xref py py-class docutils literal notranslate"><span class="pre">Datafile</span></code></a> object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f2</span> <span class="o">=</span> <span class="n">Datafile</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.dsg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>All of the data will then be accessible to Python just as it was when
+the file was first created, for example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sfd</span> <span class="o">=</span> <span class="n">f2</span><span class="p">[</span><span class="s2">&quot;res__SingleFamilyDetached&quot;</span><span class="p">]</span>
+<span class="n">jeffco_sfd</span> <span class="o">=</span> <span class="n">sfd</span><span class="p">[</span><span class="s2">&quot;08059&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>For easier data manipulation, the full contents of the <a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile" title="dsgrid.dataformat.datafile.Datafile"><code class="xref py py-class docutils literal notranslate"><span class="pre">Datafile</span></code></a> can
+also be read into memory in a tabular format by creating a <a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.datatable.Datatable" title="dsgrid.dataformat.datatable.Datatable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Datatable</span></code></a>
+object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dsgrid.dataformat.datatable</span> <span class="kn">import</span> <span class="n">Datatable</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">Datatable</span><span class="p">(</span><span class="n">f2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A <a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.datatable.Datatable" title="dsgrid.dataformat.datatable.Datatable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Datatable</span></code></a> is just a thin wrapper around
+a Pandas <code class="docutils literal notranslate"><span class="pre">Series</span></code> with a four-level <code class="docutils literal notranslate"><span class="pre">MultiIndex</span></code>. The
+<a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.datatable.Datatable" title="dsgrid.dataformat.datatable.Datatable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Datatable</span></code></a> can be indexed into for quick
+access to a relevant subset of the data, or the underlying <code class="docutils literal notranslate"><span class="pre">Series</span></code> can be
+accessed and manipulated directly.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Accessing a single value</span>
+<span class="n">dt</span><span class="p">[</span><span class="s2">&quot;res__SingleFamilyDetached&quot;</span><span class="p">,</span> <span class="s2">&quot;08059&quot;</span><span class="p">,</span> <span class="s2">&quot;heating&quot;</span><span class="p">,</span> <span class="s2">&quot;2012-04-28 02:00:00-05:00&quot;</span><span class="p">]</span>
+
+<span class="c1"># Accessing a Series slice</span>
+<span class="n">dt</span><span class="p">[</span><span class="s2">&quot;res__SingleFamilyDetached&quot;</span><span class="p">,</span> <span class="s2">&quot;08059&quot;</span><span class="p">,</span> <span class="s2">&quot;heating&quot;</span><span class="p">,</span> <span class="p">:]</span>
+
+<span class="c1"># Working directly with the underlying Series</span>
+<span class="n">sector_enduse_totals</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sector&quot;</span><span class="p">,</span> <span class="s2">&quot;enduse&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Additional methods useful for accessing data:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.get_data" title="dsgrid.dataformat.sectordataset.SectorDataset.get_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dsgrid.dataformat.sectordataset.SectorDataset.get_data()</span></code></a></p></li>
+</ul>
+</div>
+<div class="section" id="working-with-a-dsgrid-model-collection-of-data-files">
+<h2>Working with a dsgrid model (collection of data files)<a class="headerlink" href="#working-with-a-dsgrid-model-collection-of-data-files" title="Permalink to this headline">¶</a></h2>
+<p>A <a class="reference internal" href="api/dsgrid.html#dsgrid.model.LoadModel" title="dsgrid.model.LoadModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">dsgrid.model.LoadModel</span></code></a> holds a collection of related datafiles and
+tag each one with its <a class="reference internal" href="api/dsgrid.html#dsgrid.model.ComponentType" title="dsgrid.model.ComponentType"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComponentType</span></code></a> and an optional color
+(for plotting). For example, a <a class="reference internal" href="api/dsgrid.html#dsgrid.model.LoadModel" title="dsgrid.model.LoadModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadModel</span></code></a> can be formed
+just from the ComponentType.BOTTOMUP components:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dsgrid.model</span> <span class="kn">import</span> <span class="n">ComponentType</span><span class="p">,</span> <span class="n">LoadModelComponent</span><span class="p">,</span> <span class="n">LoadModel</span>
+
+<span class="n">bottomup_components_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;Residential&#39;</span><span class="p">,</span><span class="s1">&#39;#F7A11A&#39;</span><span class="p">,</span><span class="s1">&#39;residential.dsg&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Commercial&#39;</span><span class="p">,</span><span class="s1">&#39;#5D9732&#39;</span><span class="p">,</span><span class="s1">&#39;commercial.dsg&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Industrial&#39;</span><span class="p">,</span><span class="s1">&#39;#D9531E&#39;</span><span class="p">,</span><span class="s1">&#39;industrial.dsg&#39;</span><span class="p">)]</span>
+
+<span class="c1"># Let datadir be a pathlib.Path pointing to a folder containing .dsg files ...</span>
+<span class="n">components</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">bottomup_components_list</span><span class="p">:</span>
+    <span class="n">components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LoadModelComponent</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">component_type</span><span class="o">=</span><span class="n">ComponentType</span><span class="o">.</span><span class="n">BOTTOMUP</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">))</span>
+    <span class="n">components</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">load_datafile</span><span class="p">(</span><span class="n">datadir</span> <span class="o">/</span> <span class="n">filename</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LoadModel</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">components</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Dimension mappings can be applied to individual <code class="xref py py-class docutils literal notranslate"><span class="pre">Datafiles</span></code>,
+individual <a class="reference internal" href="api/dsgrid.html#dsgrid.model.LoadModelComponent" title="dsgrid.model.LoadModelComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadModelComponents</span></code></a>, or to
+an entire <code class="xref py py-class docutils literal notranslate"><span class="pre">LoadModel</span></code>. For example, this code would aggregate the model
+defined above to the census division level:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dsgrid.dataformat.enumeration</span> <span class="kn">import</span> <span class="n">census_divisions</span>
+<span class="kn">from</span> <span class="nn">dsgrid.dataformat.dimmap</span> <span class="kn">import</span> <span class="n">mappings</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">map_dimension</span><span class="p">(</span><span class="n">datadir</span> <span class="o">/</span> <span class="s2">&quot;..&quot;</span> <span class="o">/</span> <span class="s2">&quot;aggregated_to_census_division&quot;</span><span class="p">,</span> <span class="n">census_divisions</span><span class="p">,</span> <span class="n">mappings</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See <cite>notebooks/Visualize dsgrid model.ipynb</cite> for more examples.</p>
+<p>Classes, methods and objects useful for working with the dsgrid EFS
+dataset:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="api/dsgrid.html#dsgrid.model.LoadModel" title="dsgrid.model.LoadModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">dsgrid.model.LoadModel</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/dsgrid.html#dsgrid.model.LoadModelComponent" title="dsgrid.model.LoadModelComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">dsgrid.model.LoadModelComponent</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.Mappings" title="dsgrid.dataformat.dimmap.Mappings"><code class="xref py py-class docutils literal notranslate"><span class="pre">dsgrid.dataformat.dimmap.Mappings</span></code></a> (Also scroll to the bottom of the source code file to see the mappings module attribute and how it is defined.)</p></li>
+<li><p><a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.FullAggregationMap" title="dsgrid.dataformat.dimmap.FullAggregationMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">dsgrid.dataformat.dimmap.FullAggregationMap</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.FilterToSubsetMap" title="dsgrid.dataformat.dimmap.FilterToSubsetMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">dsgrid.dataformat.dimmap.FilterToSubsetMap</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.FilterToSingleFuelMap" title="dsgrid.dataformat.dimmap.FilterToSingleFuelMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">dsgrid.dataformat.dimmap.FilterToSingleFuelMap</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitAggregation" title="dsgrid.dataformat.dimmap.ExplicitAggregation"><code class="xref py py-class docutils literal notranslate"><span class="pre">dsgrid.dataformat.dimmap.ExplicitAggregation</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.UnitConversionMap" title="dsgrid.dataformat.dimmap.UnitConversionMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">dsgrid.dataformat.dimmap.UnitConversionMap</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile.map_dimension" title="dsgrid.dataformat.datafile.Datafile.map_dimension"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dsgrid.dataformat.datafile.Datafile.map_dimension()</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile.scale_data" title="dsgrid.dataformat.datafile.Datafile.scale_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dsgrid.dataformat.datafile.Datafile.scale_data()</span></code></a></p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="api.html" class="btn btn-neutral float-right" title="API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="dsgrid-legacy-efs-api documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright Copyright 2021, The Alliance for Sustainable Energy, LLC.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

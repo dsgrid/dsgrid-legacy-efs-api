@@ -1,0 +1,663 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>dsgrid package &mdash; dsgrid-legacy-efs-api 0.4.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="dsgrid.dataformat package" href="dsgrid.dataformat.html" />
+    <link rel="prev" title="dsgrid" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> dsgrid-legacy-efs-api
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#creating-a-new-data-file">Creating a new data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#reading-in-an-existing-data-file">Reading in an existing data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#working-with-a-dsgrid-model-collection-of-data-files">Working with a dsgrid model (collection of data files)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html">dsgrid</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">dsgrid package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-dsgrid.helpers">dsgrid.helpers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-dsgrid.layerstack">dsgrid.layerstack module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-dsgrid.model">dsgrid.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-dsgrid">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">dsgrid package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="dsgrid.dataformat.html">dsgrid.dataformat package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-dsgrid.helpers">dsgrid.helpers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-dsgrid.layerstack">dsgrid.layerstack module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-dsgrid.model">dsgrid.model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-dsgrid">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dsgrid.dataformat.html">dsgrid.dataformat package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dsgrid.dataformat.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dsgrid.dataformat.html#module-dsgrid.dataformat.datafile">dsgrid.dataformat.datafile module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dsgrid.dataformat.html#module-dsgrid.dataformat.datatable">dsgrid.dataformat.datatable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dsgrid.dataformat.html#module-dsgrid.dataformat.dimmap">dsgrid.dataformat.dimmap module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dsgrid.dataformat.html#module-dsgrid.dataformat.enumeration">dsgrid.dataformat.enumeration module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dsgrid.dataformat.html#module-dsgrid.dataformat.sectordataset">dsgrid.dataformat.sectordataset module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dsgrid.dataformat.html#module-dsgrid.dataformat.upgrade">dsgrid.dataformat.upgrade module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dsgrid.dataformat.html#module-dsgrid.dataformat">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">dsgrid-legacy-efs-api</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../api.html">API</a> &raquo;</li>
+        
+          <li><a href="modules.html">dsgrid</a> &raquo;</li>
+        
+      <li>dsgrid package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/api/dsgrid.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="dsgrid-package">
+<h1>dsgrid package<a class="headerlink" href="#dsgrid-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dsgrid.dataformat.html">dsgrid.dataformat package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dsgrid.dataformat.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsgrid.dataformat.html#module-dsgrid.dataformat.datafile">dsgrid.dataformat.datafile module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsgrid.dataformat.html#module-dsgrid.dataformat.datatable">dsgrid.dataformat.datatable module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsgrid.dataformat.html#module-dsgrid.dataformat.dimmap">dsgrid.dataformat.dimmap module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsgrid.dataformat.html#module-dsgrid.dataformat.enumeration">dsgrid.dataformat.enumeration module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsgrid.dataformat.html#module-dsgrid.dataformat.sectordataset">dsgrid.dataformat.sectordataset module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsgrid.dataformat.html#module-dsgrid.dataformat.upgrade">dsgrid.dataformat.upgrade module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsgrid.dataformat.html#module-dsgrid.dataformat">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-dsgrid.helpers">
+<span id="dsgrid-helpers-module"></span><h2>dsgrid.helpers module<a class="headerlink" href="#module-dsgrid.helpers" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="dsgrid.helpers.multi_index">
+<span class="sig-prename descclassname"><span class="pre">dsgrid.helpers.</span></span><span class="sig-name descname"><span class="pre">multi_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/helpers.html#multi_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.helpers.multi_index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsgrid.helpers.ensure_enum">
+<span class="sig-prename descclassname"><span class="pre">dsgrid.helpers.</span></span><span class="sig-name descname"><span class="pre">ensure_enum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/helpers.html#ensure_enum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.helpers.ensure_enum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the instance of cls that corresponds to val. cls is expected to be
+an enum-type class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cls</strong> (<em>an Enum class</em>) -- </p></li>
+<li><p><strong>val</strong> (<em>str</em><em> or </em><em>cls object</em>) -- </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>cls object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsgrid.helpers.lighten_color">
+<span class="sig-prename descclassname"><span class="pre">dsgrid.helpers.</span></span><span class="sig-name descname"><span class="pre">lighten_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hex_color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fraction_to_white</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/helpers.html#lighten_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.helpers.lighten_color" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsgrid.helpers.palette">
+<span class="sig-prename descclassname"><span class="pre">dsgrid.helpers.</span></span><span class="sig-name descname"><span class="pre">palette</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hex_color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_fraction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/helpers.html#palette"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.helpers.palette" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsgrid.helpers.h5Reader">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dsgrid.helpers.</span></span><span class="sig-name descname"><span class="pre">h5Reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/helpers.html#h5Reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.helpers.h5Reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="dsgrid.helpers.h5Reader.is_hsds">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">is_hsds</span></span><a class="headerlink" href="#dsgrid.helpers.h5Reader.is_hsds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="dsgrid.helpers.h5Reader.is_s3">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">is_s3</span></span><a class="headerlink" href="#dsgrid.helpers.h5Reader.is_s3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dsgrid.layerstack">
+<span id="dsgrid-layerstack-module"></span><h2>dsgrid.layerstack module<a class="headerlink" href="#module-dsgrid.layerstack" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="dsgrid.layerstack.DSGridDatafileLayer">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dsgrid.layerstack.</span></span><span class="sig-name descname"><span class="pre">DSGridDatafileLayer</span></span><a class="reference internal" href="../_modules/dsgrid/layerstack.html#DSGridDatafileLayer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.layerstack.DSGridDatafileLayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">layerstack.layer.ModelLayerBase</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsgrid.layerstack.DSGridDatafileLayer.new_filepath">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">new_filepath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/layerstack.html#DSGridDatafileLayer.new_filepath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.layerstack.DSGridDatafileLayer.new_filepath" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dsgrid.model">
+<span id="dsgrid-model-module"></span><h2>dsgrid.model module<a class="headerlink" href="#module-dsgrid.model" title="Permalink to this headline">¶</a></h2>
+<p>A dsgrid LoadModel consists of a number of different LoadModelComponents. Each
+LoadModelComponent is a BOTTOMUP, GAP, DG, TOPDOWN, or DERIVED ComponentType.
+Load is represented by the BOTTOMUP (detailed) and GAP (coarser) models. The
+other components allow for computation of variants other than total site load
+(e.g. net site load, system load), as well as validation/calibration/
+reconciliation with historical data.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModelStatus">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dsgrid.model.</span></span><span class="sig-name descname"><span class="pre">LoadModelStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/model.html#LoadModelStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.model.LoadModelStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModelStatus.RAW">
+<span class="sig-name descname"><span class="pre">RAW</span></span><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#dsgrid.model.LoadModelStatus.RAW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsgrid.model.ComponentType">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dsgrid.model.</span></span><span class="sig-name descname"><span class="pre">ComponentType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/model.html#ComponentType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.model.ComponentType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsgrid.model.ComponentType.BOTTOMUP">
+<span class="sig-name descname"><span class="pre">BOTTOMUP</span></span><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#dsgrid.model.ComponentType.BOTTOMUP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsgrid.model.ComponentType.GAP">
+<span class="sig-name descname"><span class="pre">GAP</span></span><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#dsgrid.model.ComponentType.GAP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsgrid.model.ComponentType.DG">
+<span class="sig-name descname"><span class="pre">DG</span></span><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#dsgrid.model.ComponentType.DG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsgrid.model.ComponentType.TOPDOWN">
+<span class="sig-name descname"><span class="pre">TOPDOWN</span></span><em class="property"> <span class="pre">=</span> <span class="pre">4</span></em><a class="headerlink" href="#dsgrid.model.ComponentType.TOPDOWN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsgrid.model.ComponentType.DERIVED">
+<span class="sig-name descname"><span class="pre">DERIVED</span></span><em class="property"> <span class="pre">=</span> <span class="pre">5</span></em><a class="headerlink" href="#dsgrid.model.ComponentType.DERIVED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsgrid.model.ComponentType.UNKNOWN">
+<span class="sig-name descname"><span class="pre">UNKNOWN</span></span><em class="property"> <span class="pre">=</span> <span class="pre">9999</span></em><a class="headerlink" href="#dsgrid.model.ComponentType.UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModelComponent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dsgrid.model.</span></span><span class="sig-name descname"><span class="pre">LoadModelComponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">component_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ComponentType.UNKNOWN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/model.html#LoadModelComponent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.model.LoadModelComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A LoadModelComponent is generally associated with a
+dsgrid.dataformat.Datafile, and is therefore data of a particular type,
+represented at a certain geographic, temporal, sectoral, and end-use
+resolution. A LoadModelComponent is also commonly part of a LoadModel.
+Based on the dimension-mapping capabilities of dsgrid, the LoadModel
+likely has uniform geographical and temporal extents and resolution.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModelComponent.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#dsgrid.model.LoadModelComponent.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the LoadModelComponent</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModelComponent.component_type">
+<span class="sig-name descname"><span class="pre">component_type</span></span><a class="headerlink" href="#dsgrid.model.LoadModelComponent.component_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type of the LoadModelComponent, defaults to ComponentType.UNKNOWN</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#dsgrid.model.ComponentType" title="dsgrid.model.ComponentType">ComponentType</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModelComponent.color">
+<span class="sig-name descname"><span class="pre">color</span></span><a class="headerlink" href="#dsgrid.model.LoadModelComponent.color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Color to use when plotting this LoadModelComponent, in Hexadecimal.
+Otherwise None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModelComponent.key">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">key</span></span><a class="headerlink" href="#dsgrid.model.LoadModelComponent.key" title="Permalink to this definition">¶</a></dt>
+<dd><p>The (hash) key used by LoadModel to identify this LoadModelComponent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>(self.component_type,self.name)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModelComponent.datafile">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">datafile</span></span><a class="headerlink" href="#dsgrid.model.LoadModelComponent.datafile" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns: Returns a Datafile if self.load_datafile has been called successfully.
+:rtype: None or dsgrid.dataformat.Datafile</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModelComponent.load_datafile">
+<span class="sig-name descname"><span class="pre">load_datafile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/model.html#LoadModelComponent.load_datafile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.model.LoadModelComponent.load_datafile" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<em>str</em>) -- Path to dsgrid.dataformat.Datafile corresponding to this component</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModelComponent.clone">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">clone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">original</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/model.html#LoadModelComponent.clone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.model.LoadModelComponent.clone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new instance of a LoadModelComponent, perhaps pointing to a
+different dsgrid.dataformat.Datafile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>original</strong> (<a class="reference internal" href="#dsgrid.model.LoadModelComponent" title="dsgrid.model.LoadModelComponent"><em>LoadModelComponent</em></a>) -- Only the metadata (e.g. name, type, color) are used, and orignial
+is not modified in any way</p></li>
+<li><p><strong>filepath</strong> (<em>str</em><em> or </em><em>None</em>) -- If not None, path to the dsgrid.dataformat.Datafile corresponding to
+the new LoadModelComponent created by this method. In most cases,
+should not be the same as original.datafile.h5path.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Clone of original, with the appropriate dsgrid.dataformat.Datafile
+loaded if filepath was not None.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#dsgrid.model.LoadModelComponent" title="dsgrid.model.LoadModelComponent">LoadModelComponent</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModelComponent.get_datatable">
+<span class="sig-name descname"><span class="pre">get_datatable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/model.html#LoadModelComponent.get_datatable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.model.LoadModelComponent.get_datatable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModelComponent.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirpath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/model.html#LoadModelComponent.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.model.LoadModelComponent.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves this component (primarily its datafile) to a new directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dirpath</strong> (<em>str</em>) -- The folder to which to save this component's datafile (using the
+same filename)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A new component with the copy of this component's datafile that has
+been saved to dirpath already loaded</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#dsgrid.model.LoadModelComponent" title="dsgrid.model.LoadModelComponent">LoadModelComponent</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModelComponent.map_dimension">
+<span class="sig-name descname"><span class="pre">map_dimension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_enum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/model.html#LoadModelComponent.map_dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.model.LoadModelComponent.map_dimension" title="Permalink to this definition">¶</a></dt>
+<dd><p>If there is an appropriate mapping, map the dimension specified by
+to_enum's class to match to_enum. If there is not, simply create a copy
+of this LoadModelComponent in the new location.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dirpath</strong> (<em>str</em>) -- Directory in which to save the result of mapping this LoadModelComponent</p></li>
+<li><p><strong>to_enum</strong> (<a class="reference internal" href="dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration" title="dsgrid.dataformat.enumeration.Enumeration"><em>dsgrid.dataformat.enumeration.Enumeration</em></a>) -- This enumeration's class (e.g. SectorEnumeration, TimeEnumeration)
+determines which dimension is being mapped. The enumeration
+specifies the target resolution and particular naming convention
+that is desired.</p></li>
+<li><p><strong>mappings</strong> (<a class="reference internal" href="dsgrid.dataformat.html#dsgrid.dataformat.dimmap.Mappings" title="dsgrid.dataformat.dimmap.Mappings"><em>dsgrid.dataformat.dimmap.Mappings</em></a>) -- Container of dsgrid.dataformat.dimmap.DimensionMaps. If for the
+dimension in question this component's enumeration (the from_enum),
+there is either a TautologyMapping to to_enum, or there is an
+explicit mapping to to_enum, then we say that we are able to map
+this component, and proceed to do that by either simply saving this
+component to the new location or by calling
+dsgrid.dataformat.Datafile.map_dimension.</p></li>
+<li><p><strong>filename_prefix</strong> (<em>str</em>) -- Default is the empty string, ''. If not empty, the new
+dsgrid.dataformat.Datafile created by this method is saved using the
+filename created by placing this string before the current
+datafile's filename.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>New component with either a copy of this component's datafile loaded,
+or a new, mapped datafile loaded. In either case the new datafile is
+located at os.path.join(dirpath,filename_prefix + os.path.basename(self.datafile.h5path)).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#dsgrid.model.LoadModelComponent" title="dsgrid.model.LoadModelComponent">LoadModelComponent</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModelComponent.scale_data">
+<span class="sig-name descname"><span class="pre">scale_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/model.html#LoadModelComponent.scale_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.model.LoadModelComponent.scale_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale all the data in self.datafile by factor, creating a new HDF5 file
+and corresponding LoadModelComponent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dirpath</strong> (<em>str</em>) -- Folder the new version of the data should be placed in. This
+LoadModelComponent's filename will be retained.</p></li>
+<li><p><strong>factor</strong> (<em>float</em>) -- Factor by which all the data in the file is to be multiplied. The
+default value of 0.001 corresponds to converting the bottom-up data
+from kWh to MWh.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dsgrid.model.</span></span><span class="sig-name descname"><span class="pre">LoadModel</span></span><a class="reference internal" href="../_modules/dsgrid/model.html#LoadModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.model.LoadModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.MutableMapping</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModel.create">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">components</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/model.html#LoadModel.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.model.LoadModel.create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModel.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/model.html#LoadModel.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.model.LoadModel.save" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModel.map_dimension">
+<span class="sig-name descname"><span class="pre">map_dimension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_enum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/model.html#LoadModel.map_dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.model.LoadModel.map_dimension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map the appropriate dimension to_enum for all possible components. Will
+only map those components for which the given dimension (determined by
+to_enum's class) is resolved by a from_enum for which a map between
+from_enum and to_enum is in mappings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dirpath</strong> (<em>str</em>) -- Folder for new model created by doing this mapping</p></li>
+<li><p><strong>to_enum</strong> (<em>dsgrid.dataformat.Enumeration</em>) -- Enumeration to which to map the appropriate dimension</p></li>
+<li><p><strong>mappings</strong> (<em>dsgrid.dimmap.Mappings</em>) -- collection of dsgrid.dimmap.DimensionMap objects. Only maps
+registered in this object will be applied.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsgrid.model.LoadModel.move_sectors">
+<span class="sig-name descname"><span class="pre">move_sectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_component_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_component_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sectors_to_move</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dsgrid/model.html#LoadModel.move_sectors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.model.LoadModel.move_sectors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves sectors_to_move from_component_key to_component_key. If
+to_component_key is None, simply drops those sectors.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dsgrid">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dsgrid" title="Permalink to this headline">¶</a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="dsgrid.DSGridError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">dsgrid.</span></span><span class="sig-name descname"><span class="pre">DSGridError</span></span><a class="reference internal" href="../_modules/dsgrid.html#DSGridError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.DSGridError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="dsgrid.DSGridNotImplemented">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">dsgrid.</span></span><span class="sig-name descname"><span class="pre">DSGridNotImplemented</span></span><a class="reference internal" href="../_modules/dsgrid.html#DSGridNotImplemented"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.DSGridNotImplemented" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dsgrid.DSGridError" title="dsgrid.DSGridError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dsgrid.DSGridError</span></code></a></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="dsgrid.DSGridRuntimeError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">dsgrid.</span></span><span class="sig-name descname"><span class="pre">DSGridRuntimeError</span></span><a class="reference internal" href="../_modules/dsgrid.html#DSGridRuntimeError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.DSGridRuntimeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dsgrid.DSGridError" title="dsgrid.DSGridError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dsgrid.DSGridError</span></code></a></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="dsgrid.DSGridValueError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">dsgrid.</span></span><span class="sig-name descname"><span class="pre">DSGridValueError</span></span><a class="reference internal" href="../_modules/dsgrid.html#DSGridValueError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dsgrid.DSGridValueError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dsgrid.DSGridError" title="dsgrid.DSGridError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dsgrid.DSGridError</span></code></a></p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="dsgrid.dataformat.html" class="btn btn-neutral float-right" title="dsgrid.dataformat package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="modules.html" class="btn btn-neutral float-left" title="dsgrid" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright Copyright 2021, The Alliance for Sustainable Energy, LLC.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

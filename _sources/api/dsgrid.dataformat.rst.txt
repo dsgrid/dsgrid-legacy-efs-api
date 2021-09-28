@@ -1,0 +1,61 @@
+dsgrid.dataformat package
+=========================
+
+Submodules
+----------
+
+dsgrid.dataformat.datafile module
+---------------------------------
+
+.. automodule:: dsgrid.dataformat.datafile
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dsgrid.dataformat.datatable module
+----------------------------------
+
+.. automodule:: dsgrid.dataformat.datatable
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dsgrid.dataformat.dimmap module
+-------------------------------
+
+.. automodule:: dsgrid.dataformat.dimmap
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dsgrid.dataformat.enumeration module
+------------------------------------
+
+.. automodule:: dsgrid.dataformat.enumeration
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dsgrid.dataformat.sectordataset module
+--------------------------------------
+
+.. automodule:: dsgrid.dataformat.sectordataset
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dsgrid.dataformat.upgrade module
+--------------------------------
+
+.. automodule:: dsgrid.dataformat.upgrade
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: dsgrid.dataformat
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,947 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Index &mdash; dsgrid-legacy-efs-api 0.4.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> dsgrid-legacy-efs-api
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#creating-a-new-data-file">Creating a new data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#reading-in-an-existing-data-file">Reading in an existing data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#working-with-a-dsgrid-model-collection-of-data-files">Working with a dsgrid model (collection of data files)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/modules.html">dsgrid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.html">dsgrid package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/dsgrid.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/dsgrid.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/dsgrid.html#module-dsgrid.helpers">dsgrid.helpers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/dsgrid.html#module-dsgrid.layerstack">dsgrid.layerstack module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/dsgrid.html#module-dsgrid.model">dsgrid.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/dsgrid.html#module-dsgrid">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/dsgrid.html">dsgrid package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/dsgrid.dataformat.html">dsgrid.dataformat package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.html#module-dsgrid.helpers">dsgrid.helpers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.html#module-dsgrid.layerstack">dsgrid.layerstack module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.html#module-dsgrid.model">dsgrid.model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.html#module-dsgrid">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/dsgrid.dataformat.html">dsgrid.dataformat package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.dataformat.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.datafile">dsgrid.dataformat.datafile module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.datatable">dsgrid.dataformat.datatable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.dimmap">dsgrid.dataformat.dimmap module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.enumeration">dsgrid.dataformat.enumeration module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.sectordataset">dsgrid.dataformat.sectordataset module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.upgrade">dsgrid.dataformat.upgrade module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dsgrid.dataformat.html#module-dsgrid.dataformat">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">dsgrid-legacy-efs-api</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Index</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#Z"><strong>Z</strong></a>
+ 
+</div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.add_data">add_data() (dsgrid.dataformat.sectordataset.SectorDataset method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.add_data_batch">add_data_batch() (dsgrid.dataformat.sectordataset.SectorDataset method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.Mappings.add_mapping">add_mapping() (dsgrid.dataformat.dimmap.Mappings method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile.add_sector">add_sector() (dsgrid.dataformat.datafile.Datafile method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.append_element">append_element() (dsgrid.dataformat.sectordataset.Datamap method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.append_element_to_dataset_dimension">append_element_to_dataset_dimension() (in module dsgrid.dataformat.sectordataset)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.html#dsgrid.model.ComponentType.BOTTOMUP">BOTTOMUP (dsgrid.model.ComponentType attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.checkvalues">checkvalues() (dsgrid.dataformat.enumeration.Enumeration method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration.checkvalues">(dsgrid.dataformat.enumeration.FuelEnumeration method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.checkvalues">(dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dsgrid.html#dsgrid.model.LoadModelComponent.clone">clone() (dsgrid.model.LoadModelComponent class method)</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.model.LoadModelComponent.color">color (dsgrid.model.LoadModelComponent attribute)</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.model.LoadModelComponent.component_type">component_type (dsgrid.model.LoadModelComponent attribute)</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.model.ComponentType">ComponentType (class in dsgrid.model)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile.contains">contains() (dsgrid.dataformat.datafile.Datafile method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.UnitConversionMap.CONVERSION_FACTORS">CONVERSION_FACTORS (dsgrid.dataformat.dimmap.UnitConversionMap attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.copy_data">copy_data() (dsgrid.dataformat.sectordataset.SectorDataset method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.create">create() (dsgrid.dataformat.enumeration.TimeEnumeration class method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.create">(dsgrid.dataformat.sectordataset.Datamap class method)</a>
+</li>
+        <li><a href="api/dsgrid.html#dsgrid.model.LoadModel.create">(dsgrid.model.LoadModel class method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitDisaggregation.create_from_csv">create_from_csv() (dsgrid.dataformat.dimmap.ExplicitDisaggregation class method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitMap.create_from_csv">(dsgrid.dataformat.dimmap.ExplicitMap class method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.create_subset_enum">create_subset_enum() (dsgrid.dataformat.enumeration.Enumeration method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration.create_subset_enum">(dsgrid.dataformat.enumeration.FuelEnumeration method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.create_subset_enum">(dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration.create_subset_enum">(dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile">Datafile (class in dsgrid.dataformat.datafile)</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.model.LoadModelComponent.datafile">datafile (dsgrid.model.LoadModelComponent property)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap">Datamap (class in dsgrid.dataformat.sectordataset)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.datatable.Datatable">Datatable (class in dsgrid.dataformat.datatable)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitDisaggregation.default_scaling">default_scaling (dsgrid.dataformat.dimmap.ExplicitDisaggregation property)</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.model.ComponentType.DERIVED">DERIVED (dsgrid.model.ComponentType attribute)</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.model.ComponentType.DG">DG (dsgrid.model.ComponentType attribute)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumerationBase.dimension">dimension (dsgrid.dataformat.enumeration.EndUseEnumerationBase attribute)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.dimension">(dsgrid.dataformat.enumeration.Enumeration attribute)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration.dimension">(dsgrid.dataformat.enumeration.FuelEnumeration attribute)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.GeographyEnumeration.dimension">(dsgrid.dataformat.enumeration.GeographyEnumeration attribute)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SectorEnumeration.dimension">(dsgrid.dataformat.enumeration.SectorEnumeration attribute)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.dimension">(dsgrid.dataformat.enumeration.TimeEnumeration attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.DimensionMap">DimensionMap (class in dsgrid.dataformat.dimmap)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.DSG_0_1_0">DSG_0_1_0 (class in dsgrid.dataformat.upgrade)</a>
+</li>
+      <li>
+    dsgrid
+
+      <ul>
+        <li><a href="api/dsgrid.html#module-dsgrid">module</a>
+</li>
+      </ul></li>
+      <li>
+    dsgrid.dataformat
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#module-dsgrid.dataformat">module</a>
+</li>
+      </ul></li>
+      <li>
+    dsgrid.dataformat.datafile
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.datafile">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    dsgrid.dataformat.datatable
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.datatable">module</a>
+</li>
+      </ul></li>
+      <li>
+    dsgrid.dataformat.dimmap
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.dimmap">module</a>
+</li>
+      </ul></li>
+      <li>
+    dsgrid.dataformat.enumeration
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.enumeration">module</a>
+</li>
+      </ul></li>
+      <li>
+    dsgrid.dataformat.sectordataset
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.sectordataset">module</a>
+</li>
+      </ul></li>
+      <li>
+    dsgrid.dataformat.upgrade
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.upgrade">module</a>
+</li>
+      </ul></li>
+      <li>
+    dsgrid.helpers
+
+      <ul>
+        <li><a href="api/dsgrid.html#module-dsgrid.helpers">module</a>
+</li>
+      </ul></li>
+      <li>
+    dsgrid.layerstack
+
+      <ul>
+        <li><a href="api/dsgrid.html#module-dsgrid.layerstack">module</a>
+</li>
+      </ul></li>
+      <li>
+    dsgrid.model
+
+      <ul>
+        <li><a href="api/dsgrid.html#module-dsgrid.model">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/dsgrid.html#dsgrid.layerstack.DSGridDatafileLayer">DSGridDatafileLayer (class in dsgrid.layerstack)</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.DSGridError">DSGridError</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.DSGridNotImplemented">DSGridNotImplemented</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.DSGridRuntimeError">DSGridRuntimeError</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.DSGridValueError">DSGridValueError</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumeration">EndUseEnumeration (class in dsgrid.dataformat.enumeration)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumerationBase">EndUseEnumerationBase (class in dsgrid.dataformat.enumeration)</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.helpers.ensure_enum">ensure_enum() (in module dsgrid.helpers)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.enum_dtype">enum_dtype (dsgrid.dataformat.enumeration.Enumeration attribute)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration.enum_dtype">(dsgrid.dataformat.enumeration.FuelEnumeration attribute)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.enum_dtype">(dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration">Enumeration (class in dsgrid.dataformat.enumeration)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitAggregation">ExplicitAggregation (class in dsgrid.dataformat.dimmap)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitDisaggregation">ExplicitDisaggregation (class in dsgrid.dataformat.dimmap)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitMap">ExplicitMap (class in dsgrid.dataformat.dimmap)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.FilterToSingleFuelMap">FilterToSingleFuelMap (class in dsgrid.dataformat.dimmap)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.FilterToSubsetMap">FilterToSubsetMap (class in dsgrid.dataformat.dimmap)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.DSG_0_1_0.from_version">from_version (dsgrid.dataformat.upgrade.DSG_0_1_0 attribute)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.UpgradeDatafile.from_version">(dsgrid.dataformat.upgrade.UpgradeDatafile attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumeration.fuel">fuel() (dsgrid.dataformat.enumeration.EndUseEnumeration method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumerationBase.fuel">(dsgrid.dataformat.enumeration.EndUseEnumerationBase method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.fuel">(dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration.fuel">(dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration">FuelEnumeration (class in dsgrid.dataformat.enumeration)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.FullAggregationMap">FullAggregationMap (class in dsgrid.dataformat.dimmap)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.html#dsgrid.model.ComponentType.GAP">GAP (dsgrid.model.ComponentType attribute)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.GeographyEnumeration">GeographyEnumeration (class in dsgrid.dataformat.enumeration)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.get_data">get_data() (dsgrid.dataformat.sectordataset.SectorDataset method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.get_datamap">get_datamap() (dsgrid.dataformat.sectordataset.SectorDataset method)</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.model.LoadModelComponent.get_datatable">get_datatable() (dsgrid.model.LoadModelComponent method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.get_datetime_map">get_datetime_map() (dsgrid.dataformat.enumeration.TimeEnumeration method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.get_extents">get_extents() (dsgrid.dataformat.enumeration.TimeEnumeration method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.get_map">get_map() (dsgrid.dataformat.sectordataset.Datamap method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.Mappings.get_mapping">get_mapping() (dsgrid.dataformat.dimmap.Mappings method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.get_name">get_name() (dsgrid.dataformat.enumeration.Enumeration method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitDisaggregation.get_scalings">get_scalings() (dsgrid.dataformat.dimmap.ExplicitDisaggregation method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.get_str">get_str() (in module dsgrid.dataformat)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.get_subenum">get_subenum() (dsgrid.dataformat.sectordataset.Datamap method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration.get_units">get_units() (dsgrid.dataformat.enumeration.FuelEnumeration method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.html#dsgrid.helpers.h5Reader">h5Reader (class in dsgrid.helpers)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.has_data">has_data() (dsgrid.dataformat.sectordataset.SectorDataset method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.ids">ids (dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration property)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.ids">ids() (dsgrid.dataformat.sectordataset.Datamap method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.is_empty">is_empty() (dsgrid.dataformat.sectordataset.Datamap method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.html#dsgrid.helpers.h5Reader.is_hsds">is_hsds (dsgrid.helpers.h5Reader property)</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.helpers.h5Reader.is_s3">is_s3 (dsgrid.helpers.h5Reader property)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.is_subset">is_subset() (dsgrid.dataformat.enumeration.Enumeration method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.html#dsgrid.model.LoadModelComponent.key">key (dsgrid.model.LoadModelComponent property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.html#dsgrid.helpers.lighten_color">lighten_color() (in module dsgrid.helpers)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile.load">load() (dsgrid.dataformat.datafile.Datafile class method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumerationBase.load">(dsgrid.dataformat.enumeration.EndUseEnumerationBase class method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.load">(dsgrid.dataformat.enumeration.Enumeration class method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration.load">(dsgrid.dataformat.enumeration.FuelEnumeration class method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.load">(dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration class method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.load">(dsgrid.dataformat.sectordataset.Datamap class method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.load">(dsgrid.dataformat.sectordataset.SectorDataset class method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.UpgradeDatafile.load_datafile">load_datafile() (dsgrid.dataformat.upgrade.UpgradeDatafile class method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.html#dsgrid.model.LoadModelComponent.load_datafile">(dsgrid.model.LoadModelComponent method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.DSG_0_1_0.load_sectordataset">load_sectordataset() (dsgrid.dataformat.upgrade.DSG_0_1_0 class method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.UpgradeDatafile.load_sectordataset">(dsgrid.dataformat.upgrade.UpgradeDatafile class method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.loadall">loadall() (dsgrid.dataformat.sectordataset.SectorDataset class method)</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.model.LoadModel">LoadModel (class in dsgrid.model)</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.model.LoadModelComponent">LoadModelComponent (class in dsgrid.model)</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.model.LoadModelStatus">LoadModelStatus (class in dsgrid.model)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.make_fuel_and_units_explicit">make_fuel_and_units_explicit() (in module dsgrid.dataformat.upgrade)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.DimensionMap.map">map() (dsgrid.dataformat.dimmap.DimensionMap method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitMap.map">(dsgrid.dataformat.dimmap.ExplicitMap method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.FilterToSingleFuelMap.map">(dsgrid.dataformat.dimmap.FilterToSingleFuelMap method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.FilterToSubsetMap.map">(dsgrid.dataformat.dimmap.FilterToSubsetMap method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.FullAggregationMap.map">(dsgrid.dataformat.dimmap.FullAggregationMap method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.TautologyMapping.map">(dsgrid.dataformat.dimmap.TautologyMapping method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.UnitConversionMap.map">(dsgrid.dataformat.dimmap.UnitConversionMap method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile.map_dimension">map_dimension() (dsgrid.dataformat.datafile.Datafile method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.map_dimension">(dsgrid.dataformat.sectordataset.SectorDataset method)</a>
+</li>
+        <li><a href="api/dsgrid.html#dsgrid.model.LoadModel.map_dimension">(dsgrid.model.LoadModel method)</a>
+</li>
+        <li><a href="api/dsgrid.html#dsgrid.model.LoadModelComponent.map_dimension">(dsgrid.model.LoadModelComponent method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.Mappings">Mappings (class in dsgrid.dataformat.dimmap)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.max_id_len">max_id_len (dsgrid.dataformat.enumeration.Enumeration attribute)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.max_name_len">max_name_len (dsgrid.dataformat.enumeration.Enumeration attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    module
+
+      <ul>
+        <li><a href="api/dsgrid.html#module-dsgrid">dsgrid</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#module-dsgrid.dataformat">dsgrid.dataformat</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.datafile">dsgrid.dataformat.datafile</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.datatable">dsgrid.dataformat.datatable</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.dimmap">dsgrid.dataformat.dimmap</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.enumeration">dsgrid.dataformat.enumeration</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.sectordataset">dsgrid.dataformat.sectordataset</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#module-dsgrid.dataformat.upgrade">dsgrid.dataformat.upgrade</a>
+</li>
+        <li><a href="api/dsgrid.html#module-dsgrid.helpers">dsgrid.helpers</a>
+</li>
+        <li><a href="api/dsgrid.html#module-dsgrid.layerstack">dsgrid.layerstack</a>
+</li>
+        <li><a href="api/dsgrid.html#module-dsgrid.model">dsgrid.model</a>
+</li>
+      </ul></li>
+      <li><a href="api/dsgrid.html#dsgrid.model.LoadModel.move_sectors">move_sectors() (dsgrid.model.LoadModel method)</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.helpers.multi_index">multi_index() (in module dsgrid.helpers)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration">MultiFuelEndUseEnumeration (class in dsgrid.dataformat.enumeration)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.html#dsgrid.model.LoadModelComponent.name">name (dsgrid.model.LoadModelComponent attribute)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.names">names (dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.new">new() (dsgrid.dataformat.sectordataset.SectorDataset class method)</a>
+</li>
+      <li><a href="api/dsgrid.html#dsgrid.layerstack.DSGridDatafileLayer.new_filepath">new_filepath() (dsgrid.layerstack.DSGridDatafileLayer class method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.num_entries">num_entries (dsgrid.dataformat.sectordataset.Datamap property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.html#dsgrid.helpers.palette">palette() (in module dsgrid.helpers)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.TIMESTAMP_POSITION.period_beginning">period_beginning (dsgrid.dataformat.enumeration.TimeEnumeration.TIMESTAMP_POSITION attribute)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.TIMESTAMP_POSITION.period_ending">period_ending (dsgrid.dataformat.enumeration.TimeEnumeration.TIMESTAMP_POSITION attribute)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.TIMESTAMP_POSITION.period_midpoint">period_midpoint (dsgrid.dataformat.enumeration.TimeEnumeration.TIMESTAMP_POSITION attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.persist">persist() (dsgrid.dataformat.enumeration.Enumeration method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration.persist">(dsgrid.dataformat.enumeration.FuelEnumeration method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.persist">(dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration.persist">(dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.html#dsgrid.model.LoadModelStatus.RAW">RAW (dsgrid.model.LoadModelStatus attribute)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumeration.read_csv">read_csv() (dsgrid.dataformat.enumeration.EndUseEnumeration class method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumerationBase.read_csv">(dsgrid.dataformat.enumeration.EndUseEnumerationBase class method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.read_csv">(dsgrid.dataformat.enumeration.Enumeration class method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration.read_csv">(dsgrid.dataformat.enumeration.FuelEnumeration class method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.read_csv">(dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration class method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration.read_csv">(dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration class method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.resolution">resolution (dsgrid.dataformat.enumeration.TimeEnumeration property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile.save">save() (dsgrid.dataformat.datafile.Datafile method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.html#dsgrid.model.LoadModel.save">(dsgrid.model.LoadModel method)</a>
+</li>
+        <li><a href="api/dsgrid.html#dsgrid.model.LoadModelComponent.save">(dsgrid.model.LoadModelComponent method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile.scale_data">scale_data() (dsgrid.dataformat.datafile.Datafile method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset.scale_data">(dsgrid.dataformat.sectordataset.SectorDataset method)</a>
+</li>
+        <li><a href="api/dsgrid.html#dsgrid.model.LoadModelComponent.scale_data">(dsgrid.model.LoadModelComponent method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.DimensionMap.scale_factor">scale_factor() (dsgrid.dataformat.dimmap.DimensionMap method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.UnitConversionMap.scale_factor">(dsgrid.dataformat.dimmap.UnitConversionMap method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.scales">scales() (dsgrid.dataformat.sectordataset.Datamap method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitDisaggregation.scaling_datatable">scaling_datatable (dsgrid.dataformat.dimmap.ExplicitDisaggregation property)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.UnitConversionMap.scaling_factor">scaling_factor() (dsgrid.dataformat.dimmap.UnitConversionMap class method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.SectorDataset">SectorDataset (class in dsgrid.dataformat.sectordataset)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SectorEnumeration">SectorEnumeration (class in dsgrid.dataformat.enumeration)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration">SingleFuelEndUseEnumeration (class in dsgrid.dataformat.enumeration)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.datatable.Datatable.sort">sort() (dsgrid.dataformat.datatable.Datatable method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.store_timezone">store_timezone (dsgrid.dataformat.enumeration.TimeEnumeration property)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.store_timezone_display_name">store_timezone_display_name (dsgrid.dataformat.enumeration.TimeEnumeration property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.TautologyMapping">TautologyMapping (class in dsgrid.dataformat.dimmap)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration">TimeEnumeration (class in dsgrid.dataformat.enumeration)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.TIMESTAMP_POSITION">TimeEnumeration.TIMESTAMP_POSITION (class in dsgrid.dataformat.enumeration)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.TIMEZONE_DISPLAY_NAMES">TIMEZONE_DISPLAY_NAMES (dsgrid.dataformat.enumeration.TimeEnumeration attribute)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.TIMEZONE_LOOKUP">TIMEZONE_LOOKUP (dsgrid.dataformat.enumeration.TimeEnumeration attribute)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.Enumeration.to_csv">to_csv() (dsgrid.dataformat.enumeration.Enumeration method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.FuelEnumeration.to_csv">(dsgrid.dataformat.enumeration.FuelEnumeration method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.to_csv">(dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration.to_csv">(dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.TimeEnumeration.to_datetime_index">to_datetime_index() (dsgrid.dataformat.enumeration.TimeEnumeration method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.DSG_0_1_0.to_version">to_version (dsgrid.dataformat.upgrade.DSG_0_1_0 attribute)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.UpgradeDatafile.to_version">(dsgrid.dataformat.upgrade.UpgradeDatafile attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dsgrid.html#dsgrid.model.ComponentType.TOPDOWN">TOPDOWN (dsgrid.model.ComponentType attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.UnitConversionMap">UnitConversionMap (class in dsgrid.dataformat.dimmap)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumeration.units">units() (dsgrid.dataformat.enumeration.EndUseEnumeration method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.EndUseEnumerationBase.units">(dsgrid.dataformat.enumeration.EndUseEnumerationBase method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration.units">(dsgrid.dataformat.enumeration.MultiFuelEndUseEnumeration method)</a>
+</li>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration.units">(dsgrid.dataformat.enumeration.SingleFuelEndUseEnumeration method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.html#dsgrid.model.ComponentType.UNKNOWN">UNKNOWN (dsgrid.model.ComponentType attribute)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.update">update() (dsgrid.dataformat.sectordataset.Datamap method)</a>
+</li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.datafile.Datafile.upgrade">upgrade() (dsgrid.dataformat.datafile.Datafile method)</a>
+
+      <ul>
+        <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.UpgradeDatafile.upgrade">(dsgrid.dataformat.upgrade.UpgradeDatafile class method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.UpgradeDatafile">UpgradeDatafile (class in dsgrid.dataformat.upgrade)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.sectordataset.Datamap.value">value (dsgrid.dataformat.sectordataset.Datamap attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Z">Z</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dsgrid.dataformat.html#dsgrid.dataformat.upgrade.DSG_0_1_0.ZERO_IDX">ZERO_IDX (dsgrid.dataformat.upgrade.DSG_0_1_0 attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright Copyright 2021, The Alliance for Sustainable Energy, LLC.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

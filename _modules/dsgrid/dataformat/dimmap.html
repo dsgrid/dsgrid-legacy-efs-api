@@ -1,0 +1,674 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>dsgrid.dataformat.dimmap &mdash; dsgrid-legacy-efs-api 0.4.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> dsgrid-legacy-efs-api
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#creating-a-new-data-file">Creating a new data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#reading-in-an-existing-data-file">Reading in an existing data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#working-with-a-dsgrid-model-collection-of-data-files">Working with a dsgrid model (collection of data files)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/modules.html">dsgrid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html">dsgrid package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.helpers">dsgrid.helpers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.layerstack">dsgrid.layerstack module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.model">dsgrid.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/dsgrid.html">dsgrid package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/dsgrid.dataformat.html">dsgrid.dataformat package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.helpers">dsgrid.helpers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.layerstack">dsgrid.layerstack module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid.model">dsgrid.model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.html#module-dsgrid">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/dsgrid.dataformat.html">dsgrid.dataformat package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.datafile">dsgrid.dataformat.datafile module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.datatable">dsgrid.dataformat.datatable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.dimmap">dsgrid.dataformat.dimmap module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.enumeration">dsgrid.dataformat.enumeration module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.sectordataset">dsgrid.dataformat.sectordataset module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat.upgrade">dsgrid.dataformat.upgrade module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/dsgrid.dataformat.html#module-dsgrid.dataformat">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">dsgrid-legacy-efs-api</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../dsgrid.html">dsgrid</a> &raquo;</li>
+        
+          <li><a href="../dataformat.html">dsgrid.dataformat</a> &raquo;</li>
+        
+      <li>dsgrid.dataformat.dimmap</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for dsgrid.dataformat.dimmap</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">dsgrid</span> <span class="kn">import</span> <span class="n">DSGridError</span><span class="p">,</span> <span class="n">DSGridNotImplemented</span>
+<span class="kn">from</span> <span class="nn">dsgrid.dataformat.datatable</span> <span class="kn">import</span> <span class="n">Datatable</span>
+<span class="kn">from</span> <span class="nn">dsgrid.dataformat.enumeration</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">SectorEnumeration</span><span class="p">,</span> <span class="n">GeographyEnumeration</span><span class="p">,</span> <span class="n">EndUseEnumeration</span><span class="p">,</span> 
+    <span class="n">EndUseEnumerationBase</span><span class="p">,</span> <span class="n">FuelEnumeration</span><span class="p">,</span> <span class="n">MultiFuelEndUseEnumeration</span><span class="p">,</span> 
+    <span class="n">SingleFuelEndUseEnumeration</span><span class="p">,</span> <span class="n">TimeEnumeration</span><span class="p">,</span>
+    <span class="n">allenduses</span><span class="p">,</span><span class="n">allsectors</span><span class="p">,</span><span class="n">annual</span><span class="p">,</span><span class="n">census_divisions</span><span class="p">,</span><span class="n">census_regions</span><span class="p">,</span><span class="n">conus</span><span class="p">,</span>
+    <span class="n">conus_counties</span><span class="p">,</span><span class="n">conus_states</span><span class="p">,</span><span class="n">counties</span><span class="p">,</span><span class="n">daily2012</span><span class="p">,</span><span class="n">daytypes</span><span class="p">,</span><span class="n">enduses</span><span class="p">,</span>
+    <span class="n">enumdata_folder</span><span class="p">,</span><span class="n">fuel_types</span><span class="p">,</span><span class="n">hourly2012</span><span class="p">,</span><span class="n">loss_state_groups</span><span class="p">,</span><span class="n">seasons</span><span class="p">,</span><span class="n">sectors</span><span class="p">,</span>
+    <span class="n">sectors_subsectors</span><span class="p">,</span><span class="n">states</span><span class="p">,</span><span class="n">weekdays</span><span class="p">,</span><span class="n">weekly2012</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="DimensionMap"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.DimensionMap">[docs]</a><span class="k">class</span> <span class="nc">DimensionMap</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">from_enum</span> <span class="o">=</span> <span class="n">from_enum</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">to_enum</span> <span class="o">=</span> <span class="n">to_enum</span>
+
+<div class="viewcode-block" id="DimensionMap.map"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.DimensionMap.map">[docs]</a>    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the appropriate to_id.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="DimensionMap.scale_factor"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.DimensionMap.scale_factor">[docs]</a>    <span class="k">def</span> <span class="nf">scale_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mf">1.0</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">from_enum</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">to_enum</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+
+
+<div class="viewcode-block" id="TautologyMapping"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.TautologyMapping">[docs]</a><span class="k">class</span> <span class="nc">TautologyMapping</span><span class="p">(</span><span class="n">DimensionMap</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_to_enum</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">from_to_enum</span><span class="p">,</span><span class="n">from_to_enum</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TautologyMapping.map"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.TautologyMapping.map">[docs]</a>    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">from_id</span></div></div>
+
+
+<div class="viewcode-block" id="FullAggregationMap"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.FullAggregationMap">[docs]</a><span class="k">class</span> <span class="nc">FullAggregationMap</span><span class="p">(</span><span class="n">DimensionMap</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">,</span><span class="n">exclude_list</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        from_enum : dsgrid.dataformat.enumeration.Enumeration</span>
+<span class="sd">        to_enum : dsgrid.dataformat.enumeration.Enumeration</span>
+<span class="sd">            Class must correspond to the same dimension as from_enum, and </span>
+<span class="sd">            the enumeration must have exactly one element</span>
+<span class="sd">        exclude_list : list of from_enum.ids</span>
+<span class="sd">            from_enum values that should be dropped from the aggregation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DSGridError</span><span class="p">(</span><span class="s2">&quot;FullAggregationMaps are aggregates that may exclude &quot;</span> <span class="o">+</span> 
+                <span class="s2">&quot;some items, but otherwise aggretate up to one quantity. &quot;</span> <span class="o">+</span> 
+                <span class="s2">&quot;to_enum </span><span class="si">{}</span><span class="s2"> contains too many items.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">to_enum</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">to_id</span> <span class="o">=</span> <span class="n">to_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">exclude_list</span> <span class="o">=</span> <span class="n">exclude_list</span>
+        <span class="k">for</span> <span class="n">exclude_item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">exclude_item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">from_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DSGridError</span><span class="p">(</span><span class="s2">&quot;exclude_list must contain ids in from_enum &quot;</span> <span class="o">+</span> 
+                    <span class="s2">&quot;that are to be exluded from the overall aggregation. &quot;</span>
+                    <span class="s2">&quot;Found </span><span class="si">{}</span><span class="s2"> in exclude list, which is not in </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exclude_item</span><span class="p">,</span><span class="n">from_enum</span><span class="p">))</span>
+
+<div class="viewcode-block" id="FullAggregationMap.map"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.FullAggregationMap.map">[docs]</a>    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_id</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">from_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_list</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_id</span></div></div>
+
+
+<div class="viewcode-block" id="FilterToSubsetMap"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.FilterToSubsetMap">[docs]</a><span class="k">class</span> <span class="nc">FilterToSubsetMap</span><span class="p">(</span><span class="n">DimensionMap</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Arguments:</span>
+<span class="sd">            - to_enum (Enumeration) - should be a subset of from_enum</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">to_id</span> <span class="ow">in</span> <span class="n">to_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">to_id</span> <span class="ow">in</span> <span class="n">from_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DSGridError</span><span class="p">(</span><span class="s2">&quot;to_enum should be a subset of from_enum&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FilterToSubsetMap.map"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.FilterToSubsetMap.map">[docs]</a>    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_id</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">from_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">from_id</span>
+        <span class="k">return</span> <span class="kc">None</span></div></div>
+
+
+<div class="viewcode-block" id="FilterToSingleFuelMap"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.FilterToSingleFuelMap">[docs]</a><span class="k">class</span> <span class="nc">FilterToSingleFuelMap</span><span class="p">(</span><span class="n">DimensionMap</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_enum</span><span class="p">,</span><span class="n">fuel_to_keep</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">from_enum</span><span class="p">,</span><span class="n">MultiFuelEndUseEnumeration</span><span class="p">),</span> <span class="s2">&quot;This map only applies to MultiFuelEndUseEnumerations&quot;</span>
+        <span class="k">assert</span> <span class="n">fuel_to_keep</span> <span class="ow">in</span> <span class="n">from_enum</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> is not a fuel_id in </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fuel_to_keep</span><span class="p">,</span><span class="n">from_enum</span><span class="o">.</span><span class="n">fuel_enum</span><span class="p">)</span>
+        <span class="n">to_enum_name</span> <span class="o">=</span> <span class="n">from_enum</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; (</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">from_enum</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="n">fuel_to_keep</span><span class="p">))</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[];</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">from_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">id</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">fuel_to_keep</span><span class="p">:</span>
+                <span class="n">ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">from_enum</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="nb">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">to_enum</span> <span class="o">=</span> <span class="n">SingleFuelEndUseEnumeration</span><span class="p">(</span><span class="n">to_enum_name</span><span class="p">,</span>
+                                              <span class="n">ids</span><span class="p">,</span><span class="n">names</span><span class="p">,</span>
+                                              <span class="n">fuel</span><span class="o">=</span><span class="n">from_enum</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="n">fuel_to_keep</span><span class="p">),</span>
+                                              <span class="n">units</span><span class="o">=</span><span class="n">from_enum</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">get_units</span><span class="p">(</span><span class="n">fuel_to_keep</span><span class="p">))</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FilterToSingleFuelMap.map"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.FilterToSingleFuelMap.map">[docs]</a>    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">from_id</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="ExplicitMap"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitMap">[docs]</a><span class="k">class</span> <span class="nc">ExplicitMap</span><span class="p">(</span><span class="n">DimensionMap</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">,</span><span class="n">dictmap</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dictmap</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ExplicitMap.map"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitMap.map">[docs]</a>    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dictmap</span><span class="p">[</span><span class="n">from_id</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="ExplicitMap.create_from_csv"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitMap.create_from_csv">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create_from_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">,</span><span class="n">filepath</span><span class="p">):</span>
+        <span class="n">mapdata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">,</span><span class="bp">cls</span><span class="o">.</span><span class="n">_make_dictmap</span><span class="p">(</span><span class="n">mapdata</span><span class="p">))</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_make_dictmap</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">mapdata</span><span class="p">):</span> <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ExplicitDisaggregation"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitDisaggregation">[docs]</a><span class="k">class</span> <span class="nc">ExplicitDisaggregation</span><span class="p">(</span><span class="n">ExplicitMap</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">,</span><span class="n">dictmap</span><span class="p">,</span><span class="n">scaling_datafile</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If no scaling_datafile, scaling factors are assumed to be 1.0.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">,</span><span class="n">dictmap</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dictmap</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[])</span>
+        <span class="k">for</span> <span class="n">from_id</span><span class="p">,</span> <span class="n">to_ids</span> <span class="ow">in</span> <span class="n">dictmap</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">from_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DSGridError</span><span class="p">(</span><span class="s2">&quot;Id </span><span class="si">{}</span><span class="s2"> is not in from_enum </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">from_id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">from_enum</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">to_id</span> <span class="ow">in</span> <span class="n">to_ids</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">to_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">DSGridError</span><span class="p">(</span><span class="s2">&quot;Id </span><span class="si">{}</span><span class="s2"> is not in to_enum </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">to_id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">to_enum</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dictmap</span><span class="p">[</span><span class="n">from_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_ids</span>
+        <span class="c1"># scaling_datafile must have to_enum as one of its dimensions</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">scaling_datafile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">scaling_datafile</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">to_enum</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="n">DSGridError</span><span class="p">(</span><span class="s2">&quot;Datafile </span><span class="si">{}</span><span class="s2"> cannot be used to scale this map &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">scaling_datafile</span><span class="p">))</span> <span class="o">+</span> 
+                <span class="s2">&quot;because it does not contain to_enum </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">to_enum</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scaling_datafile</span> <span class="o">=</span> <span class="n">scaling_datafile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scaling_datatable</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scaling_datafile</span> <span class="ow">is</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">scaling_datatable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_scaling</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scaling_datatable</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_scaling_datatable</span> <span class="o">=</span> <span class="n">Datatable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scaling_datafile</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scaling_datatable</span>
+
+<div class="viewcode-block" id="ExplicitDisaggregation.get_scalings"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitDisaggregation.get_scalings">[docs]</a>    <span class="k">def</span> <span class="nf">get_scalings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">to_ids</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return an array of scalings for to_ids.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_scaling</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span> <span class="k">for</span> <span class="n">to_id</span> <span class="ow">in</span> <span class="n">to_ids</span><span class="p">])</span> 
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_enum</span><span class="p">,</span><span class="n">SectorEnumeration</span><span class="p">):</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_datatable</span><span class="p">[</span><span class="n">to_ids</span><span class="p">,:,:,:]</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s1">&#39;sector&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_enum</span><span class="p">,</span><span class="n">GeographyEnumeration</span><span class="p">):</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_datatable</span><span class="p">[:,</span><span class="n">to_ids</span><span class="p">,:,:]</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s1">&#39;geography&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_enum</span><span class="p">,</span><span class="n">EndUseEnumerationBase</span><span class="p">):</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_datatable</span><span class="p">[:,:,</span><span class="n">to_ids</span><span class="p">,:]</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s1">&#39;enduse&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_enum</span><span class="p">,</span><span class="n">TimeEnumeration</span><span class="p">)</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_datatable</span><span class="p">[:,:,:,</span><span class="n">to_ids</span><span class="p">]</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+        <span class="c1"># fraction of from_id that should go to each to_id</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span> <span class="o">/</span> <span class="n">temp</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">temp</span><span class="p">[</span><span class="n">to_id</span><span class="p">]</span> <span class="k">for</span> <span class="n">to_id</span> <span class="ow">in</span> <span class="n">to_ids</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="ExplicitDisaggregation.create_from_csv"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitDisaggregation.create_from_csv">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create_from_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">,</span><span class="n">filepath</span><span class="p">,</span><span class="n">scaling_datafile</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">mapdata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">,</span><span class="bp">cls</span><span class="o">.</span><span class="n">_make_dictmap</span><span class="p">(</span><span class="n">mapdata</span><span class="p">),</span><span class="n">scaling_datafile</span><span class="o">=</span><span class="n">scaling_datafile</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_make_dictmap</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">mapdata</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[])</span>
+        <span class="k">for</span> <span class="n">from_id</span><span class="p">,</span> <span class="n">to_id</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mapdata</span><span class="o">.</span><span class="n">from_id</span><span class="p">,</span><span class="n">mapdata</span><span class="o">.</span><span class="n">to_id</span><span class="p">):</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">from_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="ExplicitAggregation"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.ExplicitAggregation">[docs]</a><span class="k">class</span> <span class="nc">ExplicitAggregation</span><span class="p">(</span><span class="n">ExplicitMap</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">,</span><span class="n">dictmap</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">,</span><span class="n">dictmap</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">from_id</span><span class="p">,</span> <span class="n">to_id</span> <span class="ow">in</span> <span class="n">dictmap</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">from_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DSGridError</span><span class="p">(</span><span class="s2">&quot;Id </span><span class="si">{}</span><span class="s2"> is not in from_enum </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">from_id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">from_enum</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">to_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DSGridError</span><span class="p">(</span><span class="s2">&quot;Id </span><span class="si">{}</span><span class="s2"> is not in to_enum </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">to_id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">to_enum</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dictmap</span><span class="p">[</span><span class="n">from_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_id</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_make_dictmap</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">mapdata</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">from_fuel_enduse</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;from_fuel_id&#39;</span> <span class="ow">in</span> <span class="n">mapdata</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">to_fuel_enduse</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;to_fuel_id&#39;</span> <span class="ow">in</span> <span class="n">mapdata</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">mapdata</span><span class="o">.</span><span class="n">itertuples</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="n">from_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">from_id</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">from_fuel_id</span><span class="p">)</span> <span class="k">if</span> <span class="n">from_fuel_enduse</span> <span class="k">else</span> <span class="n">row</span><span class="o">.</span><span class="n">from_id</span>
+            <span class="n">to_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">to_id</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">to_fuel_id</span><span class="p">)</span> <span class="k">if</span> <span class="n">to_fuel_enduse</span> <span class="k">else</span> <span class="n">row</span><span class="o">.</span><span class="n">to_id</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">from_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_key</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="UnitConversionMap"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.UnitConversionMap">[docs]</a><span class="k">class</span> <span class="nc">UnitConversionMap</span><span class="p">(</span><span class="n">DimensionMap</span><span class="p">):</span>
+    <span class="n">CONVERSION_FACTORS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">(</span><span class="s1">&#39;kWh&#39;</span><span class="p">,</span><span class="s1">&#39;MWh&#39;</span><span class="p">):</span> <span class="mf">1.0E-3</span><span class="p">,</span>
+        <span class="p">(</span><span class="s1">&#39;MWh&#39;</span><span class="p">,</span><span class="s1">&#39;GWh&#39;</span><span class="p">):</span> <span class="mf">1.0E-3</span><span class="p">,</span>
+        <span class="p">(</span><span class="s1">&#39;GWh&#39;</span><span class="p">,</span><span class="s1">&#39;TWh&#39;</span><span class="p">):</span> <span class="mf">1.0E-3</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_enum</span><span class="p">,</span><span class="n">from_units</span><span class="p">,</span><span class="n">to_units</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert from_units to to_units.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        from_enum : EndUseEnumerationBase</span>
+<span class="sd">        from_units : list of str</span>
+<span class="sd">            List of units in from_enum that are to be converted</span>
+<span class="sd">        to_units : list of str</span>
+<span class="sd">            List of units to convert to. Same length list as from_units.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">from_enum</span><span class="p">,</span><span class="n">EndUseEnumerationBase</span><span class="p">),</span> <span class="s2">&quot;Unit conversion applies to EndUseEnumerations&quot;</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">from_enum</span><span class="p">,</span><span class="n">EndUseEnumeration</span><span class="p">),</span> <span class="s2">&quot;Old-style end-use enumerations do not include units information&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">from_units</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_units</span><span class="p">),</span> <span class="s2">&quot;Cannot convert </span><span class="si">{}</span><span class="s2"> to </span><span class="si">{}</span><span class="s2"> since they are of a different number&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">from_units</span><span class="p">,</span><span class="n">to_units</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">from_units</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;from_units is empty. Nothing to do.&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scale_map</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">from_enum</span><span class="p">,</span><span class="n">SingleFuelEndUseEnumeration</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">from_units</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+            <span class="k">assert</span> <span class="n">from_units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">from_enum</span><span class="o">.</span><span class="n">_units</span>
+            <span class="n">to_enum_name</span> <span class="o">=</span> <span class="n">from_enum</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">from_units</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">to_units</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">to_enum_name</span> <span class="o">=</span> <span class="n">to_enum_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">from_units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span><span class="n">to_units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="n">to_enum</span> <span class="o">=</span> <span class="n">SingleFuelEndUseEnumeration</span><span class="p">(</span><span class="n">to_enum_name</span><span class="p">,</span>
+                                                  <span class="n">from_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">,</span>
+                                                  <span class="n">from_enum</span><span class="o">.</span><span class="n">names</span><span class="p">,</span>
+                                                  <span class="n">fuel</span><span class="o">=</span><span class="n">from_enum</span><span class="o">.</span><span class="n">_fuel</span><span class="p">,</span>
+                                                  <span class="n">units</span><span class="o">=</span><span class="n">to_units</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_scale_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_factor</span><span class="p">(</span><span class="n">from_units</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">to_units</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">from_enum</span><span class="p">,</span><span class="n">MultiFuelEndUseEnumeration</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">from_unit</span> <span class="ow">in</span> <span class="n">from_units</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">from_unit</span> <span class="ow">in</span> <span class="n">from_enum</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">units</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> is not a unit in </span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">from_unit</span><span class="p">,</span><span class="n">from_enum</span><span class="o">.</span><span class="n">fuel_enum</span><span class="p">)</span>
+            
+            <span class="n">to_fuel_enum_units</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">from_enum</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">units</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">from_units</span><span class="p">:</span>
+                    <span class="n">to_fuel_enum_units</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_units</span><span class="p">[</span><span class="n">from_units</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">unit</span><span class="p">)])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">to_fuel_enum_units</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+            
+            <span class="n">to_fuel_enum</span> <span class="o">=</span> <span class="n">FuelEnumeration</span><span class="p">(</span><span class="n">from_enum</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                           <span class="n">from_enum</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">,</span>
+                                           <span class="n">from_enum</span><span class="o">.</span><span class="n">fuel_enum</span><span class="o">.</span><span class="n">names</span><span class="p">,</span>
+                                           <span class="n">to_fuel_enum_units</span><span class="p">)</span>
+            
+            <span class="n">to_enum</span> <span class="o">=</span> <span class="n">MultiFuelEndUseEnumeration</span><span class="p">(</span><span class="n">from_enum</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                 <span class="n">from_enum</span><span class="o">.</span><span class="n">_ids</span><span class="p">,</span>
+                                                 <span class="n">from_enum</span><span class="o">.</span><span class="n">_names</span><span class="p">,</span>
+                                                 <span class="n">to_fuel_enum</span><span class="p">,</span>
+                                                 <span class="n">from_enum</span><span class="o">.</span><span class="n">_fuel_ids</span><span class="p">)</span>
+            <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">from_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+                <span class="n">u</span> <span class="o">=</span> <span class="n">from_enum</span><span class="o">.</span><span class="n">units</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">from_units</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_scale_map</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_factor</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">to_units</span><span class="p">[</span><span class="n">from_units</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">u</span><span class="p">)])</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">from_enum</span><span class="p">,</span><span class="n">to_enum</span><span class="p">)</span>
+
+<div class="viewcode-block" id="UnitConversionMap.map"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.UnitConversionMap.map">[docs]</a>    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_id</span><span class="p">):</span>
+        <span class="c1"># no change in enduse or fuel id</span>
+        <span class="k">return</span> <span class="n">from_id</span></div>
+
+<div class="viewcode-block" id="UnitConversionMap.scale_factor"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.UnitConversionMap.scale_factor">[docs]</a>    <span class="k">def</span> <span class="nf">scale_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">from_id</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scale_map</span><span class="p">,</span><span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale_map</span><span class="p">[</span><span class="n">from_id</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale_map</span>        </div>
+
+<div class="viewcode-block" id="UnitConversionMap.scaling_factor"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.UnitConversionMap.scaling_factor">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">scaling_factor</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">from_unit</span><span class="p">,</span><span class="n">to_unit</span><span class="p">):</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">from_unit</span><span class="p">,</span><span class="n">to_unit</span><span class="p">)</span>
+        <span class="n">these_factors</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get_all_factors</span><span class="p">(</span><span class="n">to_unit</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">CONVERSION_FACTORS</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">these_factors</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">these_factors</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="n">something_added</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">while</span> <span class="n">something_added</span><span class="p">:</span>
+            <span class="n">something_added</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">to_expand</span> <span class="o">=</span> <span class="p">[(</span><span class="n">a_key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">a_key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">these_factors</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+            <span class="k">for</span> <span class="n">a_key</span><span class="p">,</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">to_expand</span><span class="p">:</span>
+                <span class="n">candidates</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get_all_factors</span><span class="p">(</span><span class="n">a_key</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">CONVERSION_FACTORS</span><span class="p">,</span> <span class="n">multiplier</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">b_key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">candidates</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">c_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">b_key</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">to_unit</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">c_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">these_factors</span><span class="p">:</span>
+                        <span class="n">these_factors</span><span class="p">[</span><span class="n">c_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+                        <span class="n">something_added</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">these_factors</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">these_factors</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="k">raise</span> <span class="n">DSGridNotImplemented</span><span class="p">(</span><span class="s2">&quot;No conversion factor available to go from </span><span class="si">{}</span><span class="s2"> to </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">from_unit</span><span class="p">,</span><span class="n">to_unit</span><span class="p">))</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_get_all_factors</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">to_unit</span><span class="p">,</span> <span class="n">factors</span><span class="p">,</span> <span class="n">multiplier</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">units</span><span class="p">,</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">factors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">from_u</span><span class="p">,</span> <span class="n">to_u</span> <span class="o">=</span> <span class="n">units</span>
+            <span class="c1"># directly in factors?</span>
+            <span class="k">if</span> <span class="n">to_u</span> <span class="o">==</span> <span class="n">to_unit</span><span class="p">:</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">units</span><span class="p">]</span> <span class="o">=</span> <span class="n">factor</span>
+        
+            <span class="c1"># in factors backward?</span>
+            <span class="k">if</span> <span class="n">from_u</span> <span class="o">==</span> <span class="n">to_unit</span><span class="p">:</span>
+                <span class="n">result</span><span class="p">[(</span><span class="n">to_u</span><span class="p">,</span> <span class="n">from_u</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">factor</span>
+
+        <span class="k">if</span> <span class="n">multiplier</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">*=</span> <span class="n">multiplier</span>
+        
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="Mappings"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.Mappings">[docs]</a><span class="k">class</span> <span class="nc">Mappings</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mappings</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Mappings.add_mapping"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.Mappings.add_mapping">[docs]</a>    <span class="k">def</span> <span class="nf">add_mapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mapping</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mappings</span><span class="p">[(</span><span class="n">mapping</span><span class="o">.</span><span class="n">from_enum</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">mapping</span><span class="o">.</span><span class="n">to_enum</span><span class="o">.</span><span class="n">name</span><span class="p">)]</span> <span class="o">=</span> <span class="n">mapping</span></div>
+
+<div class="viewcode-block" id="Mappings.get_mapping"><a class="viewcode-back" href="../../../api/dsgrid.dataformat.html#dsgrid.dataformat.dimmap.Mappings.get_mapping">[docs]</a>    <span class="k">def</span> <span class="nf">get_mapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">datafile</span><span class="p">,</span><span class="n">to_enum</span><span class="p">):</span>
+        
+        <span class="n">from_enum</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_enum</span><span class="p">,</span><span class="n">SectorEnumeration</span><span class="p">):</span>
+            <span class="n">from_enum</span> <span class="o">=</span> <span class="n">datafile</span><span class="o">.</span><span class="n">sector_enum</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_enum</span><span class="p">,</span><span class="n">GeographyEnumeration</span><span class="p">):</span>
+            <span class="n">from_enum</span> <span class="o">=</span> <span class="n">datafile</span><span class="o">.</span><span class="n">geo_enum</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_enum</span><span class="p">,</span><span class="n">EndUseEnumerationBase</span><span class="p">):</span>
+            <span class="n">from_enum</span> <span class="o">=</span> <span class="n">datafile</span><span class="o">.</span><span class="n">enduse_enum</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_enum</span><span class="p">,</span><span class="n">TimeEnumeration</span><span class="p">):</span>
+            <span class="n">from_enum</span> <span class="o">=</span> <span class="n">datafile</span><span class="o">.</span><span class="n">time_enum</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DSGridError</span><span class="p">(</span><span class="s2">&quot;to_enum </span><span class="si">{}</span><span class="s2"> is not a recognized enumeration type.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">to_enum</span><span class="p">)))</span>
+
+        <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">from_enum</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">to_enum</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mappings</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mappings</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="c1"># No immediate match</span>
+        <span class="c1"># Is the requested mapping a tautology?</span>
+        <span class="k">if</span> <span class="n">from_enum</span> <span class="o">==</span> <span class="n">to_enum</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">TautologyMapping</span><span class="p">(</span><span class="n">to_enum</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">from_enum</span><span class="o">.</span><span class="n">is_subset</span><span class="p">(</span><span class="n">to_enum</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">TautologyMapping</span><span class="p">(</span><span class="n">to_enum</span><span class="p">)</span>
+        <span class="c1"># Are elements in from_enum a subset of a stored mapping.from_enum?</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">mapping</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">mapping</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mappings</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">to_enum</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+            <span class="n">okay</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">from_id</span> <span class="ow">in</span> <span class="n">from_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">from_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">candidate</span><span class="o">.</span><span class="n">from_enum</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+                    <span class="n">okay</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">break</span>
+            <span class="k">if</span> <span class="n">okay</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">candidate</span>
+        <span class="k">return</span> <span class="kc">None</span></div></div>
+
+<span class="n">mappings</span> <span class="o">=</span> <span class="n">Mappings</span><span class="p">()</span>
+
+<span class="c1"># key geography</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">ExplicitAggregation</span><span class="o">.</span><span class="n">create_from_csv</span><span class="p">(</span><span class="n">counties</span><span class="p">,</span><span class="n">states</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;counties_to_states.csv&#39;</span><span class="p">)))</span>
+<span class="n">conus_states_list</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;conus_to_states.csv&#39;</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)[</span><span class="s1">&#39;to_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">FullAggregationMap</span><span class="p">(</span><span class="n">states</span><span class="p">,</span><span class="n">conus</span><span class="p">,</span><span class="n">exclude_list</span><span class="o">=</span><span class="p">[</span><span class="n">state_id</span> <span class="k">for</span> <span class="n">state_id</span> <span class="ow">in</span> <span class="n">states</span><span class="o">.</span><span class="n">ids</span> <span class="k">if</span> <span class="n">state_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">conus_states_list</span><span class="p">]))</span>
+<span class="c1"># full aggregations</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">FullAggregationMap</span><span class="p">(</span><span class="n">census_regions</span><span class="p">,</span><span class="n">conus</span><span class="p">))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">FullAggregationMap</span><span class="p">(</span><span class="n">hourly2012</span><span class="p">,</span><span class="n">annual</span><span class="p">))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">FullAggregationMap</span><span class="p">(</span><span class="n">daily2012</span><span class="p">,</span><span class="n">annual</span><span class="p">))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">FullAggregationMap</span><span class="p">(</span><span class="n">weekly2012</span><span class="p">,</span><span class="n">annual</span><span class="p">))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">FullAggregationMap</span><span class="p">(</span><span class="n">seasons</span><span class="p">,</span><span class="n">annual</span><span class="p">))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">FullAggregationMap</span><span class="p">(</span><span class="n">sectors</span><span class="p">,</span><span class="n">allsectors</span><span class="p">))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">FullAggregationMap</span><span class="p">(</span><span class="n">sectors_subsectors</span><span class="p">,</span><span class="n">allsectors</span><span class="p">))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">FullAggregationMap</span><span class="p">(</span><span class="n">enduses</span><span class="p">,</span><span class="n">allenduses</span><span class="p">))</span>
+<span class="c1"># filter down to conus</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">FilterToSubsetMap</span><span class="p">(</span><span class="n">states</span><span class="p">,</span><span class="n">conus_states</span><span class="p">))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">FilterToSubsetMap</span><span class="p">(</span><span class="n">counties</span><span class="p">,</span><span class="n">conus_counties</span><span class="p">))</span>
+<span class="c1"># then go back to vanilla enumerations</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">ExplicitAggregation</span><span class="o">.</span><span class="n">create_from_csv</span><span class="p">(</span><span class="n">conus_states</span><span class="p">,</span><span class="n">states</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;conus_states_to_states.csv&#39;</span><span class="p">)))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">ExplicitAggregation</span><span class="o">.</span><span class="n">create_from_csv</span><span class="p">(</span><span class="n">conus_counties</span><span class="p">,</span><span class="n">counties</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;conus_counties_to_counties.csv&#39;</span><span class="p">)))</span>
+<span class="c1"># explicit aggregations</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">ExplicitAggregation</span><span class="o">.</span><span class="n">create_from_csv</span><span class="p">(</span><span class="n">hourly2012</span><span class="p">,</span><span class="n">daily2012</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;hourly2012_to_daily2012.csv&#39;</span><span class="p">)))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">ExplicitAggregation</span><span class="o">.</span><span class="n">create_from_csv</span><span class="p">(</span><span class="n">hourly2012</span><span class="p">,</span><span class="n">weekly2012</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;hourly2012_to_weekly2012.csv&#39;</span><span class="p">)))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">ExplicitAggregation</span><span class="o">.</span><span class="n">create_from_csv</span><span class="p">(</span><span class="n">hourly2012</span><span class="p">,</span><span class="n">seasons</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;hourly2012_to_seasons.csv&#39;</span><span class="p">)))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">ExplicitAggregation</span><span class="o">.</span><span class="n">create_from_csv</span><span class="p">(</span><span class="n">daily2012</span><span class="p">,</span><span class="n">weekly2012</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;daily2012_to_weekly2012.csv&#39;</span><span class="p">)))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">ExplicitAggregation</span><span class="o">.</span><span class="n">create_from_csv</span><span class="p">(</span><span class="n">daily2012</span><span class="p">,</span><span class="n">seasons</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;daily2012_to_seasons.csv&#39;</span><span class="p">)))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">ExplicitAggregation</span><span class="o">.</span><span class="n">create_from_csv</span><span class="p">(</span><span class="n">enduses</span><span class="p">,</span><span class="n">fuel_types</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;enduses_to_fuel_types.csv&#39;</span><span class="p">)))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">ExplicitAggregation</span><span class="o">.</span><span class="n">create_from_csv</span><span class="p">(</span><span class="n">states</span><span class="p">,</span><span class="n">loss_state_groups</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;states_to_loss_state_groups.csv&#39;</span><span class="p">)))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">ExplicitAggregation</span><span class="o">.</span><span class="n">create_from_csv</span><span class="p">(</span><span class="n">states</span><span class="p">,</span><span class="n">census_divisions</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;states_to_census_divisions.csv&#39;</span><span class="p">)))</span>
+<span class="n">mappings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">ExplicitAggregation</span><span class="o">.</span><span class="n">create_from_csv</span><span class="p">(</span><span class="n">census_divisions</span><span class="p">,</span><span class="n">census_regions</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">enumdata_folder</span><span class="p">,</span><span class="s1">&#39;census_divisions_to_census_regions.csv&#39;</span><span class="p">)))</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright Copyright 2021, The Alliance for Sustainable Energy, LLC.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
