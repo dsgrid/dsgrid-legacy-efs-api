@@ -3,7 +3,7 @@ import logging
 import numpy as np
 import pandas as pd
 
-from dsgrid.helpers import h5Reader
+from dsgrid.helpers import H5Reader
 from dsgrid.dataformat.sectordataset import NULL_IDX
 
 logger = logging.getLogger(__name__)
@@ -18,7 +18,7 @@ class Datatable(object):
         self.time_enum = datafile.time_enum
 
         self.data = []
-        with h5Reader(datafile.h5path) as f:
+        with H5Reader(datafile.h5path) as f:
 
             for sectorname, sectordataset in datafile.sectordata.items():
 

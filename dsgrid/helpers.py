@@ -51,7 +51,7 @@ def palette(hex_color,n,max_fraction=0.75):
     return result
 
 
-class h5Reader(object):
+class H5Reader(object):
     def __init__(self, filepath):
         self.filepath = filepath
         if self.is_hsds:
@@ -73,10 +73,12 @@ class h5Reader(object):
         return str(self.filepath).startswith("s3://")
 
     def __enter__(self):
-        return self._f.__enter__()
+        return self._f
 
     def __exit__(self, exc, value, tb):
-        result = self._f.__exit__(exc, value, tb)
+        self._f.close()
         if self.is_s3:
-            self._s3p.__exit__(exc, value, tb)
-        return result
+            self._s3p.close()
+        if exc is not None:
+            raise
+        

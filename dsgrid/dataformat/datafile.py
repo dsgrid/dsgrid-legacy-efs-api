@@ -14,7 +14,7 @@ import h5py
 
 from dsgrid import __version__ as VERSION
 from dsgrid import DSGridNotImplemented, DSGridValueError
-from dsgrid.helpers import h5Reader
+from dsgrid.helpers import H5Reader
 from dsgrid.dataformat import get_str
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
@@ -110,7 +110,7 @@ class Datafile(Mapping):
     @classmethod
     def load(cls,filepath,upgrade=True,overwrite=False,new_filepath=None,**kwargs):
         # Version Handling
-        with h5Reader(filepath) as f:
+        with H5Reader(filepath) as f:
             version = get_str(f.attrs.get("dsgrid", "0.1.0"))
 
         if StrictVersion(version) > StrictVersion(VERSION):
@@ -133,7 +133,7 @@ class Datafile(Mapping):
 
         # Current version, old version data that is compatible with current code,
         # or old version data that is not compatible and not being upgraded
-        with h5Reader(filepath) as f:
+        with H5Reader(filepath) as f:
             enum_group = f["enumerations"]
             result = cls(filepath,
                          SectorEnumeration.load(enum_group),

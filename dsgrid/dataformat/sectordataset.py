@@ -8,7 +8,7 @@ import pandas as pd
 
 from dsgrid import __version__ as VERSION
 from dsgrid import DSGridError, DSGridNotImplemented
-from dsgrid.helpers import h5Reader
+from dsgrid.helpers import H5Reader
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
     EndUseEnumerationBase, TimeEnumeration)
@@ -521,7 +521,7 @@ class SectorDataset(object):
 
         id_idx = self.datafile.geo_enum.ids.index(geo_id)
 
-        with h5Reader(self.datafile.h5path) as f:
+        with H5Reader(self.datafile.h5path) as f:
             dgroup = f["data/" + self.sector_id]
             dset = dgroup["data"]
 
@@ -540,7 +540,7 @@ class SectorDataset(object):
     def has_data(self,geo_id):
         id_idx = self.datafile.geo_enum.ids.index(geo_id)
 
-        with h5Reader(self.datafile.h5path) as f:
+        with H5Reader(self.datafile.h5path) as f:
             dgroup = f["data/" + self.sector_id]
 
             geo_idx, geo_scale = dgroup["geographies"][id_idx]
@@ -550,7 +550,7 @@ class SectorDataset(object):
         return True
 
     def get_datamap(self,dim_key):
-        with h5Reader(self.datafile.h5path) as f:
+        with H5Reader(self.datafile.h5path) as f:
             dgroup = f["data"][self.sector_id]
             result = Datamap.load(dgroup[dim_key])
         return result
@@ -578,7 +578,7 @@ class SectorDataset(object):
         if (dataset_geo_index < 0) or (not dataset_geo_index < self.n_geos):
             raise ValueError("dataset_geo_index must be in the range [0,{}), but is {}.".format(self.n_geos,dataset_geo_index))
 
-        with h5Reader(self.datafile.h5path) as f:
+        with H5Reader(self.datafile.h5path) as f:
 
             dgroup = f["data"][self.sector_id]
             dset = dgroup["data"]
