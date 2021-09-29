@@ -79,6 +79,4 @@ class H5Reader(object):
         self._f.close()
         if self.is_s3:
             self._s3p.close()
-        if exc is not None:
-            raise
         
