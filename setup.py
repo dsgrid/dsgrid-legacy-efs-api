@@ -46,6 +46,7 @@ setuptools.setup(
     long_description_content_type = 'text/markdown',
     url = metadata["__url__"],
     packages = setuptools.find_packages(),
+    test_suite="tests",
     python_requires = ">=3.6",
     package_data = {
         'dsgrid.dataformat': ['enumeration_data/*.csv'],
