@@ -3,11 +3,13 @@ from distutils.version import StrictVersion
 from itertools import repeat
 import h5py
 import logging
+from h5pyd._hl.files import is_hdf5
 import numpy as np
 import pandas as pd
 
 from dsgrid import __version__ as VERSION
 from dsgrid import DSGridError, DSGridNotImplemented
+from dsgrid.helpers import H5Reader
 from dsgrid.dataformat.enumeration import (
     SectorEnumeration, GeographyEnumeration,
     EndUseEnumerationBase, TimeEnumeration)
@@ -91,7 +93,7 @@ class Datamap(object):
         return cls(datamap)
 
     @classmethod
-    def load(cls,dataset):
+    def load(cls,dataset,hsds=False):
         """
         Parameters
         ----------
@@ -102,9 +104,14 @@ class Datamap(object):
         -------
         Datamap
         """
-        assert isinstance(dataset,h5py.Dataset)
-        idx = dataset[:,"idx"]
-        scale = dataset[:,"scale"]
+        if hsds: # workaround for h5pyd
+            dset = dataset[...] # workaround for h5pyd
+            idx = dset["idx"]
+            scale = dset["scale"]
+        else:
+            assert isinstance(dataset,h5py.Dataset)
+            idx = dataset[:,"idx"]
+            scale = dataset[:,"scale"]
         datamap = np.empty(len(idx), enum_datamap_dtype)
         datamap["idx"] = idx
         datamap["scale"] = scale
@@ -295,7 +302,7 @@ def append_element_to_dataset_dimension(dataset,new_elem_idx,enum_ids,enum,scali
 
 class SectorDataset(object):
 
-    def __init__(self,datafile,sector_id,enduses,times):
+    def __init__(self,datafile,sector_id,enduses,times,hsds=False):
         """
         Creates a SectorDataset object. Note that this does not read from
         or write to datafile in any way, and should generally not be called directly.
@@ -320,6 +327,8 @@ class SectorDataset(object):
         self.datafile = datafile
         self.enduses = enduses
         self.times = times
+        
+        self.is_hsds = hsds
 
         self.n_geos = 0 # data is inserted by geography
 
@@ -361,16 +370,17 @@ class SectorDataset(object):
     @classmethod
     def load(cls,datafile,f,sector_id):
         dgroup = f["data/" + sector_id]
+        is_hsds = ("h5pyd" in str(type(f)))
 
-        datamap = Datamap.load(dgroup["enduses"])
+        datamap = Datamap.load(dgroup["enduses"],hsds=is_hsds)
         enduses = datamap.get_subenum(datafile.enduse_enum)
 
-        datamap = Datamap.load(dgroup["times"])
+        datamap = Datamap.load(dgroup["times"],hsds=is_hsds)
         times = datamap.get_subenum(datafile.time_enum)
 
-        result = cls(datafile,sector_id,enduses,times)
+        result = cls(datafile,sector_id,enduses,times,hsds=is_hsds)
 
-        datamap = Datamap.load(dgroup["geographies"])
+        datamap = Datamap.load(dgroup["geographies"],hsds=is_hsds)
         result.n_geos = datamap.num_entries
 
         return result
@@ -383,7 +393,7 @@ class SectorDataset(object):
             if _upgrade_class is not None:
                 yield sector_id, _upgrade_class.load_sectordataset(datafile,f,sector_id)
                 continue
-            assert isinstance(sector_group, h5py.Group)
+            # assert isinstance(sector_group, h5py.Group) # fails for h5pyd
             yield sector_id, SectorDataset.load(datafile,f,sector_id)
 
 
@@ -520,7 +530,7 @@ class SectorDataset(object):
 
         id_idx = self.datafile.geo_enum.ids.index(geo_id)
 
-        with h5py.File(self.datafile.h5path, "r") as f:
+        with H5Reader(self.datafile.h5path) as f:
             dgroup = f["data/" + self.sector_id]
             dset = dgroup["data"]
 
@@ -539,19 +549,23 @@ class SectorDataset(object):
     def has_data(self,geo_id):
         id_idx = self.datafile.geo_enum.ids.index(geo_id)
 
-        with h5py.File(self.datafile.h5path, "r") as f:
+        with H5Reader(self.datafile.h5path) as f:
             dgroup = f["data/" + self.sector_id]
 
-            geo_idx, geo_scale = dgroup["geographies"][id_idx]
+            if self.is_hsds: # workaround for h5pyd
+                dset = dgroup["geographies"][...] 
+                geo_idx, geo_scale = dset[id_idx]
+            else:
+                geo_idx, geo_scale = dgroup["geographies"][id_idx]
 
             if geo_idx == NULL_IDX:
                 return False
         return True
 
     def get_datamap(self,dim_key):
-        with h5py.File(self.datafile.h5path, "r") as f:
+        with H5Reader(self.datafile.h5path) as f:
             dgroup = f["data"][self.sector_id]
-            result = Datamap.load(dgroup[dim_key])
+            result = Datamap.load(dgroup[dim_key], hsds=self.is_hsds)
         return result
 
     def get_data(self, dataset_geo_index):
@@ -577,7 +591,7 @@ class SectorDataset(object):
         if (dataset_geo_index < 0) or (not dataset_geo_index < self.n_geos):
             raise ValueError("dataset_geo_index must be in the range [0,{}), but is {}.".format(self.n_geos,dataset_geo_index))
 
-        with h5py.File(self.datafile.h5path, "r") as f:
+        with H5Reader(self.datafile.h5path) as f:
 
             dgroup = f["data"][self.sector_id]
             dset = dgroup["data"]
@@ -588,7 +602,7 @@ class SectorDataset(object):
                               columns=self.enduses,
                               dtype="float32")
 
-            geo_datamap = Datamap.load(dgroup["geographies"])
+            geo_datamap = Datamap.load(dgroup["geographies"], hsds=self.is_hsds)
             geo_ids = geo_datamap.ids(dataset_geo_index,self.datafile.geo_enum)
             scalings = geo_datamap.scales(dataset_geo_index)
 

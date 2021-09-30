@@ -135,10 +135,11 @@ class Enumeration(object):
     @classmethod
     def load(cls, h5group):
         h5dset = h5group[cls.dimension]
+        h5dset_data = h5group[cls.dimension][...] # workaround for h5pyd
         return cls(
             get_str(h5dset.attrs["name"]),
-            [get_str(vid) for vid in h5dset["id"]],
-            [get_str(vname) for vname in h5dset["name"]]
+            [get_str(vid) for vid in h5dset_data["id"]],
+            [get_str(vname) for vname in h5dset_data["name"]]
         )
 
     @classmethod
@@ -193,9 +194,10 @@ class EndUseEnumerationBase(Enumeration):
             return MultiFuelEndUseEnumeration.load(h5group)
 
         h5dset = h5group[cls.dimension]
+        h5dset_data = h5group[cls.dimension][...] # workaround for h5pyd
         name = get_str(h5dset.attrs["name"])
-        ids = [get_str(vid) for vid in h5dset["id"]]
-        names = [get_str(vname) for vname in h5dset["name"]]
+        ids = [get_str(vid) for vid in h5dset_data["id"]]
+        names = [get_str(vname) for vname in h5dset_data["name"]]
 
         if 'fuel' in h5dset.attrs:
             return SingleFuelEndUseEnumeration(name, ids, names,
@@ -628,11 +630,12 @@ class FuelEnumeration(Enumeration):
     @classmethod
     def load(cls, h5group):
         h5dset = h5group[cls.dimension]
+        h5dset_data = h5group[cls.dimension][...] # workaround for h5pyd
         return cls(
             get_str(h5dset.attrs["name"]),
-            [get_str(vid) for vid in h5dset["id"]],
-            [get_str(vname) for vname in h5dset["name"]],
-            [get_str(vunits) for vunits in h5dset["units"]]
+            [get_str(vid) for vid in h5dset_data["id"]],
+            [get_str(vname) for vname in h5dset_data["name"]],
+            [get_str(vunits) for vunits in h5dset_data["units"]]
         )
 
     @classmethod
@@ -768,12 +771,13 @@ class MultiFuelEndUseEnumeration(EndUseEnumerationBase):
         fuel_enum = FuelEnumeration.load(h5group)
 
         h5dset = h5group[cls.dimension]
+        h5dset_data = h5group[cls.dimension][...] # workaround for h5pyd
         return cls(
             get_str(h5dset.attrs["name"]),
-            [get_str(vid) for vid in h5dset["id"]],
-            [get_str(vname) for vname in h5dset["name"]],
+            [get_str(vid) for vid in h5dset_data["id"]],
+            [get_str(vname) for vname in h5dset_data["name"]],
             fuel_enum,
-            [get_str(vfuel_id) for vfuel_id in h5dset["fuel_id"]]
+            [get_str(vfuel_id) for vfuel_id in h5dset_data["fuel_id"]]
         )
 
     @classmethod
