@@ -82,5 +82,12 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
+echo "Enumerating key combinations in load_data_lookup..."
+if [ -z $PATH_TO_ENUM_SCRIPT ]; then
+	echo "The path to the enumerate_load_table_lookup.py file must be defined in the env variable PATH_TO_ENUM_SCRIPT"
+	exit 1
+fi 
+python ${PATH_TO_ENUM_SCRIPT}/enumerate_load_table_lookup.py ${OUTPUT_DIR}/commercial/load_data_lookup.parquet
+
 echo "Successfully converted commercial.dsg to parquet format."
 exit 0
