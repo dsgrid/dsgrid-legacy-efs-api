@@ -3,7 +3,6 @@ from distutils.version import StrictVersion
 from itertools import repeat
 import h5py
 import logging
-from h5pyd._hl.files import is_hdf5
 import numpy as np
 import pandas as pd
 
