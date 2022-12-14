@@ -12,12 +12,13 @@
 import enum
 import json
 import logging
+import math
 import os
 import shutil
 import sys
 import time
 from collections import defaultdict
-from functools import reduce
+from pathlib import Path
 
 import click
 import numpy as np
@@ -39,21 +40,25 @@ class ConvertDsg:
     """Converts a .dsg file to a directory of parquet files"""
 
     def __init__(self, output_dir, data_id_offset, sector_id_type):
-        self._output_dir = output_dir
+        self._output_dir = Path(output_dir)
         self._load_data_lookup = []
         self._data_id = data_id_offset  # Each unique dataframe gets assigned a unique ID.
         self._data_df = None
         self._data_dfs = []
-        self._num_buckets = 0
         self._sector_id_type = sector_id_type
         self._timestamps = None  # There is one array of timestamps per file.
         # Initialize on the first occurrence.
         self._spark = SparkSession.builder.appName("convert_dsg").getOrCreate()
+        self._cached_dfs = []
 
         # Optimize for converting pandas DataFrames to spark.
         self._spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "true")
+        self._tmp_data_dir = self._output_dir / "data"
+        if self._tmp_data_dir.exists():
+            shutil.rmtree(self._tmp_data_dir)
+        self._tmp_data_dir.mkdir()
 
-    def convert(self, filename, auto_scale_factor=True, num_buckets=0):
+    def convert(self, filename, auto_scale_factor=True, num_partitions=None):
         """Convert the dsg file to parquet files.
 
         Parameters
@@ -61,26 +66,18 @@ class ConvertDsg:
         filename : str
             existing .dsg file
         auto_scale_factor : bool
-        num_buckets : int
-            Number of Spark buckets to create. Use 0 for no buckets.
-            This should only be set if there is no way to reasonably partition
-            the data by columns (partitioning would make too many directories).
-            Determine the expected size of the generated parquet file(s).
-            Set this number to size / 128 MiB.
-
-            Setting num_buckets to 0 means that the code will accumulate all
-            dataframes from the .dsg file in memory. This can easily consume
-            all system memory for large files. Set num_buckets to something
-            greater than 0 to avoid this.
+        num_partitions : int | None
+            Number of partitions to create in the final Parquet file.
+            If not set, the code will calculate the number by counting the
+            number of rows and columns with estimated sizes and compression
+            while trying to produce 128 MB partitions.
 
         """
         logger.info(
-            "Converting %s to parquet num_buckets=%s auto_scale_factor=%s",
+            "Converting %s to parquet auto_scale_factor=%s",
             filename,
-            num_buckets,
             auto_scale_factor,
         )
-        self._num_buckets = num_buckets
         start = time.time()
 
         # This can likely be removed. Useful for now.
@@ -101,7 +98,7 @@ class ConvertDsg:
             for enumeration in h5f["enumerations"].keys():
                 df = pd.DataFrame(h5f[f"enumerations/{enumeration}"][:])
                 df.to_csv(os.path.join(self._output_dir, enumeration + ".csv"))
-            self._convert(filename, h5f, auto_scale_factor)
+            self._convert(filename, h5f, auto_scale_factor, num_partitions)
 
         duration = time.time() - start
         logger.info("Last data_id=%s", self._data_id)
@@ -113,61 +110,48 @@ class ConvertDsg:
 
     def _append_data_dataframe(self, df, load_id):
         df["id"] = np.int32(load_id)
-        spark_df = self._spark.createDataFrame(df)
-        # If bucketing is not being used then collect all dfs in a list that
-        # can be concatenated at the end.
-        # If bucketing is being used then write them to temporary, individual
-        # files and use spark to bucket them at the end.
-        if self._num_buckets == 0:
-            pass
-            self._data_dfs.append(spark_df)
-        else:
-            os.makedirs(self._output_dir + "/data", exist_ok=True)
-            data_filename = os.path.join(self._output_dir, f"data/data_{load_id}.parquet")
-            spark_df.write.parquet(data_filename, mode="overwrite")
-            logger.info("Created temporary file %s", data_filename)
+        self._cached_dfs.append(df)
+        # Creating many small dataframes is very slow. This code caches them in memory and
+        # concatenates them.
+        # Since each dataframe is only 8784 in length, we could cache more. However, if we go
+        # much bigger than this value, we exceed the max Spark RPC message size.
+        # This seems to be good enough to avoid creating too many small files.
+        if len(self._cached_dfs) >= 100:
+            self._concatenate_cached_dfs()
 
-    def _convert(self, filename, h5f, auto_scale_factor):
+    def _concatenate_cached_dfs(self):
+        spark_df = self._spark.createDataFrame(pd.concat(self._cached_dfs))
+        data_filename = self._tmp_data_dir / f"data_{self._data_id}.parquet"
+        assert not data_filename.exists(), data_filename
+        spark_df.coalesce(1).write.parquet(str(data_filename))
+        logger.info("Created temporary file %s", data_filename)
+        self._cached_dfs.clear()
+
+    def _convert(self, filename, h5f, auto_scale_factor, num_partitions=None):
         scale_factors = defaultdict(dict)
         datafile = Datafile.load(filename)
         for _, sector_dataset in SectorDataset.loadall(datafile, h5f):
             for geo_idx in range(sector_dataset.n_geos):
                 self._convert_geo_id(sector_dataset, geo_idx, auto_scale_factor, scale_factors)
 
+        if self._cached_dfs:
+            self._concatenate_cached_dfs()
+
         record_filename = os.path.join(self._output_dir, "load_data_lookup.parquet")
         df = self._spark.createDataFrame(Row(**x) for x in self._load_data_lookup)
         df.repartition(1).write.parquet(record_filename, mode="overwrite")
 
-        data_filename = os.path.join(self._output_dir, "load_data.parquet")
-        if self._num_buckets == 0:
-            start = time.time()
-            df = reduce(DataFrame.union, self._data_dfs).coalesce(1)
-            df.write.parquet(data_filename, mode="overwrite")
-            logger.info("Time to coalesce dataframes %s seconds", time.time() - start)
+        data_filename = self._output_dir / "load_data.parquet"
+        t1 = time.time()
+        df = self._spark.read.parquet(*[str(x) for x in self._tmp_data_dir.iterdir()])
+        if num_partitions is None:
+            num_partitions = get_optimal_number_of_files(df)
+            logger.info("Estimated the optimal number of partitions to be %s", num_partitions)
         else:
-            data_dir = os.path.join(self._output_dir, "data")
-            t1 = time.time()
-            df = self._spark.read.parquet(data_dir, mergeSchema=True, recursiveFileLookup=True)
-            df = df.repartition(1)
-            t2 = time.time()
-            logger.info("Time to repartition(1) = %s seconds", t2 - t1)
-            name = os.path.basename(self._output_dir) + "_bucketed"
-            tmp_path = os.path.join("spark-warehouse", name)
-            if os.path.exists(tmp_path):
-                shutil.rmtree(tmp_path)
-            df.write.format("parquet").bucketBy(self._num_buckets, "id").mode(
-                "overwrite"
-            ).saveAsTable(name)
-            t3 = time.time()
-            logger.info(
-                "Time to bucket with num_buckets=%s = %s seconds",
-                self._num_buckets,
-                t3 - t2,
-            )
-            shutil.rmtree(data_dir)
-            if os.path.exists(data_filename):
-                shutil.rmtree(data_filename)
-            os.rename(tmp_path, data_filename)
+            logger.info("Apply user-specified num_partitions=%s", num_partitions)
+        df.coalesce(num_partitions).write.mode("overwrite").parquet(str(data_filename))
+        t2 = time.time()
+        logger.info("Time to coalesce and write: %s seconds", t2 - t1)
 
         scale_factor_filename = os.path.join(self._output_dir, "scale_factors.json")
         with open(scale_factor_filename, "w") as f_out:
@@ -224,9 +208,68 @@ class ConvertDsg:
 
 class SectorIdType(enum.Enum):
     """Defines how sector_id in the .dsg file should be interpreted."""
+
     SECTOR = "sector"
     SECTOR_SUBSECTOR = "sector_subsector"
     SUBSECTOR = "subsector"
+
+
+# The next two functions are copied from the new version of dsgrid
+# dsgrid/utils/spark_partition.py
+
+
+def get_data_size(df, bytes_per_cell=8):
+    """approximate dataset size
+
+    Parameters
+    ----------
+    df : DataFrame
+    bytes_per_cell : [float, int]
+        Estimated number of bytes per cell in a dataframe.
+        * 4-bytes = 32-bit = Single-precision Float = pyspark.sql.types.FloatType,
+        * 8-bytes = 64-bit = Double-precision float = pyspark.sql.types.DoubleType,
+
+    Returns
+    -------
+    n_rows : int
+        Number of rows in df
+    n_cols : int
+        Number of columns in df
+    data_MB : float
+        Estimated size of df in memory in MB
+
+    """
+    n_rows = df.count()
+    n_cols = len(df.columns)
+    data_MB = n_rows * n_cols * bytes_per_cell / 1e6  # MB
+    return n_rows, n_cols, data_MB
+
+
+def get_optimal_number_of_files(df, MB_per_cmp_file=128, cmp_ratio=0.18):
+    """calculate *optimal* number of files
+    Parameters
+    ----------
+    df : DataFrame
+    MB_per_cmp_file : float
+        Desired size of compressed file on disk in MB
+    cmp_ratio : float
+        Ratio of file size after and before compression
+
+    Returns
+    -------
+    n_files : int
+        Number of files
+    """
+    _, _, data_MB = get_data_size(df)
+    MB_per_file = MB_per_cmp_file / cmp_ratio
+    n_files = math.ceil(data_MB / MB_per_file)
+
+    logger.info(
+        f"Dataframe is approximately {data_MB:.02f} MB in size, "
+        f"ideal to split into {n_files} file(s) at {MB_per_file:.1f} MB compressed on disk. "
+        f"({MB_per_file:.1f} MB uncompressed in memory, {cmp_ratio} compression ratio)."
+    )
+    return n_files
 
 
 def setup_logging(filename, file_level=logging.INFO, console_level=logging.INFO):
@@ -260,10 +303,10 @@ def _apply_sector_id_type(_, __, val):
 )
 @click.option(
     "-n",
-    "--num-buckets",
-    default=0,
-    show_default=True,
-    help="Enable Spark bucketing with this number of buckets.",
+    "--num-partitions",
+    type=int,
+    help="Create this number of partitions. Default is to calculate based on number of rows "
+    "and columns with estimated sizes and compression.",
 )
 @click.option(
     "-o",
@@ -294,28 +337,23 @@ def convert_dsg(
     dsg_file,
     output_dir,
     auto_scale_factor=True,
-    num_buckets=0,
+    num_partitions=None,
     data_id_offset=0,
     sector_id_type=None,
     verbose=False,
 ):
     """Convert a DSG file to Parquet.
 
-    Run the command through spark-submit as in this example. Set driver-memory
-    to the maximum amount that your system can spare.
+    Run the command through spark-submit in local mode as in this example. Set driver-memory
+    to the maximum amount that your system can spare. Running through a cluster may be helpful
+    for large datasets, but likely isn't necessary.
 
     \b
-    spark-submit --driver-memory=16G \\
-        --conf spark.driver.extraJavaOptions="-Dio.netty.tryReflectionSetAccessible=true" \\
-        --conf spark.executor.extraJavaOptions="-Dio.netty.tryReflectionSetAccessible=true" \\
-        convert_dsg.py data/filename.dsg output_dir
+    spark-submit --driver-memory=16G convert_dsg.py -s sector data/filename.dsg output_dir
 
-    Alternatively, set these parameters in $SPARK_HOME/conf/spark-defaults.conf
+    Alternatively, set the parameter in $SPARK_HOME/conf/spark-defaults.conf
 
     spark.driver.memory 16g
-    spark.driver.extraJavaOptions -Dio.netty.tryReflectionSetAccessible=true
-    spark.executor.extraJavaOptions -Dio.netty.tryReflectionSetAccessible=true
-
     Spark logging is quite verbose. Suppress INFO messages by setting this line in
     $SPARK_HOME/conf/log4j.properties:
 
@@ -331,7 +369,9 @@ def convert_dsg(
     level = logging.DEBUG if verbose else logging.INFO
     setup_logging(log_file, file_level=level, console_level=level)
     logger.info("CLI args: %s", " ".join(sys.argv))
-    ConvertDsg(base_dir, data_id_offset, sector_id_type).convert(dsg_file, auto_scale_factor, num_buckets)
+    ConvertDsg(base_dir, data_id_offset, sector_id_type).convert(
+        dsg_file, auto_scale_factor, num_partitions
+    )
 
 
 if __name__ == "__main__":
